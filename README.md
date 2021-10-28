@@ -5,7 +5,7 @@
 booslack은 팀원들과 원활한 소통을 할 수 있게 채팅 및 화상회의를 지원해주는 협업 도구입니다.
 
 <p align="center">
- <img src="https://user-images.githubusercontent.com/42922298/139283117-6f9d0ba6-946f-49c6-9ff8-412fe1bafbbc.png" />
+ <img src="https://user-images.githubusercontent.com/42922298/139284485-809eefac-2fbd-48d9-85e7-d3bafdecf0ff.png" />
 </p>
 
 # 👨‍👧‍👦 Member
