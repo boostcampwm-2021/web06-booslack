@@ -1,24 +1,68 @@
 {
   "name": "backend",
   "version": "0.0.0",
-  "private": true,
   "scripts": {
-    "start": "nodemon -r tsconfig-paths/register ./bin/www.ts"
+    "build": "./node_modules/.bin/ts-node build.ts",
+    "lint": "eslint . --ext .ts",
+    "start": "node -r module-alias/register ./dist --env=production",
+    "start:dev": "nodemon",
+    "test": "nodemon --config ./spec/nodemon.json",
+    "test:no-reloading": "./node_modules/.bin/ts-node -r tsconfig-paths/register ./spec",
+    "prettier": "npx prettier --write ."
+  },
+  "nodemonConfig": {
+    "watch": [
+      "src"
+    ],
+    "ext": "ts, html",
+    "ignore": [
+      "src/public"
+    ],
+    "exec": "./node_modules/.bin/ts-node -r tsconfig-paths/register ./src"
+  },
+  "_moduleAliases": {
+    "@daos": "dist/daos",
+    "@entities": "dist/entities",
+    "@shared": "dist/shared",
+    "@server": "dist/Server"
   },
   "dependencies": {
-    "cookie-parser": "~1.4.4",
-    "debug": "~2.6.9",
-    "express": "~4.16.1",
-    "http-errors": "~1.6.3",
-    "morgan": "~1.9.1"
+    "command-line-args": "^5.2.0",
+    "cookie-parser": "^1.4.5",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "express-async-errors": "^3.1.1",
+    "helmet": "^4.6.0",
+    "http-status-codes": "^2.1.4",
+    "jet-logger": "^1.0.6",
+    "jsonfile": "^6.1.0",
+    "module-alias": "^2.2.2",
+    "morgan": "^1.10.0"
   },
   "devDependencies": {
+    "@types/command-line-args": "^5.2.0",
     "@types/cookie-parser": "^1.4.2",
-    "@types/debug": "^4.1.7",
     "@types/express": "^4.17.13",
-    "@types/http-errors": "^1.8.1",
+    "@types/find": "^0.2.1",
+    "@types/fs-extra": "^9.0.13",
+    "@types/jasmine": "^3.10.1",
+    "@types/jsonfile": "^6.0.1",
     "@types/morgan": "^1.9.3",
+    "@types/node": "^16.11.6",
+    "@types/supertest": "^2.0.11",
+    "@typescript-eslint/eslint-plugin": "^5.2.0",
+    "@typescript-eslint/parser": "^5.2.0",
+    "eslint": "^7.32.0",
+    "eslint-config-airbnb-base": "^14.2.1",
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-import": "^2.25.2",
+    "eslint-plugin-prettier": "^4.0.0",
+    "find": "^0.3.0",
+    "fs-extra": "^10.0.0",
+    "jasmine": "^3.10.0",
     "nodemon": "^2.0.14",
+    "prettier": "^2.4.1",
+    "supertest": "^6.1.6",
     "ts-node": "^10.4.0",
     "tsconfig-paths": "^3.11.0",
     "typescript": "^4.4.4"

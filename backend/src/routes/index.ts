@@ -1,9 +1,14 @@
 import { Router } from 'express';
-const router = Router();
+// import { getAllUsers, addOneUser, updateOneUser, deleteOneUser } from './Users';
 
-/* GET home page. */
-router.get('/', function (req, res, next) {
-  res.send('EXPRESS');
-});
+// // User-route
+const userRouter = Router();
+// userRouter.get('/all', getAllUsers);
+// userRouter.post('/add', addOneUser);
+// userRouter.put('/update', updateOneUser);
+// userRouter.delete('/delete/:id', deleteOneUser);
 
-export default router;
+// Export the base-router
+const baseRouter = Router();
+baseRouter.use('/users', userRouter);
+export default baseRouter;
