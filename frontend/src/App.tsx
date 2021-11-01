@@ -1,26 +1,23 @@
-import * as React from 'react';
-import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
+import React from 'react';
+import Workspace from '@pages/Workspace';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 const Login = (): JSX.Element => {
   return <h2>Home</h2>;
 };
 
-const WorkSpace = (): JSX.Element => {
-  return <h2>About</h2>;
-};
-
 const App = (): JSX.Element => {
   return (
-    <Router>
+    <BrowserRouter>
       <Switch>
         <Route path="/login">
           <Login />
         </Route>
         <Route path="/workspace">
-          <WorkSpace />
+          <Workspace />
         </Route>
       </Switch>
-    </Router>
+    </BrowserRouter>
   );
 };
 
