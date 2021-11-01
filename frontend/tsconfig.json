@@ -9,7 +9,6 @@
     "outDir": "dist",
     "allowJs": true,
     "sourceMap": true,
-    // "strict": true,
     "baseUrl": ".",
     "paths": {
       "@atoms/*": ["src/components/atoms/*"],
