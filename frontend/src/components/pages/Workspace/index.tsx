@@ -3,6 +3,7 @@ import WorkspaceHeader from '@organisms/WorkspaceHeader';
 import WorkspaceSidebar from '@organisms/WorkspaceSidebar';
 import WorkspaceContent from '@organisms/WorkspaceContent';
 import { RowDiv } from './style';
+import CreateChannelModal from '@organisms/CreateChannelModal';
 
 const Workspace = (): JSX.Element => {
   return (
@@ -12,6 +13,7 @@ const Workspace = (): JSX.Element => {
         <WorkspaceSidebar />
         <WorkspaceContent />
       </RowDiv>
+      <CreateChannelModal />
     </>
   );
 };

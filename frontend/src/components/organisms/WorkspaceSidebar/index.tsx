@@ -3,8 +3,12 @@ import SidebarChannelElement from '@molecules/SidebarChannelElement';
 import React from 'react';
 import { Container } from './style';
 import SidebarAddElement from '@molecules/SidebarAddElement';
+import { useRecoilState } from 'recoil';
+import { channelCreateModalState } from 'src/state/modal';
 
 const WorkspaceSidebar = (): JSX.Element => {
+  const [isOpen, setIsOpen] = useRecoilState(channelCreateModalState);
+
   return (
     <Container>
       <SidebarDivision label="Channels" options={true} type="Channels" />
@@ -18,11 +22,7 @@ const WorkspaceSidebar = (): JSX.Element => {
         isPrivate={true}
         onClick={() => {}}
       />
-      <SidebarAddElement
-        label="Add Channels"
-        isPrivate={true}
-        onClick={() => {}}
-      />
+      <SidebarAddElement label="Add Channels" onClick={() => setIsOpen(true)} />
     </Container>
   );
 };

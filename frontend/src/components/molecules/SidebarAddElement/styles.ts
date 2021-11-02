@@ -9,12 +9,12 @@ export const Container = styled.div<Props>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: ivory;
   height: 36px;
   width: 100%;
 
   &: hover {
     cursor: pointer;
+    background-color: #58606c;
   } ;
 `;
 

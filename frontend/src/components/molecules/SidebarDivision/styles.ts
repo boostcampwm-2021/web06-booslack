@@ -9,10 +9,9 @@ export const Container = styled.div<Props>`
   display: flex;
   flex-direction: row;
   align-items: center;
-  background-color: ivory;
   height: 36px;
   width: 100%;
-  &: hover {
+  &: hover * {
     cursor: pointer;
   } ;
 `;
@@ -20,9 +19,14 @@ export const Container = styled.div<Props>`
 export const StyledLabel = styled.span<Props>`
   color: orange;
   flex-grow: 1;
-  margin: 1rem;
+  padding: 1rem;
 `;
 
 export const StyledIconButton = styled.div<Props>`
+  border-radius: 1rem;
   right: 1rem;
+  &: hover {
+    background-color: grey;
+    opacity: 70%;
+  }
 `;

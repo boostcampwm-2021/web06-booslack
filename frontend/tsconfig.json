@@ -15,8 +15,9 @@
       "@molecules/*": ["src/components/molecules/*"],
       "@organisms/*": ["src/components/organisms/*"],
       "@pages/*": ["src/components/pages/*"],
-      "@interface/*": ["src/interface/*"]
+      "@interface/*": ["Psrc/interface/*"]
     },
+    "plugins": [{ "name": "typescript-styled-plugin", "validate": false }],
     "skipLibCheck": true
   },
   "include": ["src/**/*"],

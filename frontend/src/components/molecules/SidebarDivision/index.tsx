@@ -3,6 +3,8 @@ import Label from '@atoms/Label';
 import React from 'react';
 import { Container, StyledLabel, StyledIconButton } from './styles';
 import { MdAdd } from 'react-icons/md';
+import { useRecoilState } from 'recoil';
+import { channelCreateModalState } from 'src/state/modal';
 
 type SidebarDivisionTypes = 'Starred' | 'Channels' | 'Direct Messages';
 
@@ -17,6 +19,8 @@ const SidebarDivision = ({
   options = true,
   type,
 }: Props): JSX.Element => {
+  const [isOpen, setIsOpen] = useRecoilState(channelCreateModalState);
+
   return (
     <Container>
       <Label text=">" />
@@ -24,7 +28,7 @@ const SidebarDivision = ({
         <Label text={label} />
       </StyledLabel>
       <StyledIconButton>
-        <IconButton icon={MdAdd} onClick={() => console.log('add channel')} />
+        <IconButton icon={MdAdd} onClick={() => setIsOpen(true)} />
       </StyledIconButton>
     </Container>
   );
