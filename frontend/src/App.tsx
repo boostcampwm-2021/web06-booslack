@@ -1,11 +1,8 @@
 import React from 'react';
 
 import Workspace from '@pages/Workspace';
+import Login from '@pages/Login';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
-
-const Login = (): JSX.Element => {
-  return <h2>Home</h2>;
-};
 
 const App = (): JSX.Element => {
   return (
