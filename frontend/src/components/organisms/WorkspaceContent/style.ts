@@ -1,7 +1,8 @@
-import styled from 'styled-components';
+import styled, { css } from 'styled-components';
 
 export const Container = styled.div`
-  /* height: calc(100vh-38px); */
+  display: flex;
+  flex-direction: column;
   width: 80vw;
   background-color: pink;
 `;

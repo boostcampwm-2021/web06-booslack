@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import ChannelContent from '@templates/ChannelContent';
+import ChannelContent from '@templates/Workspace/ChannelContent';
 import WorkspaceContent from '@organisms/WorkspaceContent';
 
 const Workspace = (): JSX.Element => {
