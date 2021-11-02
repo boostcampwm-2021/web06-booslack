@@ -1,7 +1,9 @@
 import { Router } from 'express';
 import {
-  getAllUsers, getOneUser,
-  addOneUser, updateOneUser,
+  getAllUsers,
+  getOneUser,
+  addOneUser,
+  updateOneUser,
   deleteOneUser,
 } from '../service/UserService';
 
