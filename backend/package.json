@@ -27,6 +27,7 @@
     "@server": "dist/Server"
   },
   "dependencies": {
+    "child_process": "^1.0.2",
     "command-line-args": "^5.2.0",
     "cookie-parser": "^1.4.5",
     "dotenv": "^10.0.0",
@@ -37,7 +38,10 @@
     "jet-logger": "^1.0.6",
     "jsonfile": "^6.1.0",
     "module-alias": "^2.2.2",
-    "morgan": "^1.10.0"
+    "morgan": "^1.10.0",
+    "mysql2": "^2.3.2",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.38"
   },
   "devDependencies": {
     "@types/command-line-args": "^5.2.0",
@@ -59,12 +63,11 @@
     "eslint-plugin-prettier": "^4.0.0",
     "find": "^0.3.0",
     "fs-extra": "^10.0.0",
-    "jasmine": "^3.10.0",
     "nodemon": "^2.0.14",
     "prettier": "^2.4.1",
-    "supertest": "^6.1.6",
     "ts-node": "^10.4.0",
     "tsconfig-paths": "^3.11.0",
     "typescript": "^4.4.4"
-  }
+  },
+  "type": "commonjs"
 }

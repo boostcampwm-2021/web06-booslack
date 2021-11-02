@@ -31,9 +31,16 @@
     "@typescript-eslint/no-floating-promises": 0,
     "@typescript-eslint/no-unsafe-member-access": 0,
     "@typescript-eslint/no-unsafe-assignment": 0,
-    "@typescript-eslint/no-misused-promises": "error",
     "import/no-unresolved": "off",
-    "import/extensions": "off"
+    "import/extensions": "off",
+    "object-curly-newline": "off",
+    "@typescript-eslint/no-misused-promises": [
+      "error",
+      {
+        "checksVoidReturn": false,
+        "checksConditionals": false
+      }
+    ]
   },
   "settings": {
     "import/resolver": {
