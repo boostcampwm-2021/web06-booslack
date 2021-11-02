@@ -5,12 +5,13 @@ interface Props {
 }
 
 export const Container = styled.div<Props>`
-  position: relative;
-  height: inherit;
-  min-height: 88vh;
+  display: flex;
+  flex-direction: row;
+  min-height: 51.96px;
   width: ${(props) => props.width ?? 'inherit'};
-  background-color: grey;
-  overflow-y: scroll;
+  background-color: #eee;
 `;
 
-export default Container;
+export const TextSet = styled.div`
+  flex-direction: column;
+`;
