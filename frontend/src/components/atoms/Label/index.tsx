@@ -1,7 +1,7 @@
 import React from 'react';
 import Container from './styles';
 
-interface Props {
+export interface Props {
   text: string;
   width?: number;
   height?: number;

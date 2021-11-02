@@ -10,4 +10,10 @@ const Container = styled.input<Props>`
   height: ${({ height }) => height}px;
 `;
 
+export const ViewportContainer = styled.input`
+  width: ${({ width }) => width}vw;
+  height: ${({ height }) => height}vh;
+  z-index: -5;
+`;
+
 export default Container;

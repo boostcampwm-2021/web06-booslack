@@ -5,8 +5,8 @@ interface Props {
   inputBar: JSX.Element;
 }
 
-const WorkspaceChatContent = ({ inputBar }: Props): JSX.Element => {
+const ChatContent = ({ inputBar }: Props): JSX.Element => {
   return <Container>{inputBar}</Container>;
 };
 
-export default WorkspaceChatContent;
+export default ChatContent;

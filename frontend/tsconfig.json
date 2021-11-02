@@ -16,7 +16,8 @@
       "@organisms/*": ["src/components/organisms/*"],
       "@templates/*": ["src/components/templates/*"],
       "@pages/*": ["src/components/pages/*"],
-      "@interface/*": ["src/interface/*"]
+      "@interface/*": ["src/interface/*"],
+      "@enum": ["src/enum/*"]
     },
     "skipLibCheck": true
   },

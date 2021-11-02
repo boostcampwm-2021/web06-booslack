@@ -1,16 +1,16 @@
-import WorkspaceChatHeader from '@molecules/WorkspaceChatHeader';
-import WorkspaceChatInput from '@molecules/WorkspaceChatInput';
-import WorkspaceChatContent from '@molecules/WorkspaceChatContent';
+import ChatHeader from '@molecules/ChatHeader';
+import ChatInputBackground from '@organisms/ChatInputBackground';
+import ChatContent from '@organisms/ChatContent';
 import React, { useMemo } from 'react';
 import { Container } from './style';
 
 const WorkspaceContent = (): JSX.Element => {
-  const inputBar = useMemo(() => <WorkspaceChatInput />, []);
+  const inputBar = useMemo(() => <ChatInputBackground />, []);
 
   return (
     <Container>
-      <WorkspaceChatHeader />
-      <WorkspaceChatContent inputBar={inputBar} />
+      <ChatHeader />
+      <ChatContent inputBar={inputBar} />
     </Container>
   );
 };
