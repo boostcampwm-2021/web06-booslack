@@ -78,7 +78,6 @@ web_modules/
 .env
 .env.test
 .env.production
-.env.development
 
 # parcel-bundler cache (https://parceljs.org/)
 .cache
@@ -140,9 +139,4 @@ psd
 thumb
 sketch
 
-*.env
-
-.idea
-
 # End of https://www.toptal.com/developers/gitignore/api/node,react
-
