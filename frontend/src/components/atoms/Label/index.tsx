@@ -12,7 +12,7 @@ interface Props {
 const Label = ({
   text,
   width,
-  height = 30,
+  height,
   color,
   backgroundColor,
 }: Props): JSX.Element => {
