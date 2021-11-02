@@ -8,8 +8,8 @@ interface Props {
 }
 
 const Container = styled.button<Props>`
-  min-width: ${({ width }) => width ?? 50}px;
-  min-height: ${({ height }) => height ?? 50}px;
+  width: ${({ width }) => width ?? 50}px;
+  height: ${({ height }) => height ?? 50}px;
   color: ${({ color }) => color};
   background-color: ${({ backgroundColor }) => backgroundColor};
 `;
