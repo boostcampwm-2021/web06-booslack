@@ -19,7 +19,7 @@ export class Workspace {
 
   @OneToMany(
     () => UserHasWorkspace,
-    (userHasWorkspace) => userHasWorkspace.workspace,
+    (userHasWorkspace) => userHasWorkspace.workspace
   )
   userHasWorkspaces!: UserHasWorkspace[];
 }

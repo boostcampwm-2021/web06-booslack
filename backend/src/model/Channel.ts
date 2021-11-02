@@ -1,5 +1,13 @@
 /* eslint-disable import/prefer-default-export */
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne,
+  ManyToMany,
+  JoinTable,
+} from 'typeorm';
+import { User } from './User';
 import { Workspace } from './Workspace';
 
 @Entity()
@@ -18,4 +26,8 @@ export class Channel {
 
   @ManyToOne(() => Workspace, (workspace) => workspace.channels)
   workspace!: Workspace;
+
+  @ManyToMany(() => User)
+  @JoinTable()
+  users!: User[];
 }
