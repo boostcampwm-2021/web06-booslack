@@ -1,5 +1,15 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import App from '@/App';
+import { RecoilRoot } from 'recoil';
+import App from './App';
+import GlobalStyle from './style';
 
-ReactDOM.render(<App label="world" />, document.getElementById('root'));
+ReactDOM.render(
+  <>
+    <RecoilRoot>
+      <GlobalStyle />
+      <App />
+    </RecoilRoot>
+  </>,
+  document.getElementById('root'),
+);

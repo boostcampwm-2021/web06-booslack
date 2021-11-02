@@ -1,23 +1,23 @@
 import React from 'react';
-import Button from '@/components/atoms/Button';
+import Workspace from '@pages/Workspace';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-const num: number = 10;
+const Login = (): JSX.Element => {
+  return <h2>Home</h2>;
+};
 
-interface Props {
-  label: string;
-}
-const yee = 10;
-const App = ({ label }: Props) => {
+const App = (): JSX.Element => {
   return (
-    <div>
-      booslack {num} {label}
-      <Button
-        onClick={() => {
-          console.log('pressed');
-        }}
-        label="press"
-      />
-    </div>
+    <BrowserRouter>
+      <Switch>
+        <Route path="/login">
+          <Login />
+        </Route>
+        <Route path="/workspace">
+          <Workspace />
+        </Route>
+      </Switch>
+    </BrowserRouter>
   );
 };
 
