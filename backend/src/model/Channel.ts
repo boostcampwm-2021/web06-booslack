@@ -10,6 +10,16 @@ import {
 import { User } from './User';
 import { Workspace } from './Workspace';
 
+export interface IChannel {
+  id: number;
+
+  name: string;
+
+  type: string;
+
+  description: string;
+}
+
 @Entity()
 export class Channel {
   @PrimaryGeneratedColumn()

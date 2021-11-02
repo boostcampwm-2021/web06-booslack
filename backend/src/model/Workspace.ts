@@ -3,8 +3,16 @@ import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
 import { Channel } from './Channel';
 import { UserHasWorkspace } from './UserHasWorkspace';
 
+export interface IWorkspace {
+  id: number;
+
+  profile: string;
+
+  name: string;
+}
+
 @Entity()
-export class Workspace {
+export class Workspace implements IWorkspace {
   @PrimaryGeneratedColumn()
   id!: number;
 
