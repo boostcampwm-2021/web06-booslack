@@ -8,9 +8,9 @@ interface Props {
 }
 
 const Container = styled.button<Props>`
-  width: ${({ width }) => width ?? 50}px;
-  height: ${({ height }) => height ?? 50}px;
-  color: ${({ color }) => color};
+  /* width: ${({ width }) => width ?? 50}px;
+  height: ${({ height }) => height ?? 50}px; */
+  /* color: ${({ color }) => color}; */
   background-color: ${({ backgroundColor }) => backgroundColor};
 `;
 

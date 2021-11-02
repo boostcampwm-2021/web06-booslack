@@ -3,18 +3,20 @@ import Container from './styles';
 
 interface Props {
   onClick: () => void;
-  width: number;
-  height: number;
-  color: string;
-  backgroundColor: string;
+  text: string;
+  width?: number;
+  height?: number;
+  color?: string;
+  backgroundColor?: string;
 }
 
 const LabeledButton = ({
   onClick,
+  text,
   width,
   height,
   color,
-  backgroundColor,
+  backgroundColor = 'transparent',
 }: Props): JSX.Element => {
   return (
     <Container
@@ -23,7 +25,9 @@ const LabeledButton = ({
       height={height}
       color={color}
       backgroundColor={backgroundColor}
-    />
+    >
+      {text}
+    </Container>
   );
 };
 
