@@ -14,6 +14,7 @@
       "@atoms/*": ["src/components/atoms/*"],
       "@molecules/*": ["src/components/molecules/*"],
       "@organisms/*": ["src/components/organisms/*"],
+      "@templates/*": ["src/components/templates/*"],
       "@pages/*": ["src/components/pages/*"],
       "@interface/*": ["src/interface/*"]
     },
