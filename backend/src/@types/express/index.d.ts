@@ -1,4 +1,4 @@
-import { IChannel } from '@daos/Channel';
+import { IChannel } from 'src/model/Channel';
 import { IUser } from 'src/model/User';
 import { IWorkspace } from 'src/model/Workspace';
 

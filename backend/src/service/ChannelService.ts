@@ -1,8 +1,8 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response } from 'express';
-import paramMissingError from '@shared/constants';
 import { getCustomRepository } from 'typeorm';
-import ChannelRepository from 'src/repository/ChannelRepository';
+import ChannelRepository from '../repository/ChannelRepository';
+import paramMissingError from '../shared/constants';
 
 const { BAD_REQUEST, CREATED, OK } = StatusCodes;
 
