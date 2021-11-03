@@ -4,15 +4,29 @@ import Input from '@atoms/Input';
 import Container from './styles';
 
 interface Props {
+  onChange: (e) => void;
+  name: string;
+  value: string;
   label: string;
   placeholder?: string;
 }
 
-const LabeledInput = ({ label, placeholder }: Props): JSX.Element => {
+const LabeledInput = ({
+  onChange,
+  name,
+  value,
+  label,
+  placeholder,
+}: Props): JSX.Element => {
   return (
     <Container>
       <Label text={label} />
-      <Input placeholder={placeholder} />
+      <Input
+        placeholder={placeholder}
+        onChange={onChange}
+        name={name}
+        value={value}
+      />
     </Container>
   );
 };
