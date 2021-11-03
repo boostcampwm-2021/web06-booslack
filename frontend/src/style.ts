@@ -73,7 +73,6 @@ html {
   *, *:before, *:after {
     box-sizing: inherit;
   }
-  
 `;
 
 export default GlobalStyle;

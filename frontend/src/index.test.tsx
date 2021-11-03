@@ -13,7 +13,7 @@ describe('this is temporal test, do not try like this (use snapshot) />', () => 
   it('renders component correctly', () => {
     const { container } = render(
       <RecoilRoot>
-        <Input placeholder={'apple'} />
+        <Input placeholder="apple" />
       </RecoilRoot>,
     );
 

@@ -5,6 +5,8 @@
   "scripts": {
     "build": "webpack",
     "start": "webpack serve",
+    "lint-watch": "eslint . --ext .ts",
+    "lint": "eslint --fix --ext .ts .",
     "test": "jest --watch"
   },
   "jest": {
