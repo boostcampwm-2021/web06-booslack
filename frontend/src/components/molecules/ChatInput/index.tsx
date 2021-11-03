@@ -1,4 +1,4 @@
-import ViewportInput from '@atoms/Input/ViewportInput';
+import ViewportInput from '@atoms/ViewPortInput/ViewportInput';
 import React, { useMemo } from 'react';
 import { Container } from './styles';
 

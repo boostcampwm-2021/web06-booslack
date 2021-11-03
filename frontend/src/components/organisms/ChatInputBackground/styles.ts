@@ -6,14 +6,13 @@ interface Props {
 }
 
 export const Container = styled.div<Props>`
-  position: absolute;
-  bottom: 0vh;
+  display: flex;
   width: inherit;
-  min-height: ${(props) => props.height}vh;
+  height: 10vh;
 
+  align-items: center;
   border: 0;
-
-  background-color: white;
+  background-color: pink;
 `;
 
 export default Container;

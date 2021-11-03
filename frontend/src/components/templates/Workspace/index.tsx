@@ -7,7 +7,7 @@ interface Props {
   Content: JSX.Element;
 }
 
-const ChannelContent = ({ Content }: Props): JSX.Element => {
+const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
   return (
     <>
       <WorkspaceHeader />
@@ -19,4 +19,4 @@ const ChannelContent = ({ Content }: Props): JSX.Element => {
   );
 };
 
-export default ChannelContent;
+export default WorkspaceTemplate;

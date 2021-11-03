@@ -6,8 +6,8 @@ interface Props {
 }
 
 const Container = styled.input<Props>`
-  width: ${({ width }) => width}px;
-  height: ${({ height }) => height}px;
+  width: ${({ width }) => width}vw;
+  height: ${({ height }) => height}vh;
 `;
 
 export default Container;

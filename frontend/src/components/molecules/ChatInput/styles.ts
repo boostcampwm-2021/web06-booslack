@@ -8,10 +8,10 @@ interface Props {
 export const Container = styled.div<Props>`
   position: relative;
   width: ${(props) => props.width}vw;
-  min-height: ${(props) => props.height}vh;
+  height: ${(props) => props.height}vh;
 
   border: 0;
-  margin: 0px 1vw 10px 1vw;
+  margin: 0 1vw 0 1vw;
   background-color: brown;
 `;
 

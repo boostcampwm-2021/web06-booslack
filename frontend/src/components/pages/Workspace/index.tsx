@@ -1,5 +1,5 @@
 import React, { useMemo } from 'react';
-import ChannelContent from '@templates/Workspace/ChannelContent';
+import WorkspaceTemplate from '@templates/Workspace';
 import WorkspaceContent from '@organisms/WorkspaceContent';
 
 const Workspace = (): JSX.Element => {
@@ -7,7 +7,7 @@ const Workspace = (): JSX.Element => {
 
   return (
     <>
-      <ChannelContent Content={ChatContent}></ChannelContent>
+      <WorkspaceTemplate Content={ChatContent}></WorkspaceTemplate>
     </>
   );
 };

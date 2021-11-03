@@ -1,5 +1,5 @@
 import React from 'react';
-import { ViewportContainer } from './styles';
+import Container from './styles';
 
 interface Props {
   width: number;
@@ -14,13 +14,7 @@ const ViewportInput = ({
   onClick,
   placeholder,
 }: Props): JSX.Element => {
-  return (
-    <ViewportContainer
-      width={width}
-      height={height}
-      placeholder={placeholder}
-    />
-  );
+  return <Container width={width} height={height} placeholder={placeholder} />;
 };
 
 export default ViewportInput;
