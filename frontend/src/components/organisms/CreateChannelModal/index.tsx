@@ -9,12 +9,18 @@ import Modal from '@atoms/Modal';
 import { useRecoilState } from 'recoil';
 import { channelCreateModalState } from 'src/state/modal';
 import axios from 'axios';
-import useCreateChannelInputs from 'src/hooks/useCreateChannelInputs';
+import useInputs from 'src/hooks/useInputs';
+
+const initialData = {
+  name: '',
+  description: '',
+  isPrivate: false,
+};
 
 const CreateChannelModal = (): JSX.Element => {
   const [isOpen, setIsOpen] = useRecoilState(channelCreateModalState);
   const [{ name, description, isPrivate }, onChange, clear] =
-    useCreateChannelInputs();
+    useInputs(initialData);
 
   const createChannel = async () => {
     if (!name) return;

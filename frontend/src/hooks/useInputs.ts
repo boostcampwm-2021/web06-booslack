@@ -1,13 +1,6 @@
 import { useState } from 'react';
 
-// useMemo?
-const initialData = {
-  name: '',
-  description: '',
-  isPrivate: false,
-};
-
-const useCreateChannelInputs = () => {
+const useInputs = (initialData) => {
   const [data, setData] = useState(initialData);
 
   const onChange = (e) => {
@@ -22,4 +15,4 @@ const useCreateChannelInputs = () => {
   return [data, onChange, clear];
 };
 
-export default useCreateChannelInputs;
+export default useInputs;
