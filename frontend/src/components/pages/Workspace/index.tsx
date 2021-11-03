@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import WorkspaceTemplate from '@templates/Workspace';
 import WorkspaceContent from '@organisms/WorkspaceContent';
 
