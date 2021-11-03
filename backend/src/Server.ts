@@ -2,6 +2,7 @@ import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import path from 'path';
 import helmet from 'helmet';
+import cors from 'cors';
 
 import express, { Request, Response } from 'express';
 import StatusCodes from 'http-status-codes';
@@ -18,6 +19,12 @@ const { BAD_REQUEST } = StatusCodes;
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cookieParser());
+
+const options: cors.CorsOptions = {
+  origin: 'http://localhost:3001',
+  credentials: true,
+};
+app.use(cors(options));
 
 // Show routes called in console during development
 if (process.env.NODE_ENV === 'development') {
@@ -36,7 +43,6 @@ app.use('/api', BaseRouter);
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 
 app.use((err: Error, req: Request, res: Response) => {
-
   logger.err(err, true);
   return res.status(BAD_REQUEST).json({
     error: err.message,
