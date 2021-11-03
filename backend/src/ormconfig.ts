@@ -3,6 +3,8 @@ import { ConnectionOptions } from 'typeorm';
 
 dotenv.config();
 
+const entitiyPath: string = process.env.DB_ENTITY_PATH || 'src/model/*.ts';
+
 const ormconfig: ConnectionOptions = {
   type: 'mysql',
   host: process.env.DB_HOST,
@@ -12,7 +14,7 @@ const ormconfig: ConnectionOptions = {
   database: process.env.DB_DATABASE,
   synchronize: true,
   logging: false,
-  entities: ['**/dist/model/*{.ts,.js}', '**/src/model/*{.ts,.js}'],
+  entities: [entitiyPath],
 };
 
 export default ormconfig;
