@@ -3,11 +3,6 @@ import { ChatInputSize } from '@enum';
 import React, { useMemo } from 'react';
 import { Container } from './styles';
 
-interface Props {
-  width: number;
-  height: number;
-}
-
 const ChatInputBackGround = (): JSX.Element => {
   const { width, height } = useMemo(() => {
     return ChatInputSize;
@@ -15,7 +10,7 @@ const ChatInputBackGround = (): JSX.Element => {
 
   return (
     <Container width={width} height={height}>
-      <ChatInput width={width} height={height}></ChatInput>
+      <ChatInput width={width} height={height} />
     </Container>
   );
 };

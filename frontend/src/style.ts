@@ -45,6 +45,7 @@ footer, header, hgroup, menu, nav, section {
 }
 * {
     font-family: 'Pretendard-Light';
+  font-size: 22px;
 }
 body {
     line-height: 1;
@@ -72,7 +73,6 @@ html {
   *, *:before, *:after {
     box-sizing: inherit;
   }
-  
 `;
 
 export default GlobalStyle;

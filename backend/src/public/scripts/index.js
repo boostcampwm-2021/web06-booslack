@@ -71,7 +71,7 @@ document.addEventListener(
       deleteUser(ele);
     }
   },
-  false
+  false,
 );
 
 function addUser() {

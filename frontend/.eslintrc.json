@@ -10,7 +10,9 @@
     "plugin:@typescript-eslint/recommended",
     "airbnb",
     "airbnb-typescript",
-    "prettier/prettier"
+    "prettier/prettier",
+    "eslint:recommended",
+    "plugin:jest/recommended"
   ],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
@@ -21,13 +23,28 @@
     "sourceType": "module",
     "project": "./tsconfig.json"
   },
-  "plugins": ["react", "@typescript-eslint", "prettier"],
+  "plugins": [
+    "react",
+    "@typescript-eslint",
+    "prettier",
+    "jest"
+  ],
   "rules": {
-    "prettier/prettier": "error",
+    "prettier/prettier": [
+      "error",
+      {
+        "endOfLine": "auto"
+      }
+    ],
     "object-curly-newline": "off",
     "react/jsx-filename-extension": "off",
     "no-use-before-define": "off",
-    "@typescript-eslint/no-use-before-define": ["error"],
+    "@typescript-eslint/no-use-before-define": [
+      "error"
+    ],
     "import/extensions": "off"
+  },
+  "globals": {
+    "JSX": true
   }
 }

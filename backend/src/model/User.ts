@@ -27,7 +27,7 @@ export class User implements IUser {
 
   @OneToMany(
     () => UserHasWorkspace,
-    (userHasWorkspace) => userHasWorkspace.user
+    (userHasWorkspace) => userHasWorkspace.user,
   )
   userHasWorkspaces!: UserHasWorkspace[];
 }
