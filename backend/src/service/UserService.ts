@@ -28,8 +28,7 @@ export async function updateOneUser(req: Request, res: Response) {
   const { id } = req.params;
   const { nickname, email, type } = req.body;
   try {
-    if (Object.keys(req.body).length === 0)
-      throw new Error('no user data in body');
+    if (Object.keys(req.body).length === 0) throw new Error('no user data in body');
     const userById = await getRepository(User).findOneOrFail(id);
     userById.nickname = nickname || userById.nickname;
     userById.email = email || userById.email;

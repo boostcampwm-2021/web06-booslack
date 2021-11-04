@@ -38,16 +38,15 @@ export async function updateOneChannel(req: Request, res: Response) {
   const { id } = req.params;
   const { name, type, description } = req.body;
   try {
-    if (Object.keys(req.body).length === 0)
-      throw new Error('no channel data in body');
+    if (Object.keys(req.body).length === 0) throw new Error('no channel data in body');
     const channelById = await getCustomRepository(
-      ChannelRepository
+      ChannelRepository,
     ).findOneOrFail(id);
     channelById.name = name || channelById.name;
     channelById.type = type || channelById.type;
     channelById.description = description || channelById.description;
     const channel = await getCustomRepository(ChannelRepository).save(
-      channelById
+      channelById,
     );
     return res.status(OK).json({ channel });
   } catch (e) {
@@ -59,7 +58,7 @@ export async function deleteOneChannel(req: Request, res: Response) {
   try {
     const { id } = req.params;
     const channel = await getCustomRepository(ChannelRepository).findOneOrFail(
-      id
+      id,
     );
     await getCustomRepository(ChannelRepository).remove(channel);
     return res.status(OK).end();

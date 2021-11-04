@@ -27,7 +27,7 @@ export class Workspace implements IWorkspace {
 
   @OneToMany(
     () => UserHasWorkspace,
-    (userHasWorkspace) => userHasWorkspace.workspace
+    (userHasWorkspace) => userHasWorkspace.workspace,
   )
   userHasWorkspaces!: UserHasWorkspace[];
 }
