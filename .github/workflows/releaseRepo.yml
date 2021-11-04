@@ -14,13 +14,13 @@ jobs:
     steps:
       - uses: actions/checkout@v2
         with:
-          token: ${secrets.web06TOKEN}}
+          token: ${{ secrets.web06TOKEN}}
           ref: 'dev'
       - name: backup - release
         run: |
           git checkout -b old-release
           git push -f origin old-release
-        
+
   build:
     runs-on: ubuntu-latest
     steps:
