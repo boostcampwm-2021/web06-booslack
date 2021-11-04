@@ -1,0 +1,34 @@
+# This workflow will do a clean install of node dependencies, cache/restore them, build the source code and run tests across different versions of node
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-nodejs-with-github-actions
+
+name: CD - release repo automatically
+
+on:
+  push:
+    # types: [closed] # when PR closed
+    branches: [dev, test]
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${secrets.web06TOKEN}}
+          ref: 'dev'
+      - name: backup - release
+        run: |
+          git checkout -b old-release
+          git push -f origin old-release
+        
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          token: ${{ secrets.web06TOKEN}}
+          ref: 'dev'
+      - name: update release
+        run: |
+          git checkout -b release
+          git push -f origin release
