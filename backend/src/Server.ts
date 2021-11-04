@@ -7,7 +7,7 @@ import cors from 'cors';
 import express, { Request, Response } from 'express';
 import StatusCodes from 'http-status-codes';
 import 'express-async-errors';
-import logger from '@shared/Logger';
+import logger from './shared/Logger';
 import BaseRouter from './routes';
 
 const app = express();

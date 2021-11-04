@@ -14,8 +14,10 @@
       "@atoms/*": ["src/components/atoms/*"],
       "@molecules/*": ["src/components/molecules/*"],
       "@organisms/*": ["src/components/organisms/*"],
+      "@templates/*": ["src/components/templates/*"],
       "@pages/*": ["src/components/pages/*"],
-      "@interface/*": ["Psrc/interface/*"]
+      "@interface/*": ["src/interface/*"],
+      "@enum": ["src/enum/*"]
     },
     "plugins": [{ "name": "typescript-styled-plugin", "validate": false }],
     "skipLibCheck": true

@@ -1,18 +1,14 @@
 import React from 'react';
-import WorkspaceHeader from '@organisms/WorkspaceHeader';
-import WorkspaceSidebar from '@organisms/WorkspaceSidebar';
+import WorkspaceTemplate from '@templates/Workspace';
 import WorkspaceContent from '@organisms/WorkspaceContent';
-import { RowDiv } from './style';
 import CreateChannelModal from '@organisms/CreateChannelModal';
 
 const Workspace = (): JSX.Element => {
+  const ChatContent: JSX.Element = <WorkspaceContent />;
+
   return (
     <>
-      <WorkspaceHeader />
-      <RowDiv>
-        <WorkspaceSidebar />
-        <WorkspaceContent />
-      </RowDiv>
+      <WorkspaceTemplate Content={ChatContent}></WorkspaceTemplate>
       <CreateChannelModal />
     </>
   );
