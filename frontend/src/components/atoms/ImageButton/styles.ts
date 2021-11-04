@@ -7,8 +7,8 @@ interface Props {
 }
 
 const Container = styled.button<Props>`
-  width: ${({ width }) => width ?? 50}px;
-  height: ${({ height }) => height ?? 50}px;
+  width: ${({ width }) => width}px;
+  height: ${({ height }) => height}px;
   background-image: url(${({ image }) => image});
 `;
 

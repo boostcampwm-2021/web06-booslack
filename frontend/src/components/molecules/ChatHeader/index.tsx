@@ -1,12 +1,24 @@
-import Label from '@atoms/Label';
 import React from 'react';
 import Container from './styles';
 
-const ChatHeader = (): JSX.Element => {
+interface Props {
+  width?: number;
+  title: JSX.Element;
+  content?: JSX.Element;
+  rightButton: JSX.Element;
+}
+
+const ChatHeader = ({
+  width,
+  title,
+  content,
+  rightButton,
+}: Props): JSX.Element => {
   return (
-    <Container>
-      <Label text="# channel name"></Label>
-      <Label text="channel explain "></Label>
+    <Container width={width}>
+      {title}
+      {content ?? ''}
+      {rightButton}
     </Container>
   );
 };

@@ -1,3 +1,4 @@
+import { RoundScrollBar } from '@global/mixin';
 import styled from 'styled-components';
 
 interface Props {
@@ -10,6 +11,7 @@ export const Container = styled.div<Props>`
   min-height: 70vh;
   width: ${(props) => props.width ?? 'inherit'};
   background-color: grey;
+  ${RoundScrollBar}
   overflow-y: scroll;
   overflow-x: hidden;
 `;

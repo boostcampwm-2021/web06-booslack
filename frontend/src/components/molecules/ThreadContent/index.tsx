@@ -3,7 +3,15 @@ import Label from '@atoms/Label';
 import React from 'react';
 import { Container, TextSet } from './styles';
 
-const ThreadContent = (): JSX.Element => {
+interface Props {
+  firstLabelContent?: string;
+  secondLabelContent?: string;
+}
+
+const ThreadContent = ({
+  firstLabelContent,
+  secondLabelContent,
+}: Props): JSX.Element => {
   return (
     <Container>
       <ImageButton
@@ -15,8 +23,8 @@ const ThreadContent = (): JSX.Element => {
         image={'./img'}
       />
       <TextSet>
-        <Label text="user name"></Label>
-        <Label text=" time "></Label>
+        <Label text={firstLabelContent || 'user name'}></Label>
+        <Label text={secondLabelContent || ' time '}></Label>
         <div>content insert here</div>
       </TextSet>
     </Container>

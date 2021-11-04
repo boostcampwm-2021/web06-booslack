@@ -2,24 +2,23 @@ import styled from 'styled-components';
 
 interface Props {
   width?: number;
+  height?: number;
 }
 
 export const Container = styled.div<Props>`
   display: flex;
-  min-height: 48.99px;
   width: ${({ width }) => {
     if (width) return `${width}vw`;
     else return 'inherit';
   }};
-
-  justify-content: space-between;
+  height: ${({ height }) => {
+    if (height) return `${height}vh`;
+    else return 'inherit';
+  }};
+  justify-content: center;
   align-items: center;
-  }
-  background-color: #fff;
 
-  & > * {
-    margin: 0 1vw 0 1vw;
-    
+  border: 0;
 `;
 
 export default Container;
