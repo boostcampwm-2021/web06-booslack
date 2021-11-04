@@ -2,13 +2,16 @@ import cookieParser from 'cookie-parser';
 import morgan from 'morgan';
 import path from 'path';
 import helmet from 'helmet';
-import cors from 'cors';
-
 import express, { Request, Response } from 'express';
 import StatusCodes from 'http-status-codes';
 import 'express-async-errors';
+import session from 'express-session';
+import passport from 'passport';
+import cors from 'cors';
 import logger from './shared/Logger';
 import BaseRouter from './routes';
+import settingGithubPassport from './config/GithubPassport';
+import loginRouter from './routes/LoginController';
 
 const app = express();
 const { BAD_REQUEST } = StatusCodes;
@@ -38,6 +41,24 @@ if (process.env.NODE_ENV === 'production') {
 
 // Add APIs
 app.use('/api', BaseRouter);
+
+// Session
+const { SECRET_CODE } = process.env;
+
+app.use(session({
+  secret: SECRET_CODE || 'ERROR',
+  cookie: {
+    maxAge: 60 * 60 * 3,
+  },
+  resave: true,
+  saveUninitialized: true,
+}));
+
+// Passport
+settingGithubPassport();
+app.use(passport.initialize());
+app.use(passport.session());
+app.use('/login', loginRouter);
 
 // Print API errors
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

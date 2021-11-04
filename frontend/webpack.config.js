@@ -1,8 +1,10 @@
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const path = require('path');
-const { ProgressPlugin } = require('webpack');
+const webpack = require('webpack');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const tsConfigPath = path.resolve(__dirname, './tsconfig.json');
+
+const { ProgressPlugin } = webpack;
 
 module.exports = {
   entry: './src/index.tsx',
@@ -14,6 +16,10 @@ module.exports = {
     proxy: {
       '/api': {
         target: 'http://localhost:8081',
+        changeOrigin: true,
+      },
+      '/login/oauth/authorize': {
+        target: 'https://github.com/login/oauth/authorize',
         changeOrigin: true,
       },
     },
@@ -60,6 +66,9 @@ module.exports = {
       template: './public/index.html',
     }),
     new ProgressPlugin(),
+    new webpack.DefinePlugin({
+      'process.env': JSON.stringify(dotenv.config().parsed),
+    })
   ],
   resolve: {
     modules: ['node_modules'],

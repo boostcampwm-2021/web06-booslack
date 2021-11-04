@@ -5,7 +5,10 @@ import { LabelColumn, LoginForm } from './style';
 
 const LoginContent = (): JSX.Element => {
   const handleGithubClick = () => {
-    window.location.replace('/workspace');
+    const GITHUB_CLIENT_ID: string = process.env.REACT_APP_GITHUB_CLIENT_ID;
+    window.location.replace(
+      `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}`,
+    );
   };
   const handleSignInClick = () => {
     window.location.href = '/signup';
