@@ -18,7 +18,7 @@ const SearchBar = ({ width, height, placeholder }: Props): JSX.Element => {
         width={width || ListWidth}
         height={height || ListHeight}
         placeholder={placeholder || '검색어를 입력하세요'}
-      ></ViewportInput>
+      />
     </Container>
   );
 };

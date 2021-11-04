@@ -8,7 +8,7 @@ interface Props {
 export const Container = styled.div<Props>`
   width: ${({ width }) => {
     if (width) return `${width}vw`;
-    else return 'inherit';
+    return 'inherit';
   }};
 
   ${RoundScrollBar}
@@ -32,6 +32,12 @@ export const ChannelListBackground = styled.div<Props>`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+export const MarginedDiv = styled.div`
+  & > button {
+    margin: 0 5px 0 5px;
+  }
 `;
 
 export default Container;

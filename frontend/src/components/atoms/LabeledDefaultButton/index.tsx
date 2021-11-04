@@ -3,6 +3,7 @@ import LabeledButton from '@atoms/LabeledButton';
 import { ButtonSize } from '@enum/index';
 
 interface Props {
+  onClick?: () => void;
   width?: number;
   height?: number;
   text: string;
@@ -18,6 +19,7 @@ const {
 } = ButtonSize;
 
 const LabeledDefaultButton = ({
+  onClick,
   width,
   height,
   text,
@@ -26,13 +28,13 @@ const LabeledDefaultButton = ({
 }: Props): JSX.Element => {
   return (
     <LabeledButton
-      onClick={() => {}}
+      onClick={onClick}
       width={width || (ButtonWidth as number)}
       height={height || (ButtonHeight as number)}
       color={color || ButtonColor}
       backgroundColor={backgroundColor || ButtonBackground}
       text={text}
-    /> //나중바꿈
+    />
   );
 };
 

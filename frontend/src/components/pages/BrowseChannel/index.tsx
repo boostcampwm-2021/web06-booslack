@@ -5,7 +5,7 @@ import BrowseContent from '@organisms/BrowseContent';
 const BrowseChannel = (): JSX.Element => {
   const Content: JSX.Element = <BrowseContent />;
 
-  return <WorkspaceTemplate Content={Content}></WorkspaceTemplate>;
+  return <WorkspaceTemplate Content={Content} />;
 };
 
 export default BrowseChannel;

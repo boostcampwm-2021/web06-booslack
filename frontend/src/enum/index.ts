@@ -4,7 +4,7 @@ export enum ChatInputSize {
 }
 
 export enum ButtonSize {
-  width = 30,
+  width = 81.92,
   height = 30,
   color = 'black',
   backgroundColor = 'white',

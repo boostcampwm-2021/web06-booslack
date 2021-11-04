@@ -2,15 +2,17 @@ import Label from '@atoms/Label';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import ChannelList from '@molecules/ChannelList';
 import SearchBar from '@molecules/SearchBar';
+import ChatHeader from '@molecules/ChatHeader';
 import { BrowserChannelListSize } from '@enum/index';
 import React from 'react';
+
 import {
   Container,
   ChannelListBackground,
   MarginBottomDiv,
   CenterAlignedDiv,
+  MarginedDiv,
 } from './styles';
-import ChatHeader from '@molecules/ChatHeader';
 
 const { width: ListWidth, height: ListHeight } = BrowserChannelListSize;
 
@@ -19,12 +21,12 @@ const BrowseChannelList = (): JSX.Element => {
     return <ChannelList firstLabelContent={`# channel ${index}`} key={index} />; //key 나중 반드시 바꾸세요.
   });
 
-  const Title: JSX.Element = <Label color={'grey'} text=" channel 개수" />;
+  const Title: JSX.Element = <Label color="grey" text=" channel 개수" />;
   const RightButton = (
-    <div>
-      <LabeledDefaultButton text={'정렬'} />
-      <LabeledDefaultButton text={'@ 필터'} />
-    </div>
+    <MarginedDiv>
+      <LabeledDefaultButton text="정렬" />
+      <LabeledDefaultButton text="@ 필터" />
+    </MarginedDiv>
   );
 
   return (

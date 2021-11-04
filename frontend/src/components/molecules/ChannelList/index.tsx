@@ -25,18 +25,14 @@ const ChannelList = ({
         <div>{firstLabelContent || 'channel name'}</div>
 
         <TextSet>
-          <Label color={'grey'} text={secondLabelContent || 'members'}></Label>
-          <Label color={'grey'} text={content}></Label>
+          <Label color="grey" text={secondLabelContent || 'members'} />
+          <Label color="grey" text={content} />
         </TextSet>
       </Container>
       <MarginedDiv>
-        {isHover && <LabeledDefaultButton width={81.92} text="view" />}
+        {isHover && <LabeledDefaultButton text="view" />}
         {isHover && (
-          <LabeledDefaultButton
-            width={81.92}
-            backgroundColor={'green'}
-            text="join"
-          />
+          <LabeledDefaultButton backgroundColor="green" text="join" />
         )}
       </MarginedDiv>
     </SpaceBetweenDiv>
