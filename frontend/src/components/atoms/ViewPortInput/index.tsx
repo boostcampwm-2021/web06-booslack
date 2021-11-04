@@ -6,9 +6,8 @@ interface Props {
   height: number;
   onClick?: () => void;
   placeholder: string;
+  flex?: boolean;
 }
-
-
 
 const ViewportInput = ({
   width,

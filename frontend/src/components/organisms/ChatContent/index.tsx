@@ -8,7 +8,7 @@ interface Props {
 
 const ChatContent = ({ inputBar }: Props): JSX.Element => {
   const ThreadContents = new Array(100).fill(null).map((value, index) => {
-    return <ThreadContent key={index} />; // key 나중 반드시 바꾸세요.
+    return <ThreadContent firstLabelContent={`user ${index}`} key={index} />; //key 나중 반드시 바꾸세요.
   });
 
   return (

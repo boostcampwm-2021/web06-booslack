@@ -7,10 +7,4 @@ export const Container = styled.div`
   height: 95vh;
 `;
 
-export const MarginedDiv = styled.div`
-  & > * {
-    margin: 0 3px 0 10px;
-  }
-`;
-
 export default Container;

@@ -17,7 +17,8 @@
       "@templates/*": ["src/components/templates/*"],
       "@pages/*": ["src/components/pages/*"],
       "@interface/*": ["src/interface/*"],
-      "@enum": ["src/enum"]
+      "@enum/*": ["src/enum/*"],
+      "@global/*": ["src/global/*"]
     },
     "plugins": [{ "name": "typescript-styled-plugin", "validate": false }],
     "skipLibCheck": true

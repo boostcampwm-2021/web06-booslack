@@ -1,5 +1,5 @@
 import ChatInput from '@molecules/ChatInput';
-import { ChatInputSize } from '@enum';
+import { ChatInputSize } from '@enum/index';
 import React, { useMemo } from 'react';
 import { Container } from './styles';
 
