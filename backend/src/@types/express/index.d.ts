@@ -14,6 +14,9 @@ declare module 'express' {
       profile: string;
       channel: IChannel;
       description: string;
+
+      userId: string;
+      channelId: string;
     };
   }
 }

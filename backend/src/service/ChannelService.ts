@@ -3,6 +3,8 @@ import { Request, Response } from 'express';
 import { getCustomRepository } from 'typeorm';
 import ChannelRepository, { SortOption } from '../repository/ChannelRepository';
 import paramMissingError from '../shared/constants';
+import UserRepository from 'src/repository/UserRepository';
+import { User } from '@daos/User';
 
 const { BAD_REQUEST, CREATED, OK } = StatusCodes;
 
@@ -40,8 +42,7 @@ export async function getOneChannel(req: Request, res: Response) {
 }
 
 export async function addOneChannel(req: Request, res: Response) {
-  const { channel } = req.body;
-
+  const channel = req.body;
   if (!channel) {
     return res.status(BAD_REQUEST).json({
       error: paramMissingError,
@@ -82,6 +83,48 @@ export async function deleteOneChannel(req: Request, res: Response) {
     );
     await getCustomRepository(ChannelRepository).remove(channel);
     return res.status(OK).end();
+  } catch (e) {
+    return res.status(BAD_REQUEST).json(e);
+  }
+}
+
+export async function addUserToChannel(req: Request, res: Response) {
+  try {
+    const { userId, channelId } = req.body;
+    const user = await getCustomRepository(UserRepository).findOne(userId);
+    const channel = await getCustomRepository(ChannelRepository).findOne({
+      where: [{ id: channelId }],
+      relations: ['users'],
+    });
+    if (!channel) {
+      throw new Error(`channel ${channelId} does not exist`);
+    }
+    if (!user) {
+      throw new Error(`user ${userId} does not exist`);
+    }
+    channel.users.push(user);
+    await getCustomRepository(ChannelRepository).save(channel);
+    return res.status(OK).json({ channel });
+  } catch (e) {
+    return res.status(BAD_REQUEST).json(e);
+  }
+}
+
+export async function deleteUserFromChannel(req: Request, res: Response) {
+  try {
+    const { userId, channelId } = req.body;
+    const channel = await getCustomRepository(ChannelRepository).findOne({
+      where: [{ id: channelId }],
+      relations: ['users'],
+    });
+    if (!channel) {
+      throw new Error(`channel ${channelId} does not exist`);
+    }
+    channel.users = channel.users.filter(
+      (eachUser) => eachUser.id !== Number(userId),
+    );
+    await getCustomRepository(ChannelRepository).save(channel);
+    return res.status(OK).json({ channel });
   } catch (e) {
     return res.status(BAD_REQUEST).json(e);
   }
