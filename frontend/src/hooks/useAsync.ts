@@ -2,7 +2,8 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 
 interface Data {
-  data?: unknown;
+  data?: undefined | unknown;
+  params: undefined | unknown;
 }
 
 type METHOD = 'GET' | 'POST' | 'DELETE' | 'UPDATE';

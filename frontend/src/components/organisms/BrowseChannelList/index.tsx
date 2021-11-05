@@ -18,7 +18,15 @@ import {
 const { width: ListWidth, height: ListHeight } = BrowserChannelListSize;
 
 const BrowseChannelList = (): JSX.Element => {
-  const [data, loading, error] = useAsync(null, '/api/channel/all', []);
+  const [data, loading, error] = useAsync(
+    {
+      params: {
+        offsetStart: 0,
+      },
+    },
+    '/api/channel/all',
+    [],
+  );
 
   const getListByGET = () => {
     if (loading) return <div>로딩중..</div>;

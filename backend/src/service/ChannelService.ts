@@ -7,9 +7,23 @@ import paramMissingError from '../shared/constants';
 const { BAD_REQUEST, CREATED, OK } = StatusCodes;
 
 export async function getAllChannels(req: Request, res: Response) {
-  const channels = await getCustomRepository(ChannelRepository).find({
-    relations: ['workspace'],
-  });
+  const { offsetStart } = req.query;
+
+  console.log(req.query, req.params, req.body);
+
+  const CustomRepo = getCustomRepository(ChannelRepository);
+
+  let channels;
+  if (offsetStart) {
+    channels = await CustomRepo.findByOffset(
+      parseInt(offsetStart as string, 10),
+    );
+  } else {
+    channels = await CustomRepo.find({
+      relations: ['workspace'],
+    });
+  }
+
   return res.status(OK).json({ channels });
 }
 
