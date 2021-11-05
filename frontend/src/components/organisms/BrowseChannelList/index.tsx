@@ -3,6 +3,7 @@ import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import ChannelList from '@molecules/ChannelList';
 import SearchBar from '@molecules/SearchBar';
 import ChatHeader from '@molecules/ChatHeader';
+import AsyncBranch from '@molecules/AsyncBranch';
 import { BrowserChannelListSize } from '@enum/index';
 import useAsync from '@hook/useAsync';
 import React from 'react';
@@ -29,10 +30,6 @@ const BrowseChannelList = (): JSX.Element => {
   );
 
   const getListByGET = () => {
-    if (loading) return <div>로딩중..</div>;
-    if (error) return <div>에러가 발생했습니다</div>;
-    if (!data) return '';
-
     return data?.channels.map(({ id, type, description }) => {
       return (
         <ChannelList
@@ -44,7 +41,14 @@ const BrowseChannelList = (): JSX.Element => {
     });
   };
 
-  const ChannelLists = getListByGET();
+  const ChannelLists = (
+    <AsyncBranch
+      data={data}
+      loading={loading}
+      error={error}
+      success={getListByGET()}
+    />
+  );
 
   const Title: JSX.Element = (
     <Label color="grey" text={`channel ${data?.count ?? ''}개`} />
