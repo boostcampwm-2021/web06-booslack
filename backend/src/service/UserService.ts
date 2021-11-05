@@ -30,9 +30,15 @@ export async function getOneUser(req: Request, res: Response) {
 
 export async function updateOneUser(req: Request, res: Response) {
   const { id } = req.params;
+<<<<<<< HEAD
   const { nickname, email, type, password } = req.body;
+=======
+  const { nickname, email, type } = req.body;
+
+>>>>>>> 503b8d2 (feat: 채널에 유저가 들어가고 나가는 API 작성)
   try {
-    if (Object.keys(req.body).length === 0) throw new Error('no user data in body');
+    if (Object.keys(req.body).length === 0)
+      throw new Error('no user data in body');
     const userById = await getRepository(User).findOneOrFail(id);
     userById.nickname = nickname || userById.nickname;
     userById.email = email || userById.email;

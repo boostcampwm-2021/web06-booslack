@@ -68,17 +68,12 @@ export async function updateOneChannel(req: Request, res: Response) {
   const { id } = req.params;
   const { name, type, description } = req.body;
   try {
-    if (Object.keys(req.body).length === 0)
-      throw new Error('no channel data in body');
-    const channelById = await getCustomRepository(
-      ChannelRepository,
-    ).findOneOrFail(id);
+    if (Object.keys(req.body).length === 0) throw new Error('no channel data in body');
+    const channelById = await getCustomRepository(ChannelRepository).findOneOrFail(id);
     channelById.name = name || channelById.name;
     channelById.type = type || channelById.type;
     channelById.description = description || channelById.description;
-    const channel = await getCustomRepository(ChannelRepository).save(
-      channelById,
-    );
+    const channel = await getCustomRepository(ChannelRepository).save(channelById);
     return res.status(OK).json({ channel });
   } catch (e) {
     return res.status(BAD_REQUEST).json(e);
@@ -88,9 +83,7 @@ export async function updateOneChannel(req: Request, res: Response) {
 export async function deleteOneChannel(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    const channel = await getCustomRepository(ChannelRepository).findOneOrFail(
-      id,
-    );
+    const channel = await getCustomRepository(ChannelRepository).findOneOrFail(id);
     await getCustomRepository(ChannelRepository).remove(channel);
     return res.status(OK).end();
   } catch (e) {
@@ -101,9 +94,7 @@ export async function deleteOneChannel(req: Request, res: Response) {
 export async function addUserToChannel(req: Request, res: Response) {
   try {
     const { userId, workspaceId, channelId } = req.body;
-    const userHasWorkspace = await getCustomRepository(
-      UserHasWorkspaceRepository,
-    ).findOne({
+    const userHasWorkspace = await getCustomRepository(UserHasWorkspaceRepository).findOne({
       where: [{ userId: userId, workspaceId: workspaceId }],
     });
     const channel = await getCustomRepository(ChannelRepository).findOne({
@@ -127,9 +118,7 @@ export async function addUserToChannel(req: Request, res: Response) {
 export async function deleteUserFromChannel(req: Request, res: Response) {
   try {
     const { userId, workspaceId, channelId } = req.query;
-    const userHasWorkspace = await getCustomRepository(
-      UserHasWorkspaceRepository,
-    ).findOne({
+    const userHasWorkspace = await getCustomRepository(UserHasWorkspaceRepository).findOne({
       where: [{ userId: userId, workspaceId: workspaceId }],
     });
     const channel = await getCustomRepository(ChannelRepository).findOne({
@@ -143,8 +132,7 @@ export async function deleteUserFromChannel(req: Request, res: Response) {
       throw new Error(`user ${userId} does not exist`);
     }
     channel.userHasWorkspaces = channel.userHasWorkspaces.filter(
-      (eachUserHasWorkspace) =>
-        eachUserHasWorkspace.id !== Number(userHasWorkspace.id),
+      (eachUserHasWorkspace) => eachUserHasWorkspace.id !== Number(userHasWorkspace.id),
     );
     await getCustomRepository(ChannelRepository).save(channel);
     return res.status(OK).json({ channel });
@@ -156,9 +144,10 @@ export async function deleteUserFromChannel(req: Request, res: Response) {
 export async function getChannelsThatUserIn(req: Request, res: Response) {
   try {
     const { userId, workspaceId } = req.query;
-    const channels = await getCustomRepository(
-      ChannelRepository,
-    ).findChannelsThatUserIn(String(userId), String(workspaceId));
+    const channels = await getCustomRepository(ChannelRepository).findChannelsThatUserIn(
+      String(userId),
+      String(workspaceId),
+    );
     return res.status(OK).json({ channels });
   } catch (e) {
     return res.status(BAD_REQUEST).json(e);
