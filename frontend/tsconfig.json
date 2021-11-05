@@ -18,7 +18,8 @@
       "@pages/*": ["src/components/pages/*"],
       "@interface/*": ["src/interface/*"],
       "@enum/*": ["src/enum/*"],
-      "@global/*": ["src/global/*"]
+      "@global/*": ["src/global/*"],
+      "@hook/*": ["src/hooks/*"]
     },
     "plugins": [{ "name": "typescript-styled-plugin", "validate": false }],
     "skipLibCheck": true
