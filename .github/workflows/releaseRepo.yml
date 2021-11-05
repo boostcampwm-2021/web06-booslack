@@ -20,7 +20,7 @@ jobs:
         run: |
           git checkout -b old-release
           git push -f origin old-release
-
+    if: github.repository == 'boostcampwm-2021/web06-booslack'
   release:
     runs-on: ubuntu-latest
     steps:
@@ -32,3 +32,4 @@ jobs:
         run: |
           git checkout -b release
           git push -f origin release
+    if: github.repository == 'boostcampwm-2021/web06-booslack'
