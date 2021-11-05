@@ -25,12 +25,15 @@ export async function getOneChannel(req: Request, res: Response) {
 
 export async function addOneChannel(req: Request, res: Response) {
   const { channel } = req.body;
+
   if (!channel) {
     return res.status(BAD_REQUEST).json({
       error: paramMissingError,
     });
   }
-  await getCustomRepository(ChannelRepository).save(channel);
+  const ChannelRepo = getCustomRepository(ChannelRepository);
+  await ChannelRepo.save(ChannelRepo.create(channel));
+
   return res.status(CREATED).end();
 }
 
@@ -38,7 +41,8 @@ export async function updateOneChannel(req: Request, res: Response) {
   const { id } = req.params;
   const { name, type, description } = req.body;
   try {
-    if (Object.keys(req.body).length === 0) throw new Error('no channel data in body');
+    if (Object.keys(req.body).length === 0)
+      throw new Error('no channel data in body');
     const channelById = await getCustomRepository(
       ChannelRepository,
     ).findOneOrFail(id);

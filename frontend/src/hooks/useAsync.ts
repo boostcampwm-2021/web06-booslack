@@ -5,12 +5,6 @@ interface Data {
   data?: unknown;
 }
 
-interface TypeHook {
-  data?: unknown;
-  loading: boolean;
-  error: null | Error;
-}
-
 type METHOD = 'GET' | 'POST' | 'DELETE' | 'UPDATE';
 
 const getAxios = async (Path: string, JSON: Data): Promise<Data> => {
@@ -18,15 +12,15 @@ const getAxios = async (Path: string, JSON: Data): Promise<Data> => {
 };
 
 const postAxios = async (Path: string, JSON: Data): Promise<Data> => {
-  return axios.get(Path, JSON);
+  return axios.post(Path, JSON);
 };
 
 const deleteAxios = (Path: string, JSON: Data): Promise<Data> => {
-  return axios.get(Path, JSON);
+  return axios.delete(Path, JSON);
 };
 
 const updateAxios = async (Path: string, JSON: Data): Promise<Data> => {
-  return axios.get(Path, JSON);
+  return axios.put(Path, JSON);
 };
 
 const getAxiosByMethod = (method: METHOD) => {
