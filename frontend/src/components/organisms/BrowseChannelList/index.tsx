@@ -46,7 +46,9 @@ const BrowseChannelList = (): JSX.Element => {
 
   const ChannelLists = getListByGET();
 
-  const Title: JSX.Element = <Label color="grey" text=" channel 개수" />;
+  const Title: JSX.Element = (
+    <Label color="grey" text={`channel ${data?.count ?? ''}개`} />
+  );
   const RightButton = (
     <MarginedDiv>
       <LabeledDefaultButton text="정렬" />

@@ -14,4 +14,8 @@ export default class ChannelRepository extends Repository<Channel> {
       relations: ['workspace'],
     });
   }
+
+  getCount(relation: string): Promise<number> {
+    return this.createQueryBuilder('count').getCount();
+  }
 }

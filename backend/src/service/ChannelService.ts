@@ -9,22 +9,20 @@ const { BAD_REQUEST, CREATED, OK } = StatusCodes;
 export async function getAllChannels(req: Request, res: Response) {
   const { offsetStart } = req.query;
 
-  console.log(req.query, req.params, req.body);
-
   const CustomRepo = getCustomRepository(ChannelRepository);
+  const countRow = CustomRepo.getCount('workspace');
 
-  let channels;
+  let channel;
   if (offsetStart) {
-    channels = await CustomRepo.findByOffset(
-      parseInt(offsetStart as string, 10),
-    );
+    channel = CustomRepo.findByOffset(parseInt(offsetStart as string, 10));
   } else {
-    channels = await CustomRepo.find({
+    channel = CustomRepo.find({
       relations: ['workspace'],
     });
   }
-
-  return res.status(OK).json({ channels });
+  const Obj = await Promise.all([countRow, channel]);
+  const [count, channels] = Object.entries(Obj).map((ele) => ele[1]);
+  return res.status(OK).json({ count, channels });
 }
 
 export async function getOneChannel(req: Request, res: Response) {
