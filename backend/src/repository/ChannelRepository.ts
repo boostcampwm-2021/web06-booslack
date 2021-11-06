@@ -46,4 +46,15 @@ export default class ChannelRepository extends Repository<Channel> {
       where: [{ type: 'public', ...likeQuery }],
     });
   }
+
+  findChannelsThatUserIn(userId: string) {
+    return this.query(
+      `
+        select * from booslack.channel
+            where booslack.channel.id in (
+                select channelId from booslack.channel_users_user
+                where userId = ${userId})
+    `,
+    );
+  }
 }

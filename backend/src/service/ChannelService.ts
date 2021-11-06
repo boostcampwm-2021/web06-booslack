@@ -129,3 +129,15 @@ export async function deleteUserFromChannel(req: Request, res: Response) {
     return res.status(BAD_REQUEST).json(e);
   }
 }
+
+export async function getChannelsThatUserIn(req: Request, res: Response) {
+  try {
+    const userId = req.query.userId as string;
+    const channels = await getCustomRepository(
+      ChannelRepository,
+    ).findChannelsThatUserIn(userId);
+    return res.status(OK).json({ channels });
+  } catch (e) {
+    return res.status(BAD_REQUEST).json(e);
+  }
+}
