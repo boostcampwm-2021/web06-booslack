@@ -8,7 +8,7 @@ import {
   channelCreateModalState,
   sidebarChannelInfoModalState,
 } from 'src/state/modal';
-import { BrowserRouter, Link } from 'react-router-dom';
+import { BrowserRouter, NavLink } from 'react-router-dom';
 
 const WorkspaceSidebar = (): JSX.Element => {
   const [isChannelCreateModalOpen, setIsChannelCreateModalOpen] =
@@ -17,43 +17,46 @@ const WorkspaceSidebar = (): JSX.Element => {
     useRecoilState(sidebarChannelInfoModalState);
 
   return (
-    <BrowserRouter>
-      <Container>
-        <SidebarDivision label="Channels" options={true} type="Channels" />
-        <Link
-          to={`${window.location.pathname}/random`}
-          style={{ textDecoration: 'none', color: 'black' }}
-        >
-          <SidebarChannelElement
-            label="random"
-            isPrivate={false}
-            onClick={() => {}}
-            onContextMenu={(e) => {
-              e.preventDefault();
-              setIsSidebarChannelInfoModalOpen(true);
-            }}
-          />
-        </Link>
-        <Link
-          to={`${window.location.pathname}/privateChannel`}
-          style={{ textDecoration: 'none', color: 'black' }}
-        >
-          <SidebarChannelElement
-            label="private channel"
-            isPrivate={true}
-            onClick={() => {}}
-            onContextMenu={(e) => {
-              e.preventDefault();
-              setIsSidebarChannelInfoModalOpen(true);
-            }}
-          />
-        </Link>
-        <SidebarAddElement
-          label="Add Channels"
-          onClick={() => setIsChannelCreateModalOpen(true)}
+    <Container>
+      <SidebarDivision label="Channels" options={true} type="Channels" />
+      <NavLink
+        to="/client/random"
+        style={{ textDecoration: 'none', color: 'black' }}
+        activeStyle={{ color: 'red' }}
+      >
+        <SidebarChannelElement
+          label="random"
+          isPrivate={false}
+          onClick={() => {}}
+          onContextMenu={(e) => {
+            e.preventDefault();
+            setIsSidebarChannelInfoModalOpen(true);
+          }}
         />
-      </Container>
-    </BrowserRouter>
+      </NavLink>
+      <NavLink
+        to={(location) => ({
+          ...location,
+          pathname: '/client/private-channel',
+        })}
+        style={{ textDecoration: 'none', color: 'black' }}
+        activeStyle={{ color: 'red' }}
+      >
+        <SidebarChannelElement
+          label="private channel"
+          isPrivate={true}
+          onClick={() => {}}
+          onContextMenu={(e) => {
+            e.preventDefault();
+            setIsSidebarChannelInfoModalOpen(true);
+          }}
+        />
+      </NavLink>
+      <SidebarAddElement
+        label="Add Channels"
+        onClick={() => setIsChannelCreateModalOpen(true)}
+      />
+    </Container>
   );
 };
 
