@@ -1,5 +1,5 @@
 import Label from '@atoms/Label';
-import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
+import BrowseMordalContainer from '@molecules/BrowseMordalContainer';
 import ChannelList from '@molecules/ChannelList';
 import SearchBar from '@molecules/SearchBar';
 import ChatHeader from '@molecules/ChatHeader';
@@ -8,17 +8,13 @@ import AsyncBranch from '@molecules/AsyncBranch';
 import { BrowserChannelListSize, CHANNELTYPE } from '@enum/index';
 import useAsync from '@hook/useAsync';
 import API from '@global/api';
-import { sorted } from '@global/util';
-
-import React, { useState } from 'react';
+import React from 'react';
 import {
   Container,
   ScrollBox,
   ChannelListBackground,
   MarginBottomDiv,
   CenterAlignedDiv,
-  MarginedDiv,
-  SortedPopup,
 } from './styles';
 
 const { width: ListWidth, height: ListHeight } = BrowserChannelListSize;
@@ -33,8 +29,6 @@ const BrowseChannelList = (): JSX.Element => {
     API.get.channel.all,
     [],
   );
-
-  const [sortedModal, setsortedModal] = useState<boolean>(false);
 
   const getListByGET = (): JSX.Element => {
     if (!data?.channels) return <></>;
@@ -70,32 +64,7 @@ const BrowseChannelList = (): JSX.Element => {
     <Label color="grey" text={`channel ${channelCount}개`} />
   );
 
-  const RightButton = (
-    <MarginedDiv>
-      <SortedPopup isOpen={sortedModal}>
-        <LabeledDefaultButton
-          onClick={() => setData({ channels: sorted(data?.channels, 'name') })}
-          text="알파벳 순"
-        />
-        <LabeledDefaultButton
-          onClick={() => {
-            setData({
-              channels: sorted(data?.channels, 'name', { reverse: true }),
-            });
-          }}
-          text="알파벳 역순"
-        />
-      </SortedPopup>
-
-      <LabeledDefaultButton
-        onClick={() => {
-          setsortedModal(!sortedModal);
-        }}
-        text="정렬"
-      />
-      <LabeledDefaultButton text="@ 필터" />
-    </MarginedDiv>
-  );
+  const RightButton = <BrowseMordalContainer data={data} setData={setData} />;
 
   return (
     <Container width={ListWidth}>

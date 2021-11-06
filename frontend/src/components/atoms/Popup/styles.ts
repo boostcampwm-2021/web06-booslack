@@ -3,9 +3,8 @@ import styled from 'styled-components';
 
 interface Props {
   visible: boolean;
-  children: JSX.Element;
+  children: JSX.Element | JSX.Element[];
 }
-
 const { width: ButtonWidth, height: ButtonHeight } = ButtonSize;
 
 const Container = styled.div<Props>`

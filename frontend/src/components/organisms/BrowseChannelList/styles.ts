@@ -1,4 +1,3 @@
-import Popup from '@atoms/Popup';
 import { ButtonSize } from '@enum/index';
 import { RoundScrollBar } from '@global/mixin';
 import styled from 'styled-components';
@@ -6,6 +5,12 @@ import styled from 'styled-components';
 interface Props {
   width?: number;
 }
+const {
+  width: ButtonWidth,
+  height: ButtonHeight,
+  color: ButtonColor,
+  backgroundColor: ButtonBackground,
+} = ButtonSize;
 
 export const Container = styled.div<Props>`
   display: flex;
@@ -53,17 +58,6 @@ export const MarginedDiv = styled.div`
   & > button {
     margin: 0 5px 0 5px;
   }
-`;
-
-const {
-  width: ButtonWidth,
-  height: ButtonHeight,
-  color: ButtonColor,
-  backgroundColor: ButtonBackground,
-} = ButtonSize;
-
-export const SortedPopup = styled(Popup)`
-  background-color: ivory;
 `;
 
 export default Container;

@@ -4,8 +4,8 @@ import React from 'react';
 import { Container, TextSet } from './styles';
 
 interface Props {
-  firstLabelContent?: string;
-  secondLabelContent?: string;
+  firstLabelContent: string | undefined;
+  secondLabelContent: string | undefined;
 }
 
 const ThreadContent = ({
@@ -20,11 +20,11 @@ const ThreadContent = ({
         }}
         width={30}
         height={30}
-        image={'./img'}
+        image="./img"
       />
       <TextSet>
-        <Label text={firstLabelContent || 'user name'}></Label>
-        <Label text={secondLabelContent || ' time '}></Label>
+        <Label text={firstLabelContent || 'user name'} />
+        <Label text={secondLabelContent || ' time '} />
         <div>content insert here</div>
       </TextSet>
     </Container>

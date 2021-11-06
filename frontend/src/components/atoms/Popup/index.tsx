@@ -3,7 +3,7 @@ import Container from './styles';
 
 interface Props {
   isOpen: boolean;
-  children: JSX.Element;
+  children: JSX.Element | JSX.Element[];
 }
 
 const Popup = ({ isOpen, children }: Props): JSX.Element => {
