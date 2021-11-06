@@ -4,11 +4,13 @@ import ChannelList from '@molecules/ChannelList';
 import SearchBar from '@molecules/SearchBar';
 import ChatHeader from '@molecules/ChatHeader';
 import AsyncBranch from '@molecules/AsyncBranch';
+
 import { BrowserChannelListSize, CHANNELTYPE } from '@enum/index';
 import useAsync from '@hook/useAsync';
 import API from '@global/api';
-import { sortedAlphabetList } from '@global/util';
-import React from 'react';
+import { sorted } from '@global/util';
+
+import React, { useState } from 'react';
 import {
   Container,
   ScrollBox,
@@ -16,6 +18,7 @@ import {
   MarginBottomDiv,
   CenterAlignedDiv,
   MarginedDiv,
+  SortedPopup,
 } from './styles';
 
 const { width: ListWidth, height: ListHeight } = BrowserChannelListSize;
@@ -31,10 +34,12 @@ const BrowseChannelList = (): JSX.Element => {
     [],
   );
 
-  const getListByGET = (newData): JSX.Element => {
-    if (!newData?.channels) return <></>;
+  const [sortedModal, setsortedModal] = useState<boolean>(false);
 
-    const { channels } = newData;
+  const getListByGET = (): JSX.Element => {
+    if (!data?.channels) return <></>;
+
+    const { channels } = data;
     return (
       <>
         {channels.map(({ id, name, type, description }) => {
@@ -55,7 +60,7 @@ const BrowseChannelList = (): JSX.Element => {
       data={data}
       loading={loading}
       error={error}
-      success={getListByGET(data)}
+      success={getListByGET()}
     />
   );
 
@@ -67,9 +72,24 @@ const BrowseChannelList = (): JSX.Element => {
 
   const RightButton = (
     <MarginedDiv>
+      <SortedPopup isOpen={sortedModal}>
+        <LabeledDefaultButton
+          onClick={() => setData({ channels: sorted(data?.channels, 'name') })}
+          text="알파벳 순"
+        />
+        <LabeledDefaultButton
+          onClick={() => {
+            setData({
+              channels: sorted(data?.channels, 'name', { reverse: true }),
+            });
+          }}
+          text="알파벳 역순"
+        />
+      </SortedPopup>
+
       <LabeledDefaultButton
         onClick={() => {
-          setData({ channels: sortedAlphabetList(data?.channels, 'name') });
+          setsortedModal(!sortedModal);
         }}
         text="정렬"
       />
