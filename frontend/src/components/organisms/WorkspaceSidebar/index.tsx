@@ -8,6 +8,7 @@ import {
   channelCreateModalState,
   sidebarChannelInfoModalState,
 } from 'src/state/modal';
+import { BrowserRouter, Link } from 'react-router-dom';
 
 const WorkspaceSidebar = (): JSX.Element => {
   const [isChannelCreateModalOpen, setIsChannelCreateModalOpen] =
@@ -16,31 +17,43 @@ const WorkspaceSidebar = (): JSX.Element => {
     useRecoilState(sidebarChannelInfoModalState);
 
   return (
-    <Container>
-      <SidebarDivision label="Channels" options={true} type="Channels" />
-      <SidebarChannelElement
-        label="random"
-        isPrivate={false}
-        onClick={() => {}}
-        onContextMenu={(e) => {
-          e.preventDefault();
-          setIsSidebarChannelInfoModalOpen(true);
-        }}
-      />
-      <SidebarChannelElement
-        label="private channel"
-        isPrivate={true}
-        onClick={() => {}}
-        onContextMenu={(e) => {
-          e.preventDefault();
-          setIsSidebarChannelInfoModalOpen(true);
-        }}
-      />
-      <SidebarAddElement
-        label="Add Channels"
-        onClick={() => setIsChannelCreateModalOpen(true)}
-      />
-    </Container>
+    <BrowserRouter>
+      <Container>
+        <SidebarDivision label="Channels" options={true} type="Channels" />
+        <Link
+          to={`${window.location.pathname}/random`}
+          style={{ textDecoration: 'none', color: 'black' }}
+        >
+          <SidebarChannelElement
+            label="random"
+            isPrivate={false}
+            onClick={() => {}}
+            onContextMenu={(e) => {
+              e.preventDefault();
+              setIsSidebarChannelInfoModalOpen(true);
+            }}
+          />
+        </Link>
+        <Link
+          to={`${window.location.pathname}/privateChannel`}
+          style={{ textDecoration: 'none', color: 'black' }}
+        >
+          <SidebarChannelElement
+            label="private channel"
+            isPrivate={true}
+            onClick={() => {}}
+            onContextMenu={(e) => {
+              e.preventDefault();
+              setIsSidebarChannelInfoModalOpen(true);
+            }}
+          />
+        </Link>
+        <SidebarAddElement
+          label="Add Channels"
+          onClick={() => setIsChannelCreateModalOpen(true)}
+        />
+      </Container>
+    </BrowserRouter>
   );
 };
 

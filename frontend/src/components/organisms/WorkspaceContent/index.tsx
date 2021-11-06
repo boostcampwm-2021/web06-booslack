@@ -5,9 +5,11 @@ import ChatInputBackground from '@organisms/ChatInputBackground';
 import ChatContent from '@organisms/ChatContent';
 import React from 'react';
 import { Container, MarginedDiv } from './style';
+import { useParams } from 'react-router-dom';
 
 const WorkspaceContent = (): JSX.Element => {
-  const ChannelTitle: JSX.Element = <Label text="# channel name" />;
+  const { channelName } = useParams();
+  const ChannelTitle: JSX.Element = <Label text={`# ${channelName}`} />;
   const ExplainContent: JSX.Element | null = (
     <Label color="grey" text="channel explain " />
   );
