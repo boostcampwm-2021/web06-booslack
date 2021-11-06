@@ -4,12 +4,14 @@ import ChannelList from '@molecules/ChannelList';
 import SearchBar from '@molecules/SearchBar';
 import ChatHeader from '@molecules/ChatHeader';
 import AsyncBranch from '@molecules/AsyncBranch';
-import { BrowserChannelListSize } from '@enum/index';
+import { BrowserChannelListSize, CHANNELTYPE } from '@enum/index';
 import useAsync from '@hook/useAsync';
+import API from '@global/api';
+import { sortedAlphabetList } from '@global/util';
 import React from 'react';
-
 import {
   Container,
+  ScrollBox,
   ChannelListBackground,
   MarginBottomDiv,
   CenterAlignedDiv,
@@ -19,26 +21,33 @@ import {
 const { width: ListWidth, height: ListHeight } = BrowserChannelListSize;
 
 const BrowseChannelList = (): JSX.Element => {
-  const [data, loading, error] = useAsync(
+  const { data, loading, error, setData } = useAsync(
     {
       params: {
         offsetStart: 0,
       },
     },
-    '/api/channel/all',
+    API.get.channel.all,
     [],
   );
 
-  const getListByGET = () => {
-    return data?.channels.map(({ id, type, description }) => {
-      return (
-        <ChannelList
-          firstLabelContent={`${type}`}
-          secondLabelContent={description}
-          key={`BrowseChannelList${id}`}
-        />
-      );
-    });
+  const getListByGET = (newData): JSX.Element => {
+    if (!newData?.channels) return <></>;
+
+    const { channels } = newData;
+    return (
+      <>
+        {channels.map(({ id, name, type, description }) => {
+          return (
+            <ChannelList
+              firstLabelContent={`${CHANNELTYPE[type]} ${id} ${name}`}
+              secondLabelContent={description}
+              key={`BrowseChannelList${id}`}
+            />
+          );
+        })}
+      </>
+    );
   };
 
   const ChannelLists = (
@@ -46,34 +55,42 @@ const BrowseChannelList = (): JSX.Element => {
       data={data}
       loading={loading}
       error={error}
-      success={getListByGET()}
+      success={getListByGET(data)}
     />
   );
 
+  const channelCount = data?.count ?? 0;
+
   const Title: JSX.Element = (
-    <Label color="grey" text={`channel ${data?.count ?? ''}개`} />
+    <Label color="grey" text={`channel ${channelCount}개`} />
   );
+
   const RightButton = (
     <MarginedDiv>
-      <LabeledDefaultButton text="정렬" />
+      <LabeledDefaultButton
+        onClick={() => {
+          setData({ channels: sortedAlphabetList(data?.channels, 'name') });
+        }}
+        text="정렬"
+      />
       <LabeledDefaultButton text="@ 필터" />
     </MarginedDiv>
   );
 
   return (
-    <>
+    <Container width={ListWidth}>
       <SearchBar width={ListWidth} height={ListHeight} />
       <MarginBottomDiv />
       <CenterAlignedDiv>
         <ChatHeader width={ListWidth} title={Title} rightButton={RightButton} />
       </CenterAlignedDiv>
       <ChannelListBackground>
-        <Container width={ListWidth}>
+        <ScrollBox width={ListWidth}>
           {ChannelLists}
           <MarginBottomDiv margin={30} />
-        </Container>
+        </ScrollBox>
       </ChannelListBackground>
-    </>
+    </Container>
   );
 };
 

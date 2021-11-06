@@ -14,3 +14,8 @@ export enum BrowserChannelListSize {
   width = 75,
   height = 5,
 }
+
+export enum CHANNELTYPE {
+  'private' = '🔒',
+  'public' = '#',
+}

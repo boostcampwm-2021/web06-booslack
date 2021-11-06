@@ -6,14 +6,20 @@ interface Props {
 }
 
 export const Container = styled.div<Props>`
+  display: flex;
+
   width: ${({ width }) => {
     if (width) return `${width}vw`;
     return 'inherit';
   }};
+  flex-direction: column;
+`;
 
-  ${RoundScrollBar}
-  overflow-y: scroll;
-  overflow-x: hidden;
+export const ScrollBox = styled.div<Props>`
+  width: ${({ width }) => {
+    if (width) return `${width}vw`;
+    return 'inherit';
+  }};
 `;
 
 export const MarginBottomDiv = styled.div<{ margin?: number }>`
@@ -26,12 +32,16 @@ export const CenterAlignedDiv = styled.div`
 `;
 
 export const ChannelListBackground = styled.div<Props>`
-  height: inherit;
-  min-height: 78vh;
+  height: 80vh;
+  max-height: inherit;
 
   display: flex;
   flex-direction: column;
   align-items: center;
+
+  ${RoundScrollBar}
+  overflow: scroll;
+  overflow-x: hidden;
 `;
 
 export const MarginedDiv = styled.div`

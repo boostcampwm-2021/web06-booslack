@@ -56,7 +56,7 @@ function useAsync(json: Data, path: string, deps = [], method: METHOD = 'GET') {
     fetchRequest();
   }, deps);
 
-  return [data, loading, error, fetchRequest];
+  return { data, loading, error, fetchRequest, setData };
 }
 
 export default useAsync;

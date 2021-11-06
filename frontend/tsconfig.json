@@ -19,7 +19,8 @@
       "@interface/*": ["src/interface/*"],
       "@enum/*": ["src/enum/*"],
       "@global/*": ["src/global/*"],
-      "@hook/*": ["src/hooks/*"]
+      "@hook/*": ["src/hooks/*"],
+      "@state/*": ["src/state/*"]
     },
     "plugins": [{ "name": "typescript-styled-plugin", "validate": false }],
     "skipLibCheck": true
