@@ -1,5 +1,5 @@
 interface Option {
-  reverse: boolean | undefined;
+  reverse?: boolean | undefined;
 }
 
 export const sorted = (

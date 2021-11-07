@@ -26,7 +26,7 @@ const userId = localStorage.getItem('id');
 const BrowseChannelList = (): JSX.Element => {
   const sortOption = useRecoilValue<SortOption>(browseChannelSortOption);
 
-  const { data, loading, error, setData } = useAsync(
+  const { data, loading, error } = useAsync(
     {
       params: {
         offsetStart: 0,
