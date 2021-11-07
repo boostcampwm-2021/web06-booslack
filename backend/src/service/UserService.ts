@@ -26,7 +26,7 @@ export async function getOneUser(req: Request, res: Response) {
 
 export async function updateOneUser(req: Request, res: Response) {
   const { id } = req.params;
-  const { nickname, email, type, password } = req.body;
+::  const { nickname, email, type, password } = req.body;
   try {
     if (Object.keys(req.body).length === 0) throw new Error('no user data in body');
     const userById = await getRepository(User).findOneOrFail(id);

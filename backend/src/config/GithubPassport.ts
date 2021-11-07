@@ -24,7 +24,6 @@ function settingGithubPassport() {
             nickname: githubID,
             email: githubUrl,
             type: 'github',
-            password: '',
           };
           await getCustomRepository(UserRepository).save(newUser);
         }
@@ -37,7 +36,7 @@ function settingGithubPassport() {
     },
   ));
   passport.serializeUser((user, done) => { done(null, user); });
-  passport.deserializeUser(async (id, done) => {
+  passport.deserializeUser(async (user: User, done) => {
     try {
       const user = await getCustomRepository(UserRepository).find({
         where: { id },
