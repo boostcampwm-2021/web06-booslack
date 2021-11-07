@@ -5,18 +5,18 @@ import { RecoilState, useSetRecoilState } from 'recoil';
 import Container from './styles';
 
 interface Props<T> {
-  isOpened: boolean;
+  isSortOpened: boolean;
   usingAtom: RecoilState<T>;
 }
 
 const SortedOptionMordal = ({
-  isOpened,
+  isSortOpened,
   usingAtom,
 }: Props<SortOption>): JSX.Element => {
   const sortOption = useSetRecoilState<SortOption>(usingAtom);
 
   return (
-    <Container isOpen={isOpened}>
+    <Container isOpen={isSortOpened}>
       <LabeledDefaultButton
         onClick={() => {
           sortOption('alpha');

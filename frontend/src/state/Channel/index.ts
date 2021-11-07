@@ -10,3 +10,8 @@ export const browseChannelSortOption = atom<SortOption>({
   key: 'browseChannelSortOption',
   default: 'alpha',
 });
+
+export const browseCursor = atom<number>({
+  key: 'browseCursor',
+  default: 1,
+});

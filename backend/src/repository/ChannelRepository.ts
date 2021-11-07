@@ -34,17 +34,13 @@ export default class ChannelRepository extends Repository<Channel> {
     OFFSET: number,
     sortOption: SortOption,
     LIMIT: number = pageLimitCount,
-  ): Promise<Channel[]> {
-    return this.find({
+  ): Promise<[Channel[], number]> {
+    return this.findAndCount({
       skip: OFFSET,
       take: OFFSET + LIMIT,
       relations: ['workspace'],
       order: getOrderOption(sortOption),
       where: [{ type: 'public' }, { type: 'private', id: userID }],
     });
-  }
-
-  getCount(relation: string): Promise<number> {
-    return this.createQueryBuilder('count').getCount();
   }
 }

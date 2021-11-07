@@ -6,12 +6,14 @@ import React, { useState } from 'react';
 import Container from './styles';
 
 const BrowseMordalContainer = (): JSX.Element => {
-  const [isOpenedSortedModal, setSortedModal] = useState<boolean>(true);
+  const [isOpenedSortedModal, setSortedModal] = useState<boolean>(false);
+  const [isOpenedFillterModal, setFillterModal] = useState<boolean>(false);
 
   return (
     <Container>
       <SortedOptionMordal
-        isOpened={isOpenedSortedModal}
+        isSortOpened={isOpenedSortedModal}
+        isFillterOpened={isOpenedFillterModal}
         usingAtom={browseChannelSortOption}
       />
       <LabeledDefaultButton
@@ -20,7 +22,12 @@ const BrowseMordalContainer = (): JSX.Element => {
         }}
         text="정렬"
       />
-      <LabeledDefaultButton text="@ 필터" />
+      <LabeledDefaultButton
+        onClick={() => {
+          setFillterModal(!isOpenedFillterModal);
+        }}
+        text="@ 필터"
+      />
     </Container>
   );
 };

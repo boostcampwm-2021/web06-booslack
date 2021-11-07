@@ -10,22 +10,21 @@ export async function getAllChannels(req: Request, res: Response) {
   const { userId, offsetStart, sortOption } = req.query;
 
   const CustomRepo = getCustomRepository(ChannelRepository);
-  const countRow = CustomRepo.getCount('workspace');
 
-  let channel;
+  let channels;
+  let count;
   if (req.query) {
-    channel = CustomRepo.findByOffset(
+    [channels, count] = await CustomRepo.findByOffset(
       userId as unknown as number,
       parseInt(offsetStart as string, 10),
       sortOption as unknown as SortOption,
     );
   } else {
-    channel = CustomRepo.find({
+    [channels, count] = await CustomRepo.findAndCount({
       relations: ['workspace'],
     });
   }
-  const Obj = await Promise.all([countRow, channel]);
-  const [count, channels] = Object.entries(Obj).map((ele) => ele[1]);
+
   return res.status(OK).json({ count, channels });
 }
 
