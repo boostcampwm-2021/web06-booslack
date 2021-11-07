@@ -12,9 +12,7 @@ const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
     <>
       <WorkspaceHeader />
       <RowDiv>
-        <Suspense fallback={() => <p>Loading...</p>}>
-          <WorkspaceSidebar />
-        </Suspense>
+        <WorkspaceSidebar />
         {Content}
       </RowDiv>
     </>

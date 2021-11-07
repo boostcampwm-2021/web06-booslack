@@ -14,7 +14,7 @@ const App = (): JSX.Element => {
         <Route path="/login">
           <Login />
         </Route>
-        <Route exact path="/client/:channelName">
+        <Route exact path="/client/:channelId">
           <Workspace />
         </Route>
         <Route path="/signup">
