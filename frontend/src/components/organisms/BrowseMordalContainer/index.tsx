@@ -13,7 +13,6 @@ const BrowseMordalContainer = (): JSX.Element => {
     <Container>
       <SortedOptionMordal
         isSortOpened={isOpenedSortedModal}
-        isFillterOpened={isOpenedFillterModal}
         usingAtom={browseChannelSortOption}
       />
       <LabeledDefaultButton

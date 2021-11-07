@@ -4,13 +4,14 @@ import ChannelList from '@molecules/ChannelList';
 import SearchBar from '@molecules/SearchBar';
 import ChatHeader from '@molecules/ChatHeader';
 import AsyncBranch from '@molecules/AsyncBranch';
+import SelectbrowseChannelPage from '@molecules/SelectbrowseChannelPage';
 import { BrowserChannelListSize, CHANNELTYPE } from '@enum/index';
 import useAsync from '@hook/useAsync';
 import API from '@global/api';
 import { SortOption } from '@global/type';
+import { browseChannelSortOption, browseCursorValue } from '@state/Channel';
 import React from 'react';
 import { useRecoilValue } from 'recoil';
-import { browseChannelSortOption } from '@state/Channel';
 import {
   Container,
   ScrollBox,
@@ -25,17 +26,17 @@ const userId = localStorage.getItem('id');
 
 const BrowseChannelList = (): JSX.Element => {
   const sortOption = useRecoilValue<SortOption>(browseChannelSortOption);
-
+  const cursorOption = useRecoilValue<number>(browseCursorValue);
   const { data, loading, error } = useAsync(
     {
       params: {
-        offsetStart: 0,
+        offsetStart: cursorOption,
         userId,
         sortOption,
       },
     },
     API.get.channel.all,
-    [sortOption],
+    [sortOption, cursorOption],
   );
 
   const getListByGET = (): JSX.Element => {
@@ -84,6 +85,7 @@ const BrowseChannelList = (): JSX.Element => {
       <ChannelListBackground>
         <ScrollBox width={ListWidth}>
           {ChannelLists}
+          <SelectbrowseChannelPage dataCount={channelCount} />
           <MarginBottomDiv margin={30} />
         </ScrollBox>
       </ChannelListBackground>

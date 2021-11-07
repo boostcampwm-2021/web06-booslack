@@ -1,3 +1,4 @@
+import { pageLimitCount } from '@enum/index';
 import { SortOption } from '@global/type';
 import { atom, selector } from 'recoil';
 
@@ -14,4 +15,9 @@ export const browseChannelSortOption = atom<SortOption>({
 export const browseCursor = atom<number>({
   key: 'browseCursor',
   default: 1,
+});
+
+export const browseCursorValue = selector<number>({
+  key: 'browseCursorValue',
+  get: ({ get }) => (get(browseCursor) - 1) * pageLimitCount,
 });

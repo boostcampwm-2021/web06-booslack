@@ -1,3 +1,5 @@
+export const pageLimitCount = 10;
+
 export enum ChatInputSize {
   width = 78,
   height = 10,

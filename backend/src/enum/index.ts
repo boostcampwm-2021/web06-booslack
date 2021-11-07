@@ -1,3 +1,3 @@
 export const offsetStart = 0;
 
-export const pageLimitCount = 30;
+export const pageLimitCount = 10;
