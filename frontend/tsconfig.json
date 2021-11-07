@@ -16,7 +16,6 @@
       "@organisms/*": ["src/components/organisms/*"],
       "@templates/*": ["src/components/templates/*"],
       "@pages/*": ["src/components/pages/*"],
-      "@interface/*": ["src/global/interface/*"],
       "@enum/*": ["src/enum/*"],
       "@global/*": ["src/global/*"],
       "@hook/*": ["src/hooks/*"],
