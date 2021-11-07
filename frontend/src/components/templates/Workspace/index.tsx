@@ -1,6 +1,8 @@
 import React, { Suspense } from 'react';
 import WorkspaceHeader from '@organisms/WorkspaceHeader';
 import WorkspaceSidebar from '@organisms/WorkspaceSidebar';
+import CreateChannelModal from '@organisms/CreateChannelModal';
+import ChannelInfoModal from '@organisms/ChannelInfoModal';
 import { RowDiv } from './styles';
 
 interface Props {

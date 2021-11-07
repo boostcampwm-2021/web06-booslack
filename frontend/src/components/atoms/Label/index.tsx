@@ -15,6 +15,7 @@ const Label = ({
   height,
   color,
   backgroundColor,
+  className,
 }: Props): JSX.Element => {
   return (
     <Container
@@ -22,6 +23,7 @@ const Label = ({
       height={height}
       color={color}
       backgroundColor={backgroundColor}
+      className={className}
     >
       {text}
     </Container>

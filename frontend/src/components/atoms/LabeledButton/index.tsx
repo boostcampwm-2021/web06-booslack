@@ -17,6 +17,7 @@ const LabeledButton = ({
   height,
   color,
   backgroundColor = 'transparent',
+  className,
 }: Props): JSX.Element => {
   return (
     <Container
@@ -25,6 +26,7 @@ const LabeledButton = ({
       height={height}
       color={color}
       backgroundColor={backgroundColor}
+      className={className}
     >
       {text}
     </Container>

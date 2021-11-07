@@ -12,9 +12,7 @@ const Workspace = (): JSX.Element => {
     channelId === 'browse-channels' ? <BrowseContent /> : <WorkspaceContent />;
   return (
     <>
-      <WorkspaceTemplate Content={workspaceContent}></WorkspaceTemplate>
-      <CreateChannelModal />
-      <SidebarChannelInfoModal />
+      <WorkspaceTemplate Content={ChatContent} />
     </>
   );
 };

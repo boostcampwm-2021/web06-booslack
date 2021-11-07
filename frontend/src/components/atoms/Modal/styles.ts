@@ -3,11 +3,11 @@ import styled from 'styled-components';
 export const Container = styled.div<{ visible: string }>`
   display: ${({ visible }) => (visible ? 'block' : 'none')};
   position: fixed;
-  background-color: ivory;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
   z-index: 100;
+  width: 100%;
 `;
 
 export const Overlay = styled.div<{ visible: string }>`

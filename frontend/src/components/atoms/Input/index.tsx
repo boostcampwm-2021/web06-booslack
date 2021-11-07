@@ -19,6 +19,7 @@ const Input = ({
   width,
   height,
   placeholder,
+  className,
 }: Props): JSX.Element => {
   return (
     <Container
@@ -28,6 +29,7 @@ const Input = ({
       onChange={onChange}
       name={name}
       value={value}
+      className={className}
     />
   );
 };

@@ -9,3 +9,8 @@ export const sidebarChannelInfoModalState = atom({
   key: 'sidebarChannelModal',
   default: false,
 });
+
+export const channelInfoModalState = atom({
+  key: 'channelInfo',
+  default: false,
+});
