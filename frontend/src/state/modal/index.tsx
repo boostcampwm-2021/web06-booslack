@@ -14,3 +14,8 @@ export const channelInfoModalState = atom({
   key: 'channelInfo',
   default: false,
 });
+
+export const channelDescriptionModalState = atom({
+  key: 'channelDescription',
+  default: false,
+});

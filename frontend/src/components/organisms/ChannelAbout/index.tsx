@@ -1,8 +1,12 @@
 import React from 'react';
+import { useRecoilState } from 'recoil';
+import { channelDescriptionModalState } from 'src/state/modal';
 import AboutElement from './AboutElement';
 import { BackgroundContainer, Container } from './styles';
 
 const ChannelAbout = (): JSX.Element => {
+  const [, setIsOpen] = useRecoilState(channelDescriptionModalState);
+
   return (
     <BackgroundContainer>
       <Container>
@@ -17,7 +21,7 @@ const ChannelAbout = (): JSX.Element => {
           edit
           title="Description"
           description="team description"
-          onClick={() => console.log('edit description')}
+          onClick={() => setIsOpen(true)}
         />
         <AboutElement title="Created by" description="create by at when" />
         <AboutElement
