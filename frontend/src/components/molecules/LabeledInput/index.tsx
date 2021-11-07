@@ -1,7 +1,6 @@
 import React from 'react';
-import Label from '@atoms/Label';
 import Input from '@atoms/Input';
-import Container from './styles';
+import Container, { StyledLabel } from './styles';
 
 interface Props {
   onChange: (e) => void;
@@ -17,10 +16,11 @@ const LabeledInput = ({
   value,
   label,
   placeholder,
+  className,
 }: Props): JSX.Element => {
   return (
-    <Container>
-      <Label text={label} />
+    <Container className={className}>
+      <StyledLabel text={label} />
       <Input
         placeholder={placeholder}
         onChange={onChange}
