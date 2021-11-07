@@ -24,7 +24,7 @@ const createSpan = (
 
   for (
     let i = (leftSide - 1) * pageLimitCount, index = leftSide, count = 0;
-    i <= dataCount && count < 10;
+    i < dataCount && count < 10;
     i += pageLimitCount, index += 1, count += 1
   ) {
     divContainer.push(index);
