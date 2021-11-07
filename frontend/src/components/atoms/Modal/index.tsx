@@ -1,23 +1,31 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { createPortal } from 'react-dom';
-import { Container, Overlay } from './styles';
+import { Container, Content, Overlay } from './styles';
 
 const root = document.getElementById('portal');
+
+interface Props {
+  isOpen: boolean;
+  onClose: () => void;
+  zIndex: number;
+  children: ReactNode;
+  className?: string;
+}
 
 const Modal = ({
   isOpen,
   onClose,
+  zIndex = 100,
   children,
   className,
-  zIndex = 100,
-}): JSX.Element => {
+}: Props): JSX.Element => {
   return createPortal(
-    <>
-      <Overlay visible={isOpen} onClick={onClose} zIndex={zIndex} />
-      <Container visible={isOpen} className={className} zIndex={zIndex}>
+    <Container visible={isOpen}>
+      <Overlay onClick={onClose} zIndex={zIndex} />
+      <Content className={className} zIndex={zIndex}>
         {children}
-      </Container>
-    </>,
+      </Content>
+    </Container>,
     root,
   );
 };
