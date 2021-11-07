@@ -1,20 +1,15 @@
 import React from 'react';
 import LabeledButton from '@atoms/LabeledButton';
 import Input from '@atoms/Input';
+import { Link } from 'react-router-dom';
 import { LabelColumn, LoginForm } from './style';
 
 const LoginContent = (): JSX.Element => {
-  const handleGithubClick = () => {
+  const handleGithubClick = async () => {
     const GITHUB_CLIENT_ID: string = process.env.REACT_APP_GITHUB_CLIENT_ID;
-    window.location.replace(
+    await window.location.replace(
       `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}`,
     );
-  };
-  const handleSignInClick = () => {
-    window.location.href = '/signup';
-  };
-  const handlePasswordClick = () => {
-    window.location.href = '/changepassword';
   };
   return (
     <>
@@ -29,16 +24,12 @@ const LoginContent = (): JSX.Element => {
         <LabeledButton text="이메일으로 로그인" width={500} />
       </LoginForm>
       <LabelColumn>
-        <LabeledButton
-          text="회원 가입"
-          width={240}
-          onClick={handleSignInClick}
-        />
-        <LabeledButton
-          text="비밀 번호 찾기"
-          width={240}
-          onClick={handlePasswordClick}
-        />
+        <Link to="/signup">
+          <LabeledButton text="회원 가입" width={240} />
+        </Link>
+        <Link to="/changepassword">
+          <LabeledButton text="비밀 번호 찾기" width={240} />
+        </Link>
       </LabelColumn>
     </>
   );
