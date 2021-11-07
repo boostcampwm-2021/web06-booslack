@@ -4,6 +4,7 @@ import LoginContent from '@organisms/LoginContent';
 import { Container, Layout, LabelContainer } from './style';
 
 const Login = (): JSX.Element => {
+  if (window.sessionStorage) window.sessionStorage.clear();
   return (
     <Layout>
       <Container>
