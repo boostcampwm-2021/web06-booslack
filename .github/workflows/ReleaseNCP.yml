@@ -15,4 +15,3 @@ jobs:
           port: ${{ secrets.PORT }}
           script: |
             sh /git/autoCD.sh 2>&1
-    if: github.repository == 'boostcampwm-2021/web06-booslack'
