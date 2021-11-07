@@ -1,22 +1,14 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Container, ToggleOff, ToggleOn } from './styles';
 
 interface Props {
-  onClick: () => void;
+  isOn: boolean;
+  setIsOn: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
-const ToggleButton = ({ onClick, className }: Props): JSX.Element => {
-  const [isOn, setIsOn] = useState(false);
-
+const ToggleButton = ({ isOn, setIsOn, className }: Props): JSX.Element => {
   return (
-    <Container
-      onClick={() =>
-        setIsOn((prevState) => {
-          onClick();
-          return !prevState;
-        })
-      }
-    >
+    <Container onClick={() => setIsOn((prevState) => !prevState)}>
       {isOn ? (
         <ToggleOn className={className} />
       ) : (
