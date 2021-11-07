@@ -36,7 +36,7 @@ export default class ChannelRepository extends Repository<Channel> {
     like: string,
     LIMIT: number = pageLimitCount,
   ): Promise<[Channel[], number]> {
-    const likeQuery = like ? { name: Like(like) } : null;
+    const likeQuery = like ? { name: Like(`%${like}%`) } : null;
 
     return this.findAndCount({
       skip: OFFSET,
