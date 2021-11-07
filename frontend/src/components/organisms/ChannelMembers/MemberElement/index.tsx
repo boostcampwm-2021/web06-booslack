@@ -1,13 +1,13 @@
 import React from 'react';
 import { BackgroundContainer, Container, StyledLabel } from './styles';
 
-const MemberElement = (): JSX.Element => {
+const MemberElement = ({ nickname, email }): JSX.Element => {
   return (
     <BackgroundContainer>
       <Container>
         <StyledLabel text="image" />
-        <StyledLabel text="username" />
-        <StyledLabel text="nickname" />
+        <StyledLabel text={nickname} />
+        <StyledLabel text={email} />
       </Container>
     </BackgroundContainer>
   );

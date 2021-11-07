@@ -1,10 +1,12 @@
 import Input from '@atoms/Input';
 import styled from 'styled-components';
+import { RoundScrollBar } from '@global/mixin';
 
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
   margin-top: 1rem;
+  height: 400px;
 `;
 
 export const StyledInput = styled(Input)`
@@ -13,7 +15,10 @@ export const StyledInput = styled(Input)`
 `;
 
 export const ScrollContainer = styled.div`
+  ${RoundScrollBar};
   display: flex;
   flex-direction: column;
   margin-top: 1rem;
+  overflow-y: scroll;
+  overflow-x: hidden;
 `;
