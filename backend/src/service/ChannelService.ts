@@ -7,7 +7,7 @@ import paramMissingError from '../shared/constants';
 const { BAD_REQUEST, CREATED, OK } = StatusCodes;
 
 export async function getAllChannels(req: Request, res: Response) {
-  const { userId, offsetStart, sortOption } = req.query;
+  const { userId, offsetStart, sortOption, like } = req.query;
 
   const CustomRepo = getCustomRepository(ChannelRepository);
 
@@ -18,6 +18,7 @@ export async function getAllChannels(req: Request, res: Response) {
       userId as unknown as number,
       parseInt(offsetStart as string, 10),
       sortOption as unknown as SortOption,
+      like as string,
     );
   } else {
     [channels, count] = await CustomRepo.findAndCount({

@@ -9,9 +9,13 @@ import { BrowserChannelListSize, CHANNELTYPE } from '@enum/index';
 import useAsync from '@hook/useAsync';
 import API from '@global/api';
 import { SortOption } from '@global/type';
-import { browseChannelSortOption, browseCursorValue } from '@state/Channel';
-import React from 'react';
-import { useRecoilValue } from 'recoil';
+import {
+  browseChannelSortOption,
+  browseCursor,
+  browseCursorValue,
+} from '@state/Channel';
+import React, { useState } from 'react';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 import {
   Container,
   ScrollBox,
@@ -27,17 +31,32 @@ const userId = localStorage.getItem('id');
 const BrowseChannelList = (): JSX.Element => {
   const sortOption = useRecoilValue<SortOption>(browseChannelSortOption);
   const cursorOption = useRecoilValue<number>(browseCursorValue);
+  const resetCursor = useResetRecoilState(browseCursor);
+  const [dbLikedOption, setLikedOption] = useState<string>('');
+
   const { data, loading, error } = useAsync(
     {
       params: {
         offsetStart: cursorOption,
         userId,
         sortOption,
+        like: dbLikedOption,
       },
     },
     API.get.channel.all,
-    [sortOption, cursorOption],
+    [sortOption, cursorOption, dbLikedOption],
   );
+
+  const channelCount = data?.count ?? 0;
+
+  const SubmitInput = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    const target = e.target as HTMLFormElement;
+    const { value } = target.firstChild as HTMLInputElement;
+    resetCursor();
+    setLikedOption(value);
+  };
 
   const getListByGET = (): JSX.Element => {
     if (!data?.channels) return <></>;
@@ -67,8 +86,6 @@ const BrowseChannelList = (): JSX.Element => {
     />
   );
 
-  const channelCount = data?.count ?? 0;
-
   const Title: JSX.Element = (
     <Label color="grey" text={`channel ${channelCount}개`} />
   );
@@ -77,7 +94,12 @@ const BrowseChannelList = (): JSX.Element => {
 
   return (
     <Container width={ListWidth}>
-      <SearchBar width={ListWidth} height={ListHeight} />
+      <SearchBar
+        width={ListWidth}
+        height={ListHeight}
+        onSubmit={SubmitInput}
+        placeholder="검색어를 입력하세요."
+      />
       <MarginBottomDiv />
       <CenterAlignedDiv>
         <ChatHeader width={ListWidth} title={Title} rightButton={RightButton} />

@@ -1,4 +1,4 @@
-import { EntityRepository, Repository } from 'typeorm';
+import { EntityRepository, Repository, Like } from 'typeorm';
 import { pageLimitCount } from '@enum';
 import { Channel } from '../model/Channel';
 
@@ -33,14 +33,17 @@ export default class ChannelRepository extends Repository<Channel> {
     userID: number,
     OFFSET: number,
     sortOption: SortOption,
+    like: string,
     LIMIT: number = pageLimitCount,
   ): Promise<[Channel[], number]> {
+    const likeQuery = like ? { name: Like(like) } : null;
+
     return this.findAndCount({
       skip: OFFSET,
       take: LIMIT,
       relations: ['workspace'],
       order: getOrderOption(sortOption),
-      where: [{ type: 'public' }, { type: 'private', id: userID }],
+      where: [{ type: 'public', ...likeQuery }],
     });
   }
 }
