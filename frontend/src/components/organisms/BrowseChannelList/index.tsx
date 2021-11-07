@@ -1,5 +1,5 @@
 import Label from '@atoms/Label';
-import BrowseMordalContainer from '@molecules/BrowseMordalContainer';
+import BrowseMordalContainer from '@organisms/BrowseMordalContainer';
 import ChannelList from '@molecules/ChannelList';
 import SearchBar from '@molecules/SearchBar';
 import ChatHeader from '@molecules/ChatHeader';

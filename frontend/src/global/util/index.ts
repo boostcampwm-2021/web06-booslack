@@ -9,12 +9,14 @@ export const sorted = (
     reverse: false,
   },
 ): unknown[] => {
-  data?.sort((first, second) => {
-    return first[key].localeCompare(second[key]);
-  });
-
   if (json.reverse) {
-    data.reverse();
+    data?.sort((first, second) => {
+      return second[key].localeCompare(first[key]);
+    });
+  } else {
+    data?.sort((first, second) => {
+      return first[key].localeCompare(second[key]);
+    });
   }
 
   return data;

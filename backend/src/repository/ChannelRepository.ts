@@ -12,6 +12,10 @@ export default class ChannelRepository extends Repository<Channel> {
       skip: OFFSET,
       take: OFFSET + LIMIT,
       relations: ['workspace'],
+      order: {
+        id: 'ASC',
+        name: 'DESC',
+      },
     });
   }
 
