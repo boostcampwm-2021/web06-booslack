@@ -2,21 +2,22 @@ import { Router } from 'express';
 import passport from 'passport';
 import * as querystring from 'querystring';
 
+const frontUrl = process.env.GITHUB_FRONTEND_URL || 'http://localhost:3001';
 const loginRouter = Router();
 
 loginRouter.get('/', ((req, res) => {
   res.header({ 'Access-Control-Allow-Origin': '*' });
   if (req.session) {
-    res.redirect('http://localhost:3001/workspace');
+    res.redirect(`${frontUrl}/workspace`);
   } else {
-    res.redirect('http://localhost:3001/login');
+    res.redirect(`${frontUrl}/login`);
   }
 }));
 
 loginRouter.get('/github/callback',
   passport.authenticate(
     'github',
-    { failureRedirect: 'http://localhost:3001/login' },
+    { failureRedirect: `${frontUrl}/login` },
   ),
   ((req, res) => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -25,10 +26,10 @@ loginRouter.get('/github/callback',
     const findUser = user[0];
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const query = querystring.stringify(findUser);
-    res.redirect(`http://localhost:3001/workspace?${query}`);
+    res.redirect(`${frontUrl}/workspace?${query}`);
   }));
 
-loginRouter.get('/inform', (req, res) => {
+loginRouter.post('/inform', (req, res) => {
   try {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -37,6 +38,17 @@ loginRouter.get('/inform', (req, res) => {
     if (findUser) res.json(findUser);
   } catch (e) {
     res.json({ message: 'User is not Login' });
+  }
+});
+
+loginRouter.get('/logout', (req, res) => {
+  try {
+    req.session.destroy((err) => {
+      if (err) throw err;
+    });
+    res.redirect(`${frontUrl}/login`);
+  } catch (e) {
+    res.json({ message: 'session is not destroy' });
   }
 });
 
