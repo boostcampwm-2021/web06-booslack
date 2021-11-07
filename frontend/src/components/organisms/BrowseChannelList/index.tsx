@@ -8,7 +8,9 @@ import { BrowserChannelListSize, CHANNELTYPE } from '@enum/index';
 import useAsync from '@hook/useAsync';
 import API from '@global/api';
 import { SortOption } from '@global/type';
-import React, { useState } from 'react';
+import React from 'react';
+import { useRecoilValue } from 'recoil';
+import { browseChannelSortOption } from '@state/Channel';
 import {
   Container,
   ScrollBox,
@@ -22,7 +24,7 @@ const { width: ListWidth, height: ListHeight } = BrowserChannelListSize;
 const userId = localStorage.getItem('id');
 
 const BrowseChannelList = (): JSX.Element => {
-  const [sortOption, setSortOption] = useState<SortOption>('alpha');
+  const sortOption = useRecoilValue<SortOption>(browseChannelSortOption);
 
   const { data, loading, error, setData } = useAsync(
     {
@@ -33,7 +35,7 @@ const BrowseChannelList = (): JSX.Element => {
       },
     },
     API.get.channel.all,
-    [],
+    [sortOption],
   );
 
   const getListByGET = (): JSX.Element => {
@@ -70,7 +72,7 @@ const BrowseChannelList = (): JSX.Element => {
     <Label color="grey" text={`channel ${channelCount}개`} />
   );
 
-  const RightButton = <BrowseMordalContainer data={data} setData={setData} />;
+  const RightButton = <BrowseMordalContainer />;
 
   return (
     <Container width={ListWidth}>

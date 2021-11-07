@@ -1,33 +1,26 @@
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
-import sorted from '@global/util';
+import { browseChannelSortOption } from '@state/Channel';
+import { SortOption } from '@global/type';
 import React, { useState } from 'react';
+import { useSetRecoilState } from 'recoil';
 import Container, { SortedPopup } from './styles';
 
-interface Props {
-  data: {
-    channels: unknown[];
-  };
-  setData: (unknown) => void;
-}
-
-const BrowseMordalContainer = ({ data, setData }: Props): JSX.Element => {
+const BrowseMordalContainer = (): JSX.Element => {
   const [isOpenedSortedModal, setSortedModal] = useState<boolean>(false);
+  const sortOption = useSetRecoilState<SortOption>(browseChannelSortOption);
 
   return (
     <Container>
       <SortedPopup isOpen={isOpenedSortedModal}>
         <LabeledDefaultButton
           onClick={() => {
-            setData({ ...data, channels: sorted(data?.channels, 'name') });
+            sortOption('alpha');
           }}
           text="알파벳 순"
         />
         <LabeledDefaultButton
           onClick={() => {
-            setData({
-              ...data,
-              channels: sorted(data?.channels, 'name', { reverse: true }),
-            });
+            sortOption('rAlpha');
           }}
           text="알파벳 역순"
         />

@@ -1,3 +1,4 @@
+import { SortOption } from '@global/type';
 import { atom, selector } from 'recoil';
 
 export const channelListState = atom({
@@ -5,21 +6,7 @@ export const channelListState = atom({
   default: [],
 });
 
-export const browseChannelCursorState = atom({
-  key: 'browseChannelCursor',
-  default: '1',
-});
-
-export const browseChannelListState = atom({
-  key: 'browseChannelList',
-  default: [],
-});
-
-export const browseChannelLengthState = selector({
-  key: 'browseChannelLength',
-  get: ({ get }) => {
-    const dataList = get(browseChannelListState);
-    return dataList.length;
-  },
-  set: ({ set }, newValue) => set(browseChannelListState, newValue),
+export const browseChannelSortOption = atom<SortOption>({
+  key: 'browseChannelSortOption',
+  default: 'alpha',
 });
