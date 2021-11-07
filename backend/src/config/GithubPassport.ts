@@ -1,4 +1,4 @@
-import passport from 'passport';
+:import passport from 'passport';
 import GitHubStrategy, { Profile } from 'passport-github';
 import { getCustomRepository } from 'typeorm';
 import UserRepository from '../repository/UserRepository';
