@@ -16,19 +16,36 @@ const LoginContent = (): JSX.Element => {
       <LabeledButton
         text="Github으로 로그인"
         width={500}
+        height={60}
         backgroundColor="#C8C7EF"
         onClick={handleGithubClick}
       />
       <LoginForm>
-        <Input placeholder="  example@email.com" width={500} height={50} />
-        <LabeledButton text="이메일으로 로그인" width={500} />
+        <Input placeholder="  example@email.com" width={500} height={60} />
+        <Input placeholder="  password" width={500} height={60} />
+        <LabeledButton
+          text="이메일으로 로그인"
+          width={500}
+          height={60}
+          backgroundColor="#ECDEEC"
+        />
       </LoginForm>
       <LabelColumn>
         <Link to="/signup">
-          <LabeledButton text="회원 가입" width={240} />
+          <LabeledButton
+            text="회원 가입"
+            width={240}
+            height={60}
+            backgroundColor="#ECDEEC"
+          />
         </Link>
         <Link to="/changepassword">
-          <LabeledButton text="비밀 번호 찾기" width={240} />
+          <LabeledButton
+            text="비밀 번호 찾기"
+            width={240}
+            height={60}
+            backgroundColor="#ECDEEC"
+          />
         </Link>
       </LabelColumn>
     </>

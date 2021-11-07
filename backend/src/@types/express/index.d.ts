@@ -11,6 +11,7 @@ declare module 'express' {
       type: string;
       workspace: IWorkspace;
       name: string;
+      password: string;
       profile: string;
       channel: IChannel;
       description: string;
