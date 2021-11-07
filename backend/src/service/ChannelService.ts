@@ -1,20 +1,24 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response } from 'express';
 import { getCustomRepository } from 'typeorm';
-import ChannelRepository from '../repository/ChannelRepository';
+import ChannelRepository, { SortOption } from '../repository/ChannelRepository';
 import paramMissingError from '../shared/constants';
 
 const { BAD_REQUEST, CREATED, OK } = StatusCodes;
 
 export async function getAllChannels(req: Request, res: Response) {
-  const { offsetStart } = req.query;
+  const { userId, offsetStart, sortOption } = req.query;
 
   const CustomRepo = getCustomRepository(ChannelRepository);
   const countRow = CustomRepo.getCount('workspace');
 
   let channel;
-  if (offsetStart) {
-    channel = CustomRepo.findByOffset(parseInt(offsetStart as string, 10));
+  if (req.query) {
+    channel = CustomRepo.findByOffset(
+      userId as unknown as number,
+      parseInt(offsetStart as string, 10),
+      sortOption as unknown as SortOption,
+    );
   } else {
     channel = CustomRepo.find({
       relations: ['workspace'],

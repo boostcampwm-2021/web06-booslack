@@ -4,11 +4,11 @@ import ChannelList from '@molecules/ChannelList';
 import SearchBar from '@molecules/SearchBar';
 import ChatHeader from '@molecules/ChatHeader';
 import AsyncBranch from '@molecules/AsyncBranch';
-
 import { BrowserChannelListSize, CHANNELTYPE } from '@enum/index';
 import useAsync from '@hook/useAsync';
 import API from '@global/api';
-import React from 'react';
+import { SortOption } from '@global/type';
+import React, { useState } from 'react';
 import {
   Container,
   ScrollBox,
@@ -19,11 +19,17 @@ import {
 
 const { width: ListWidth, height: ListHeight } = BrowserChannelListSize;
 
+const userId = localStorage.getItem('id');
+
 const BrowseChannelList = (): JSX.Element => {
+  const [sortOption, setSortOption] = useState<SortOption>('alpha');
+
   const { data, loading, error, setData } = useAsync(
     {
       params: {
         offsetStart: 0,
+        userId,
+        sortOption,
       },
     },
     API.get.channel.all,
