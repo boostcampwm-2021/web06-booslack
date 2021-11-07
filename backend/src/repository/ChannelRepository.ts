@@ -37,7 +37,7 @@ export default class ChannelRepository extends Repository<Channel> {
   ): Promise<[Channel[], number]> {
     return this.findAndCount({
       skip: OFFSET,
-      take: OFFSET + LIMIT,
+      take: LIMIT,
       relations: ['workspace'],
       order: getOrderOption(sortOption),
       where: [{ type: 'public' }, { type: 'private', id: userID }],
