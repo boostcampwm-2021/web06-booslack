@@ -35,7 +35,16 @@ function settingGithubPassport() {
     },
   ));
   passport.serializeUser((user, done) => { done(null, user); });
-  passport.deserializeUser((user: User, done) => { done(null, user); });
+  passport.deserializeUser(async (id, done) => {
+    try {
+      const user = await getRepository(User).find({
+        where: { id },
+      });
+      return done(null, user);
+    } catch (e) {
+      return done(e);
+    }
+  });
 }
 
 export default settingGithubPassport;
