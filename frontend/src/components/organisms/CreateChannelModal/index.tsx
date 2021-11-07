@@ -1,7 +1,10 @@
-import IconButton from '@atoms/IconButton';
+import React, { useState } from 'react';
+import { useRecoilState } from 'recoil';
+import axios from 'axios';
+import { channelCreateModalState } from 'src/state/modal';
+import useInputs from 'src/hooks/useInputs';
 import Label from '@atoms/Label';
-import LabeledInput from '@molecules/LabeledInput';
-import React from 'react';
+import LabeledButton from '@atoms/LabeledButton';
 import {
   Container,
   ContentContainer,
@@ -12,16 +15,10 @@ import {
   StyledLabeledInput,
   StyledLightLabel,
   StyledModal,
+  StyledToggleButton,
   ToggleContainer,
-  ToggleContainerLabel,
+  ToggleLabelContainer,
 } from './styles';
-import { MdToggleOff } from 'react-icons/md';
-import LabeledButton from '@atoms/LabeledButton';
-import Modal from '@atoms/Modal';
-import { useRecoilState } from 'recoil';
-import { channelCreateModalState } from 'src/state/modal';
-import axios from 'axios';
-import useInputs from 'src/hooks/useInputs';
 
 const initialData = {
   name: '',
@@ -31,8 +28,8 @@ const initialData = {
 
 const CreateChannelModal = (): JSX.Element => {
   const [isOpen, setIsOpen] = useRecoilState(channelCreateModalState);
-  const [{ name, description, isPrivate }, onChange, clear] =
-    useInputs(initialData);
+  const [isPrivate, setIsPrivate] = useState(false);
+  const [{ name, description }, onChange, clear] = useInputs(initialData);
 
   const createChannel = async () => {
     if (!name) return;
@@ -53,14 +50,18 @@ const CreateChannelModal = (): JSX.Element => {
     <StyledModal isOpen={isOpen} onClose={() => setIsOpen(false)}>
       <Container>
         <Header>
-          <HeaderLabel text="Create a channel" />
+          {isPrivate ? (
+            <HeaderLabel text="Create a private channel" />
+          ) : (
+            <HeaderLabel text="Create a channel" />
+          )}
           <LabeledButton text="x" />
         </Header>
         <ContentContainer>
           <StyledLightLabel text="Channels are where your team communicates.." />
           <StyledLabeledInput
             label="Name"
-            placeholder="# e.g. plan-budget"
+            placeholder={`${isPrivate ? '🔒' : '#'} e.g. plan-budget`}
             onChange={onChange}
             name="name"
             value={name}
@@ -72,11 +73,19 @@ const CreateChannelModal = (): JSX.Element => {
             value={description}
           />
           <ToggleContainer>
-            <ToggleContainerLabel>
+            <ToggleLabelContainer>
               <Label text="Make private" />
-              <StyledLightLabel text="When a channel is set to private" />
-            </ToggleContainerLabel>
-            <IconButton icon={MdToggleOff} onClick={() => {}} />
+              {isPrivate ? (
+                <StyledLightLabel text="This can't be undone. A private channel cannot be made public later on." />
+              ) : (
+                <StyledLightLabel text="When a channel is set to private, it can only be viewed or joined by invitation" />
+              )}
+            </ToggleLabelContainer>
+            <StyledToggleButton
+              onClick={() => {
+                setIsPrivate((prevState) => !prevState);
+              }}
+            />
           </ToggleContainer>
         </ContentContainer>
         <Footer>

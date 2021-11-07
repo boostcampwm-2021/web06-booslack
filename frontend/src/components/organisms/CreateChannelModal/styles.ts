@@ -1,6 +1,7 @@
 import Label from '@atoms/Label';
 import LabeledButton from '@atoms/LabeledButton';
 import Modal from '@atoms/Modal';
+import ToggleButton from '@atoms/ToggleButton';
 import LabeledInput from '@molecules/LabeledInput';
 import styled from 'styled-components';
 
@@ -46,9 +47,15 @@ export const ToggleContainer = styled.div`
   margin: 1rem 0;
 `;
 
-export const ToggleContainerLabel = styled.div`
+export const ToggleLabelContainer = styled.div`
   display: flex;
   flex-direction: column;
+  width: 66%;
+`;
+
+export const StyledToggleButton = styled(ToggleButton)`
+  width: 36px;
+  height: 36px;
 `;
 
 export const Footer = styled.div`
