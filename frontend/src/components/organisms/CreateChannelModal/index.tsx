@@ -23,7 +23,6 @@ import {
 const initialData = {
   name: '',
   description: '',
-  isPrivate: false,
 };
 
 const CreateChannelModal = (): JSX.Element => {
@@ -35,11 +34,11 @@ const CreateChannelModal = (): JSX.Element => {
     if (!name) return;
     await axios({
       method: 'POST',
-      url: 'api/users/add',
+      url: 'api/channel/add',
       data: {
-        nickname: name,
-        email: `${name}@naver.com`,
+        name,
         type: isPrivate ? 'private' : 'public',
+        description,
       },
     });
     clear();
@@ -81,11 +80,7 @@ const CreateChannelModal = (): JSX.Element => {
                 <StyledLightLabel text="When a channel is set to private, it can only be viewed or joined by invitation" />
               )}
             </ToggleLabelContainer>
-            <StyledToggleButton
-              onClick={() => {
-                setIsPrivate((prevState) => !prevState);
-              }}
-            />
+            <StyledToggleButton isOn={isPrivate} setIsOn={setIsPrivate} />
           </ToggleContainer>
         </ContentContainer>
         <Footer>
