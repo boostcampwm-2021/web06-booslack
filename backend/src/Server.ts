@@ -13,6 +13,7 @@ import logger from './shared/Logger';
 import BaseRouter from './routes';
 import settingGithubPassport from './config/GithubPassport';
 import settingLocalPassport from './config/LocalPassport';
+import loginRouter from './routes/LoginController';
 
 const app = express();
 const { BAD_REQUEST } = StatusCodes;
@@ -64,6 +65,7 @@ settingGithubPassport();
 settingLocalPassport();
 app.use(passport.initialize());
 app.use(passport.session());
+app.use('/login', loginRouter);
 
 // Print API errors
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
