@@ -1,7 +1,7 @@
 export const API = {
   get: {
     channel: {
-      all: '/api/channel/all',
+      all: '/api/channel/',
     },
   },
 } as const;

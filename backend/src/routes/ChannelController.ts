@@ -5,14 +5,21 @@ import {
   addOneChannel,
   updateOneChannel,
   deleteOneChannel,
+  addUserToChannel,
+  deleteUserFromChannel,
+  getChannelsThatUserIn,
 } from '../service/ChannelService';
 
 const channelRouter = Router();
 
-channelRouter.get('/all', getAllChannels);
-channelRouter.get('/one/:id', getOneChannel);
-channelRouter.post('/add', addOneChannel);
-channelRouter.put('/update/:id', updateOneChannel);
-channelRouter.delete('/delete/:id', deleteOneChannel);
+channelRouter.post('/userToChannel', addUserToChannel);
+channelRouter.delete('/userFromChannel', deleteUserFromChannel);
+channelRouter.get('/channelsThatUserIn', getChannelsThatUserIn);
+
+channelRouter.get('/', getAllChannels);
+channelRouter.get('/:id', getOneChannel);
+channelRouter.post('/', addOneChannel);
+channelRouter.put('/:id', updateOneChannel);
+channelRouter.delete('/:id', deleteOneChannel);
 
 export default channelRouter;

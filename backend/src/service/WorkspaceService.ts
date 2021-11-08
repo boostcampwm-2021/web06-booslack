@@ -24,7 +24,7 @@ export async function getOneWorkspace(req: Request, res: Response) {
 }
 
 export async function addOneWorkspace(req: Request, res: Response) {
-  const { workspace } = req.body;
+  const workspace = req.body;
   if (!workspace) {
     return res.status(BAD_REQUEST).json({
       error: paramMissingError,
@@ -38,7 +38,8 @@ export async function updateOneWorkspace(req: Request, res: Response) {
   const { id } = req.params;
   const { profile, name } = req.body;
   try {
-    if (Object.keys(req.body).length === 0) throw new Error('no workspace data in body');
+    if (Object.keys(req.body).length === 0)
+      throw new Error('no workspace data in body');
     const workspaceById = await getCustomRepository(
       WorkspaceRepository,
     ).findOneOrFail(id);

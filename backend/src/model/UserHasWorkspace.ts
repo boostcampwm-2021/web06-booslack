@@ -3,6 +3,14 @@ import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { User } from './User';
 import { Workspace } from './Workspace';
 
+export interface IUserHasWorkspace {
+  id: number;
+
+  profile: string;
+
+  name: string;
+}
+
 @Entity()
 export class UserHasWorkspace {
   @PrimaryGeneratedColumn()
@@ -13,6 +21,12 @@ export class UserHasWorkspace {
 
   @Column()
   name!: string;
+
+  @Column({ nullable: true })
+  workspaceId!: number;
+
+  @Column({ nullable: true })
+  userId!: number;
 
   @ManyToOne(() => Workspace, (workspace) => workspace.userHasWorkspaces)
   workspace!: Workspace;

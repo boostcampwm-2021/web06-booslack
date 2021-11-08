@@ -8,7 +8,7 @@ import {
   JoinColumn,
 } from 'typeorm';
 import { Channel } from './Channel';
-import { User } from './User';
+import { UserHasWorkspace } from './UserHasWorkspace';
 
 @Entity()
 export class Thread {
@@ -24,7 +24,7 @@ export class Thread {
   @ManyToOne(() => Channel, (channel) => channel.workspace)
   channel!: Channel;
 
-  @OneToOne(() => User)
+  @OneToOne(() => UserHasWorkspace)
   @JoinColumn()
-  user!: User;
+  userHasWorkspace!: UserHasWorkspace;
 }
