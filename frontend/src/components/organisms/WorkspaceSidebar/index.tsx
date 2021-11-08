@@ -17,7 +17,10 @@ const WorkspaceSidebar = (): JSX.Element => {
   const [isSidebarChannelInfoModalOpen, setIsSidebarChannelInfoModalOpen] =
     useRecoilState(sidebarChannelInfoModalState);
   const channelList = useRecoilValue(
-    channelListFromServerState(sessionStorage.getItem('id')),
+    channelListFromServerState({
+      userId: sessionStorage.getItem('id'),
+      workspaceId: sessionStorage.getItem('workspaceId'),
+    }),
   );
 
   return (

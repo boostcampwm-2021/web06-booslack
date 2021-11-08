@@ -25,11 +25,9 @@ export const browseCursorValue = selector<number>({
 
 export const channelListFromServerState = selectorFamily({
   key: 'channelListFromServer',
-  get: (userId) => async () => {
+  get: (data) => async () => {
     const response = await axios.get(
-      `http://localhost:8081/api/channel/getChannelsThatUserIn?userId=${String(
-        userId,
-      )}`,
+      `http://localhost:8081/api/channel/channelsThatUserIn?userId=${data.userId}&workspaceId=${data.workspaceId}`,
     );
     return response.data;
   },

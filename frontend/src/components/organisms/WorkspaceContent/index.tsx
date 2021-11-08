@@ -16,7 +16,7 @@ const getChannelById = (id: string) => {
   useEffect(() => {
     (async () => {
       const response = await axios.get(
-        `http://localhost:8081/api/channel/one/${id}`,
+        `http://localhost:8081/api/channel/${id}`,
       );
       setChannel(response.data.channel);
     })();
@@ -29,7 +29,10 @@ const WorkspaceContent = (): JSX.Element => {
   const { channelId } = useParams();
 
   const channelList = useRecoilValue(
-    channelListFromServerState(sessionStorage.getItem('id')),
+    channelListFromServerState({
+      userId: sessionStorage.getItem('id'),
+      workspaceId: sessionStorage.getItem('workspaceId'),
+    }),
   );
   const isUserInCurrentChannel = channelList.channels.find(
     (channel) => String(channel.id) === channelId,
