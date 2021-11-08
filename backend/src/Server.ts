@@ -8,11 +8,9 @@ import 'express-async-errors';
 import session from 'express-session';
 import passport from 'passport';
 import cors from 'cors';
-import sessionFileStore from 'session-file-store';
 import logger from './shared/Logger';
 import BaseRouter from './routes';
 import settingGithubPassport from './config/GithubPassport';
-import settingLocalPassport from './config/LocalPassport';
 import loginRouter from './routes/LoginController';
 
 const app = express();
@@ -46,23 +44,18 @@ app.use('/api', BaseRouter);
 
 // Session
 const { SECRET_CODE } = process.env;
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-const FileStore = sessionFileStore(session);
-// eslint-disable-next-line @typescript-eslint/no-unsafe-call
-const fileStore: any = new FileStore();
+
 app.use(session({
   secret: SECRET_CODE || 'ERROR',
   cookie: {
-    maxAge: 1000000,
+    maxAge: 60 * 60 * 3,
   },
   resave: true,
   saveUninitialized: true,
-  store: fileStore,
 }));
 
 // Passport
 settingGithubPassport();
-settingLocalPassport();
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/login', loginRouter);

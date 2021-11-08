@@ -5,7 +5,7 @@ import workspaceRouter from './WorkspaceController';
 
 const baseRouter = Router();
 baseRouter.use('/users', userRouter);
-baseRouter.use('/workspaces', workspaceRouter);
-baseRouter.use('/channels', channelRouter);
+baseRouter.use('/workspace', workspaceRouter);
+baseRouter.use('/channel', channelRouter);
 
 export default baseRouter;
