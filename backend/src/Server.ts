@@ -13,6 +13,7 @@ import logger from './shared/Logger';
 import BaseRouter from './routes';
 import settingGithubPassport from './config/GithubPassport';
 import loginRouter from './routes/LoginController';
+import settingLocalPassport from './config/LocalPassport';
 
 const app = express();
 const { BAD_REQUEST } = StatusCodes;
@@ -61,6 +62,7 @@ app.use(session({
 
 // Passport
 settingGithubPassport();
+settingLocalPassport();
 app.use(passport.initialize());
 app.use(passport.session());
 app.use('/login', loginRouter);

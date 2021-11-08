@@ -29,7 +29,7 @@ loginRouter.get('/github/callback',
     res.redirect(`${frontUrl}/workspace?${query}`);
   }));
 
-loginRouter.post('/inform', (req, res) => {
+loginRouter.get('/inform', (req, res) => {
   try {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -43,13 +43,34 @@ loginRouter.post('/inform', (req, res) => {
 
 loginRouter.get('/logout', (req, res) => {
   try {
+    req.logout();
+    res.clearCookie('connect.sid', { path: '/', domain: 'localhost' });
     req.session.destroy((err) => {
-      if (err) throw err;
+      res.redirect(`${frontUrl}/login`);
     });
-    res.redirect(`${frontUrl}/login`);
   } catch (e) {
     res.json({ message: 'session is not destroy' });
   }
 });
+
+loginRouter.post('/signup', passport.authenticate('local', {
+  failureRedirect: `${frontUrl}/login`,
+  failureFlash: true,
+}), (req, res) => {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const { user } = req.session.passport;
+  const findUser = user[0];
+  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+  const query = querystring.stringify(findUser);
+  if (query === '') res.redirect(`${frontUrl}/workspace`);
+  res.redirect(`${frontUrl}/workspace?${query}`);
+});
+
+loginRouter.post('/login', passport.authenticate('local', {
+  successRedirect: `${frontUrl}/workspace`,
+  failureRedirect: `${frontUrl}/login`,
+  failureFlash: true,
+}));
 
 export default loginRouter;
