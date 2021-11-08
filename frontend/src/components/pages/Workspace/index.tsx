@@ -8,7 +8,7 @@ const Workspace = (): JSX.Element => {
 
   return (
     <>
-      <WorkspaceTemplate Content={ChatContent}></WorkspaceTemplate>
+      <WorkspaceTemplate Content={ChatContent} />
       <CreateChannelModal />
     </>
   );

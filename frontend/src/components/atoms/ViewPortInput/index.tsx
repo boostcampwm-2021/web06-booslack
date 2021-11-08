@@ -2,20 +2,30 @@ import React from 'react';
 import Container from './styles';
 
 interface Props {
+  inputName: string;
   width: number;
   height: number;
-  onClick?: () => void;
+  onSubmit: React.FormEventHandler;
   placeholder: string;
-  flex?: boolean;
 }
 
 const ViewportInput = ({
+  inputName,
   width,
   height,
-  onClick,
+  onSubmit,
   placeholder,
 }: Props): JSX.Element => {
-  return <Container width={width} height={height} placeholder={placeholder} />;
+  return (
+    <form onSubmit={onSubmit}>
+      <Container
+        name={inputName}
+        width={width}
+        height={height}
+        placeholder={placeholder}
+      />
+    </form>
+  );
 };
 
 export default ViewportInput;

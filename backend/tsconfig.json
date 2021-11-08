@@ -72,7 +72,8 @@
       "@entities/*": ["src/model/*"],
       "@shared/*": ["src/shared/*"],
       "@service/*": ["src/service/*"],
-      "@server": ["src/Server"]
+      "@server": ["src/Server"],
+      "@enum": ["src/enum/index.ts"]
     }
   },
   "include": ["src/**/*.ts", "spec/**/*.ts", "src/*.ts"],

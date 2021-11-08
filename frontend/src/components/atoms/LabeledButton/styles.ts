@@ -12,6 +12,10 @@ const Container = styled.button<Props>`
   height: ${({ height }) => height}px;
   color: ${({ color }) => color};
   background-color: ${({ backgroundColor }) => backgroundColor};
+
+  &: hover {
+    cursor: pointer;
+  }
 `;
 
 export default Container;

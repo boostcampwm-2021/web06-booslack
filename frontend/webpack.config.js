@@ -12,7 +12,7 @@ module.exports = {
   mode: 'development',
   devtool: 'inline-source-map',
   devServer: {
-    host: 'localhost',
+    host: '0.0.0.0',
     port: '3001',
     proxy: {
       '/api': {
@@ -69,7 +69,7 @@ module.exports = {
     new ProgressPlugin(),
     new webpack.DefinePlugin({
       'process.env': JSON.stringify(dotenv.config().parsed),
-    })
+    }),
   ],
   resolve: {
     modules: ['node_modules'],

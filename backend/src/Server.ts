@@ -45,14 +45,16 @@ app.use('/api', BaseRouter);
 // Session
 const { SECRET_CODE } = process.env;
 
-app.use(session({
-  secret: SECRET_CODE || 'ERROR',
-  cookie: {
-    maxAge: 60 * 60 * 3,
-  },
-  resave: true,
-  saveUninitialized: true,
-}));
+app.use(
+  session({
+    secret: SECRET_CODE || 'ERROR',
+    cookie: {
+      maxAge: 60 * 60 * 3,
+    },
+    resave: true,
+    saveUninitialized: true,
+  }),
+);
 
 // Passport
 settingGithubPassport();
