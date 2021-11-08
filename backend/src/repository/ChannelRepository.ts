@@ -47,13 +47,16 @@ export default class ChannelRepository extends Repository<Channel> {
     });
   }
 
-  findChannelsThatUserIn(userId: string) {
+  findChannelsThatUserIn(userId: string, workspaceId: string) {
     return this.query(
       `
-        select * from booslack.channel
-            where booslack.channel.id in (
-                select channelId from booslack.channel_users_user
-                where userId = ${userId})
+      select * from booslack.channel
+      where booslack.channel.id in (
+        select channelId from booslack.channel_user_has_workspaces_user_has_workspace
+        where booslack.channel_user_has_workspaces_user_has_workspace.userHasWorkspaceId = (
+          select id from booslack.user_has_workspace
+          where booslack.user_has_workspace.userId = ${userId}
+          and booslack.user_has_workspace.workspaceId = ${workspaceId}));
     `,
     );
   }

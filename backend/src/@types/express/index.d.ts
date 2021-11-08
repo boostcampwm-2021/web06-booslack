@@ -17,6 +17,7 @@ declare module 'express' {
 
       userId: string;
       channelId: string;
+      workspaceId: string;
     };
   }
 }
