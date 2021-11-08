@@ -9,8 +9,6 @@ export interface IUser {
   email: string;
 
   type: string;
-
-  password: string;
 }
 
 @Entity()
@@ -26,9 +24,6 @@ export class User implements IUser {
 
   @Column()
   type!: string;
-
-  @Column()
-  password!: string;
 
   @OneToMany(
     () => UserHasWorkspace,

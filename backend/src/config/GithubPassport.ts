@@ -1,7 +1,8 @@
+// Passport
 import passport from 'passport';
 import GitHubStrategy, { Profile } from 'passport-github';
-import { getCustomRepository } from 'typeorm';
-import UserRepository from '../repository/UserRepository';
+import { getRepository } from 'typeorm';
+import { User } from '../model/User';
 
 function settingGithubPassport() {
   passport.use(<passport.Strategy> new GitHubStrategy.Strategy(
@@ -16,7 +17,7 @@ function settingGithubPassport() {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const { login: githubID, blog: githubUrl } = _json;
-        const user = await getCustomRepository(UserRepository).find({
+        const user = await getRepository(User).find({
           where: { nickname: githubID, email: githubUrl },
         });
         if (user.length === 0) {
@@ -24,29 +25,17 @@ function settingGithubPassport() {
             nickname: githubID,
             email: githubUrl,
             type: 'github',
-            password: '',
           };
-          await getCustomRepository(UserRepository).save(newUser);
+          await getRepository(User).save(newUser);
         }
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return cb(null, user);
       } catch (e) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return cb(e);
       }
     },
   ));
   passport.serializeUser((user, done) => { done(null, user); });
-  passport.deserializeUser(async (id, done) => {
-    try {
-      const user = await getCustomRepository(UserRepository).find({
-        where: { id },
-      });
-      return done(null, user);
-    } catch (e) {
-      return done(e);
-    }
-  });
+  passport.deserializeUser((user: User, done) => { done(null, user); });
 }
 
 export default settingGithubPassport;

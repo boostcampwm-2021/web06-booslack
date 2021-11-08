@@ -14,5 +14,5 @@ export const LoginForm = styled.form`
   flex-direction: column;
   align-items: center;
   width: 512px;
-  height: 200px;
+  height: 150px;
 `;
