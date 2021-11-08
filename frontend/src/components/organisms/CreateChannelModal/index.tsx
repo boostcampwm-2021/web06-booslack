@@ -34,7 +34,7 @@ const CreateChannelModal = (): JSX.Element => {
     if (!name) return;
     await axios({
       method: 'POST',
-      url: 'api/channel/add',
+      url: 'api/channels',
       data: {
         name,
         type: isPrivate ? 'private' : 'public',

@@ -24,7 +24,7 @@ const ChannelDescriptionModal = (): JSX.Element => {
   const updateChannelDescription = async () => {
     await axios({
       method: 'PUT',
-      url: 'api/channel/update/2', // change to channel id
+      url: 'api/channels/2', // change to channel id
       data: {
         description,
       },

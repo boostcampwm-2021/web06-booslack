@@ -44,6 +44,7 @@ const WorkspaceSidebar = (): JSX.Element => {
       {channelList.channels.map((channel) => {
         return (
           <NavLink
+            key={channel.id}
             to={`/client/${channel.id}`}
             style={{ textDecoration: 'none', color: 'black' }}
             activeStyle={{ color: 'red' }}
