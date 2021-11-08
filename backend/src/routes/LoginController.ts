@@ -31,7 +31,7 @@ loginRouter.get('/github/callback',
     res.redirect(`${frontUrl}/workspace?${query}`);
   }));
 
-loginRouter.get('/info', (req, res) => {
+loginRouter.post('/info', (req, res) => {
   try {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
