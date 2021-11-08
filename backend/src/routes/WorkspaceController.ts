@@ -9,10 +9,10 @@ import {
 
 const workspaceRouter = Router();
 
-workspaceRouter.get('/', getAllWorkspaces);
-workspaceRouter.get('/:id', getOneWorkspace);
-workspaceRouter.post('/', addOneWorkspace);
-workspaceRouter.put('/:id', updateOneWorkspace);
-workspaceRouter.delete('/:id', deleteOneWorkspace);
+workspaceRouter.get('/all', getAllWorkspaces);
+workspaceRouter.get('/one/:id', getOneWorkspace);
+workspaceRouter.post('/add', addOneWorkspace);
+workspaceRouter.put('/update/:id', updateOneWorkspace);
+workspaceRouter.delete('/delete/:id', deleteOneWorkspace);
 
 export default workspaceRouter;

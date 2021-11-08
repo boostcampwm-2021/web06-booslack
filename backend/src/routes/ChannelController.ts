@@ -9,10 +9,10 @@ import {
 
 const channelRouter = Router();
 
-channelRouter.get('/', getAllChannels);
-channelRouter.get('/:id', getOneChannel);
-channelRouter.post('/', addOneChannel);
-channelRouter.put('/:id', updateOneChannel);
-channelRouter.delete('/:id', deleteOneChannel);
+channelRouter.get('/all', getAllChannels);
+channelRouter.get('/one/:id', getOneChannel);
+channelRouter.post('/add', addOneChannel);
+channelRouter.put('/update/:id', updateOneChannel);
+channelRouter.delete('/delete/:id', deleteOneChannel);
 
 export default channelRouter;
