@@ -7,7 +7,7 @@ import {
   ManyToMany,
   JoinTable,
 } from 'typeorm';
-import { User } from './User';
+import { UserHasWorkspace } from './UserHasWorkspace';
 import { Workspace } from './Workspace';
 
 export interface IChannel {
@@ -37,7 +37,7 @@ export class Channel {
   @ManyToOne(() => Workspace, (workspace) => workspace.channels)
   workspace!: Workspace;
 
-  @ManyToMany(() => User)
+  @ManyToMany(() => UserHasWorkspace)
   @JoinTable()
-  users!: User[];
+  userHasWorkspaces!: UserHasWorkspace[];
 }

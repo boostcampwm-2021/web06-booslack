@@ -1,14 +1,6 @@
 /* eslint-disable import/prefer-default-export */
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  OneToOne,
-  JoinColumn,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
 import { Thread } from './Thread';
-import { User } from './User';
 
 @Entity()
 export class Reply {
@@ -23,8 +15,4 @@ export class Reply {
 
   @ManyToOne(() => Thread, (thread) => thread.channel)
   thread!: Thread;
-
-  @OneToOne(() => User)
-  @JoinColumn()
-  user!: User;
 }

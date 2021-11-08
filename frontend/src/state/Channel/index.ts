@@ -1,6 +1,7 @@
 import { pageLimitCount } from '@enum/index';
 import { SortOption } from '@global/type';
-import { atom, selector } from 'recoil';
+import { atom, selector, selectorFamily } from 'recoil';
+import axios from 'axios';
 
 export const channelListState = atom({
   key: 'ChannelList',
@@ -20,4 +21,14 @@ export const browseCursor = atom<number>({
 export const browseCursorValue = selector<number>({
   key: 'browseCursorValue',
   get: ({ get }) => (get(browseCursor) - 1) * pageLimitCount,
+});
+
+export const channelListFromServerState = selectorFamily({
+  key: 'channelListFromServer',
+  get: (data) => async () => {
+    const response = await axios.get(
+      `http://localhost:8081/api/channel/channelsThatUserIn?userId=${data.userId}&workspaceId=${data.workspaceId}`,
+    );
+    return response.data;
+  },
 });
