@@ -17,21 +17,13 @@ function settingLocalPassport() {
         });
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        const { nickname, email, type, password } = user;
-        console.log(user);
+        const { password } = user;
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         if (!verifyInform(username, passwordLocal, password)) return done(null, false);
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         if (user.length === 1) return done(null, user);
-        const newUser = {
-          nickname: nickname || '',
-          email: username || email,
-          type: 'local',
-          password: passwordLocal || '',
-        };
-        await getCustomRepository(UserRepository).save(newUser);
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-        return done(null, newUser);
+        return done(null, user);
       } catch (e) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return done(null, false);

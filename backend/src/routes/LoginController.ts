@@ -1,6 +1,8 @@
 import { Router } from 'express';
 import passport from 'passport';
 import * as querystring from 'querystring';
+import { getCustomRepository } from 'typeorm';
+import UserRepository from '../repository/UserRepository';
 
 const frontUrl = process.env.GITHUB_FRONTEND_URL || 'http://localhost:3001';
 const loginRouter = Router();
@@ -53,18 +55,37 @@ loginRouter.get('/logout', (req, res) => {
   }
 });
 
-loginRouter.post('/signup', passport.authenticate('local', {
-  failureRedirect: `${frontUrl}/login`,
-  failureFlash: true,
-}), (req, res) => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const { user } = req.session.passport;
-  const findUser = user[0];
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  const query = querystring.stringify(findUser);
-  if (query === '') res.redirect(`${frontUrl}/workspace`);
-  res.redirect(`${frontUrl}/workspace?${query}`);
+function verifyInform(username: string, password: string, password2: any) {
+  if (username.length > 20 || password.length > 20) return false;
+  if (password2 && password !== password2) return false;
+  return true;
+}
+
+loginRouter.post('/signup', async (req, res) => {
+  try {
+    const { username, password, passwordTwo } = req.body;
+    if (verifyInform(username, password, passwordTwo)) {
+      const user = await getCustomRepository(UserRepository).find({
+        where: { email: username, password },
+      });
+      if (user.length > 0) {
+        res.redirect(`${frontUrl}/signup`);
+      } else {
+        const newUser = {
+          nickname: '',
+          email: username,
+          type: 'local',
+          password,
+        };
+        await getCustomRepository(UserRepository).save(newUser);
+        res.redirect(`${frontUrl}/login`);
+      }
+    } else {
+      res.redirect(`${frontUrl}/signup`);
+    }
+  } catch (e) {
+    res.redirect(`${frontUrl}/signup`);
+  }
 });
 
 loginRouter.post('/login', passport.authenticate('local', {
