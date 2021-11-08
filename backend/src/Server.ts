@@ -12,7 +12,6 @@ import cors from 'cors';
 import logger from './shared/Logger';
 import BaseRouter from './routes';
 import settingGithubPassport from './config/GithubPassport';
-import loginRouter from './routes/LoginController';
 import settingLocalPassport from './config/LocalPassport';
 
 const app = express();
@@ -65,7 +64,6 @@ settingGithubPassport();
 settingLocalPassport();
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/login', loginRouter);
 
 // Print API errors
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
