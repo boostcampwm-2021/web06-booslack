@@ -16,9 +16,10 @@
       "@organisms/*": ["src/components/organisms/*"],
       "@templates/*": ["src/components/templates/*"],
       "@pages/*": ["src/components/pages/*"],
-      "@interface/*": ["src/interface/*"],
       "@enum/*": ["src/enum/*"],
-      "@global/*": ["src/global/*"]
+      "@global/*": ["src/global/*"],
+      "@hook/*": ["src/hooks/*"],
+      "@state/*": ["src/state/*"]
     },
     "plugins": [{ "name": "typescript-styled-plugin", "validate": false }],
     "skipLibCheck": true

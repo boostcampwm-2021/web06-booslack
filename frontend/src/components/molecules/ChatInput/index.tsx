@@ -13,8 +13,8 @@ const WorkspaceChatInput = ({ width, height }: Props): JSX.Element => {
       <ViewportInput
         width={width}
         height={height}
-        placeholder={'메세지 보내기'}
-      ></ViewportInput>
+        placeholder="메세지 보내기"
+      />
     </Container>
   );
 };

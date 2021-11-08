@@ -9,11 +9,11 @@ export const Container = styled.div<Props>`
   display: flex;
   width: ${({ width }) => {
     if (width) return `${width}vw`;
-    else return 'inherit';
+    return 'inherit';
   }};
   height: ${({ height }) => {
     if (height) return `${height}vh`;
-    else return 'inherit';
+    return 'inherit';
   }};
   justify-content: center;
   align-items: center;

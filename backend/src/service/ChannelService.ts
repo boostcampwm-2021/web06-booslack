@@ -1,16 +1,32 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response } from 'express';
 import { getCustomRepository } from 'typeorm';
-import ChannelRepository from '../repository/ChannelRepository';
+import ChannelRepository, { SortOption } from '../repository/ChannelRepository';
 import paramMissingError from '../shared/constants';
 
 const { BAD_REQUEST, CREATED, OK } = StatusCodes;
 
 export async function getAllChannels(req: Request, res: Response) {
-  const channels = await getCustomRepository(ChannelRepository).find({
-    relations: ['workspace'],
-  });
-  return res.status(OK).json({ channels });
+  const { userId, offsetStart, sortOption, like } = req.query;
+
+  const CustomRepo = getCustomRepository(ChannelRepository);
+
+  let channels;
+  let count;
+  if (req.query) {
+    [channels, count] = await CustomRepo.findByOffset(
+      userId as unknown as number,
+      parseInt(offsetStart as string, 10),
+      sortOption as unknown as SortOption,
+      like as string,
+    );
+  } else {
+    [channels, count] = await CustomRepo.findAndCount({
+      relations: ['workspace'],
+    });
+  }
+
+  return res.status(OK).json({ count, channels });
 }
 
 export async function getOneChannel(req: Request, res: Response) {
@@ -25,12 +41,15 @@ export async function getOneChannel(req: Request, res: Response) {
 
 export async function addOneChannel(req: Request, res: Response) {
   const { channel } = req.body;
+
   if (!channel) {
     return res.status(BAD_REQUEST).json({
       error: paramMissingError,
     });
   }
-  await getCustomRepository(ChannelRepository).save(channel);
+  const ChannelRepo = getCustomRepository(ChannelRepository);
+  await ChannelRepo.save(ChannelRepo.create(channel));
+
   return res.status(CREATED).end();
 }
 
@@ -38,7 +57,8 @@ export async function updateOneChannel(req: Request, res: Response) {
   const { id } = req.params;
   const { name, type, description } = req.body;
   try {
-    if (Object.keys(req.body).length === 0) throw new Error('no channel data in body');
+    if (Object.keys(req.body).length === 0)
+      throw new Error('no channel data in body');
     const channelById = await getCustomRepository(
       ChannelRepository,
     ).findOneOrFail(id);

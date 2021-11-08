@@ -1,5 +1,5 @@
 import Label from '@atoms/Label';
-import LabeledButton from '@atoms/LabeledButton';
+import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import ChatHeader from '@molecules/ChatHeader';
 import ChatInputBackground from '@organisms/ChatInputBackground';
 import ChatContent from '@organisms/ChatContent';
@@ -11,28 +11,18 @@ const WorkspaceContent = (): JSX.Element => {
   const ExplainContent: JSX.Element | null = (
     <Label color="grey" text="channel explain " />
   );
-  const InputBar: JSX.Element = <ChatInputBackground />;
-  const RightButton = (
-    <LabeledButton
-      onClick={() => {}}
-      width={30}
-      height={30}
-      color={'black'}
-      backgroundColor={'white'}
-    />
+
+  const Title: JSX.Element = (
+    <MarginedDiv>
+      {ChannelTitle}
+      {ExplainContent}
+    </MarginedDiv>
   );
+  const InputBar: JSX.Element = <ChatInputBackground />;
+  const RightButton = <LabeledDefaultButton onClick={() => {}} text="button" />;
   return (
     <Container>
-      <ChatHeader
-        title={
-          <MarginedDiv>
-            {ChannelTitle}
-            {ExplainContent}
-          </MarginedDiv>
-        }
-        content={null}
-        rightButton={RightButton}
-      />
+      <ChatHeader title={Title} content={null} rightButton={RightButton} />
       <ChatContent inputBar={InputBar} />
     </Container>
   );
