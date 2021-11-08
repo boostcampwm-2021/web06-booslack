@@ -1,8 +1,8 @@
+import React from 'react';
 import Label from '@atoms/Label';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
-import ChatHeader from '@molecules/ChatHeader';
+import BrowseChannelHeader from '@molecules/BrowseChannelHeader';
 import BrowseChannelList from '@organisms/BrowseChannelList';
-import React from 'react';
 import { Container } from './styles';
 
 const BrowseContent = (): JSX.Element => {
@@ -12,7 +12,11 @@ const BrowseContent = (): JSX.Element => {
   return (
     <>
       <Container>
-        <ChatHeader title={Title} content={null} rightButton={RightButton} />
+        <BrowseChannelHeader
+          title={Title}
+          content={null}
+          rightButton={RightButton}
+        />
         <BrowseChannelList />
       </Container>
     </>

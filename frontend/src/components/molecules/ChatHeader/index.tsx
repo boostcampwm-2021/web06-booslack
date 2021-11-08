@@ -1,24 +1,18 @@
 import React from 'react';
-import Container from './styles';
+import { MdPeople } from 'react-icons/md';
+import { useRecoilState } from 'recoil';
+import { channelInfoModalState } from 'src/state/modal';
+import { Container, StyledLabeledButton, StyledIconButton } from './styles';
 
-interface Props {
-  width?: number;
-  title: JSX.Element;
-  content?: JSX.Element;
-  rightButton: JSX.Element;
-}
+const ChatHeader = (): JSX.Element => {
+  const [, setIsOpen] = useRecoilState(channelInfoModalState);
 
-const ChatHeader = ({
-  width,
-  title,
-  content,
-  rightButton,
-}: Props): JSX.Element => {
+  const open = () => setIsOpen(true);
+
   return (
-    <Container width={width}>
-      {title}
-      {content ?? ''}
-      {rightButton}
+    <Container>
+      <StyledLabeledButton text="# channel name" onClick={open} />
+      <StyledIconButton icon={MdPeople} onClick={open} />
     </Container>
   );
 };

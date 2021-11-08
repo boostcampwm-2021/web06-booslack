@@ -1,36 +1,44 @@
-import IconButton from '@atoms/IconButton';
-import Label from '@atoms/Label';
-import LabeledInput from '@molecules/LabeledInput';
-import React from 'react';
-import { Container } from './styles';
-import { MdToggleOff } from 'react-icons/md';
-import LabeledButton from '@atoms/LabeledButton';
-import Modal from '@atoms/Modal';
+import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { channelCreateModalState } from 'src/state/modal';
 import axios from 'axios';
+import { channelCreateModalState } from 'src/state/modal';
 import useInputs from 'src/hooks/useInputs';
+import Label from '@atoms/Label';
+import LabeledButton from '@atoms/LabeledButton';
+import {
+  Container,
+  ContentContainer,
+  Footer,
+  Header,
+  HeaderLabel,
+  StyledLabeledButton,
+  StyledLabeledInput,
+  StyledLightLabel,
+  StyledModal,
+  StyledToggleButton,
+  ToggleContainer,
+  ToggleLabelContainer,
+} from './styles';
 
 const initialData = {
   name: '',
   description: '',
-  isPrivate: false,
 };
 
 const CreateChannelModal = (): JSX.Element => {
   const [isOpen, setIsOpen] = useRecoilState(channelCreateModalState);
-  const [{ name, description, isPrivate }, onChange, clear] =
-    useInputs(initialData);
+  const [isPrivate, setIsPrivate] = useState(false);
+  const [{ name, description }, onChange, clear] = useInputs(initialData);
 
   const createChannel = async () => {
     if (!name) return;
     await axios({
       method: 'POST',
-      url: 'api/users/add',
+      url: 'api/channels',
       data: {
-        nickname: name,
-        email: `${name}@naver.com`,
+        name,
         type: isPrivate ? 'private' : 'public',
+        description,
       },
     });
     clear();
@@ -38,34 +46,48 @@ const CreateChannelModal = (): JSX.Element => {
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+    <StyledModal isOpen={isOpen} onClose={() => setIsOpen(false)}>
       <Container>
-        <Label text="Create a channel" />
-        <Label text="channels are where your team communicates.." />
-        <LabeledInput
-          label="Name"
-          placeholder="# e.g. plan-budget"
-          onChange={onChange}
-          name="name"
-          value={name}
-        />
-        <LabeledInput
-          label="Description (optional)"
-          onChange={onChange}
-          name="description"
-          value={description}
-        />
-        <Label text="Make private" />
-        <div>
-          <Label text="When a channel is set to private" />
-          <IconButton icon={MdToggleOff} onClick={() => {}} />
-        </div>
-        <div>
-          <Label text="Share outside of channel" />
-          <LabeledButton text="Create" onClick={createChannel} />
-        </div>
+        <Header>
+          {isPrivate ? (
+            <HeaderLabel text="Create a private channel" />
+          ) : (
+            <HeaderLabel text="Create a channel" />
+          )}
+          <LabeledButton text="x" />
+        </Header>
+        <ContentContainer>
+          <StyledLightLabel text="Channels are where your team communicates.." />
+          <StyledLabeledInput
+            label="Name"
+            placeholder={`${isPrivate ? '🔒' : '#'} e.g. plan-budget`}
+            onChange={onChange}
+            name="name"
+            value={name}
+          />
+          <StyledLabeledInput
+            label="Description (optional)"
+            onChange={onChange}
+            name="description"
+            value={description}
+          />
+          <ToggleContainer>
+            <ToggleLabelContainer>
+              <Label text="Make private" />
+              {isPrivate ? (
+                <StyledLightLabel text="This can't be undone. A private channel cannot be made public later on." />
+              ) : (
+                <StyledLightLabel text="When a channel is set to private, it can only be viewed or joined by invitation" />
+              )}
+            </ToggleLabelContainer>
+            <StyledToggleButton isOn={isPrivate} setIsOn={setIsPrivate} />
+          </ToggleContainer>
+        </ContentContainer>
+        <Footer>
+          <StyledLabeledButton text="Create" onClick={createChannel} />
+        </Footer>
       </Container>
-    </Modal>
+    </StyledModal>
   );
 };
 

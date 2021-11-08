@@ -1,10 +1,12 @@
+import React, { useState } from 'react';
+import { useRecoilValue, useResetRecoilState } from 'recoil';
 import Label from '@atoms/Label';
-import BrowseMordalContainer from '@organisms/BrowseMordalContainer';
+import AsyncBranch from '@molecules/AsyncBranch';
+import BrowseChannelHeader from '@molecules/BrowseChannelHeader';
 import ChannelList from '@molecules/ChannelList';
 import SearchBar from '@molecules/SearchBar';
-import ChatHeader from '@molecules/ChatHeader';
-import AsyncBranch from '@molecules/AsyncBranch';
 import SelectbrowseChannelPage from '@molecules/SelectbrowseChannelPage';
+import BrowseMordalContainer from '@organisms/BrowseMordalContainer';
 import { BrowserChannelListSize, CHANNELTYPE } from '@enum/index';
 import useAsync from '@hook/useAsync';
 import API from '@global/api';
@@ -14,8 +16,6 @@ import {
   browseCursor,
   browseCursorValue,
 } from '@state/Channel';
-import React, { useState } from 'react';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
 import {
   Container,
   ScrollBox,
@@ -102,7 +102,11 @@ const BrowseChannelList = (): JSX.Element => {
       />
       <MarginBottomDiv />
       <CenterAlignedDiv>
-        <ChatHeader width={ListWidth} title={Title} rightButton={RightButton} />
+        <BrowseChannelHeader
+          width={ListWidth}
+          title={Title}
+          rightButton={RightButton}
+        />
       </CenterAlignedDiv>
       <ChannelListBackground>
         <ScrollBox width={ListWidth}>

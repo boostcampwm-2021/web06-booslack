@@ -9,10 +9,21 @@ interface Props {
   icon: IconType;
 }
 
-const IconButton = ({ onClick, width, height, icon }: Props): JSX.Element => {
+const IconButton = ({
+  onClick,
+  width,
+  height,
+  icon,
+  className,
+}: Props): JSX.Element => {
   const Icon = icon;
   return (
-    <Container width={width} height={height} onClick={onClick}>
+    <Container
+      width={width}
+      height={height}
+      onClick={onClick}
+      className={className}
+    >
       <Icon />
     </Container>
   );
