@@ -12,13 +12,14 @@ import {
 
 const channelRouter = Router();
 
+channelRouter.post('/userToChannel', addUserToChannel);
+channelRouter.delete('/userFromChannel', deleteUserFromChannel);
+channelRouter.get('/channelsThatUserIn', getChannelsThatUserIn);
+
 channelRouter.get('/', getAllChannels);
 channelRouter.get('/:id', getOneChannel);
 channelRouter.post('/', addOneChannel);
 channelRouter.put('/:id', updateOneChannel);
 channelRouter.delete('/:id', deleteOneChannel);
-channelRouter.post('/userToChannel', addUserToChannel);
-channelRouter.delete('/userFromChannel', deleteUserFromChannel);
-channelRouter.get('/channelsThatUserIn', getChannelsThatUserIn);
 
 export default channelRouter;

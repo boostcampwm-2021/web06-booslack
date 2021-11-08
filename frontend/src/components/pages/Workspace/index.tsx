@@ -12,9 +12,7 @@ const Workspace = (): JSX.Element => {
     channelId === 'browse-channels' ? <BrowseContent /> : <WorkspaceContent />;
   return (
     <>
-      <Suspense fallback={() => <p>Loading...</p>}>
-        <WorkspaceTemplate Content={workspaceContent}></WorkspaceTemplate>
-      </Suspense>
+      <WorkspaceTemplate Content={workspaceContent}></WorkspaceTemplate>
       <CreateChannelModal />
       <SidebarChannelInfoModal />
     </>

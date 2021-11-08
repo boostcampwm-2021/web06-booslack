@@ -67,7 +67,8 @@ const WorkspaceContent = (): JSX.Element => {
     />
   );
   const RightButton = (
-    <LabeledButton
+    <LabeledDefaultButton
+      text="무야호"
       onClick={() => {}}
       width={30}
       height={30}

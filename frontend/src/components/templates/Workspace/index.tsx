@@ -9,13 +9,13 @@ interface Props {
 
 const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
   return (
-    <>
+    <Suspense fallback={() => <p>Loading...</p>}>
       <WorkspaceHeader />
       <RowDiv>
         <WorkspaceSidebar />
         {Content}
       </RowDiv>
-    </>
+    </Suspense>
   );
 };
 
