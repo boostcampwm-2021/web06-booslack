@@ -7,7 +7,7 @@ export const channelCreateModalState = atom({
 
 export const sidebarChannelInfoModalState = atom({
   key: 'sidebarChannelModal',
-  default: false,
+  default: { status: false, channelId: -1 },
 });
 
 export const channelInfoModalState = atom({

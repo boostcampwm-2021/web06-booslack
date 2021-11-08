@@ -55,7 +55,10 @@ const WorkspaceSidebar = (): JSX.Element => {
               onClick={() => {}}
               onContextMenu={(e) => {
                 e.preventDefault();
-                setIsSidebarChannelInfoModalOpen(true);
+                setIsSidebarChannelInfoModalOpen({
+                  status: true,
+                  channelId: channel.id,
+                });
               }}
             />
           </NavLink>
