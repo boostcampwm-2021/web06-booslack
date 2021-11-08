@@ -57,34 +57,56 @@ loginRouter.get('/logout', (req, res) => {
 
 function verifyInform(username: string, password: string, password2: any) {
   if (username.length > 20 || password.length > 20) return false;
+  if (username.length === 0 || password.length === 0) return false;
   if (password2 && password !== password2) return false;
   return true;
+}
+
+function makeNickName(username: string) {
+  const index = username.indexOf('@');
+  return (index === -1) ? username : username.substring(0, index);
 }
 
 loginRouter.post('/signup', async (req, res) => {
   try {
     const { username, password, passwordTwo } = req.body;
-    if (verifyInform(username, password, passwordTwo)) {
-      const user = await getCustomRepository(UserRepository).find({
-        where: { email: username, password },
-      });
-      if (user.length > 0) {
-        res.redirect(`${frontUrl}/signup`);
-      } else {
-        const newUser = {
-          nickname: '',
-          email: username,
-          type: 'local',
-          password,
-        };
-        await getCustomRepository(UserRepository).save(newUser);
-        res.redirect(`${frontUrl}/login`);
-      }
-    } else {
-      res.redirect(`${frontUrl}/signup`);
-    }
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    if (!verifyInform(username, password, passwordTwo)) throw new Error('no user data verify');
+    const user = await getCustomRepository(UserRepository).find({
+      where: { email: username },
+    });
+    if (user.length > 0) throw new Error('user is exist');
+    const newUser = {
+      // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+      nickname: makeNickName(username),
+      email: username,
+      type: 'local',
+      password,
+    };
+    await getCustomRepository(UserRepository).save(newUser);
+    res.redirect(`${frontUrl}/login`);
   } catch (e) {
     res.redirect(`${frontUrl}/signup`);
+  }
+});
+
+loginRouter.post('/changepassword', async (req, res) => {
+  try {
+    const { username, password, passwordTwo } = req.body;
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    if (!verifyInform(username, password, passwordTwo)) throw new Error('no user data verify');
+    const userById = await getCustomRepository(UserRepository).findOneOrFail({
+      where: { email: username },
+    });
+    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
+    userById.nickname = makeNickName(username) || userById.nickname;
+    userById.email = username || userById.email;
+    userById.type = userById.type || 'local';
+    userById.password = password || userById.password;
+    await getCustomRepository(UserRepository).save(userById);
+    res.redirect(`${frontUrl}/login`);
+  } catch (e) {
+    res.redirect(`${frontUrl}/changepassword`);
   }
 });
 
