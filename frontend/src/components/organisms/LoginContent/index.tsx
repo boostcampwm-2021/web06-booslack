@@ -53,7 +53,7 @@ const LoginContent = (): JSX.Element => {
         </Link>
         <Link to="/changepassword">
           <LabeledButton
-            text="비밀 번호 찾기"
+            text="비밀 번호 변경"
             width={240}
             height={60}
             backgroundColor="#ECDEEC"
