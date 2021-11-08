@@ -11,6 +11,7 @@ const LoginContent = (): JSX.Element => {
       `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}`,
     );
   };
+  const BACKEND_URL = `${process.env.REACT_APP_BACKEND_URL}/login/login`;
   return (
     <>
       <LabeledButton
@@ -20,14 +21,25 @@ const LoginContent = (): JSX.Element => {
         backgroundColor="#C8C7EF"
         onClick={handleGithubClick}
       />
-      <LoginForm>
-        <Input placeholder="  example@email.com" width={500} height={60} />
-        <Input placeholder="  password" width={500} height={60} />
+      <LoginForm method="POST" action={BACKEND_URL}>
+        <Input
+          placeholder="  example@email.com"
+          width={500}
+          height={60}
+          name="username"
+        />
+        <Input
+          placeholder="  password"
+          width={500}
+          height={60}
+          name="password"
+        />
         <LabeledButton
           text="이메일으로 로그인"
           width={500}
           height={60}
           backgroundColor="#ECDEEC"
+          type="submit"
         />
       </LoginForm>
       <LabelColumn>
