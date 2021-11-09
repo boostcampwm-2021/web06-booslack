@@ -11,7 +11,7 @@ import WorkspaceList from '@pages/WorkspaceList';
 import NotFound from '@pages/NotFound';
 import themeState from '@state/Theme';
 import { Itheme } from '@global/theme';
-import GlobalStyle from './style';
+import GlobalStyle from './global/globalstyle';
 
 const ThemeContainer = (): JSX.Element => {
   const currentTheme = useRecoilValue<Itheme>(themeState);
