@@ -1,7 +1,11 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response } from 'express';
-import { getRepository } from 'typeorm';
+import { getCustomRepository, getRepository } from 'typeorm';
 import { User } from '../model/User';
+import UserRepository from 'src/repository/UserRepository';
+import WorkspaceRepository from 'src/repository/WorkspaceRepository';
+import UserHasWorkspaceRepository from 'src/repository/UserHasWorkspace';
+import { UserHasWorkspace } from '@daos/UserHasWorkspace';
 
 const { BAD_REQUEST, OK } = StatusCodes;
 
@@ -58,6 +62,41 @@ export async function deleteOneUser(req: Request, res: Response) {
     const user = await getRepository(User).findOneOrFail(id);
     await getRepository(User).remove(user);
     return res.status(OK).end();
+  } catch (e) {
+    return res.status(BAD_REQUEST).json(e);
+  }
+}
+
+export async function addUserToWorkspace(req: Request, res: Response) {
+  try {
+    const { userId, workspaceId } = req.body;
+    // bind with promise all
+    const user = await getCustomRepository(UserRepository).findOne({
+      where: [{ id: userId }],
+    });
+    const workspace = await getCustomRepository(WorkspaceRepository).findOne({
+      where: [{ id: workspaceId }],
+    });
+
+    if (!user) {
+      throw new Error(`user ${userId} does not exist`);
+    }
+    if (!workspace) {
+      throw new Error(`workspace ${workspaceId} does not exist`);
+    }
+
+    const userHasWorkspace: UserHasWorkspace = new UserHasWorkspace();
+    userHasWorkspace.profile = 'temporary profile';
+    userHasWorkspace.name = user.nickname;
+    userHasWorkspace.workspaceId = Number(workspaceId);
+    userHasWorkspace.userId = Number(userId);
+    userHasWorkspace.workspace = workspace;
+    userHasWorkspace.user = user;
+
+    await getCustomRepository(UserHasWorkspaceRepository).save(
+      userHasWorkspace,
+    );
+    return res.status(OK).json({ userHasWorkspace });
   } catch (e) {
     return res.status(BAD_REQUEST).json(e);
   }

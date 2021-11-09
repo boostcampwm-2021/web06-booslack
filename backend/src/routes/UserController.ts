@@ -5,9 +5,12 @@ import {
   addOneUser,
   updateOneUser,
   deleteOneUser,
+  addUserToWorkspace,
 } from '../service/UserService';
 
 const userRouter = Router();
+
+userRouter.post('/userToWorkspace', addUserToWorkspace);
 
 userRouter.get('/', getAllUsers);
 userRouter.get('/:id', getOneUser);
