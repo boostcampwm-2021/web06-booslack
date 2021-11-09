@@ -10,8 +10,6 @@ const Container = styled.button<Props>`
   background-color: ${({ backgroundColor }) => backgroundColor};
   border: 0px;
   border-radius: 4px;
-
-  transition: 0.5s;
   cursor: pointer;
 `;
 
