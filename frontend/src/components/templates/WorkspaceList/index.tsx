@@ -14,8 +14,14 @@ const WorkspaceListTemplate = (): JSX.Element => {
 
   const RightButtonDiv: JSX.Element = (
     <div>
-      <StyledLabeledButton text="1" onClick={() => setTheme(yellowTheme)} />
-      <StyledLabeledButton text="1" onClick={() => history.push('client/1')} />
+      <StyledLabeledButton
+        text="색깔변경"
+        onClick={() => setTheme(yellowTheme)}
+      />
+      <StyledLabeledButton
+        text="채널1로 라우팅"
+        onClick={() => history.push('client/1')}
+      />
       <StyledLabeledButton text="1" />
       <StyledLabeledButton text="1" />
     </div>
