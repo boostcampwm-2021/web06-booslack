@@ -5,7 +5,7 @@ export interface Itheme {
 
 export const defaultTheme: Itheme = {
   backgroundColor: '#350D36',
-  bigHeaderColor: '#644565',
+  bigHeaderColor: '#ecdeec',
 };
 
 export const yellowTheme: Itheme = {

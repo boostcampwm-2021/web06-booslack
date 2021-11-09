@@ -1,13 +1,18 @@
 import React from 'react';
+import { useSetRecoilState } from 'recoil';
+import WorkSpaceListContent from '@organisms/WorkspaceListContent';
+import themeState from '@state/Theme';
+import { Itheme, yellowTheme } from '@global/theme';
 import { Container, StyledLabeledButton, StyledHeader } from './styles';
 
-interface Props {}
-
-const WorkspaceListTemplate = ({}: Props): JSX.Element => {
+const WorkspaceListTemplate = (): JSX.Element => {
   const Title: JSX.Element = <div>122</div>;
+
+  const setTheme = useSetRecoilState<Itheme>(themeState);
+
   const RightButtonDiv: JSX.Element = (
     <div>
-      <StyledLabeledButton text="1" />
+      <StyledLabeledButton text="1" onClick={() => setTheme(yellowTheme)} />
       <StyledLabeledButton text="1" />
       <StyledLabeledButton text="1" />
       <StyledLabeledButton text="1" />
@@ -17,9 +22,7 @@ const WorkspaceListTemplate = ({}: Props): JSX.Element => {
   return (
     <Container>
       <StyledHeader title={Title} rightButton={RightButtonDiv} />
-
-      <main>asdas</main>
-
+      <WorkSpaceListContent />
       <footer>footer</footer>
     </Container>
   );

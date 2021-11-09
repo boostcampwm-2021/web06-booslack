@@ -1,5 +1,5 @@
 import React from 'react';
-import { RecoilRoot } from 'recoil';
+import { RecoilRoot, useRecoilValue } from 'recoil';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import Workspace from '@pages/Workspace';
@@ -9,40 +9,49 @@ import Signup from '@pages/Signup';
 import Changepassword from '@pages/Changepassword';
 import WorkspaceList from '@pages/WorkspaceList';
 import NotFound from '@pages/NotFound';
-import theme from '@global/theme';
+import themeState from '@state/Theme';
+import { Itheme } from '@global/theme';
 import GlobalStyle from './style';
+
+const ThemeContainer = (): JSX.Element => {
+  const currentTheme = useRecoilValue<Itheme>(themeState);
+
+  return (
+    <ThemeProvider theme={currentTheme}>
+      <GlobalStyle />
+      <BrowserRouter>
+        <Switch>
+          <Route path="/login">
+            <Login />
+          </Route>
+          <Route path="/workspacelist">
+            <WorkspaceList />
+          </Route>
+          <Route exact path="/client/:channelId">
+            <Workspace />
+          </Route>
+          <Route path="/signup">
+            <Signup />
+          </Route>
+          <Route path="/changepassword">
+            <Changepassword />
+          </Route>
+          <Route path="/browsechannel">
+            <BrowseChannel />
+          </Route>
+          <Route>
+            <NotFound />
+          </Route>
+        </Switch>
+      </BrowserRouter>
+    </ThemeProvider>
+  );
+};
 
 const App = (): JSX.Element => {
   return (
     <RecoilRoot>
-      <ThemeProvider theme={theme.yellowTheme}>
-        <GlobalStyle />
-        <BrowserRouter>
-          <Switch>
-            <Route path="/login">
-              <Login />
-            </Route>
-            <Route path="/workspacelist">
-              <WorkspaceList />
-            </Route>
-            <Route exact path="/client/:channelId">
-              <Workspace />
-            </Route>
-            <Route path="/signup">
-              <Signup />
-            </Route>
-            <Route path="/changepassword">
-              <Changepassword />
-            </Route>
-            <Route path="/browsechannel">
-              <BrowseChannel />
-            </Route>
-            <Route>
-              <NotFound />
-            </Route>
-          </Switch>
-        </BrowserRouter>
-      </ThemeProvider>
+      <ThemeContainer />
     </RecoilRoot>
   );
 };
