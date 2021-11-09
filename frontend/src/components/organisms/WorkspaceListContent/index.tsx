@@ -8,7 +8,6 @@ const WorkSpaceListContent = (): JSX.Element => {
   return (
     <Container>
       <StyledHeader title={NameLabel} content={<></>} rightButton={<></>} />
-      {new Array(2000).fill(null).map((ele) => 'www\n')}
     </Container>
   );
 };

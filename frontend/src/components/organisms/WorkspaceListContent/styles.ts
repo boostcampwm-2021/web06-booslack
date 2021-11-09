@@ -4,7 +4,7 @@ import { theme } from 'styled-tools';
 import { defaultTheme } from '@global/theme';
 
 export const StyledHeader = styled(BrowseChannelHeader)`
-  background-color: ${theme('bigHeaderColor', defaultTheme.bigHeaderColor)};
+  background-color: ${theme('smallHeaderColor', defaultTheme.smallHeaderColor)};
   z-index: 900;
 `;
 
