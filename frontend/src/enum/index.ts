@@ -21,3 +21,5 @@ export enum CHANNELTYPE {
   'private' = '🔒',
   'public' = '#',
 }
+
+export const IMAGEPATH = ''
