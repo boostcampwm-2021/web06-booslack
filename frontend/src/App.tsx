@@ -1,12 +1,13 @@
 import React from 'react';
-
+import { RecoilRoot } from 'recoil';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Workspace from '@pages/Workspace';
 import Login from '@pages/Login';
 import BrowseChannel from '@pages/BrowseChannel';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Signup from '@pages/Signup';
 import Changepassword from '@pages/Changepassword';
-import { RecoilRoot } from 'recoil';
+import WorkspaceList from '@pages/WorkspaceList';
+import NotFound from '@pages/NotFound';
 import GlobalStyle from './style';
 
 const App = (): JSX.Element => {
@@ -17,6 +18,9 @@ const App = (): JSX.Element => {
         <Switch>
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path="/workspacelist">
+            <WorkspaceList />
           </Route>
           <Route exact path="/client/:channelId">
             <Workspace />
@@ -29,6 +33,9 @@ const App = (): JSX.Element => {
           </Route>
           <Route path="/browsechannel">
             <BrowseChannel />
+          </Route>
+          <Route>
+            <NotFound />
           </Route>
         </Switch>
       </BrowserRouter>

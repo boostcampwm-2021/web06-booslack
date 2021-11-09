@@ -25,6 +25,7 @@ const LabeledDefaultButton = ({
   text,
   color,
   backgroundColor,
+  className,
 }: Props): JSX.Element => {
   return (
     <LabeledButton
@@ -34,6 +35,7 @@ const LabeledDefaultButton = ({
       color={color || ButtonColor}
       backgroundColor={backgroundColor || ButtonBackground}
       text={text}
+      className={className}
     />
   );
 };
