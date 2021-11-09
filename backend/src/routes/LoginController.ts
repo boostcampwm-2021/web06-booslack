@@ -13,7 +13,7 @@ loginRouter.get('/', ((req, res) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   if (req.session.passport) {
-    res.redirect(`${frontUrl}/workspace`);
+    res.redirect(`${frontUrl}/browsechannel`);
   } else {
     res.redirect(`${frontUrl}/login`);
   }
@@ -31,7 +31,7 @@ loginRouter.get('/github/callback',
     const findUser = user[0];
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     const query = querystring.stringify(findUser);
-    res.redirect(`${frontUrl}/workspace?${query}`);
+    res.redirect(`${frontUrl}/browsechannel?${query}`);
   }));
 
 loginRouter.post('/info', (req, res) => {
@@ -123,7 +123,7 @@ loginRouter.post('/login', passport.authenticate('local', {
   const findUser = user[0];
   // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
   const query = querystring.stringify(findUser);
-  res.redirect(`${frontUrl}/workspace?${query}`);
+  res.redirect(`${frontUrl}/browsechannel?${query}`);
 }));
 
 export default loginRouter;
