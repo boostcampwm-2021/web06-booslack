@@ -1,5 +1,5 @@
-import Label from '@atoms/Label';
 import React from 'react';
+import Label from '@atoms/Label';
 import { Container, StyledLabel } from './styles';
 
 interface Props {

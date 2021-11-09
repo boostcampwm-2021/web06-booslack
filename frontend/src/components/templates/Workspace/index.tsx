@@ -9,7 +9,7 @@ import {
   channelCreateModalState,
   channelDescriptionModalState,
   channelInfoModalState,
-} from 'src/state/modal';
+} from '@state/modal';
 import { RowDiv } from './styles';
 
 interface Props {

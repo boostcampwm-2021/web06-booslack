@@ -1,6 +1,6 @@
+import React from 'react';
 import ImageButton from '@atoms/ImageButton';
 import Label from '@atoms/Label';
-import React from 'react';
 import { Container, TextSet } from './styles';
 
 interface Props {

@@ -1,11 +1,13 @@
 import React from 'react';
-import WorkspaceTemplate from '@templates/Workspace';
-import WorkspaceContent from '@organisms/WorkspaceContent';
 import { useParams } from 'react-router-dom';
 import BrowseContent from '@organisms/BrowseContent';
+import WorkspaceContent from '@organisms/WorkspaceContent';
+import WorkspaceTemplate from '@templates/Workspace';
 
 const Workspace = (): JSX.Element => {
-  const { channelId } = useParams();
+  const { channelId }: { channelId?: string } = useParams();
+
+  // eslint-disable-next-line operator-linebreak
   const workspaceContent =
     channelId === 'browse-channels' ? <BrowseContent /> : <WorkspaceContent />;
   return (

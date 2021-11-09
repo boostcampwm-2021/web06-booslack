@@ -1,7 +1,7 @@
-import { browseCursor, browseCursorValue } from '@state/Channel';
-import { pageLimitCount } from '@enum/index';
 import React from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
+import { browseCursor, browseCursorValue } from '@state/Channel';
+import { pageLimitCount } from '@enum/index';
 import Container from './styles';
 
 interface Props {

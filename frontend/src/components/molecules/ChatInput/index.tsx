@@ -1,5 +1,5 @@
-import ViewportInput from '@atoms/ViewPortInput';
 import React from 'react';
+import ViewportInput from '@atoms/ViewPortInput';
 import { Container } from './styles';
 
 interface Props {

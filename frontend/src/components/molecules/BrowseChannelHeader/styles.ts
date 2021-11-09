@@ -9,7 +9,7 @@ export const Container = styled.div<Props>`
   min-height: 48.99px;
   width: ${({ width }) => {
     if (width) return `${width}vw`;
-    else return 'inherit';
+    return 'inherit';
   }};
   justify-content: space-between;
   align-items: center;

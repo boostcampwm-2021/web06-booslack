@@ -1,7 +1,7 @@
-import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
-import { SortOption } from '@global/type';
 import React from 'react';
 import { RecoilState, useSetRecoilState } from 'recoil';
+import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
+import { SortOption } from '@global/type';
 import Container from './styles';
 
 interface Props<T> {
