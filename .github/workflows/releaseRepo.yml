@@ -4,8 +4,8 @@
 name: CD - release repo automatically
 
 on:
-  push:
-    types: [closed] # when PR closed
+  pull_request:
+    types: [ closed ]
     branches: [dev]
 
 jobs:
