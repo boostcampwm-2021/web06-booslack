@@ -2,9 +2,9 @@ import React from 'react';
 import { Container } from './styles';
 
 interface Props {
-  width?: number;
+  width: number;
   title: JSX.Element;
-  content?: JSX.Element;
+  content?: null | JSX.Element;
   rightButton: JSX.Element;
 }
 
@@ -17,10 +17,14 @@ const BrowseChannelHeader = ({
   return (
     <Container width={width}>
       {title}
-      {content ?? ''}
+      {content}
       {rightButton}
     </Container>
   );
+};
+
+BrowseChannelHeader.defaultProps = {
+  content: <></>,
 };
 
 export default BrowseChannelHeader;

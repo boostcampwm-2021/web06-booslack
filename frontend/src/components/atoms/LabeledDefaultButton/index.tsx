@@ -2,13 +2,14 @@ import React from 'react';
 import LabeledButton from '@atoms/LabeledButton';
 import { ButtonSize } from '@enum/index';
 
-interface Props {
+interface Props<T> {
   onClick?: () => void;
   width?: number;
   height?: number;
   text: string;
   color?: string;
   backgroundColor?: string;
+  className?: T;
 }
 
 const {
@@ -26,18 +27,27 @@ const LabeledDefaultButton = ({
   color,
   backgroundColor,
   className,
-}: Props): JSX.Element => {
+}: Props<typeof className>): JSX.Element => {
   return (
     <LabeledButton
       onClick={onClick}
-      width={width || (ButtonWidth as number)}
-      height={height || (ButtonHeight as number)}
-      color={color || ButtonColor}
-      backgroundColor={backgroundColor || ButtonBackground}
+      width={width}
+      height={height}
+      color={color}
+      backgroundColor={backgroundColor}
       text={text}
       className={className}
     />
   );
+};
+
+LabeledDefaultButton.defaultProps = {
+  onClick: () => {},
+  width: ButtonWidth as number,
+  height: ButtonHeight as number,
+  color: ButtonColor,
+  backgroundColor: ButtonBackground,
+  className: {},
 };
 
 export default LabeledDefaultButton;
