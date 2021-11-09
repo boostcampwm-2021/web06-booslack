@@ -10,7 +10,7 @@ const ImageBox = ({
   image,
   className,
 }: Props<typeof className>): JSX.Element => {
-  return <Container alt="image" src={image} />;
+  return <Container alt="image" src={image} className={className} />;
 };
 
 ImageBox.defaultProps = {

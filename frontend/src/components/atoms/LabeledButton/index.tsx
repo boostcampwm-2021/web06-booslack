@@ -34,4 +34,8 @@ const LabeledButton = ({
   );
 };
 
+LabeledButton.defaultProps = {
+  className: {},
+};
+
 export default LabeledButton;
