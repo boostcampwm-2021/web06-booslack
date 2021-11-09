@@ -101,3 +101,16 @@ export async function addUserToWorkspace(req: Request, res: Response) {
     return res.status(BAD_REQUEST).json(e);
   }
 }
+
+export async function getAllUsersWithChannelInfo(req: Request, res: Response) {
+  try {
+    const { workspaceId } = req.query;
+    const users = await getCustomRepository(
+      UserRepository,
+    ).findAllUsersWithChannelInfo(String(workspaceId));
+
+    return res.status(OK).json({ users });
+  } catch (e) {
+    return res.status(BAD_REQUEST).json(e);
+  }
+}
