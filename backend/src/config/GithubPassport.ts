@@ -25,6 +25,7 @@ function settingGithubPassport() {
             nickname: githubID,
             email: githubUrl,
             type: 'github',
+            password: '',
           };
           await getCustomRepository(UserRepository).save(newUser);
         }
@@ -44,7 +45,7 @@ function settingGithubPassport() {
       });
       return done(null, user);
     } catch (e) {
-      return done(e);
+      return done(null, false);
     }
   });
 }

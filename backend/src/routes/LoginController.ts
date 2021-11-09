@@ -1,6 +1,5 @@
 import { Router } from 'express';
 import passport from 'passport';
-import * as querystring from 'querystring';
 import { getCustomRepository } from 'typeorm';
 import UserRepository from '../repository/UserRepository';
 
@@ -22,25 +21,17 @@ loginRouter.get('/', ((req, res) => {
 loginRouter.get('/github/callback',
   passport.authenticate(
     'github',
-    { failureRedirect: `${frontUrl}/login` },
-  ),
-  ((req, res) => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const { user } = req.session.passport;
-    const findUser = user[0];
-    // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    const query = querystring.stringify(findUser);
-    res.redirect(`${frontUrl}/browsechannel?${query}`);
-  }));
+    {
+      successRedirect: `${frontUrl}/browsechannel`,
+      failureRedirect: `${frontUrl}/login`,
+    },
+  ));
 
 loginRouter.post('/info', (req, res) => {
   try {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const { user } = req.session.passport;
-    const findUser = user[0];
-    if (findUser) res.json(findUser);
+    res.json(req.session.passport.user);
   } catch (e) {
     res.json({ message: 'User is not Login' });
   }
@@ -114,16 +105,9 @@ loginRouter.post('/changepassword', async (req, res) => {
 });
 
 loginRouter.post('/login', passport.authenticate('local', {
+  successRedirect: `${frontUrl}/browsechannel`,
   failureRedirect: `${frontUrl}/login`,
   failureFlash: true,
-}), ((req, res) => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const { user } = req.session.passport;
-  const findUser = user[0];
-  // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-  const query = querystring.stringify(findUser);
-  res.redirect(`${frontUrl}/browsechannel?${query}`);
 }));
 
 export default loginRouter;
