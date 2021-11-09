@@ -8,7 +8,8 @@ function settingGithubPassport() {
     {
       clientID: process.env.GITHUB_CLIENT_ID || 'ERROR',
       clientSecret: process.env.GITHUB_CLIENT_SECRET || 'ERROR',
-      callbackURL: process.env.GITHUB_CALLBACK_URL,
+      callbackURL:
+        process.env.GITHUB_CALLBACK_URL || 'http://localhost:8081/api/login/github/callback',
     },
     async (accessToken: string, refreshToken: string, profile: Profile, cb: any) => {
       try {

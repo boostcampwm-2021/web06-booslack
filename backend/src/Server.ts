@@ -13,7 +13,6 @@ import logger from './shared/Logger';
 import BaseRouter from './routes';
 import settingGithubPassport from './config/GithubPassport';
 import settingLocalPassport from './config/LocalPassport';
-import loginRouter from './routes/LoginController';
 
 const app = express();
 const { BAD_REQUEST } = StatusCodes;
@@ -41,9 +40,6 @@ if (process.env.NODE_ENV === 'production') {
   app.use(helmet());
 }
 
-// Add APIs
-app.use('/api', BaseRouter);
-
 // Session
 const { SECRET_CODE } = process.env;
 // eslint-disable-next-line @typescript-eslint/no-unsafe-call
@@ -65,7 +61,9 @@ settingGithubPassport();
 settingLocalPassport();
 app.use(passport.initialize());
 app.use(passport.session());
-app.use('/login', loginRouter);
+
+// Add APIs
+app.use('/api', BaseRouter);
 
 // Print API errors
 // eslint-disable-next-line @typescript-eslint/no-unused-vars

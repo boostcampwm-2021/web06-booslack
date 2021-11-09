@@ -11,7 +11,7 @@ const LoginContent = (): JSX.Element => {
       `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}`,
     );
   };
-  const BACKEND_URL = `${process.env.REACT_APP_BACKEND_URL}/login/login`;
+  const BACKEND_URL = `${process.env.REACT_APP_BACKEND_URL}/api/login/login`;
   return (
     <>
       <LabeledButton

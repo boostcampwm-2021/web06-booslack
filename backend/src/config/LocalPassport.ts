@@ -6,8 +6,7 @@ import UserRepository from '../repository/UserRepository';
 function settingLocalPassport() {
   function verifyInform(username: string, password: string, password2: any) {
     if (username.length > 20 || password.length > 20) return false;
-    if (password2 && password !== password2) return false;
-    return true;
+    return !(password2 && password !== password2);
   }
   passport.use(<passport.Strategy> new LocalStrategy.Strategy(
     async (username:string, passwordLocal:string, done) => {
@@ -23,7 +22,7 @@ function settingLocalPassport() {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         if (user.length === 1) return done(null, user);
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
-        return done(null, user);
+        return done(null, false);
       } catch (e) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return done(null, false);
