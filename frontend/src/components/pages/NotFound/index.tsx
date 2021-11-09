@@ -9,7 +9,7 @@ const NotFound = (): JSX.Element => {
   return (
     <Layout>
       <Container>
-        <Label text="404 page is not found!" width={240} height={20} />
+        <Label text="404 page is not found!" />
         <StyledButton text="되돌아가기" onClick={() => history.goBack()} />
       </Container>
     </Layout>

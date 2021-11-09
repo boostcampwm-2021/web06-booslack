@@ -12,10 +12,11 @@ export const Layout = styled.div`
 
 export const Container = styled.div`
   height: 30vh;
-  width: 20vw;
+  width: 100vw;
   display: flex;
   justify-content: space-between;
   text-align: center;
+  font-size: 5vh;
   flex-direction: column;
   align-items: center;
 `;

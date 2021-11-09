@@ -2,14 +2,14 @@ import React from 'react';
 import { Container } from './styles';
 
 interface Props {
-  width: number;
+  width?: number;
   title: JSX.Element;
   content?: null | JSX.Element;
   rightButton: JSX.Element;
 }
 
 const BrowseChannelHeader = ({
-  width,
+  width = null,
   title,
   content,
   rightButton,
@@ -24,6 +24,7 @@ const BrowseChannelHeader = ({
 };
 
 BrowseChannelHeader.defaultProps = {
+  width: null,
   content: <></>,
 };
 
