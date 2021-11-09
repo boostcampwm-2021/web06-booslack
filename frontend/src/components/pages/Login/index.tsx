@@ -1,10 +1,12 @@
 import React from 'react';
 import Label from '@atoms/Label';
 import LoginContent from '@organisms/LoginContent';
+import { Logout } from '@global/util/Logout';
 import { Container, Layout, LabelContainer } from './style';
 
 const Login = (): JSX.Element => {
   if (window.sessionStorage) window.sessionStorage.clear();
+  Logout();
   return (
     <Layout>
       <Container>
