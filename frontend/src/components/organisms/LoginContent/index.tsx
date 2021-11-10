@@ -1,5 +1,9 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import useInputs from '@hook/useInputs';
+import { useRecoilState } from 'recoil';
+import { LoginModalState } from '@state/modal';
+import CreateLoginModal from '@organisms/CreateLoginModal';
 import {
   LoginInput,
   EmailLabeledButton,
@@ -9,7 +13,24 @@ import {
   RouterLabeledButton,
 } from './style';
 
+const initialData = {
+  username: '',
+  password: '',
+};
+
 const LoginContent = (): JSX.Element => {
+  const ModalContext = '';
+  const [LoginModal] = useRecoilState(LoginModalState);
+  const [{ username, password }, onChange] = useInputs(initialData);
+  const [setIsLoginModalOpen] = useRecoilState(LoginModalState);
+  const onValidate = (e) => {
+    // eslint-disable-next-line no-console
+    console.log('isBlock', username, password);
+    if (username.length === 0 || password.length === 0) {
+      setIsLoginModalOpen(true);
+      e.preventDefault();
+    }
+  };
   const handleGithubClick = async () => {
     const GITHUB_CLIENT_ID: string = process.env.REACT_APP_GITHUB_CLIENT_ID;
     await window.location.replace(
@@ -25,9 +46,18 @@ const LoginContent = (): JSX.Element => {
           placeholder="example or example@email.com"
           name="username"
           type="text"
+          onChange={onChange}
+          value={username}
         />
-        <LoginInput placeholder="password" name="password" type="password" />
-        <EmailLabeledButton text="LOG IN" type="submit" />
+        <LoginInput
+          placeholder="password"
+          name="password"
+          type="password"
+          onChange={onChange}
+          value={password}
+        />
+        <span />
+        <EmailLabeledButton text="LOG IN" type="submit" onClick={onValidate} />
       </LoginForm>
       <LabelColumn>
         <Link to="/signup">
@@ -37,6 +67,7 @@ const LoginContent = (): JSX.Element => {
           <RouterLabeledButton text="비밀 번호 변경" type="button" />
         </Link>
       </LabelColumn>
+      {LoginModal && <CreateLoginModal Content={ModalContext} />}
     </>
   );
 };
