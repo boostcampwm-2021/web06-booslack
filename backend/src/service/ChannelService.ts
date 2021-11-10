@@ -4,6 +4,7 @@ import { getCustomRepository } from 'typeorm';
 import ChannelRepository, { SortOption } from '../repository/ChannelRepository';
 import paramMissingError from '../shared/constants';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspace';
+import WorkspaceRepository from 'src/repository/WorkspaceRepository';
 
 const { BAD_REQUEST, CREATED, OK } = StatusCodes;
 
@@ -47,6 +48,16 @@ export async function addOneChannel(req: Request, res: Response) {
       error: paramMissingError,
     });
   }
+
+  const workspace = await getCustomRepository(WorkspaceRepository).findOne({
+    where: [{ id: channel.workspaceId }],
+  });
+
+  if (!workspace) {
+    throw new Error(`workspace ${channel.workspaceId} does not exist`);
+  }
+
+  channel.workspace = workspace;
   const ChannelRepo = getCustomRepository(ChannelRepository);
   await ChannelRepo.save(ChannelRepo.create(channel));
 

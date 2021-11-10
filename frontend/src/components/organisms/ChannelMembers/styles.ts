@@ -1,6 +1,7 @@
 import Input from '@atoms/Input';
 import styled from 'styled-components';
 import { RoundScrollBar } from '@global/mixin';
+import Label from '@atoms/Label';
 
 export const Container = styled.div`
   display: flex;
@@ -21,4 +22,11 @@ export const ScrollContainer = styled.div`
   margin-top: 1rem;
   overflow-y: scroll;
   overflow-x: hidden;
+`;
+
+export const StyledLabel = styled(Label)`
+  padding: 0 1rem;
+  font-size: 14px;
+  font-weight: 700;
+  color: #616061;
 `;
