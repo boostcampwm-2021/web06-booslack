@@ -46,6 +46,7 @@ footer, header, hgroup, menu, nav, section {
 * {
     font-family: 'Pretendard-Light';
   font-size: 22px;
+  text-decoration: none;
 }
 body {
     line-height: 1;

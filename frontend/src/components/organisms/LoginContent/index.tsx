@@ -1,8 +1,13 @@
 import React from 'react';
-import LabeledButton from '@atoms/LabeledButton';
-import Input from '@atoms/Input';
 import { Link } from 'react-router-dom';
-import { LabelColumn, LoginForm } from './style';
+import {
+  LoginInput,
+  EmailLabeledButton,
+  GitLabeledButton,
+  LabelColumn,
+  LoginForm,
+  RouterLabeledButton,
+} from './style';
 
 const LoginContent = (): JSX.Element => {
   const handleGithubClick = async () => {
@@ -14,50 +19,22 @@ const LoginContent = (): JSX.Element => {
   const BACKEND_URL = `${process.env.REACT_APP_BACKEND_URL}/api/login/login`;
   return (
     <>
-      <LabeledButton
-        text="Github으로 로그인"
-        width={500}
-        height={60}
-        backgroundColor="#C8C7EF"
-        onClick={handleGithubClick}
-      />
+      <GitLabeledButton text="Github으로 로그인" onClick={handleGithubClick} />
       <LoginForm method="POST" action={BACKEND_URL}>
-        <Input
-          placeholder="  example@email.com"
-          width={500}
-          height={60}
+        <LoginInput
+          placeholder="example@email.com"
           name="username"
+          type="text"
         />
-        <Input
-          placeholder="  password"
-          width={500}
-          height={60}
-          name="password"
-        />
-        <LabeledButton
-          text="이메일으로 로그인"
-          width={500}
-          height={60}
-          backgroundColor="#ECDEEC"
-          type="submit"
-        />
+        <LoginInput placeholder="password" name="password" type="password" />
+        <EmailLabeledButton text="이메일으로 로그인" type="submit" />
       </LoginForm>
       <LabelColumn>
         <Link to="/signup">
-          <LabeledButton
-            text="회원 가입"
-            width={240}
-            height={60}
-            backgroundColor="#ECDEEC"
-          />
+          <RouterLabeledButton text="회원 가입" type="button" />
         </Link>
         <Link to="/changepassword">
-          <LabeledButton
-            text="비밀 번호 변경"
-            width={240}
-            height={60}
-            backgroundColor="#ECDEEC"
-          />
+          <RouterLabeledButton text="비밀 번호 변경" type="button" />
         </Link>
       </LabelColumn>
     </>
