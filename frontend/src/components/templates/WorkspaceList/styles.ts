@@ -3,17 +3,19 @@ import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import Label from '@atoms/Label';
 import BrowseChannelHeader from '@molecules/BrowseChannelHeader';
 import { RoundScrollBar } from '@global/mixin';
+import { defaultTheme } from '@global/theme';
+import { theme } from 'styled-tools';
 
 export const StyledLabeledButton = styled(LabeledDefaultButton)`
   border: 1 solid fff;
-  color: #fff;
+  color: ${theme('titleText', defaultTheme.titleText)};
   background-color: transparent;
 `;
 
 export const StyledHeader = styled(BrowseChannelHeader)`
   height: 8vh;
   background-color: transparent;
-  color: #fff;
+  color: ${theme('titleText', defaultTheme.titleText)};
 
   & > * {
     margin: 3vh 2vw 0 2vw;

@@ -36,7 +36,6 @@ const WorkspaceListTemplate = (): JSX.Element => {
     <Container>
       <StyledHeader title={Title} rightButton={RightButtonDiv} />
       <WorkSpaceListContent />
-      <footer>footer</footer>
     </Container>
   );
 };

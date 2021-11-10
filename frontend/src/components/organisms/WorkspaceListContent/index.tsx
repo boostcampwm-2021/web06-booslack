@@ -1,4 +1,5 @@
 import Label from '@atoms/Label';
+import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import React from 'react';
 import {
   StyledSelectWorkspace,
@@ -6,13 +7,14 @@ import {
   Container,
   StyledHeader,
   WorkspaceListContainer,
+  StyledLabeledButton,
 } from './styles';
 
 const WorkSpaceLists = () => {
   return (
     <StyledDiv>
       <StyledSelectWorkspace firstLabelContent="부캠 1" content="21명" />
-      <div>sad</div>
+      <StyledLabeledButton text="실행" />
     </StyledDiv>
   );
 };
@@ -26,6 +28,7 @@ const WorkSpaceListContent = (): JSX.Element => {
       <WorkspaceListContainer>
         <WorkSpaceLists />
         <WorkSpaceLists />
+        <LabeledDefaultButton text="더보기" />
       </WorkspaceListContainer>
     </Container>
   );
