@@ -4,8 +4,11 @@ export const Container = styled.div`
   position: relative;
 
   border: 0;
-  margin: 0 1vw 0 1vw;
-  background-color: brown;
+
+  margin: 5vh 1vw 0 1vw;
+  overflow: hidden;
+  & > * {
+  }
 `;
 
 export default Container;

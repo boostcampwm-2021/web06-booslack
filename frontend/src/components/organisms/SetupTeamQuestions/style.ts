@@ -1,8 +1,9 @@
-import { flexAlignCenter } from '@global/mixin';
 import styled from 'styled-components';
 
 const Container = styled.div`
-  ${flexAlignCenter}
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 80vw;
   height: 95vh;
 `;

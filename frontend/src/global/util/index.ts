@@ -43,3 +43,9 @@ export const changeFile = (e: React.FormEvent<Element>): undefined | File => {
 
   return files[0];
 };
+
+export const selectRefValue = (
+  ref: React.RefObject<HTMLInputElement>,
+): undefined | string | undefined => {
+  return ref?.current?.value;
+};

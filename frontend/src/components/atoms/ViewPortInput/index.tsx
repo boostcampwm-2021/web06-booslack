@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
 import Container from './styles';
 
@@ -9,6 +10,7 @@ interface Props {
   onChange?: React.FormEventHandler;
   placeholder: string;
   type?: string;
+  innerRef?: React.RefObject<HTMLInputElement>;
 }
 
 const ViewportInput = ({
@@ -19,10 +21,13 @@ const ViewportInput = ({
   onChange,
   type,
   placeholder,
+  innerRef,
 }: Props): JSX.Element => {
   return (
     <form onSubmit={onSubmit}>
       <Container
+        // @ts-ignore
+        ref={innerRef}
         name={inputName}
         width={width}
         height={height}
@@ -41,6 +46,7 @@ ViewportInput.defaultProps = {
   width: '',
   height: '',
   type: 'text',
+  innerRef: undefined,
 };
 
 export default ViewportInput;

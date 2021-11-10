@@ -23,16 +23,20 @@ const SetupTeamQuestions = (): JSX.Element => {
   const askName = (
     <QuestionForm
       key="askName"
-      text="워크스페이스를 생성합니다. 회사 또는 팀 이름이 어떻게 됩니까?"
+      title="워크스페이스를 생성합니다."
+      content="회사 또는 팀 이름이 어떻게 됩니까?"
       onSubmit={(e) => setName(submitInput(e))}
+      onSet={({ value }: { value: string }) => setName(value)}
     />
   );
 
   const askChannel = (
     <QuestionForm
       key="askChannel"
-      text="채널을 생성합니다. 처음 채널의 이름을 무엇으로 할까요?"
+      title="채널을 생성합니다."
+      content="처음 채널의 이름을 무엇으로 할까요?"
       onSubmit={(e) => setChannel(submitInput(e))}
+      onSet={({ value }: { value: string }) => setChannel(value)}
     />
   );
 
@@ -40,8 +44,10 @@ const SetupTeamQuestions = (): JSX.Element => {
     <QuestionForm
       key="askFile"
       type="file"
-      text="워크스페이스 프로필을 넣어주세요!!"
-      onChange={(e) => setSelectedFile(changeFile(e))}
+      title="채널을 생성합니다."
+      content=""
+      onSubmit={(e) => setSelectedFile(changeFile(e))}
+      onSet={({ files }: { files: File }) => setSelectedFile(files[0])}
     />
   );
 
