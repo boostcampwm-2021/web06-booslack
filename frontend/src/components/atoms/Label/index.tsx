@@ -7,6 +7,7 @@ interface Props {
   height?: number;
   color?: string;
   backgroundColor?: string;
+  className?: string;
 }
 
 const Label = ({
@@ -28,6 +29,10 @@ const Label = ({
       {text}
     </Container>
   );
+};
+
+Label.defaultProps = {
+  className: '',
 };
 
 export default Label;

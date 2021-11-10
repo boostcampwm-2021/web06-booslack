@@ -1,4 +1,6 @@
 import { css } from 'styled-components';
+import { theme } from 'styled-tools';
+import { defaultTheme } from '@global/theme';
 
 // eslint-disable-next-line import/prefer-default-export
 export const RoundScrollBar = css`
@@ -26,4 +28,9 @@ export const flexAlignCenter = css`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+`;
+
+export const ThemeButton = css`
+  color: ${theme('titleText', defaultTheme.titleText)};
+  background-color: ${theme('backgroundColor', defaultTheme.backgroundColor)};
 `;

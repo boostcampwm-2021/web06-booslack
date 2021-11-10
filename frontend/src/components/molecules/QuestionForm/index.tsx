@@ -1,10 +1,9 @@
 import React, { useRef } from 'react';
-import Label from '@atoms/Label';
-import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import ViewportInput from '@atoms/ViewPortInput';
-import { Container } from './styles';
+import { Container, StyledLabel, StyledLabeledDefaultButton } from './styles';
 
 interface Props {
+  count: string;
   title: string;
   content: string;
   type?: string;
@@ -15,6 +14,7 @@ interface Props {
 }
 
 const QuestionForm = ({
+  count,
   type,
   title,
   content,
@@ -27,9 +27,9 @@ const QuestionForm = ({
 
   return (
     <Container>
-      <Label text={title} />
-      <br />
-      <Label text={content} />
+      <StyledLabel text={count} />
+      <StyledLabel text={title} />
+      <StyledLabel text={content} />
       <ViewportInput
         innerRef={inputRef}
         type={type}
@@ -37,7 +37,7 @@ const QuestionForm = ({
         onChange={onChange}
         placeholder={placeholder}
       />
-      <LabeledDefaultButton
+      <StyledLabeledDefaultButton
         text="다음"
         onClick={() => {
           onSet(inputRef?.current);
