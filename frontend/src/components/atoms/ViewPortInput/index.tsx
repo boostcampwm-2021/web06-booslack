@@ -3,10 +3,12 @@ import Container from './styles';
 
 interface Props {
   inputName?: string;
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
   onSubmit?: React.FormEventHandler;
+  onChange?: React.FormEventHandler;
   placeholder: string;
+  type?: string;
 }
 
 const ViewportInput = ({
@@ -14,6 +16,8 @@ const ViewportInput = ({
   width,
   height,
   onSubmit,
+  onChange,
+  type,
   placeholder,
 }: Props): JSX.Element => {
   return (
@@ -23,6 +27,8 @@ const ViewportInput = ({
         width={width}
         height={height}
         placeholder={placeholder}
+        type={type}
+        onChange={onChange}
       />
     </form>
   );
@@ -31,6 +37,10 @@ const ViewportInput = ({
 ViewportInput.defaultProps = {
   inputName: '',
   onSubmit: () => {},
+  onChange: () => {},
+  width: '',
+  height: '',
+  type: 'text',
 };
 
 export default ViewportInput;

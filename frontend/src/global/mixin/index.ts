@@ -20,3 +20,10 @@ export const hoverChangeColor = css`
     cursor: pointer;
   }
 `;
+
+export const flexAlignCenter = css`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+`;

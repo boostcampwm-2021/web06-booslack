@@ -9,10 +9,10 @@ import Signup from '@pages/Signup';
 import Changepassword from '@pages/Changepassword';
 import WorkspaceList from '@pages/WorkspaceList';
 import NotFound from '@pages/NotFound';
+import SetupTeam from '@pages/SetupTeam';
 import themeState from '@state/Theme';
 import { Itheme } from '@global/theme';
 import GlobalStyle from './global/globalstyle';
-import EmptyWorkspaceTemplate from '@templates/EmptyWorkspace';
 
 const ThemeContainer = (): JSX.Element => {
   const currentTheme = useRecoilValue<Itheme>(themeState);
@@ -29,7 +29,7 @@ const ThemeContainer = (): JSX.Element => {
             <WorkspaceList />
           </Route>
           <Route path="/setupteam">
-            <EmptyWorkspaceTemplate />
+            <SetupTeam />
           </Route>
           <Route exact path="/client/:channelId">
             <Workspace />
