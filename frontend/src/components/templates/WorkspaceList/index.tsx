@@ -4,11 +4,16 @@ import { useSetRecoilState } from 'recoil';
 import WorkSpaceListContent from '@organisms/WorkspaceListContent';
 import themeState from '@state/Theme';
 import { Itheme, yellowTheme } from '@global/theme';
-import { Container, StyledLabeledButton, StyledHeader } from './styles';
+import {
+  StyledLabel,
+  Container,
+  StyledLabeledButton,
+  StyledHeader,
+} from './styles';
 
 const WorkspaceListTemplate = (): JSX.Element => {
   const setTheme = useSetRecoilState<Itheme>(themeState);
-  const Title: JSX.Element = <div>122</div>;
+  const Title: JSX.Element = <StyledLabel text="booslack" />;
 
   const history = useHistory();
 

@@ -1,3 +1,4 @@
+/* eslint-disable no-tabs */
 import styled from 'styled-components';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import ImageBox from '@atoms/ImageBox';

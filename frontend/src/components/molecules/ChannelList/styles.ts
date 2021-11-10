@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import { hoverChangeColor } from '@global/mixin';
 
 interface Props {
   width?: string;
@@ -31,10 +32,7 @@ export const SpaceBetweenDiv = styled.div<Props>`
   justify-content: space-between;
 
   border-bottom: 0.5px solid #dddddd;
-  &: hover {
-    background-color: #edeff5;
-    cursor: pointer;
-  }
+  ${hoverChangeColor}
 
   &: first-child {
     border-top: 0.5px solid #dddddd;

@@ -13,3 +13,10 @@ export const RoundScrollBar = css`
     background-color: #fff;
   }
 `;
+
+export const hoverChangeColor = css`
+  &: hover {
+    background-color: #ebeaeb;
+    cursor: pointer;
+  }
+`;
