@@ -1,17 +1,24 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import axios from 'axios';
-import _ from 'lodash';
 import useInputs from '@hook/useInputs';
+import Autocomplete from '@atoms/Autocomplete';
 import MemberElement from './MemberElement';
-import { Container, ScrollContainer, StyledInput, StyledLabel } from './styles';
-import LabeledButton from '@atoms/LabeledButton';
+import {
+  Container,
+  FilteredContainer,
+  GreyContainer,
+  NoResultLabel,
+  ScrollContainer,
+  StyledAutocomplete,
+  StyledInput,
+  StyledLabel,
+} from './styles';
 
 const channelId = 1;
 
 const Unfiltered = ({ users }): JSX.Element => {
   return (
     <>
-      {/* <LabeledButton text="Add people" onClick={() => {}} /> */}
       <MemberElement key={0} nickname="Add people" email="" />
       {users.map((user) => (
         <MemberElement
@@ -24,42 +31,42 @@ const Unfiltered = ({ users }): JSX.Element => {
   );
 };
 
-const Filtered = ({
-  filteredUserInChannel,
-  filteredUserNotInChannel,
-  filter,
-}): JSX.Element => {
+const FilteredInChannel = ({ matches }) => {
   return (
-    <>
+    <FilteredContainer>
       <StyledLabel text="In this channel" />
-      {filteredUserInChannel
-        .filter((user) => user.name.includes(filter))
-        .map((user) => (
+      {matches.map((user) => (
+        <MemberElement
+          key={user.id}
+          nickname={user.name}
+          email={user.profile}
+        />
+      ))}
+    </FilteredContainer>
+  );
+};
+
+const FilteredNotInChannel = ({ matches }) => {
+  return (
+    <GreyContainer>
+      <FilteredContainer>
+        <StyledLabel text="Not in this channel" />
+        {matches.map((user) => (
           <MemberElement
             key={user.id}
             nickname={user.name}
             email={user.profile}
           />
         ))}
-      <StyledLabel text="Not in this channel" />
-      {filteredUserNotInChannel
-        .filter((user) => user.name.includes(filter))
-        .map((user) => (
-          <MemberElement
-            key={user.id}
-            nickname={user.name}
-            email={user.profile}
-          />
-        ))}
-    </>
+      </FilteredContainer>
+    </GreyContainer>
   );
 };
 
 const ChannelMembers = (): JSX.Element => {
   const [users, setUsers] = useState([]);
   const [{ input }, onChange, clear] = useInputs({ input: '' });
-  const [filteredUserInChannel, setFilteredUserInChannel] = useState([]);
-  const [filteredUserNotInChannel, setFilteredUserNotInChannel] = useState([]);
+  const [filteredUsers, setFilteredUsers] = useState([]);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -74,12 +81,11 @@ const ChannelMembers = (): JSX.Element => {
   }, []);
 
   useEffect(() => {
-    const [usersInChannel, usersNotInChannel] = _.partition(
-      users,
-      (user) => user.channelId === channelId,
-    );
-    setFilteredUserInChannel(usersInChannel);
-    setFilteredUserNotInChannel(usersNotInChannel);
+    if (input) {
+      setFilteredUsers(users.filter((user) => user.name.includes(input)));
+    } else {
+      setFilteredUsers([]);
+    }
   }, [input]);
 
   return (
@@ -91,12 +97,24 @@ const ChannelMembers = (): JSX.Element => {
         value={input}
       />
       <ScrollContainer>
-        {input ? (
-          <Filtered
-            filter={input}
-            filteredUserInChannel={filteredUserInChannel}
-            filteredUserNotInChannel={filteredUserNotInChannel}
-          />
+        {!filteredUsers.length && input && (
+          <NoResultLabel text={`No result for ${input}...`} />
+        )}
+        {filteredUsers.length || input ? (
+          <>
+            <Autocomplete
+              input={input}
+              filter={(user) => user.channelId === channelId}
+              filterList={filteredUsers}
+              ResultTemplate={FilteredInChannel}
+            />
+            <StyledAutocomplete
+              input={input}
+              filter={(user) => user.channelId !== channelId}
+              filterList={filteredUsers}
+              ResultTemplate={FilteredNotInChannel}
+            />
+          </>
         ) : (
           <Unfiltered users={users} />
         )}
