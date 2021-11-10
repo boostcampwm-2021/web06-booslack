@@ -6,20 +6,15 @@ interface Props {
   row?: number;
   isOpen: boolean;
   children: JSX.Element | JSX.Element[];
+  className: string;
 }
 
-const { width: ButtonWidth } = ButtonSize;
-
-const Popup = ({ row, isOpen, children }: Props): JSX.Element => {
+const Popup = ({ isOpen, children, className }: Props): JSX.Element => {
   return (
-    <Container row={row} visible={isOpen}>
+    <Container visible={isOpen} className={className}>
       {children}
     </Container>
   );
-};
-
-Popup.defaultProps = {
-  row: ButtonWidth,
 };
 
 export default Popup;
