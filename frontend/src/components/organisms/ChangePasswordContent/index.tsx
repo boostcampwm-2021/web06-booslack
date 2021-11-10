@@ -1,47 +1,36 @@
 import React from 'react';
-import LabeledButton from '@atoms/LabeledButton';
-import Input from '@atoms/Input';
 import { Link } from 'react-router-dom';
-import { LabelColumn, LoginForm } from './style';
+import {
+  LoginInput,
+  LabelColumn,
+  LoginForm,
+  RouterLabeledButton,
+} from './style';
 
 const SignupContent = (): JSX.Element => {
   const BACKEND_URL = `${process.env.REACT_APP_BACKEND_URL}/api/login/changepassword`;
   return (
     <>
       <LoginForm method="POST" action={BACKEND_URL}>
-        <Input
-          placeholder="  아이디를 입력하세요."
-          width={500}
-          height={60}
+        <LoginInput
+          placeholder="아이디를 입력하세요."
           name="username"
+          type="text"
         />
-        <Input
-          placeholder="  새로운 비밀번호를 입력하세요."
-          width={500}
-          height={60}
+        <LoginInput
+          placeholder="새로운 비밀번호를 입력하세요."
           name="password"
+          type="password"
         />
-        <Input
+        <LoginInput
           placeholder="  새로운 비밀번호를 다시 입력하세요."
-          width={500}
-          height={60}
           name="passwordTwo"
+          type="password"
         />
         <LabelColumn>
-          <LabeledButton
-            text="확인"
-            width={240}
-            height={60}
-            backgroundColor="#ECDEEC"
-            type="submit"
-          />
+          <RouterLabeledButton text="확인" type="submit" />
           <Link to="/login">
-            <LabeledButton
-              text="취소"
-              width={240}
-              height={60}
-              backgroundColor="#ECDEEC"
-            />
+            <RouterLabeledButton text="취소" type="button" />
           </Link>
         </LabelColumn>
       </LoginForm>
