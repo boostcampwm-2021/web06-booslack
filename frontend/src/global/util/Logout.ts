@@ -1,8 +1,13 @@
 import axios from 'axios';
+import { useHistory } from 'react-router-dom';
 
 export const Logout = async () => {
-  await axios({
-    method: 'GET',
-    url: 'api/login/logout',
-  });
+  try {
+    await axios({
+      method: 'GET',
+      url: 'api/login/logout',
+    });
+  } catch (e) {
+    (() => useHistory().goBack())();
+  }
 };
