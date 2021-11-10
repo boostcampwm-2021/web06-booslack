@@ -1,5 +1,4 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import WorkSpaceListContent from '@organisms/WorkspaceListContent';
 import themeState from '@state/Theme';
@@ -11,31 +10,31 @@ import {
   StyledHeader,
 } from './styles';
 
-const WorkspaceListTemplate = (): JSX.Element => {
+interface Props {
+  children: JSX.Element;
+}
+
+const WorkspaceListTemplate = ({ children }: Props): JSX.Element => {
   const setTheme = useSetRecoilState<Itheme>(themeState);
   const Title: JSX.Element = <StyledLabel text="booslack" />;
 
-  const history = useHistory();
-
   const RightButtonDiv: JSX.Element = (
     <div>
+      <StyledLabeledButton text="코드 입력 " />
+      <StyledLabeledButton text="워크스페이스 생성" />
+      <StyledLabeledButton text="로그아웃" />
+      <StyledLabeledButton text="환경설정" />
       <StyledLabeledButton
         text="색깔변경"
         onClick={() => setTheme(yellowTheme)}
       />
-      <StyledLabeledButton
-        text="채널1로 라우팅"
-        onClick={() => history.push('client/1')}
-      />
-      <StyledLabeledButton text="1" />
-      <StyledLabeledButton text="1" />
     </div>
   );
 
   return (
     <Container>
       <StyledHeader title={Title} rightButton={RightButtonDiv} />
-      <WorkSpaceListContent />
+      {children}
     </Container>
   );
 };

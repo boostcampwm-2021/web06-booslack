@@ -18,9 +18,13 @@ export const Container = styled.div<Props>`
 
 export const TextSet = styled.div`
   flex-direction: column;
+  margin: 10px 10px 10px 10px;
 
   &>: first-child {
     font-weight: bold;
+  }
+  &>: last-child {
+    color: grey;
   }
 `;
 

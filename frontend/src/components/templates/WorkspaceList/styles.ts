@@ -10,6 +10,10 @@ export const StyledLabeledButton = styled(LabeledDefaultButton)`
   border: 1 solid fff;
   color: ${theme('titleText', defaultTheme.titleText)};
   background-color: transparent;
+
+  &:hover {
+    text-decoration: underline;
+  }
 `;
 
 export const StyledHeader = styled(BrowseChannelHeader)`
@@ -23,6 +27,7 @@ export const StyledHeader = styled(BrowseChannelHeader)`
 `;
 
 export const StyledLabel = styled(Label)`
+  font-size: 42px;
   font-weight: bold;
 `;
 

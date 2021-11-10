@@ -6,7 +6,7 @@ import { StlyedImageButton, Container, TextSet } from './styles';
 interface Props {
   firstLabelContent?: string;
   secondLabelContent?: string;
-  content?: string | JSX.Element;
+  content?: string;
   className?: string;
 }
 
@@ -27,7 +27,7 @@ const SelectWorkspace = ({
       <TextSet>
         <Label text={firstLabelContent} />
         <Label text={secondLabelContent} />
-        <div>{content}</div>
+        <div>{`${content}명의 맴버`}</div>
       </TextSet>
     </Container>
   );

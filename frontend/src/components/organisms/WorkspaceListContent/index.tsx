@@ -1,6 +1,7 @@
+import React from 'react';
+import { useHistory } from 'react-router-dom';
 import Label from '@atoms/Label';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
-import React from 'react';
 import {
   StyledSelectWorkspace,
   StyledDiv,
@@ -11,10 +12,15 @@ import {
 } from './styles';
 
 const WorkSpaceLists = () => {
+  const history = useHistory();
+
   return (
     <StyledDiv>
-      <StyledSelectWorkspace firstLabelContent="부캠 1" content="21명" />
-      <StyledLabeledButton text="실행" />
+      <StyledSelectWorkspace firstLabelContent="부캠 1" content={21} />
+      <StyledLabeledButton
+        text="실행"
+        onClick={() => history.push('client/1')}
+      />
     </StyledDiv>
   );
 };
