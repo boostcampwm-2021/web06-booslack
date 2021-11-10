@@ -1,8 +1,8 @@
-import BrowseContent from '@organisms/BrowseContent';
-import { browseCursor } from '@state/Channel';
-import WorkspaceTemplate from '@templates/Workspace';
 import React, { useEffect } from 'react';
 import { useResetRecoilState } from 'recoil';
+import BrowseContent from '@organisms/BrowseContent';
+import WorkspaceTemplate from '@templates/Workspace';
+import { browseCursor } from '@state/Channel';
 
 const BrowseChannel = (): JSX.Element => {
   const Content: JSX.Element = <BrowseContent />;

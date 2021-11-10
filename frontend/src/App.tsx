@@ -1,22 +1,31 @@
 import React from 'react';
-
+import { RecoilRoot, useRecoilValue } from 'recoil';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { ThemeProvider } from 'styled-components';
 import Workspace from '@pages/Workspace';
 import Login from '@pages/Login';
 import BrowseChannel from '@pages/BrowseChannel';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Signup from '@pages/Signup';
 import Changepassword from '@pages/Changepassword';
-import { RecoilRoot } from 'recoil';
-import GlobalStyle from './style';
+import WorkspaceList from '@pages/WorkspaceList';
+import NotFound from '@pages/NotFound';
+import themeState from '@state/Theme';
+import { Itheme } from '@global/theme';
+import GlobalStyle from './global/globalstyle';
 
-const App = (): JSX.Element => {
+const ThemeContainer = (): JSX.Element => {
+  const currentTheme = useRecoilValue<Itheme>(themeState);
+
   return (
-    <RecoilRoot>
+    <ThemeProvider theme={currentTheme}>
       <GlobalStyle />
       <BrowserRouter>
         <Switch>
           <Route path="/login">
             <Login />
+          </Route>
+          <Route path="/workspacelist">
+            <WorkspaceList />
           </Route>
           <Route exact path="/client/:channelId">
             <Workspace />
@@ -30,8 +39,19 @@ const App = (): JSX.Element => {
           <Route path="/browsechannel">
             <BrowseChannel />
           </Route>
+          <Route>
+            <NotFound />
+          </Route>
         </Switch>
       </BrowserRouter>
+    </ThemeProvider>
+  );
+};
+
+const App = (): JSX.Element => {
+  return (
+    <RecoilRoot>
+      <ThemeContainer />
     </RecoilRoot>
   );
 };

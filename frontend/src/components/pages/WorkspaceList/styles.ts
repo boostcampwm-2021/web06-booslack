@@ -1,10 +1,14 @@
+import { defaultTheme } from '@global/theme';
 import styled from 'styled-components';
 import { theme } from 'styled-tools';
-import { defaultTheme } from '@global/theme';
 
 export const Container = styled.div`
-  /* height: calc(100vh-38px); */
-  width: 20vw;
+  height: 100vh;
+  width: 100vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
   background-color: ${theme('backgroundColor', defaultTheme.backgroundColor)};
 `;
 

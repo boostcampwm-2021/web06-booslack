@@ -1,6 +1,6 @@
+import React from 'react';
 import ViewportInput from '@atoms/ViewPortInput';
 import { BrowserChannelListSize } from '@enum/index';
-import React from 'react';
 import { Container } from './styles';
 
 interface Props {

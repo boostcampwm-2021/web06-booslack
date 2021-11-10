@@ -2,11 +2,12 @@ import React from 'react';
 import { IconType } from 'react-icons';
 import Container from './styles';
 
-interface Props {
+interface Props<T> {
   onClick: () => void;
   width?: number;
   height?: number;
   icon: IconType;
+  className?: T;
 }
 
 const IconButton = ({
@@ -15,7 +16,7 @@ const IconButton = ({
   height,
   icon,
   className,
-}: Props): JSX.Element => {
+}: Props<typeof className>): JSX.Element => {
   const Icon = icon;
   return (
     <Container
@@ -27,6 +28,10 @@ const IconButton = ({
       <Icon />
     </Container>
   );
+};
+
+IconButton.defaultProps = {
+  className: {},
 };
 
 export default IconButton;

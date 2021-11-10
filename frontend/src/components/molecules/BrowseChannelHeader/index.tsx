@@ -1,26 +1,34 @@
 import React from 'react';
-import Container from './styles';
+import { Container } from './styles';
 
-interface Props {
+interface Props<T> {
   width?: number;
   title: JSX.Element;
-  content?: JSX.Element;
+  content?: null | JSX.Element;
   rightButton: JSX.Element;
+  className?: T;
 }
 
 const BrowseChannelHeader = ({
-  width,
+  width = null,
   title,
   content,
   rightButton,
-}: Props): JSX.Element => {
+  className,
+}: Props<typeof className>): JSX.Element => {
   return (
-    <Container width={width}>
+    <Container width={width} className={className}>
       {title}
-      {content ?? ''}
+      {content}
       {rightButton}
     </Container>
   );
+};
+
+BrowseChannelHeader.defaultProps = {
+  width: null,
+  content: <></>,
+  className: {},
 };
 
 export default BrowseChannelHeader;
