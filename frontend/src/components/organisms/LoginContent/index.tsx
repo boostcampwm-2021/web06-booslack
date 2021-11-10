@@ -22,12 +22,12 @@ const LoginContent = (): JSX.Element => {
       <GitLabeledButton text="Github으로 로그인" onClick={handleGithubClick} />
       <LoginForm method="POST" action={BACKEND_URL}>
         <LoginInput
-          placeholder="example@email.com"
+          placeholder="example or example@email.com"
           name="username"
           type="text"
         />
         <LoginInput placeholder="password" name="password" type="password" />
-        <EmailLabeledButton text="이메일으로 로그인" type="submit" />
+        <EmailLabeledButton text="LOG IN" type="submit" />
       </LoginForm>
       <LabelColumn>
         <Link to="/signup">
