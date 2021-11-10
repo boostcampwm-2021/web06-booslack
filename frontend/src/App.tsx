@@ -12,6 +12,7 @@ import NotFound from '@pages/NotFound';
 import themeState from '@state/Theme';
 import { Itheme } from '@global/theme';
 import GlobalStyle from './global/globalstyle';
+import EmptyWorkspaceTemplate from '@templates/EmptyWorkspace';
 
 const ThemeContainer = (): JSX.Element => {
   const currentTheme = useRecoilValue<Itheme>(themeState);
@@ -26,6 +27,9 @@ const ThemeContainer = (): JSX.Element => {
           </Route>
           <Route path="/workspacelist">
             <WorkspaceList />
+          </Route>
+          <Route path="/setupteam">
+            <EmptyWorkspaceTemplate />
           </Route>
           <Route exact path="/client/:channelId">
             <Workspace />

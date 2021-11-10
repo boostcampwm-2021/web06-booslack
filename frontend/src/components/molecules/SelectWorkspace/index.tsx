@@ -6,7 +6,7 @@ import { StlyedImageButton, Container, TextSet } from './styles';
 interface Props {
   firstLabelContent?: string;
   secondLabelContent?: string;
-  content?: string;
+  content?: string | number;
   className?: string;
 }
 
@@ -37,7 +37,7 @@ SelectWorkspace.defaultProps = {
   firstLabelContent: '',
   secondLabelContent: '',
   className: '',
-  content: 'content insert here',
+  content: 0,
 };
 
 export default SelectWorkspace;

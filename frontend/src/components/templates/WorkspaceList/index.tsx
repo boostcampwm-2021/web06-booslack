@@ -1,6 +1,6 @@
 import React from 'react';
+import { useHistory } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import WorkSpaceListContent from '@organisms/WorkspaceListContent';
 import themeState from '@state/Theme';
 import { Itheme, yellowTheme } from '@global/theme';
 import {
@@ -15,13 +15,18 @@ interface Props {
 }
 
 const WorkspaceListTemplate = ({ children }: Props): JSX.Element => {
+  const history = useHistory();
   const setTheme = useSetRecoilState<Itheme>(themeState);
+
   const Title: JSX.Element = <StyledLabel text="booslack" />;
 
   const RightButtonDiv: JSX.Element = (
     <div>
       <StyledLabeledButton text="코드 입력 " />
-      <StyledLabeledButton text="워크스페이스 생성" />
+      <StyledLabeledButton
+        text="워크스페이스 생성"
+        onClick={() => history.push('/setupteam')}
+      />
       <StyledLabeledButton text="로그아웃" />
       <StyledLabeledButton text="환경설정" />
       <StyledLabeledButton

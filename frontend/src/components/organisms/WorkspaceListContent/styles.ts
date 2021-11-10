@@ -16,6 +16,9 @@ export const Container = styled.main`
   width: 70vw;
   background-color: #fff;
   margin-top: 30vh;
+  border-radius: 9px;
+
+  overflow: hidden;
 `;
 
 export const WorkspaceListContainer = styled.div`
