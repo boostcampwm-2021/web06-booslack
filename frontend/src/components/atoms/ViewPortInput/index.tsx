@@ -10,7 +10,7 @@ interface Props {
   onChange?: React.FormEventHandler;
   placeholder: string;
   type?: string;
-  innerRef?: React.RefObject<HTMLInputElement>;
+  customRef?: React.RefObject<HTMLInputElement>;
 }
 
 const ViewportInput = ({
@@ -21,13 +21,13 @@ const ViewportInput = ({
   onChange,
   type,
   placeholder,
-  innerRef,
+  customRef,
 }: Props): JSX.Element => {
   return (
     <form onSubmit={onSubmit}>
       <Container
         // @ts-ignore
-        ref={innerRef}
+        ref={customRef}
         name={inputName}
         width={width}
         height={height}
@@ -46,7 +46,7 @@ ViewportInput.defaultProps = {
   width: '',
   height: '',
   type: 'text',
-  innerRef: undefined,
+  customRef: undefined,
 };
 
 export default ViewportInput;

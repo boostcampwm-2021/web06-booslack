@@ -31,7 +31,7 @@ const QuestionForm = ({
       <StyledLabel text={title} />
       <StyledLabel text={content} />
       <ViewportInput
-        innerRef={inputRef}
+        customRef={inputRef}
         type={type}
         onSubmit={onSubmit}
         onChange={onChange}
