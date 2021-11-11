@@ -75,7 +75,15 @@ const SetupTeamQuestions = (): JSX.Element => {
       <StyledLabel text={`workspace 시작 채널 : ${channel}`} />
       <StyledLabel text={`파일 정보 : ${selectedFile}`} />
 
-      <StyledButton text="제출" onClick={() => history.push('workspacelist')} />
+      <StyledButton
+        text="제출"
+        onClick={() => {
+          history.push({
+            pathname: '/generatecode',
+            state: { name, channel, selectedFile },
+          });
+        }}
+      />
     </Container>
   );
 };

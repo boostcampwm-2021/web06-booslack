@@ -12,6 +12,7 @@ import NotFound from '@pages/NotFound';
 import SetupTeam from '@pages/SetupTeam';
 import themeState from '@state/Theme';
 import { Itheme } from '@global/theme';
+import CodeTemplate from '@templates/Code';
 import GlobalStyle from './global/globalstyle';
 
 const ThemeContainer = (): JSX.Element => {
@@ -42,6 +43,9 @@ const ThemeContainer = (): JSX.Element => {
           </Route>
           <Route path="/browsechannel">
             <BrowseChannel />
+          </Route>
+          <Route path="/generatecode">
+            <CodeTemplate />
           </Route>
           <Route>
             <NotFound />
