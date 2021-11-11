@@ -12,7 +12,7 @@ const SidebarChannelInfoModal = (): JSX.Element => {
   const exitChannel = async (channelId) => {
     await axios({
       method: 'DELETE',
-      url: `http://localhost:8081/api/channel/userFromChannel?userId=${sessionStorage.getItem(
+      url: `/api/channel/userFromChannel?userId=${sessionStorage.getItem(
         'id',
       )}&channelId=${channelId}&workspaceId=${sessionStorage.getItem(
         'workspaceId',

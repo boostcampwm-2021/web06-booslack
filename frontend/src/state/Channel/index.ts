@@ -27,7 +27,7 @@ export const channelListFromServerState = selectorFamily({
   key: 'channelListFromServer',
   get: (data) => async () => {
     const response = await axios.get(
-      `http://localhost:8081/api/channels/channelsThatUserIn?userId=${data.userId}&workspaceId=${data.workspaceId}`,
+      `/api/channels/channelsThatUserIn?userId=${data.userId}&workspaceId=${data.workspaceId}`,
     );
     return response.data;
   },

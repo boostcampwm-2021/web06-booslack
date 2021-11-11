@@ -20,8 +20,13 @@ export const Container = styled.div`
     word-wrap: break-word;
   }
 
-  ul,
+  ul{
+    list-style: disc;
+    padding-inline-start: 26px;
+  }
+
   ol {
+    list-style: auto;
     padding-inline-start: 26px;
   }
 

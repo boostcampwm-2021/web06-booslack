@@ -15,9 +15,7 @@ const getChannelById = (id: string) => {
   const [channel, setChannel] = useState();
   useEffect(() => {
     (async () => {
-      const response = await axios.get(
-        `http://localhost:8081/api/channels/${id}`,
-      );
+      const response = await axios.get(`/api/channels/${id}`);
       setChannel(response.data.channel);
     })();
   }, [id]);

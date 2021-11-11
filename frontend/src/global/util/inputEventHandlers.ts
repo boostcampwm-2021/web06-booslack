@@ -132,7 +132,7 @@ function splitList(selection) {
 }
 
 export function inputHandle(e): void {
-  if (e.data === '>') {
+  if (e.nativeEvent.data === '>') {
     const selection = document.getSelection();
     createBlockquote(selection);
   }
