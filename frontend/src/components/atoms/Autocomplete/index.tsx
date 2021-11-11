@@ -1,34 +1,70 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 interface Props {
   input: string;
-  filterList: [];
   filter: (e) => boolean;
+  filterList: [];
+  setValue: (e) => void;
   ResultTemplate: React.ElementType;
   NoResultTemplate: React.ElementType;
   className: string;
 }
 /**
  * 자동 완성
+ * @input 필터링하는 문자
  * @filter 필터링하는 함수
  * @filterList 필터링 하려고 하는 배열
+ * @setValue 값을 선택했을 때 실행할 함수
  * @ResultTemplate 필터링 된 결과를 표시할 컴포넌트, 필터링 된 배열은 matches로 전달
- * @input과 @NoResultTemplate는 매칭되는 값이 없을 때를 위한 옵션
+ * @NoResultTemplate는 매칭되는 값이 없을 때를 위한 옵션
  */
 const Autocomplete = ({
   input = '',
-  filterList,
   filter,
+  filterList,
+  setValue,
   ResultTemplate,
   NoResultTemplate = undefined,
   className,
 }: Props): JSX.Element => {
   const filteredList = filterList.filter((e) => filter(e));
+  const [index, setIndex] = useState(0);
+  const [selected, setSelected] = useState(false);
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'ArrowDown') {
+      e.preventDefault();
+      setIndex((prevIndex) => {
+        return prevIndex === filteredList.length - 1 ? 0 : prevIndex + 1;
+      });
+    } else if (e.key === 'ArrowUp') {
+      e.preventDefault();
+      setIndex((prevIndex) => {
+        return prevIndex === 0 ? filteredList.length - 1 : prevIndex - 1;
+      });
+    } else if (e.key === 'Enter') {
+      setSelected(true);
+    }
+  };
+
+  useEffect(() => {
+    if (selected) {
+      setValue(filteredList[index]);
+    }
+  }, [selected]);
+
+  useEffect(() => {
+    window.addEventListener('keydown', handleKeyDown);
+    setIndex(0);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [input]);
 
   return (
     <div className={className}>
-      {filteredList.length ? (
-        <ResultTemplate matches={filteredList} />
+      {input && filteredList.length ? (
+        <ResultTemplate matches={filteredList} index={index} />
       ) : (
         NoResultTemplate && <NoResultTemplate input={input} />
       )}
