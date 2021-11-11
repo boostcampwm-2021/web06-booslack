@@ -1,5 +1,6 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 import { RecoilState, useSetRecoilState } from 'recoil';
+import useRefLocate from '@hook/useHandle';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import { SortOption } from '@global/type';
 import Container from './styles';
@@ -7,16 +8,29 @@ import Container from './styles';
 interface Props<T> {
   isSortOpened: boolean;
   usingAtom: RecoilState<T>;
+  onClose: () => void;
+  customRef: RefObject<HTMLElement>;
 }
 
 const SortedOptionMordal = ({
   isSortOpened,
   usingAtom,
+  onClose,
+  customRef,
 }: Props<SortOption>): JSX.Element => {
   const sortOption = useSetRecoilState<SortOption>(usingAtom);
 
+  const [xWidth, yHeight] = useRefLocate(customRef);
+
   return (
-    <Container isOpen={isSortOpened}>
+    <Container
+      x={xWidth}
+      y={yHeight}
+      customRef={customRef}
+      isOpen={isSortOpened}
+      onClose={onClose}
+      zIndex={90}
+    >
       <LabeledDefaultButton
         onClick={() => {
           sortOption('alpha');
