@@ -3,7 +3,11 @@ function createAndDeleteCodeBlock(selection, event) {
   const parent = thisElement.parentElement;
   if (parent.classList.contains('ql-code-block')) {
     parent.innerHTML = parent.innerHTML.substr(0, parent.innerHTML.length - 2);
-    parent.insertAdjacentHTML('afterend', '<p><br></p>');
+
+    const pElement = document.createElement('p');
+    pElement.innerHTML = '<br>';
+    parent.insertAdjacentElement('afterend', pElement);
+    selection.collapse(pElement, 0);
   } else if (thisElement.data === '``') {
     parent.insertAdjacentHTML(
       'afterend',
