@@ -16,7 +16,7 @@ module.exports = {
     port: '3001',
     proxy: {
       '/api': {
-        target: 'http://localhost:8081',
+        target: process.env.REACT_APP_FRONTEND_URL || 'http://localhost:8081',
         changeOrigin: true,
       },
       '/login/oauth/authorize': {
