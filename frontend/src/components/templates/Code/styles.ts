@@ -21,7 +21,8 @@ export const Container = styled.div`
 `;
 
 export const StyledLabel = styled(Label)`
-  font-size: 120px;
+  margin-top: 5vh;
+  font-size: 55px;
 `;
 
 export const StyledButton = styled(LabeledDefaultButton)`
