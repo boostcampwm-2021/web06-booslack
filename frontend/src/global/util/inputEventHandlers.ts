@@ -154,6 +154,14 @@ export function keydownHandle(e): void {
     if (
       currentNode.innerHTML === '<br>' &&
       currentNode.nodeName === 'P' &&
+      currentNode.parentElement.firstElementChild === currentNode
+    ) {
+      e.preventDefault();
+    }
+
+    if (
+      currentNode.innerHTML === '<br>' &&
+      currentNode.nodeName === 'P' &&
       currentNode.previousSibling != null &&
       currentNode.nextSibling != null &&
       currentNode.previousSibling.nodeName === currentNode.nextSibling.nodeName

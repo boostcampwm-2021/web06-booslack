@@ -2,6 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   padding: 0px 20px;
+  max-height: 40vh;
 
   #input-bar {
     padding: 8px 8px;
