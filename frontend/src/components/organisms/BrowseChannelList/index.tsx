@@ -26,8 +26,6 @@ import {
 
 const { width: ListWidth, height: ListHeight } = BrowserChannelListSize;
 
-const userId = localStorage.getItem('id');
-
 const BrowseChannelList = (): JSX.Element => {
   const sortOption = useRecoilValue<SortOption>(browseChannelSortOption);
   const cursorOption = useRecoilValue<number>(browseCursorValue);
@@ -38,7 +36,6 @@ const BrowseChannelList = (): JSX.Element => {
     {
       params: {
         offsetStart: cursorOption,
-        userId,
         sortOption,
         like: dbLikedOption,
       },
