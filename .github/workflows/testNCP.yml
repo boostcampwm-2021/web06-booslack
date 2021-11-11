@@ -1,0 +1,17 @@
+name: Continuous Deployment for Test release
+on:
+  push:
+    branches: [release]
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to Server
+        uses: appleboy/ssh-action@master
+        with:
+          password: ${{ secrets.PASSWORD }}
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          port: ${{ secrets.PORT }}
+          script: |
+            sh /git/autoCD.sh 2>&1

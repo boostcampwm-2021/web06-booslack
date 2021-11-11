@@ -2,10 +2,12 @@ import { ButtonSize } from '@enum/index';
 import styled from 'styled-components';
 
 interface Props {
+  row: number;
   visible: boolean;
   children: JSX.Element | JSX.Element[];
 }
-const { width: ButtonWidth, height: ButtonHeight } = ButtonSize;
+
+const { height: ButtonHeight } = ButtonSize;
 
 const Container = styled.div<Props>`
   display: ${({ visible }) => (visible ? 'flex' : 'none')};
@@ -16,7 +18,7 @@ const Container = styled.div<Props>`
   width: 300px;
   height: 300px;
 
-  transform: translate(-${294.92 - ButtonWidth}px, 0);
+  transform: translate(-${({ row }) => 294.92 - row}px, 0);
   border: 1px solid black;
   border-radius: 6px;
   overflow: hidden;

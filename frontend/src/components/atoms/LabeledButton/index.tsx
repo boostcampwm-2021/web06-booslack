@@ -2,7 +2,7 @@ import React from 'react';
 import Container from './styles';
 
 interface Props<T> {
-  onClick: () => void;
+  onClick: () => void | React.FormEventHandler<Element>;
   text: string;
   width?: number;
   height?: number;
@@ -39,6 +39,10 @@ const LabeledButton = ({
 
 LabeledButton.defaultProps = {
   className: {},
+  width: 30,
+  height: 30,
+  color: undefined,
+  backgroundColor: undefined,
 };
 
 export default LabeledButton;

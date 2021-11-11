@@ -9,8 +9,11 @@ import Signup from '@pages/Signup';
 import Changepassword from '@pages/Changepassword';
 import WorkspaceList from '@pages/WorkspaceList';
 import NotFound from '@pages/NotFound';
+import SetupTeam from '@pages/SetupTeam';
 import themeState from '@state/Theme';
 import { Itheme } from '@global/theme';
+import InvitedCode from '@pages/InvitedCode';
+import GeneratedCode from '@pages/GeneratedCode';
 import GlobalStyle from './global/globalstyle';
 
 const ThemeContainer = (): JSX.Element => {
@@ -27,6 +30,9 @@ const ThemeContainer = (): JSX.Element => {
           <Route path="/workspacelist">
             <WorkspaceList />
           </Route>
+          <Route path="/setupteam">
+            <SetupTeam />
+          </Route>
           <Route exact path="/client/:channelId">
             <Workspace />
           </Route>
@@ -38,6 +44,12 @@ const ThemeContainer = (): JSX.Element => {
           </Route>
           <Route path="/browsechannel">
             <BrowseChannel />
+          </Route>
+          <Route path="/invitecode">
+            <InvitedCode />
+          </Route>
+          <Route path="/generatecode">
+            <GeneratedCode />
           </Route>
           <Route>
             <NotFound />

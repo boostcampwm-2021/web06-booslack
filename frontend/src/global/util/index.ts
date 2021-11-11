@@ -1,3 +1,5 @@
+import React from 'react';
+
 interface Option {
   reverse?: boolean | undefined;
 }
@@ -22,4 +24,28 @@ export const sorted = (
   return data;
 };
 
-export default sorted;
+export const submitInput = (
+  e: React.FormEvent<Element>,
+): undefined | string => {
+  e.preventDefault();
+
+  const target = e.target as HTMLFormElement;
+  const { value } = target.firstChild as HTMLInputElement;
+
+  return value;
+};
+
+export const changeFile = (e: React.FormEvent<Element>): undefined | File => {
+  e.preventDefault();
+
+  const target = e.target as HTMLInputElement;
+  const { files } = target;
+
+  return files[0];
+};
+
+export const selectRefValue = (
+  ref: React.RefObject<HTMLInputElement>,
+): undefined | string | undefined => {
+  return ref?.current?.value;
+};

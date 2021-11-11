@@ -1,7 +1,7 @@
-name: Continuous Deployment for Test release
+name: Continuous Deployment for main release
 on:
   push:
-    branches: [release]
+    branches: [main]
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -9,9 +9,9 @@ jobs:
       - name: Deploy to Server
         uses: appleboy/ssh-action@master
         with:
-          password: ${{ secrets.PASSWORD }}
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          port: ${{ secrets.PORT }}
+          password: ${{ secrets.MAINPASSWORD }}
+          host: ${{ secrets.MAINHOST }}
+          username: ${{ secrets.MAINUSERNAME }}
+          port: ${{ secrets.MAINPORT }}
           script: |
-            sh /git/autoCD.sh 2>&1
+            sh ~/autoCD.sh 2>&1

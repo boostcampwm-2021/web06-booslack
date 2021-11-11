@@ -1,37 +1,48 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import WorkSpaceListContent from '@organisms/WorkspaceListContent';
 import themeState from '@state/Theme';
 import { Itheme, yellowTheme } from '@global/theme';
-import { Container, StyledLabeledButton, StyledHeader } from './styles';
+import {
+  StyledLabel,
+  Container,
+  StyledLabeledButton,
+  StyledHeader,
+} from './styles';
 
-const WorkspaceListTemplate = (): JSX.Element => {
-  const setTheme = useSetRecoilState<Itheme>(themeState);
-  const Title: JSX.Element = <div>122</div>;
+interface Props {
+  children: JSX.Element;
+}
 
+const WorkspaceListTemplate = ({ children }: Props): JSX.Element => {
   const history = useHistory();
+  const setTheme = useSetRecoilState<Itheme>(themeState);
+
+  const Title: JSX.Element = <StyledLabel text="booslack" />;
 
   const RightButtonDiv: JSX.Element = (
     <div>
       <StyledLabeledButton
+        text="코드 입력 "
+        onClick={() => history.push('/invitecode')}
+      />
+      <StyledLabeledButton
+        text="워크스페이스 생성"
+        onClick={() => history.push('/setupteam')}
+      />
+      <StyledLabeledButton text="로그아웃" />
+      <StyledLabeledButton text="환경설정" />
+      <StyledLabeledButton
         text="색깔변경"
         onClick={() => setTheme(yellowTheme)}
       />
-      <StyledLabeledButton
-        text="채널1로 라우팅"
-        onClick={() => history.push('client/1')}
-      />
-      <StyledLabeledButton text="1" />
-      <StyledLabeledButton text="1" />
     </div>
   );
 
   return (
     <Container>
       <StyledHeader title={Title} rightButton={RightButtonDiv} />
-      <WorkSpaceListContent />
-      <footer>footer</footer>
+      {children}
     </Container>
   );
 };
