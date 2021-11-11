@@ -3,10 +3,10 @@ import React, { useEffect, useState } from 'react';
 interface Props {
   input: string;
   filter: (e) => boolean;
-  filterList: [];
+  filterList: any[];
   setValue: (e) => void;
   ResultTemplate: React.ElementType;
-  NoResultTemplate: React.ElementType;
+  NoResultTemplate?: React.ElementType;
   className: string;
 }
 /**
@@ -24,7 +24,7 @@ const Autocomplete = ({
   filterList,
   setValue,
   ResultTemplate,
-  NoResultTemplate = undefined,
+  NoResultTemplate,
   className,
 }: Props): JSX.Element => {
   const filteredList = filterList.filter((e) => filter(e));
@@ -70,6 +70,10 @@ const Autocomplete = ({
       )}
     </div>
   );
+};
+
+Autocomplete.defaultProps = {
+  NoResultTemplate: undefined,
 };
 
 export default Autocomplete;
