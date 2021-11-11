@@ -22,7 +22,6 @@ const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
   const [descriptionModal] = useRecoilState(channelDescriptionModalState);
 
   return (
-<<<<<<< HEAD
     <>
       <Suspense fallback={<p>Loading...</p>}>
         <WorkspaceHeader />
@@ -35,15 +34,6 @@ const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
       {infoModal && <ChannelInfoModal />}
       {descriptionModal && <ChannelDescriptionModal />}
     </>
-=======
-    <Suspense fallback={() => <p>Loading...</p>}>
-      <WorkspaceHeader />
-      <RowDiv>
-        <WorkspaceSidebar />
-        {Content}
-      </RowDiv>
-    </Suspense>
->>>>>>> 036d3fb (fix: pr #73 #74 합친후 에러 수정)
   );
 };
 
