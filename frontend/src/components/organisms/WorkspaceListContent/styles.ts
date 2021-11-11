@@ -56,6 +56,11 @@ export const StyledLabeledButton = styled(LabeledButton)`
   height: 60px;
   color: ${theme('titleText', defaultTheme.titleText)};
   background-color: ${theme('backgroundColor', defaultTheme.backgroundColor)};
+
+  &:hover {
+    color: ${theme('backgroundColor', defaultTheme.backgroundColor)};
+    background-color: ${theme('titleText', defaultTheme.titleText)};
+  }
 `;
 
 export default Container;
