@@ -6,6 +6,7 @@ interface Props {
   name: string;
   value: string;
   onClick?: () => void;
+  onKeyDown?: () => void;
   width?: number;
   height?: number;
   placeholder: string;
@@ -16,6 +17,7 @@ const Input = ({
   name,
   value,
   onClick,
+  onKeyDown,
   width,
   height,
   placeholder,
@@ -27,6 +29,7 @@ const Input = ({
       height={height}
       placeholder={placeholder}
       onChange={onChange}
+      onKeyDown={onKeyDown}
       name={name}
       value={value}
       className={className}
