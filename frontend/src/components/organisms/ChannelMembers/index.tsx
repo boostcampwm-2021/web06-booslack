@@ -3,20 +3,10 @@ import axios from 'axios';
 import useInputs from '@hook/useInputs';
 import Autocomplete from '@atoms/Autocomplete';
 import MemberElement from './MemberElement';
-import {
-  Container,
-  FilteredContainer,
-  GreyContainer,
-  NoResultLabel,
-  ScrollContainer,
-  StyledAutocomplete,
-  StyledInput,
-  StyledLabel,
-} from './styles';
+import { Container, ScrollContainer, StyledInput } from './styles';
+import MemberTemplate from './MemberTemplate';
 
-const channelId = 1;
-
-const Unfiltered = ({ users }): JSX.Element => {
+const Unfiltered = ({ users }: { users: any[] }): JSX.Element => {
   return (
     <>
       <MemberElement key={0} nickname="Add people" email="" />
@@ -31,42 +21,9 @@ const Unfiltered = ({ users }): JSX.Element => {
   );
 };
 
-const FilteredInChannel = ({ matches }) => {
-  return (
-    <FilteredContainer>
-      <StyledLabel text="In this channel" />
-      {matches.map((user) => (
-        <MemberElement
-          key={user.id}
-          nickname={user.name}
-          email={user.profile}
-        />
-      ))}
-    </FilteredContainer>
-  );
-};
-
-const FilteredNotInChannel = ({ matches }) => {
-  return (
-    <GreyContainer>
-      <FilteredContainer>
-        <StyledLabel text="Not in this channel" />
-        {matches.map((user) => (
-          <MemberElement
-            key={user.id}
-            nickname={user.name}
-            email={user.profile}
-          />
-        ))}
-      </FilteredContainer>
-    </GreyContainer>
-  );
-};
-
 const ChannelMembers = (): JSX.Element => {
   const [users, setUsers] = useState([]);
   const [{ input }, onChange, clear] = useInputs({ input: '' });
-  const [filteredUsers, setFilteredUsers] = useState([]);
 
   useEffect(() => {
     const getUsers = async () => {
@@ -80,14 +37,6 @@ const ChannelMembers = (): JSX.Element => {
     getUsers();
   }, []);
 
-  useEffect(() => {
-    if (input) {
-      setFilteredUsers(users.filter((user) => user.name.includes(input)));
-    } else {
-      setFilteredUsers([]);
-    }
-  }, [input]);
-
   return (
     <Container>
       <StyledInput
@@ -97,24 +46,14 @@ const ChannelMembers = (): JSX.Element => {
         value={input}
       />
       <ScrollContainer>
-        {!filteredUsers.length && input && (
-          <NoResultLabel text={`No result for ${input}...`} />
-        )}
-        {filteredUsers.length || input ? (
-          <>
-            <Autocomplete
-              input={input}
-              filter={(user) => user.channelId === channelId}
-              filterList={filteredUsers}
-              ResultTemplate={FilteredInChannel}
-            />
-            <StyledAutocomplete
-              input={input}
-              filter={(user) => user.channelId !== channelId}
-              filterList={filteredUsers}
-              ResultTemplate={FilteredNotInChannel}
-            />
-          </>
+        {input ? (
+          <Autocomplete
+            input={input}
+            filter={(user) => user.name.includes(input)}
+            filterList={users}
+            setValue={() => {}} // open user profile
+            ResultTemplate={MemberTemplate}
+          />
         ) : (
           <Unfiltered users={users} />
         )}
