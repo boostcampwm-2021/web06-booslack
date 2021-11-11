@@ -10,7 +10,7 @@ interface Props {
 }
 
 const addUserToChannel = async (id: string) => {
-  await axios.post('http://localhost:8081/api/channels/userToChannel', {
+  await axios.post('/api/channels/userToChannel', {
     userId: sessionStorage.getItem('id'),
     channelId: id,
     workspaceId: sessionStorage.getItem('workspaceId'),

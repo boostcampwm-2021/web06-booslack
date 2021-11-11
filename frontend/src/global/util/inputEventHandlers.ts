@@ -132,7 +132,7 @@ function splitList(selection) {
 }
 
 export function inputHandle(e): void {
-  if (e.data === '>') {
+  if (e.nativeEvent.data === '>') {
     const selection = document.getSelection();
     createBlockquote(selection);
   }
@@ -151,6 +151,14 @@ export function keydownHandle(e): void {
   if (e.code === 'Backspace') {
     const selection = document.getSelection();
     const currentNode = <HTMLElement>selection.focusNode;
+    if (
+      currentNode.innerHTML === '<br>' &&
+      currentNode.nodeName === 'P' &&
+      currentNode.parentElement.firstElementChild === currentNode
+    ) {
+      e.preventDefault();
+    }
+
     if (
       currentNode.innerHTML === '<br>' &&
       currentNode.nodeName === 'P' &&
