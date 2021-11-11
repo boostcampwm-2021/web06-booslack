@@ -2,10 +2,10 @@ import StatusCodes from 'http-status-codes';
 import { Request, Response } from 'express';
 import { getCustomRepository, getRepository } from 'typeorm';
 import { User } from '../model/User';
-import UserRepository from 'src/repository/UserRepository';
-import WorkspaceRepository from 'src/repository/WorkspaceRepository';
-import UserHasWorkspaceRepository from 'src/repository/UserHasWorkspace';
-import { UserHasWorkspace } from '@daos/UserHasWorkspace';
+import UserRepository from '../repository/UserRepository';
+import WorkspaceRepository from '../repository/WorkspaceRepository';
+import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
+import { UserHasWorkspace } from '../model/UserHasWorkspace';
 
 const { BAD_REQUEST, OK } = StatusCodes;
 

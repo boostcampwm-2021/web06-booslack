@@ -3,8 +3,8 @@ import { Request, Response } from 'express';
 import { getCustomRepository } from 'typeorm';
 import ChannelRepository, { SortOption } from '../repository/ChannelRepository';
 import paramMissingError from '../shared/constants';
-import UserHasWorkspaceRepository from '../repository/UserHasWorkspace';
-import WorkspaceRepository from 'src/repository/WorkspaceRepository';
+import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
+import WorkspaceRepository from '../repository/WorkspaceRepository';
 
 const { BAD_REQUEST, CREATED, OK } = StatusCodes;
 
