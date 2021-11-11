@@ -1,6 +1,9 @@
 import { useState, useEffect, RefObject } from 'react';
 
-const useRefLocate = (customRef: RefObject<HTMLElement>): [number, number] => {
+const useRefLocate = (
+  customRef: RefObject<HTMLElement>,
+  timer = 100,
+): [number, number] => {
   const [xWidth, setWidth] = useState<null | number>(null);
   const [yHeight, setHeight] = useState<null | number>(null);
   const [throttle, setThrottle] = useState(false);
@@ -13,7 +16,7 @@ const useRefLocate = (customRef: RefObject<HTMLElement>): [number, number] => {
       setWidth(customRef?.current?.getBoundingClientRect()?.x);
       setHeight(customRef?.current?.getBoundingClientRect()?.y);
       setThrottle(false);
-    }, 100);
+    }, timer);
   };
 
   useEffect(() => {
