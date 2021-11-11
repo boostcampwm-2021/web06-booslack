@@ -1,5 +1,6 @@
-import React, { RefObject, useEffect, useState } from 'react';
+import React, { RefObject } from 'react';
 import { RecoilState, useSetRecoilState } from 'recoil';
+import useRefLocate from '@hook/useHandle';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import { SortOption } from '@global/type';
 import Container from './styles';
@@ -19,21 +20,7 @@ const SortedOptionMordal = ({
 }: Props<SortOption>): JSX.Element => {
   const sortOption = useSetRecoilState<SortOption>(usingAtom);
 
-  const [xWidth, setWidth] = useState<null | number>(null);
-  const [yHeight, setHeight] = useState<null | number>(null);
-
-  const handleResize = () => {
-    setWidth(customRef?.current?.getBoundingClientRect()?.x);
-    setHeight(customRef?.current?.getBoundingClientRect()?.y);
-  };
-
-  useEffect(() => {
-    window.addEventListener('resize', handleResize);
-    handleResize();
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  });
+  const [xWidth, yHeight] = useRefLocate(customRef);
 
   return (
     <Container
