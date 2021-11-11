@@ -1,7 +1,9 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
+import AsyncBranch from '@molecules/AsyncBranch';
 import themeState from '@state/Theme';
+import useAsync from '@hook/useAsync';
 import { Itheme, yellowTheme } from '@global/theme';
 import {
   StyledLabel,
@@ -19,6 +21,8 @@ const WorkspaceListTemplate = ({ children }: Props): JSX.Element => {
   const setTheme = useSetRecoilState<Itheme>(themeState);
 
   const Title: JSX.Element = <StyledLabel text="booslack" />;
+
+  const { data, loading, error } = useAsync(null, 'api/login/info', [], 'POST');
 
   const RightButtonDiv: JSX.Element = (
     <div>
@@ -39,11 +43,15 @@ const WorkspaceListTemplate = ({ children }: Props): JSX.Element => {
     </div>
   );
 
+  console.log(data);
+
   return (
-    <Container>
-      <StyledHeader title={Title} rightButton={RightButtonDiv} />
-      {children}
-    </Container>
+    <AsyncBranch data={data} loading={loading} error={error} success={<></>}>
+      <Container>
+        <StyledHeader title={Title} rightButton={RightButtonDiv} />
+        {children}
+      </Container>
+    </AsyncBranch>
   );
 };
 

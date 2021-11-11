@@ -12,7 +12,7 @@ loginRouter.get('/', ((req, res) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   if (req.session.passport) {
-    res.redirect(`${frontUrl}/browsechannel`);
+    res.redirect(`${frontUrl}/workspacelist`);
   } else {
     res.redirect(`${frontUrl}/login`);
   }
@@ -22,7 +22,7 @@ loginRouter.get('/github/callback',
   passport.authenticate(
     'github',
     {
-      successRedirect: `${frontUrl}/browsechannel`,
+      successRedirect: `${frontUrl}/workspacelist`,
       failureRedirect: `${frontUrl}/login`,
     },
   ));
@@ -105,7 +105,7 @@ loginRouter.post('/changepassword', async (req, res) => {
 });
 
 loginRouter.post('/login', passport.authenticate('local', {
-  successRedirect: `${frontUrl}/browsechannel`,
+  successRedirect: `${frontUrl}/workspacelist`,
   failureRedirect: `${frontUrl}/login`,
   failureFlash: true,
 }));
