@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 import Container from './styles';
 
 interface Props<T> {
@@ -10,6 +10,7 @@ interface Props<T> {
   type?: string;
   backgroundColor?: string;
   className?: T;
+  customRef?: undefined | RefObject<HTMLButtonElement>;
 }
 
 const LabeledButton = ({
@@ -21,6 +22,7 @@ const LabeledButton = ({
   type,
   backgroundColor = 'transparent',
   className,
+  customRef,
 }: Props<typeof className>): JSX.Element => {
   return (
     <Container
@@ -28,6 +30,7 @@ const LabeledButton = ({
       width={width}
       height={height}
       color={color}
+      ref={customRef}
       backgroundColor={backgroundColor}
       className={className}
       type={type}
@@ -43,6 +46,7 @@ LabeledButton.defaultProps = {
   height: 30,
   color: undefined,
   backgroundColor: undefined,
+  customRef: undefined,
 };
 
 export default LabeledButton;

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 import LabeledButton from '@atoms/LabeledButton';
 import { ButtonSize } from '@enum/index';
 
@@ -10,6 +10,7 @@ interface Props<T> {
   color?: string;
   backgroundColor?: string;
   className?: T;
+  customRef?: RefObject<HTMLButtonElement>;
 }
 
 const {
@@ -27,9 +28,11 @@ const LabeledDefaultButton = ({
   color,
   backgroundColor,
   className,
+  customRef,
 }: Props<typeof className>): JSX.Element => {
   return (
     <LabeledButton
+      customRef={customRef}
       onClick={onClick}
       width={width}
       height={height}
@@ -48,6 +51,7 @@ LabeledDefaultButton.defaultProps = {
   color: ButtonColor,
   backgroundColor: ButtonBackground,
   className: {},
+  customRef: undefined,
 };
 
 export default LabeledDefaultButton;
