@@ -7,16 +7,18 @@ import Container from './styles';
 interface Props<T> {
   isSortOpened: boolean;
   usingAtom: RecoilState<T>;
+  onClose: () => void;
 }
 
 const SortedOptionMordal = ({
   isSortOpened,
   usingAtom,
+  onClose,
 }: Props<SortOption>): JSX.Element => {
   const sortOption = useSetRecoilState<SortOption>(usingAtom);
 
   return (
-    <Container isOpen={isSortOpened}>
+    <Container isOpen={isSortOpened} onClose={onClose} zIndex={90}>
       <LabeledDefaultButton
         onClick={() => {
           sortOption('alpha');

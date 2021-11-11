@@ -12,6 +12,9 @@ const BrowseMordalContainer = (): JSX.Element => {
   return (
     <Container>
       <SortedOptionMordal
+        onClose={() => {
+          setSortedModal(false);
+        }}
         isSortOpened={isOpenedSortedModal}
         usingAtom={browseChannelSortOption}
       />
