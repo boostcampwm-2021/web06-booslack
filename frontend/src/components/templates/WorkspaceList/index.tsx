@@ -22,7 +22,10 @@ const WorkspaceListTemplate = ({ children }: Props): JSX.Element => {
 
   const RightButtonDiv: JSX.Element = (
     <div>
-      <StyledLabeledButton text="코드 입력 " />
+      <StyledLabeledButton
+        text="코드 입력 "
+        onClick={() => history.push('/invitecode')}
+      />
       <StyledLabeledButton
         text="워크스페이스 생성"
         onClick={() => history.push('/setupteam')}
