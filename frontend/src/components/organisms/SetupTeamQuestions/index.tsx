@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
+import { useHistory } from 'react-router-dom';
 import QuestionForm from '@molecules/QuestionForm';
 import { submitInput, changeFile } from '@global/util';
-import Container from './style';
+import Container, { StyledLabel, StyledButton } from './style';
 
-const finishedPage = (): JSX.Element => {
-  return <LabeledDefaultButton text="제출" />;
-};
+interface IPage {
+  name: undefined | string;
+  channel: undefined | string;
+  selectedFile: undefined | File;
+}
 
 const SetupTeamQuestions = (): JSX.Element => {
+  const history = useHistory();
+
   const [name, setName] = useState<string>('');
   const [channel, setChannel] = useState<string>('');
-  const [selectedfile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
     return () => {
@@ -43,6 +47,7 @@ const SetupTeamQuestions = (): JSX.Element => {
     />
   );
 
+  /* to-do
   const askFile = (
     <QuestionForm
       count="3/3"
@@ -54,14 +59,25 @@ const SetupTeamQuestions = (): JSX.Element => {
       onSet={({ files }: { files: File }) => setSelectedFile(files[0])}
     />
   );
+  */
 
-  let nowPage = finishedPage();
+  if (!name) return askName;
+  if (!channel) return askChannel;
+  /*
+  if (!selectedfile) return askFile;
+  */
 
-  if (!selectedfile) nowPage = askFile;
-  if (!channel) nowPage = askChannel;
-  if (!name) nowPage = askName;
+  return (
+    <Container>
+      <StyledLabel text="이 정보가 맞습니까?" />
 
-  return <Container>{nowPage}</Container>;
+      <StyledLabel text={`workspace Name : ${name}`} />
+      <StyledLabel text={`workspace 시작 채널 : ${channel}`} />
+      <StyledLabel text={`파일 정보 : ${selectedFile}`} />
+
+      <StyledButton text="제출" onClick={() => history.push('workspacelist')} />
+    </Container>
+  );
 };
 
 export default SetupTeamQuestions;

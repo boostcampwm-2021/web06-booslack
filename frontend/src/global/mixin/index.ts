@@ -31,6 +31,8 @@ export const flexAlignCenter = css`
 `;
 
 export const ThemeButton = css`
+  min-width: 60px;
+  min-height: 30px;
   color: ${theme('titleText', defaultTheme.titleText)};
   background-color: ${theme('backgroundColor', defaultTheme.backgroundColor)};
 `;
