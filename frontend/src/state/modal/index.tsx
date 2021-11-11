@@ -19,3 +19,8 @@ export const channelDescriptionModalState = atom({
   key: 'channelDescription',
   default: false,
 });
+
+export const LoginModalState = atom({
+  key: 'Login',
+  default: false,
+});

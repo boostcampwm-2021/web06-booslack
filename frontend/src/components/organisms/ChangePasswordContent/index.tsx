@@ -1,50 +1,94 @@
-import React from 'react';
-import LabeledButton from '@atoms/LabeledButton';
-import Input from '@atoms/Input';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
-import { LabelColumn, LoginForm } from './style';
+import CreateLoginModal from '@organisms/CreateLoginModal';
+import { useRecoilState } from 'recoil';
+import { LoginModalState } from '@state/modal';
+import useInputs from '@hook/useInputs';
+import { validPassword } from '@global/util/ValidPassword';
+import {
+  LoginInput,
+  LabelColumn,
+  LoginForm,
+  NoticeDiv,
+  RouterLabeledButton,
+} from './style';
+
+const initialData = {
+  username: '',
+  password: '',
+  passwordTwo: '',
+};
+
+const contextList: string[] = [
+  '아이디를 8자리 이상 20자리 이하로 입력해주세요.',
+  '비밀번호를 8자리 이상 20자리 이하로 입력해주세요.',
+  '다시 입력한 비밀번호를 8자리 이상 20자리 이하로 입력해주세요.',
+  '입력한 비밀번호가 서로 다릅니다.',
+];
 
 const SignupContent = (): JSX.Element => {
+  let flag = true;
+  const [context, setContext] = useState<any | null>(null);
+  const [LoginModal] = useRecoilState(LoginModalState);
+  const [{ username, password, passwordTwo }, onChange] = useInputs(initialData);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useRecoilState(LoginModalState);
+  const onValidate = (e) => {
+    flag = false;
+    const result: string = validPassword(password);
+    if (username.length < 8 || username.length > 20) {
+      setContext(contextList[0]);
+    } else if (password.length < 8 || password.length > 20) {
+      setContext(contextList[1]);
+    } else if (passwordTwo.length < 8 || passwordTwo.length > 20) {
+      setContext(contextList[2]);
+    } else if (password !== passwordTwo) {
+      setContext(contextList[3]);
+    } else if (result !== 'success') {
+      setContext(result);
+    } else {
+      flag = true;
+    }
+    if (!flag) {
+      setIsLoginModalOpen(true);
+      e.preventDefault();
+    }
+  };
   const BACKEND_URL = `${process.env.REACT_APP_BACKEND_URL}/api/login/changepassword`;
   return (
     <>
       <LoginForm method="POST" action={BACKEND_URL}>
-        <Input
-          placeholder="  아이디를 입력하세요."
-          width={500}
-          height={60}
+        <LoginInput
+          placeholder="아이디를 입력하세요."
           name="username"
+          type="text"
+          onChange={onChange}
+          value={username}
         />
-        <Input
-          placeholder="  새로운 비밀번호를 입력하세요."
-          width={500}
-          height={60}
+        <LoginInput
+          placeholder="새로운 비밀번호를 입력하세요."
           name="password"
+          type="password"
+          onChange={onChange}
+          value={password}
         />
-        <Input
+        <LoginInput
           placeholder="  새로운 비밀번호를 다시 입력하세요."
-          width={500}
-          height={60}
           name="passwordTwo"
+          type="password"
+          onChange={onChange}
+          value={passwordTwo}
         />
+        <NoticeDiv>
+          비밀번호는 8자리 이상 20자리 이하로 구성되어야 하며, 영어 대문자/소문자, 1개 이상의 숫자, 1개 이상의 특수문자  로 구성되어야 합니다.
+        </NoticeDiv>
         <LabelColumn>
-          <LabeledButton
-            text="확인"
-            width={240}
-            height={60}
-            backgroundColor="#ECDEEC"
-            type="submit"
-          />
+          <RouterLabeledButton text="확인" type="submit" onClick={onValidate} />
           <Link to="/login">
-            <LabeledButton
-              text="취소"
-              width={240}
-              height={60}
-              backgroundColor="#ECDEEC"
-            />
+            <RouterLabeledButton text="취소" type="button" />
           </Link>
         </LabelColumn>
       </LoginForm>
+      {LoginModal && <CreateLoginModal Content={context} />}
     </>
   );
 };

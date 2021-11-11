@@ -7,6 +7,7 @@ interface Props<T> {
   width?: number;
   height?: number;
   color?: string;
+  type?: string;
   backgroundColor?: string;
   className?: T;
 }
@@ -17,6 +18,7 @@ const LabeledButton = ({
   width,
   height,
   color,
+  type,
   backgroundColor = 'transparent',
   className,
 }: Props<typeof className>): JSX.Element => {
@@ -28,6 +30,7 @@ const LabeledButton = ({
       color={color}
       backgroundColor={backgroundColor}
       className={className}
+      type={type}
     >
       {text}
     </Container>

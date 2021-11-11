@@ -1,14 +1,16 @@
 import React from 'react';
 import Container from './styles';
 
-interface Props {
+interface Props<T> {
   onChange: (e) => void;
   name: string;
   value: string;
   onClick?: () => void;
   width?: number;
   height?: number;
+  type?: string;
   placeholder: string;
+  className?: T;
 }
 
 const Input = ({
@@ -16,6 +18,7 @@ const Input = ({
   name,
   value,
   onClick,
+  type,
   width,
   height,
   placeholder,
@@ -30,6 +33,7 @@ const Input = ({
       name={name}
       value={value}
       className={className}
+      type={type}
     />
   );
 };
