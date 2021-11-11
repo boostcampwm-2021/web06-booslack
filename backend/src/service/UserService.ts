@@ -93,9 +93,7 @@ export async function addUserToWorkspace(req: Request, res: Response) {
     userHasWorkspace.workspace = workspace;
     userHasWorkspace.user = user;
 
-    await getCustomRepository(UserHasWorkspaceRepository).save(
-      userHasWorkspace,
-    );
+    await getCustomRepository(UserHasWorkspaceRepository).save(userHasWorkspace);
     return res.status(OK).json({ userHasWorkspace });
   } catch (e) {
     return res.status(BAD_REQUEST).json(e);
@@ -105,9 +103,7 @@ export async function addUserToWorkspace(req: Request, res: Response) {
 export async function getAllUsersWithChannelInfo(req: Request, res: Response) {
   try {
     const { workspaceId } = req.query;
-    const users = await getCustomRepository(
-      UserRepository,
-    ).findAllUsersWithChannelInfo(String(workspaceId));
+    const users = await getCustomRepository(UserRepository).findAllUsersWithChannelInfo(String(workspaceId));
 
     return res.status(OK).json({ users });
   } catch (e) {

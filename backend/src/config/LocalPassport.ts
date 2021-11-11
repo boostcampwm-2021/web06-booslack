@@ -1,3 +1,6 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
+/* eslint-disable @typescript-eslint/no-unsafe-return */
+/* eslint-disable @typescript-eslint/no-unsafe-call */
 import passport from 'passport';
 import LocalStrategy from 'passport-local';
 import { getCustomRepository } from 'typeorm';
@@ -8,28 +11,25 @@ function settingLocalPassport() {
     if (username.length > 20 || password.length > 20) return false;
     return !(password2 && password !== password2);
   }
-  passport.use(<passport.Strategy> new LocalStrategy.Strategy(
-    async (username:string, passwordLocal:string, done) => {
+  passport.use(
+    <passport.Strategy>new LocalStrategy.Strategy(async (username: string, passwordLocal: string, done) => {
       try {
         const user = await getCustomRepository(UserRepository).find({
           where: { email: username, password: passwordLocal },
         });
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const { password } = user;
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         if (!verifyInform(username, passwordLocal, password)) return done(null, false);
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         if (user.length === 1) return done(null, user);
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return done(null, false);
       } catch (e) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return done(null, false);
       }
-    },
-  ));
-  passport.serializeUser((user, done) => { done(null, user); });
+    }),
+  );
+  passport.serializeUser((user, done) => {
+    done(null, user);
+  });
   passport.deserializeUser(async (id, done) => {
     try {
       const user = await getCustomRepository(UserRepository).find({

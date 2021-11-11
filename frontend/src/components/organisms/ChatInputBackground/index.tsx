@@ -1,16 +1,24 @@
-import ChatInput from '@molecules/ChatInput';
-import { ChatInputSize } from '@enum/index';
-import React, { useMemo } from 'react';
+import React from 'react';
+import { keydownHandle, inputHandle } from '@global/util/inputEventHandlers';
 import { Container } from './styles';
 
 const ChatInputBackGround = (): JSX.Element => {
-  const { width, height } = useMemo(() => {
-    return ChatInputSize;
-  }, []);
-
   return (
-    <Container width={width} height={height}>
-      <ChatInput width={width} height={height} />
+    <Container>
+      <div
+        id="input-bar"
+        role="textbox"
+        contentEditable="true"
+        tabIndex={0}
+        aria-multiline="true"
+        aria-autocomplete="list"
+        onKeyDown={keydownHandle}
+        onInput={inputHandle}
+      >
+        <p>
+          <br />
+        </p>
+      </div>
     </Container>
   );
 };

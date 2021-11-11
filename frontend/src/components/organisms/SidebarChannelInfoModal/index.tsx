@@ -9,20 +9,23 @@ import { Container } from './styles';
 const SidebarChannelInfoModal = (): JSX.Element => {
   const [isOpen, setIsOpen] = useRecoilState(sidebarChannelInfoModalState);
 
-  const exitChannel = async () => {
-    // await axios({
-    //   method: 'POST',
-    //   url: 'api/channel/deleteUserFromChannel',
-    //   data: {
-    //     userId: sessionStorage.getItem('id'),
-    //     channelId: '채널이름',
-    //   },
-    // });
-    setIsOpen(false);
+  const exitChannel = async (channelId) => {
+    await axios({
+      method: 'DELETE',
+      url: `http://localhost:8081/api/channel/userFromChannel?userId=${sessionStorage.getItem(
+        'id',
+      )}&channelId=${channelId}&workspaceId=${sessionStorage.getItem(
+        'workspaceId',
+      )}`,
+    });
+    setIsOpen({ status: false, channelId: isOpen.channelId });
   };
 
   return (
-    <Modal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+    <Modal
+      isOpen={isOpen.status}
+      onClose={() => setIsOpen({ status: false, channelId: isOpen.channelId })}
+    >
       <Container>
         <LabeledButton text="분할 화면으로 열기" onClick={() => {}} />
         <div>
@@ -44,7 +47,10 @@ const SidebarChannelInfoModal = (): JSX.Element => {
           <hr />
         </div>
         <LabeledButton text="채널 세부정보 열기" onClick={() => {}} />
-        <LabeledButton text="채널에서 나가기" onClick={exitChannel} />
+        <LabeledButton
+          text="채널에서 나가기"
+          onClick={() => exitChannel(isOpen.channelId)}
+        />
         <div>
           <hr />
         </div>

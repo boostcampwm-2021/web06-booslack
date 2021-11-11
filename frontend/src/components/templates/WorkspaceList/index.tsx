@@ -20,6 +20,9 @@ const WorkspaceListTemplate = ({ children }: Props): JSX.Element => {
   const history = useHistory();
   const setTheme = useSetRecoilState<Itheme>(themeState);
 
+  window.sessionStorage.setItem('id', '1');
+  window.sessionStorage.setItem('workspaceId', '1');
+
   const Title: JSX.Element = <StyledLabel text="booslack" />;
 
   const { data, loading, error } = useAsync(null, 'api/login/info', [], 'POST');
