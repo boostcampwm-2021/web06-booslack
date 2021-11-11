@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import useInputs from '@hook/useInputs';
 import { useRecoilState } from 'recoil';
@@ -18,14 +18,19 @@ const initialData = {
   password: '',
 };
 
+const contextList: string[] = [
+  '아이디를 입력해주세요',
+  '비밀번호를 입력해주세요',
+];
+
 const LoginContent = (): JSX.Element => {
-  const ModalContext = '';
+  const [context, setContext] = useState<any | null>(null);
   const [LoginModal] = useRecoilState(LoginModalState);
   const [{ username, password }, onChange] = useInputs(initialData);
-  const [setIsLoginModalOpen] = useRecoilState(LoginModalState);
+  const [isLoginModalOpen, setIsLoginModalOpen] = useRecoilState(LoginModalState);
   const onValidate = (e) => {
     // eslint-disable-next-line no-console
-    console.log('isBlock', username, password);
+    setContext(username.length !== 0 ? contextList[1] : contextList[0]);
     if (username.length === 0 || password.length === 0) {
       setIsLoginModalOpen(true);
       e.preventDefault();
@@ -67,7 +72,7 @@ const LoginContent = (): JSX.Element => {
           <RouterLabeledButton text="비밀 번호 변경" type="button" />
         </Link>
       </LabelColumn>
-      {LoginModal && <CreateLoginModal Content={ModalContext} />}
+      {LoginModal && <CreateLoginModal Content={context} />}
     </>
   );
 };

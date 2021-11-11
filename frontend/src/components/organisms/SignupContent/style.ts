@@ -32,3 +32,9 @@ export const RouterLabeledButton = styled(LabeledButton)`
   background-color: #ecdeec;
   border-radius: 12px;
 `;
+
+export const NoticeDiv = styled.div`
+  width: 500px;
+  font-weight: 500;
+  color: blue;
+`;

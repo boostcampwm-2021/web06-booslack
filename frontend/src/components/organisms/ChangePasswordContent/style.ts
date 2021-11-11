@@ -32,3 +32,9 @@ export const LoginForm = styled.form`
   width: 512px;
   height: 360px;
 `;
+
+export const NoticeDiv = styled.div`
+  width: 500px;
+  font-weight: 500;
+  color: blue;
+`;

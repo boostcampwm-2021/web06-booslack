@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import { LoginModalState } from '@state/modal';
-import { StyledModal, Container, ModalButton } from './style';
+import { StyledModal, Container, ModalButton, ModalMessage } from './style';
 
 interface Props {
   Content: string;
@@ -12,7 +12,7 @@ const CreateLoginModal = ({ Content }: Props): JSX.Element => {
   return (
     <StyledModal isOpen={isOpen} onClose={() => setIsOpen(false)}>
       <Container>
-        <span>{Content}</span>
+        <ModalMessage>{Content}</ModalMessage>
         <ModalButton
           text="확인"
           type="button"
