@@ -1,22 +1,62 @@
-import Input from '@atoms/Input';
-import '@testing-library/jest-dom/';
-import { render } from '@testing-library/react';
-import { RecoilRoot } from 'recoil';
-import 'jest-styled-components';
 import React from 'react';
+import { RecoilRoot } from 'recoil';
+import { BrowserRouter } from 'react-router-dom';
+import { render, cleanup, screen, waitFor } from '@testing-library/react';
+import '@testing-library/jest-dom/';
+import 'jest-styled-components';
 
-/**
- * @jest-environment node
- */
+import Login from '@pages/Login';
+import WorkspaceList from '@pages/WorkspaceList';
+import axios from 'axios';
 
-describe('this is temporal test, do not try like this (use snapshot) />', () => {
-  it('renders component correctly', () => {
-    const { container } = render(
-      <RecoilRoot>
-        <Input placeholder="apple" />
-      </RecoilRoot>,
+jest.mock('axios');
+const mockedAxios = axios as jest.Mocked<typeof axios>;
+
+const DefaultEnvironment = ({ children }: { children: JSX.Element }) => {
+  return (
+    <RecoilRoot>
+      <BrowserRouter>{children}</BrowserRouter>
+    </RecoilRoot>
+  );
+};
+
+afterEach(() => {
+  jest.clearAllMocks();
+});
+afterEach(cleanup);
+
+describe('page rendering test />', () => {
+  it('login page', () => {
+    const { getByText } = render(
+      <DefaultEnvironment>
+        <Login />
+      </DefaultEnvironment>,
+    );
+    const header = getByText('booslack');
+    expect(header).toBeInTheDocument();
+  });
+
+  it('workspacelist page', async () => {
+    const data = {
+      id: 2,
+      nickname: 'lodado',
+      email: 'https://blog.naver.com/ycp998',
+      type: 'github',
+      password: '',
+    };
+
+    mockedAxios.post.mockResolvedValue({ data: { ...data } });
+
+    expect(axios.post).not.toHaveBeenCalled();
+
+    render(
+      <DefaultEnvironment>
+        <WorkspaceList />
+      </DefaultEnvironment>,
     );
 
-    expect(container.querySelector('input').placeholder).toEqual('apple');
+    const header = await waitFor(() => screen.getByText('booslack'));
+    expect(axios.post).toHaveBeenCalled();
+    expect(header).toBeInTheDocument();
   });
 });

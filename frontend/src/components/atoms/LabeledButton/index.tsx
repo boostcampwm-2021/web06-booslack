@@ -7,7 +7,7 @@ interface Props<T> {
   width?: number;
   height?: number;
   color?: string;
-  type?: string;
+  type?: string | undefined;
   backgroundColor?: string;
   className?: T;
   customRef?: undefined | RefObject<HTMLButtonElement>;

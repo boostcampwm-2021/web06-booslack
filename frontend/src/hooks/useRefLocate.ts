@@ -10,6 +10,7 @@ const useRefLocate = (
 
   const handleResize = () => {
     if (throttle) return;
+    if (!customRef) return;
 
     setThrottle(true);
     setTimeout(() => {

@@ -7,10 +7,7 @@
     "start": "webpack serve",
     "lint-watch": "eslint . --ext .ts",
     "lint": "eslint --fix --ext .ts .",
-    "test": "jest --watch"
-  },
-  "jest": {
-    "testEnvironment": "jsdom"
+    "test": "jest --watch "
   },
   "license": "MIT",
   "dependencies": {
