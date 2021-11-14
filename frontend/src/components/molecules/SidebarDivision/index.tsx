@@ -4,7 +4,7 @@ import React from 'react';
 import { Container, StyledLabel, StyledIconButton } from './styles';
 import { MdAdd } from 'react-icons/md';
 import { useRecoilState } from 'recoil';
-import { channelCreateModalState } from 'src/state/modal';
+import { channelCreateModalState } from '@state/modal';
 
 type SidebarDivisionTypes = 'Starred' | 'Channels' | 'Direct Messages';
 

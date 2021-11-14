@@ -7,9 +7,9 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   channelCreateModalState,
   sidebarChannelInfoModalState,
-} from 'src/state/modal';
+} from '@state/modal';
 import { NavLink } from 'react-router-dom';
-import { channelListFromServerState } from 'src/state/Channel';
+import { channelListFromServerState } from '@state/Channel';
 
 const WorkspaceSidebar = (): JSX.Element => {
   const [isChannelCreateModalOpen, setIsChannelCreateModalOpen] =

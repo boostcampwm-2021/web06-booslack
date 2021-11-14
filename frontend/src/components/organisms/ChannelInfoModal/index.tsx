@@ -3,7 +3,7 @@ import ChannelAbout from '@organisms/ChannelAbout';
 import ChannelMembers from '@organisms/ChannelMembers';
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
-import { channelInfoModalState } from 'src/state/modal';
+import { channelInfoModalState } from '@state/modal';
 import {
   Container,
   StyledLabel,
