@@ -18,10 +18,9 @@ jobs:
       uses: actions/setup-node@v1
       with:
         node-version: ${{ matrix.node-version }}
-        path: './frontend/'
-
-    - name: Build
+    - name: CI test for front
       run: |
+        cd ./frontend/
         yarn install
         yarn jest
       env:
