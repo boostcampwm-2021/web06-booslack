@@ -10,6 +10,8 @@ import Changepassword from '@pages/Changepassword';
 import WorkspaceList from '@pages/WorkspaceList';
 import NotFound from '@pages/NotFound';
 import SetupTeam from '@pages/SetupTeam';
+import NotLogin from '@pages/NotLogin';
+import NotLogout from '@pages/NotLogout';
 import themeState from '@state/Theme';
 import { Itheme } from '@global/theme';
 import InvitedCode from '@pages/InvitedCode';
@@ -50,6 +52,12 @@ const ThemeContainer = (): JSX.Element => {
           </Route>
           <Route path="/generatecode">
             <GeneratedCode />
+          </Route>
+          <Route path="/notlogin">
+            <NotLogin />
+          </Route>
+          <Route path="/notlogout">
+            <NotLogout />
           </Route>
           <Route>
             <NotFound />
