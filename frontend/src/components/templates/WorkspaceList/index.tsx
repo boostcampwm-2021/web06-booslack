@@ -5,6 +5,7 @@ import AsyncBranch from '@molecules/AsyncBranch';
 import themeState from '@state/Theme';
 import useAsync from '@hook/useAsync';
 import { Itheme, yellowTheme } from '@global/theme';
+import Logout from '@global/util/Logout';
 import {
   StyledLabel,
   Container,
@@ -37,7 +38,7 @@ const WorkspaceListTemplate = ({ children }: Props): JSX.Element => {
         text="워크스페이스 생성"
         onClick={() => history.push('/setupteam')}
       />
-      <StyledLabeledButton text="로그아웃" />
+      <StyledLabeledButton text="로그아웃" onClick={() => Logout(history)} />
       <StyledLabeledButton text="환경설정" />
       <StyledLabeledButton
         text="색깔변경"

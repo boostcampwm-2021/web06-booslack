@@ -24,7 +24,7 @@ const contextList: string[] = [
 ];
 
 const LoginContent = (): JSX.Element => {
-  const [context, setContext] = useState<any | null>(null);
+  const [context, setContext] = useState<string | null>(null);
   const [LoginModal] = useRecoilState(LoginModalState);
   const [{ username, password }, onChange] = useInputs(initialData);
   const [isLoginModalOpen, setIsLoginModalOpen] = useRecoilState(LoginModalState);
