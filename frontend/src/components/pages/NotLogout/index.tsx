@@ -9,11 +9,9 @@ import {
   StyledButtonColumn,
 } from './style';
 
-interface Props {
-  history: any;
-}
+const NotFound = (): JSX.Element => {
+  const history = useHistory();
 
-const NotFound = ({ history }: Props): JSX.Element => {
   return (
     <Container>
       <StyledLabel text="404" />
