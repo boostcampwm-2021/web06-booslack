@@ -113,7 +113,7 @@ function splitList(selection) {
     } else {
       parent.removeChild(thisElement);
     }
-    selection.collapse(pElement, 0);
+    selection.collapse(pElement, 1);
   } else {
     const list = [];
     const listParent =
@@ -135,10 +135,114 @@ function splitList(selection) {
   }
 }
 
+function makeBold(selection) {
+  const thisElement = selection.focusNode;
+  if (
+    (thisElement.data[thisElement.length - 1] ===
+      thisElement.data[selection.focusOffset - 1] ||
+      thisElement.data[selection.focusOffset] === ' ') &&
+    thisElement.length !== 1 &&
+    thisElement.data[selection.focusOffset - 2] !== ' '
+  ) {
+    // 맨 뒤일 경우 or 뒤에 띄어쓰기가 있을 경우
+    // 앞으로 봐나가면 됨
+    let currentCheckingNode = thisElement;
+    let endIndex = selection.focusOffset - 2;
+    while (currentCheckingNode != null) {
+      const strong = document.createElement('b');
+      if (currentCheckingNode.nodeName === '#text') {
+        for (let i = endIndex; i >= 0; i--) {
+          if (
+            currentCheckingNode.data[i] === '*' &&
+            (i === 0 || currentCheckingNode.data[i - 1] === ' ') &&
+            currentCheckingNode.data[i + 1] !== ' '
+          ) {
+            const range = document.createRange();
+            range.setStart(currentCheckingNode, i);
+            range.setEnd(thisElement, selection.focusOffset);
+            range.surroundContents(strong);
+
+            strong.innerHTML = strong.innerHTML.slice(1, -1);
+            strong.innerHTML = strong.innerHTML
+              .replace('<b>', '')
+              .replace('</b>', '');
+            selection.collapse(strong, 1);
+            document.execCommand('bold');
+            return;
+          }
+        }
+      }
+      currentCheckingNode = currentCheckingNode.previousSibling;
+      if (currentCheckingNode != null) {
+        endIndex = currentCheckingNode.length - 1;
+      }
+    }
+  }
+
+  if (
+    (selection.focusOffset === 1 ||
+      thisElement.data[selection.focusOffset - 2] === ' ') &&
+    thisElement.data[selection.focusOffset] !== ' '
+  ) {
+    // 맨 앞일 경우 or 앞에 띄어쓰기가 있을 경우
+    // 뒤로 봐나가면 됨
+    let currentCheckingNode = thisElement;
+    let startIndex = selection.focusOffset;
+    while (currentCheckingNode != null) {
+      const strong = document.createElement('b');
+      if (
+        currentCheckingNode.nodeName === '#text' &&
+        currentCheckingNode.length !== 0
+      ) {
+        for (let i = startIndex; i < currentCheckingNode.length; i++) {
+          if (
+            currentCheckingNode.data[i] === '*' &&
+            (i === currentCheckingNode.length - 1 ||
+              currentCheckingNode.data[i + 1] === ' ') &&
+            currentCheckingNode.data[i - 1] !== ' '
+          ) {
+            const range = document.createRange();
+            range.setStart(thisElement, selection.focusOffset - 1);
+            range.setEnd(currentCheckingNode, i + 1);
+            range.surroundContents(strong);
+
+            strong.innerHTML = strong.innerHTML.slice(1, -1);
+            strong.innerHTML = strong.innerHTML
+              .replace('<b>', '')
+              .replace('</b>', '');
+            selection.collapse(strong, 0);
+            document.execCommand('bold');
+            return;
+          }
+        }
+      }
+      currentCheckingNode = currentCheckingNode.nextSibling;
+      if (currentCheckingNode != null) {
+        startIndex = 0;
+      }
+    }
+  }
+}
+
 export function inputHandle(e): void {
   if (e.nativeEvent.data === '>') {
     const selection = document.getSelection();
     createBlockquote(selection);
+  }
+
+  if (e.nativeEvent.data === '*') {
+    const selection = document.getSelection();
+    makeBold(selection);
+  }
+
+  if (e.nativeEvent.inputType === 'deleteContentBackward') {
+    const selection = document.getSelection();
+    if (
+      selection.focusNode.innerHTML === '<br>' &&
+      document.queryCommandState('bold')
+    ) {
+      document.execCommand('bold');
+    }
   }
 }
 
