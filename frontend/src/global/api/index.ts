@@ -1,7 +1,21 @@
+const PREFIX = '/api';
+
+const CHANNEL = 'channels';
+const WORKSPACE = 'workspaces';
+
 export const API = {
   get: {
     channel: {
-      all: '/api/channels/',
+      all: `${PREFIX}/${CHANNEL}/`,
+    },
+    workspace: {
+      user: `${PREFIX}/${WORKSPACE}/user`,
+    },
+  },
+
+  post: {
+    workspace: {
+      addOne: `${PREFIX}/${WORKSPACE}`,
     },
   },
 } as const;

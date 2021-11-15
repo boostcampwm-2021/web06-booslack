@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import QuestionForm from '@molecules/QuestionForm';
 import { submitInput, axiosWithFile, changeFile } from '@global/util';
+import API from '@global/api';
 import Container, { StyledLabel, StyledButton } from './style';
 
 const SetupTeamQuestions = (): JSX.Element => {
@@ -57,7 +58,7 @@ const SetupTeamQuestions = (): JSX.Element => {
     try {
       await axios({
         method: 'post',
-        url: '/api/workspaces',
+        url: API.post.workspace.addOne,
         data: {
           name,
           channel,

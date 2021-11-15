@@ -2,6 +2,8 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import Label from '@atoms/Label';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
+import API from '@global/api';
+import useAsync from '@hook/useAsync';
 import {
   StyledSelectWorkspace,
   StyledDiv,
@@ -10,6 +12,7 @@ import {
   WorkspaceListContainer,
   StyledLabeledButton,
 } from './styles';
+import AsyncBranch from '@molecules/AsyncBranch';
 
 interface Props {
   name?: string;
@@ -38,12 +41,16 @@ WorkSpaceLists.defaultProps = {
 const WorkSpaceListContent = (): JSX.Element => {
   const NameLabel = <Label text={`${'ycp998'}의 워크스페이스`} />;
 
+  const { data, loading, error } = useAsync(null, API.get.workspace.user, []);
+
   return (
     <Container>
       <StyledHeader title={NameLabel} content={<></>} rightButton={<></>} />
       <WorkspaceListContainer>
-        <WorkSpaceLists />
-        <WorkSpaceLists />
+        <AsyncBranch data={data} loading={loading} error={error}>
+          <WorkSpaceLists />
+        </AsyncBranch>
+        ;
         <LabeledDefaultButton text="더보기" />
       </WorkspaceListContainer>
     </Container>

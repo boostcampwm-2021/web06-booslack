@@ -13,6 +13,11 @@ export async function getAllWorkspaces(req: Request, res: Response) {
   return res.status(OK).json({ workspaces });
 }
 
+export async function getAllUserWorkspaces(req: Request, res: Response) {
+  const workspaces = await getCustomRepository(WorkspaceRepository).find();
+  return res.status(OK).json({ workspaces });
+}
+
 export async function getOneWorkspace(req: Request, res: Response) {
   const { id } = req.params;
   try {
