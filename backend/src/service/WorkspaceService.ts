@@ -14,8 +14,24 @@ export async function getAllWorkspaces(req: Request, res: Response) {
 }
 
 export async function getAllUserWorkspaces(req: Request, res: Response) {
-  const workspaces = await getCustomRepository(WorkspaceRepository).find();
-  return res.status(OK).json({ workspaces });
+  try {
+    // @ts-ignore
+    const { userId } = req.session;
+
+    if (!userId) {
+      throw UNAUTHORIZED;
+    }
+
+    const workspaces = await getCustomRepository(UserHasWorkspaceRepository).find({
+      where: { userId },
+      relations: ['workspace', 'user'],
+    });
+
+    return res.status(OK).json({ workspaces: [...workspaces.map((ele) => ele.workspace)] });
+  } catch (error) {
+    console.log(error);
+    return res.status(BAD_REQUEST).json(error);
+  }
 }
 
 export async function getOneWorkspace(req: Request, res: Response) {
