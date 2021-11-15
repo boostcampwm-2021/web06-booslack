@@ -17,8 +17,9 @@ export const Container = styled.main`
   background-color: #fff;
   margin-top: 30vh;
   border-radius: 9px;
+  position: relative;
 
-  overflow: hidden;
+  overflow: visible;
 `;
 
 export const WorkspaceListContainer = styled.div`
