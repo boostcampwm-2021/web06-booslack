@@ -4,6 +4,10 @@ import BrowseContent from '@organisms/BrowseContent';
 import WorkspaceContent from '@organisms/WorkspaceContent';
 import WorkspaceTemplate from '@templates/Workspace';
 
+interface Props {
+  history: any;
+}
+
 const Workspace = (): JSX.Element => {
   const { channelId }: { channelId?: string } = useParams();
 

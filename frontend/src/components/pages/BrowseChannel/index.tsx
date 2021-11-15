@@ -8,7 +8,6 @@ const BrowseChannel = (): JSX.Element => {
   const Content: JSX.Element = <BrowseContent />;
 
   const resetCursor = useResetRecoilState(browseCursor);
-
   useEffect(() => {
     return () => {
       resetCursor();

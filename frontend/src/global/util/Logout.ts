@@ -1,13 +1,15 @@
 import axios from 'axios';
-import { useHistory } from 'react-router-dom';
 
-export const Logout = async () => {
+const Logout = async (history) => {
   try {
-    await axios({
+    const response = await axios({
       method: 'GET',
       url: 'api/login/logout',
     });
-  } catch (e) {
-    (() => useHistory().goBack())();
+    if (response.data) history.push('/login');
+  } catch (error) {
+    history.push('/notfound');
   }
 };
+
+export default Logout;

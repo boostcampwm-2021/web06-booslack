@@ -2,10 +2,14 @@ import React from 'react';
 import SetupTeamQuestions from '@organisms/SetupTeamQuestions';
 import EmptyWorkspaceTemplate from '@templates/EmptyWorkspace';
 
-const SetupTeam = (): JSX.Element => {
+interface Props {
+  history: any;
+}
+
+const SetupTeam = ({ history }: Props): JSX.Element => {
   return (
     <EmptyWorkspaceTemplate>
-      <SetupTeamQuestions />
+      <SetupTeamQuestions history={history}/>
     </EmptyWorkspaceTemplate>
   );
 };

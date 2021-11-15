@@ -31,7 +31,12 @@ loginRouter.post('/info', (req, res) => {
   try {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    res.json(req.session.passport.user);
+    const userInfo = req.session.passport.user;
+    if (userInfo) {
+      res.json(userInfo);
+    } else {
+      res.json({ message: 'User is not Login' });
+    }
   } catch (e) {
     res.json({ message: 'User is not Login' });
   }
@@ -42,7 +47,7 @@ loginRouter.get('/logout', (req, res) => {
     req.logout();
     res.clearCookie('connect.sid', { path: '/', domain: 'localhost' });
     req.session.destroy((err) => {
-      res.redirect(`${frontUrl}/login`);
+      res.json({ url: `${frontUrl}/login` });
     });
   } catch (e) {
     res.json({ message: 'session is not destroy' });
