@@ -4,6 +4,12 @@ import SubmitCodeForm from '@molecules/SubmitCodeForm';
 import CodeTemplate from '@templates/Code';
 import { Container } from './style';
 
+interface Props {
+  name: undefined | string;
+  channel: undefined | string;
+  selectedFile: undefined | File;
+}
+
 const GeneratedCode = (): JSX.Element => {
   const history = useHistory();
 

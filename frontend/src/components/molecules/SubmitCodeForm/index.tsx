@@ -5,11 +5,6 @@ import Container, {
   StyledDiv,
 } from './styles';
 
-interface Props {
-  setCode: Dispatch<SetStateAction<string>>;
-  readOnly?: boolean;
-}
-
 const InputTag = ({
   name,
   readOnly,
@@ -39,6 +34,11 @@ const InputTag = ({
 InputTag.defaultProps = {
   readOnly: false,
 };
+
+interface Props {
+  setCode: Dispatch<SetStateAction<string>>;
+  readOnly?: boolean;
+}
 
 const SubmitCodeForm = ({ readOnly, setCode }: Props): JSX.Element => {
   const OnChangeLotateForm = (e: React.ChangeEvent<HTMLFormElement>) => {

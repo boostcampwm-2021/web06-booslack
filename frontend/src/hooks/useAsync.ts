@@ -1,12 +1,11 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
+import { METHOD } from '@global/type';
 
 export interface Data {
   data?: undefined | unknown;
   params: undefined | unknown;
 }
-
-type METHOD = 'GET' | 'POST' | 'DELETE' | 'UPDATE';
 
 const getAxios = async (Path: string, JSON: Data): Promise<Data> => {
   return axios.get(Path, JSON);

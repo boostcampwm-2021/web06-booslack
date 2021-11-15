@@ -1,4 +1,6 @@
 import React from 'react';
+import axios from 'axios';
+import { METHOD } from '@global/type';
 
 interface Option {
   reverse?: boolean | undefined;
@@ -48,4 +50,32 @@ export const selectRefValue = (
   ref: React.RefObject<HTMLInputElement>,
 ): undefined | string | undefined => {
   return ref?.current?.value;
+};
+
+export const axiosWithFile = async (
+  path: string,
+  json: unknown,
+  files: File[],
+  method: METHOD = 'GET',
+): Promise<unknown | null> => {
+  const formData = new FormData();
+  files?.map((file: File) => file && formData.append('images', file));
+
+  formData.append(
+    'key',
+    new Blob([JSON.stringify(json)], { type: 'application/json' }),
+  );
+
+  try {
+    return await axios({
+      method,
+      url: path,
+      data: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    });
+  } catch (error) {
+    return null;
+  }
 };

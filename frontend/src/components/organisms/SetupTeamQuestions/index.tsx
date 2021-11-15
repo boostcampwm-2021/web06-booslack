@@ -1,28 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import QuestionForm from '@molecules/QuestionForm';
-import { submitInput, changeFile } from '@global/util';
+import { submitInput, axiosWithFile, changeFile } from '@global/util';
 import Container, { StyledLabel, StyledButton } from './style';
-
-interface IPage {
-  name: undefined | string;
-  channel: undefined | string;
-  selectedFile: undefined | File;
-}
 
 const SetupTeamQuestions = (): JSX.Element => {
   const history = useHistory();
   const [name, setName] = useState<string>('');
   const [channel, setChannel] = useState<string>('');
   const [selectedFile, setSelectedFile] = useState(null);
-
-  useEffect(() => {
-    return () => {
-      setName('');
-      setChannel('');
-      setSelectedFile(null);
-    };
-  }, []);
 
   const askName = (
     <QuestionForm
@@ -76,7 +62,17 @@ const SetupTeamQuestions = (): JSX.Element => {
 
       <StyledButton
         text="제출"
-        onClick={() => {
+        onClick={async () => {
+          await axiosWithFile(
+            '/api/workspaces',
+            {
+              name,
+              channel,
+            },
+            [selectedFile],
+            'POST',
+          );
+
           history.push({
             pathname: '/generatecode',
             state: { name, channel, selectedFile },
