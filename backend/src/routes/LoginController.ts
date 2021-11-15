@@ -59,7 +59,7 @@ loginRouter.get('/logout', (req, res) => {
       res.json({ url: `${frontUrl}/login` });
     });
   } catch (e) {
-    res.json({ message: 'session is not destroy' });
+    res.json({ message: 'Session is not destroyed.' });
   }
 });
 
@@ -79,11 +79,13 @@ loginRouter.post('/signup', async (req, res) => {
   try {
     const { username, password, passwordTwo } = req.body;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    if (!verifyInform(username, password, passwordTwo)) throw new Error('no user data verify');
+    if (!verifyInform(username, password, passwordTwo)) {
+      throw new Error('Given data does not meet the requirements. ');
+    }
     const user = await getCustomRepository(UserRepository).find({
-      where: { email: username },
+      where: { nickname: username },
     });
-    if (user.length > 0) throw new Error('user is exist');
+    if (user.length > 0) throw new Error('Given username already exists.');
     const newUser = {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       nickname: makeNickName(username),
