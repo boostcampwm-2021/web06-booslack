@@ -6,7 +6,7 @@ import WorkspaceRepository from '../repository/WorkspaceRepository';
 import paramMissingError from '../shared/constants';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
 
-const { BAD_REQUEST, CREATED, OK } = StatusCodes;
+const { UNAUTHORIZED, BAD_REQUEST, CREATED, OK } = StatusCodes;
 
 export async function getAllWorkspaces(req: Request, res: Response) {
   const workspaces = await getCustomRepository(WorkspaceRepository).find();
@@ -40,10 +40,14 @@ export async function addOneWorkspace(req: Request, res: Response) {
     const { userId } = req.session;
 
     if (!userId) {
-      throw BAD_REQUEST;
+      throw UNAUTHORIZED;
     }
 
     const { name, channel } = req.body;
+
+    if (!name) {
+      throw paramMissingError;
+    }
 
     const workspace = {
       name,
@@ -60,7 +64,7 @@ export async function addOneWorkspace(req: Request, res: Response) {
     return res.status(CREATED).end();
   } catch (error) {
     return res.status(BAD_REQUEST).json({
-      error: paramMissingError,
+      error,
     });
   }
 }

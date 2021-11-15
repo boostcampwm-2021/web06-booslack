@@ -53,6 +53,25 @@ const SetupTeamQuestions = (): JSX.Element => {
   if (!selectedfile) return askFile;
   */
 
+  const generateWorkspace = async () => {
+    try {
+      await axios({
+        method: 'post',
+        url: '/api/workspaces',
+        data: {
+          name,
+          channel,
+        },
+      });
+
+      history.push({
+        pathname: '/generatecode',
+      });
+    } catch (error) {
+      //to-do : popup
+    }
+  };
+
   return (
     <Container>
       <StyledLabel text="이 정보가 맞습니까?" />
@@ -61,24 +80,7 @@ const SetupTeamQuestions = (): JSX.Element => {
       <StyledLabel text={`workspace 시작 채널 : ${channel}`} />
       <StyledLabel text={`파일 정보 : ${selectedFile} (skip)`} />
 
-      <StyledButton
-        text="제출"
-        onClick={async () => {
-          await axios({
-            method: 'post',
-            url: '/api/workspaces',
-            data: {
-              name,
-              channel,
-            },
-          });
-
-          history.push({
-            pathname: '/generatecode',
-            state: { name, channel, selectedFile },
-          });
-        }}
-      />
+      <StyledButton text="제출" onClick={generateWorkspace} />
     </Container>
   );
 };
