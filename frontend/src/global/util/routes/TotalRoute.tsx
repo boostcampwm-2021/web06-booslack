@@ -1,8 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Route } from 'react-router-dom';
 
-const TotalRoute = ({ page: Page, path }) => {
-  return <Route path={path}>{Page}</Route>;
+interface Props {
+  Page: () => JSX.Element;
+  path: string;
+}
+
+const TotalRoute = ({ Page, path }: Props) => {
+  return (
+    <Route path={path}>
+      <Page />
+    </Route>
+  );
 };
 
 export default TotalRoute;

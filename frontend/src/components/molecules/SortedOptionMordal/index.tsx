@@ -21,8 +21,6 @@ const SortedOptionMordal = ({
   const sortOption = useSetRecoilState<SortOption>(usingAtom);
   const [xWidth, yHeight] = useRefLocate(customRef, 50);
 
-  const [xWidth, yHeight] = useRefLocate(customRef);
-
   return (
     <Container
       x={xWidth}
