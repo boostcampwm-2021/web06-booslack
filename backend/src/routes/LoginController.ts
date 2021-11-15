@@ -27,20 +27,27 @@ loginRouter.get(
   }),
 );
 
-loginRouter.post('/info', (req, res) => {
+loginRouter.get('/info', (req, res) => {
   try {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const userInfo = req.session.passport.user;
-    if (userInfo) {
-      // @ts-ignore
-      req.session.userId = req.session.passport.user[0].id;
-      res.json(userInfo);
-    } else {
-      res.json({ message: 'User is not Login' });
-    }
+
+    res.json(userInfo);
   } catch (e) {
-    res.json({ message: 'User is not Login' });
+    res.json({ message: 'Error while reading user information.' });
+  }
+});
+
+loginRouter.get('/loggedIn', (req, res) => {
+  try {
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const loggedIn = req.session.passport.user;
+
+    res.json({ loggedIn });
+  } catch (e) {
+    res.json({ message: 'Error while checking login status.' });
   }
 });
 
