@@ -142,9 +142,10 @@ function makeBold(selection) {
       thisElement.data[selection.focusOffset - 1] ||
       thisElement.data[selection.focusOffset] === ' ') &&
     thisElement.length !== 1 &&
-    thisElement.data[selection.focusOffset - 2] !== ' '
+    thisElement.data[selection.focusOffset - 2] !== ' ' &&
+    thisElement.data[selection.focusOffset - 2] !== '*'
   ) {
-    // 맨 뒤일 경우 or 뒤에 띄어쓰기가 있을 경우
+    // 맨 뒤일 경우 or 뒤에 띄어쓰기가 있을 경우 or 뒤에 italic이 있을 경우
     // 앞으로 봐나가면 됨
     let currentCheckingNode = thisElement;
     let endIndex = selection.focusOffset - 2;
@@ -154,7 +155,9 @@ function makeBold(selection) {
         for (let i = endIndex; i >= 0; i--) {
           if (
             currentCheckingNode.data[i] === '*' &&
-            (i === 0 || currentCheckingNode.data[i - 1] === ' ') &&
+            (i === 0 ||
+              currentCheckingNode.data[i - 1] === ' ' ||
+              currentCheckingNode.data[i - 1] === '*') &&
             currentCheckingNode.data[i + 1] !== ' '
           ) {
             const range = document.createRange();
@@ -184,7 +187,7 @@ function makeBold(selection) {
       thisElement.data[selection.focusOffset - 2] === ' ') &&
     thisElement.data[selection.focusOffset] !== ' '
   ) {
-    // 맨 앞일 경우 or 앞에 띄어쓰기가 있을 경우
+    // 맨 앞일 경우 or 앞에 띄어쓰기가 있을 경우 or 앞에 italic이 있을 경우
     // 뒤로 봐나가면 됨
     let currentCheckingNode = thisElement;
     let startIndex = selection.focusOffset;
@@ -198,7 +201,8 @@ function makeBold(selection) {
           if (
             currentCheckingNode.data[i] === '*' &&
             (i === currentCheckingNode.length - 1 ||
-              currentCheckingNode.data[i + 1] === ' ') &&
+              currentCheckingNode.data[i + 1] === ' ' ||
+              currentCheckingNode.data[i + 1] === '*') &&
             currentCheckingNode.data[i - 1] !== ' '
           ) {
             const range = document.createRange();
@@ -237,11 +241,10 @@ export function inputHandle(e): void {
 
   if (e.nativeEvent.inputType === 'deleteContentBackward') {
     const selection = document.getSelection();
-    if (
-      selection.focusNode.innerHTML === '<br>' &&
-      document.queryCommandState('bold')
-    ) {
-      document.execCommand('bold');
+    if (selection.focusNode.innerHTML === '<br>') {
+      if (document.queryCommandState('bold')) {
+        document.execCommand('bold');
+      }
     }
   }
 }
