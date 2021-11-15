@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import { channelDescriptionModalState } from 'src/state/modal';
+import { channelDescriptionModalState } from '@state/modal';
 import AboutElement from './AboutElement';
 import { BackgroundContainer, Container } from './styles';
 

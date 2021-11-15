@@ -46,8 +46,6 @@ const WorkspaceListTemplate = ({ children }: Props): JSX.Element => {
     </div>
   );
 
-  console.log(data);
-
   return (
     <AsyncBranch data={data} loading={loading} error={error} success={<></>}>
       <Container>

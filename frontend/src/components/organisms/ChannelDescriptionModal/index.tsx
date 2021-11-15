@@ -1,8 +1,8 @@
 import axios from 'axios';
 import React from 'react';
 import { useRecoilState } from 'recoil';
-import useInputs from 'src/hooks/useInputs';
-import { channelDescriptionModalState } from 'src/state/modal';
+import useInputs from '@hook/useInputs';
+import { channelDescriptionModalState } from '@state/modal';
 import {
   ButtonContainer,
   CancelButton,

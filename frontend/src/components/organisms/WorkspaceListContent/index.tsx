@@ -11,18 +11,28 @@ import {
   StyledLabeledButton,
 } from './styles';
 
-const WorkSpaceLists = () => {
+interface Props {
+  name?: string;
+  content?: number;
+}
+
+const WorkSpaceLists = ({ name, content }: Props): JSX.Element => {
   const history = useHistory();
 
   return (
     <StyledDiv>
-      <StyledSelectWorkspace firstLabelContent="부캠 1" content={21} />
+      <StyledSelectWorkspace firstLabelContent={name} content={content} />
       <StyledLabeledButton
         text="실행"
         onClick={() => history.push('client/1')}
       />
     </StyledDiv>
   );
+};
+
+WorkSpaceLists.defaultProps = {
+  name: '부캠',
+  content: 0,
 };
 
 const WorkSpaceListContent = (): JSX.Element => {

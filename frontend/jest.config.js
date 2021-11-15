@@ -11,4 +11,9 @@ module.exports = {
   moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
   moduleNameMapper,
   testEnvironment: 'jsdom',
+  globals: {
+    'ts-jest': {
+      diagnostics: false,
+    },
+  },
 };

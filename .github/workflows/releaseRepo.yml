@@ -10,6 +10,7 @@ on:
 
 jobs:
   backup:
+    name: backup
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -21,6 +22,8 @@ jobs:
           git checkout -b old-release
           git push -f origin old-release
   release:
+    name: release
+    needs: backup
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
