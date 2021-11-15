@@ -18,10 +18,22 @@ const InputTag = ({
   readOnly?: boolean;
 }): JSX.Element => {
   if (readOnly) {
-    return <StyledInput name={name} value="" onChange={() => {}} readOnly />;
+    return (
+      <StyledInput
+        autoComplete="new-password"
+        name={name}
+        value=""
+        onChange={(e: React.ChangeEvent<HTMLFormElement>) => {
+          e.stopPropagation();
+        }}
+        readOnly
+      />
+    );
   }
 
-  return <StyledInput name={name} onChange={() => {}} />;
+  return (
+    <StyledInput autoComplete="new-password" name={name} onChange={() => {}} />
+  );
 };
 
 InputTag.defaultProps = {
@@ -31,13 +43,19 @@ InputTag.defaultProps = {
 const SubmitCodeForm = ({ readOnly, setCode }: Props): JSX.Element => {
   const OnChangeLotateForm = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.stopPropagation();
-    const { currentTarget } = e;
+    const { currentTarget, target } = e;
+    const myIndex: number | typeof NaN = parseInt(
+      target?.name[target.name.length - 1],
+      10,
+    );
+
+    if (Number.isNaN(myIndex)) return;
 
     // eslint-disable-next-line operator-linebreak
-    const inputs: NodeListOf<HTMLInputElement> =
+    const inputList: NodeListOf<HTMLInputElement> =
       currentTarget.querySelectorAll('input');
 
-    const values = Array.from(inputs)?.map((inputTag: HTMLInputElement) => {
+    const values = Array.from(inputList)?.map((inputTag: HTMLInputElement) => {
       const inputValue = inputTag.value as string | undefined;
 
       // eslint-disable-next-line no-param-reassign
@@ -46,10 +64,11 @@ const SubmitCodeForm = ({ readOnly, setCode }: Props): JSX.Element => {
     });
 
     setCode(values.join(''));
+    inputList[myIndex > 5 ? 5 : myIndex].focus();
   };
 
   return (
-    <Container onChange={OnChangeLotateForm}>
+    <Container autoComplete="off" onChange={OnChangeLotateForm}>
       <StyledInputContainer>
         <InputTag name="codeInput1" readOnly={readOnly} />
         <InputTag name="codeInput2" readOnly={readOnly} />
