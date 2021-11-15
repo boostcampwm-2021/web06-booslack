@@ -10,7 +10,6 @@ import {
 
 const NotFound = (): JSX.Element => {
   const history = useHistory();
-
   return (
     <Container>
       <StyledLabel text="404" />

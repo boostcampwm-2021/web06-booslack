@@ -5,7 +5,6 @@ import { Container } from './style';
 
 const GeneratedCode = (): JSX.Element => {
   const history = useHistory();
-
   return (
     <CodeTemplate
       text="코드을 입력해주세요!"

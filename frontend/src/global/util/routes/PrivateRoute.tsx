@@ -1,16 +1,22 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import checkIsLogout from '@global/util/CheckIsLogout';
+import useAsync from '@hook/useAsync';
 
-const PrivateRoute = ({ page: Page, path }) => {
-  const [loading, setLoading] = useState(false);
-  useEffect(() => {
-    return () => setLoading(false);
-  }, []);
-  if (checkIsLogout()) {
+interface Props {
+  Page: () => JSX.Element;
+  path: string;
+}
+
+const PrivateRoute = ({ Page, path }: Props) => {
+  const { data } = useAsync(null, 'api/login/info', [], 'POST');
+  if (!(data === null) && data.message === 'User is not Login') {
     return <Redirect to="/notlogin" />;
   }
-  return <Route path={path}>{Page}</Route>;
+  return (
+    <Route path={path}>
+      <Page />
+    </Route>
+  );
 };
 
 export default PrivateRoute;

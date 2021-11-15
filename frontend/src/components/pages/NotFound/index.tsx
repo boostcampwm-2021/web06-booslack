@@ -1,12 +1,10 @@
 import React from 'react';
 import Label from '@atoms/Label';
+import { useHistory } from 'react-router-dom';
 import { Container, StyledLabel, StyledButton } from './style';
 
-interface Props {
-  history: any;
-}
-
-const NotFound = ({ history }: Props): JSX.Element => {
+const NotFound = (): JSX.Element => {
+  const history = useHistory();
   return (
     <Container>
       <StyledLabel text="404" />
