@@ -28,18 +28,18 @@ const ThemeContainer = (): JSX.Element => {
       <GlobalStyle />
       <BrowserRouter>
         <Switch>
-          <PublicRoute page={Login} path="/login" />
-          <PublicRoute page={Signup} path="/signup" />
-          <PrivateRoute page={WorkspaceList} path="/workspacelist" />
-          <PrivateRoute page={SetupTeam} path="/setupteam" />
-          <PrivateRoute page={Workspace} path="/client/:channelId" />
-          <PrivateRoute page={BrowseChannel} path="/browsechannel" />
-          <PrivateRoute page={InvitedCode} path="/invitecode" />
-          <PrivateRoute page={GeneratedCode} path="/generatecode" />
-          <TotalRoute page={NotLogin} path="/notlogin" />
-          <TotalRoute page={NotLogout} path="/notlogout" />
-          <TotalRoute page={Changepassword} path="/changepassword" />
-          <TotalRoute page={NotFound} path="*" />
+          <PublicRoute Page={Login} path="/login" />
+          <PublicRoute Page={Signup} path="/signup" />
+          <PrivateRoute Page={WorkspaceList} path="/workspacelist" />
+          <PrivateRoute Page={SetupTeam} path="/setupteam" />
+          <PrivateRoute Page={Workspace} path="/client/:channelId" />
+          <PrivateRoute Page={BrowseChannel} path="/browsechannel" />
+          <PrivateRoute Page={InvitedCode} path="/invitecode" />
+          <PrivateRoute Page={GeneratedCode} path="/generatecode" />
+          <TotalRoute Page={NotLogin} path="/notlogin" />
+          <TotalRoute Page={NotLogout} path="/notlogout" />
+          <TotalRoute Page={Changepassword} path="/changepassword" />
+          <TotalRoute Page={NotFound} path="*" />
         </Switch>
       </BrowserRouter>
     </ThemeProvider>

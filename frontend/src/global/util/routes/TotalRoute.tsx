@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { Route } from 'react-router-dom';
 
 interface Props {
@@ -7,7 +7,11 @@ interface Props {
 }
 
 const TotalRoute = ({ Page, path }: Props) => {
-  return <Route path={path}>{Page}</Route>;
+  return (
+    <Route path={path}>
+      <Page />
+    </Route>
+  );
 };
 
 export default TotalRoute;
