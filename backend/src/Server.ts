@@ -9,7 +9,6 @@ import session from 'express-session';
 import passport from 'passport';
 import cors from 'cors';
 import sessionFileStore from 'session-file-store';
-import formidable from 'express-formidable';
 import logger from './shared/Logger';
 import BaseRouter from './routes';
 import settingGithubPassport from './config/GithubPassport';

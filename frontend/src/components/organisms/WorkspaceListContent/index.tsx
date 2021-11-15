@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unused-prop-types */
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import Label from '@atoms/Label';
@@ -38,7 +39,7 @@ const WorkSpaceLists = ({ data }: Idata): JSX.Element => {
             <StyledSelectWorkspace firstLabelContent={name} content={123} />
             <StyledLabeledButton
               text="실행"
-              onClick={() => history.push('client/1')}
+              onClick={() => history.push(`${id}/client/1`)}
             />
           </StyledDiv>
         );
