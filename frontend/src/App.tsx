@@ -1,9 +1,8 @@
 import React from 'react';
 import { RecoilRoot, useRecoilValue } from 'recoil';
-import { BrowserRouter, Switch, Route } from 'react-router-dom';
+import { BrowserRouter, Switch } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import Workspace from '@pages/Workspace';
-import Login from '@pages/Login';
 import BrowseChannel from '@pages/BrowseChannel';
 import Signup from '@pages/Signup';
 import Changepassword from '@pages/Changepassword';
@@ -16,52 +15,31 @@ import themeState from '@state/Theme';
 import { Itheme } from '@global/theme';
 import InvitedCode from '@pages/InvitedCode';
 import GeneratedCode from '@pages/GeneratedCode';
+import PublicRoute from '@global/util/routes/PublicRoute';
+import Login from '@pages/Login';
+import PrivateRoute from '@global/util/routes/PrivateRoute';
+import TotalRoute from '@global/util/routes/TotalRoute';
 import GlobalStyle from './global/globalstyle';
 
 const ThemeContainer = (): JSX.Element => {
   const currentTheme = useRecoilValue<Itheme>(themeState);
-
   return (
     <ThemeProvider theme={currentTheme}>
       <GlobalStyle />
       <BrowserRouter>
         <Switch>
-          <Route path="/login">
-            <Login />
-          </Route>
-          <Route path="/workspacelist">
-            <WorkspaceList />
-          </Route>
-          <Route path="/setupteam">
-            <SetupTeam />
-          </Route>
-          <Route exact path="/client/:channelId">
-            <Workspace />
-          </Route>
-          <Route path="/signup">
-            <Signup />
-          </Route>
-          <Route path="/changepassword">
-            <Changepassword />
-          </Route>
-          <Route path="/browsechannel">
-            <BrowseChannel />
-          </Route>
-          <Route path="/invitecode">
-            <InvitedCode />
-          </Route>
-          <Route path="/generatecode">
-            <GeneratedCode />
-          </Route>
-          <Route path="/notlogin">
-            <NotLogin />
-          </Route>
-          <Route path="/notlogout">
-            <NotLogout />
-          </Route>
-          <Route>
-            <NotFound />
-          </Route>
+          <PublicRoute page={Login} path="/login" />
+          <PublicRoute page={Signup} path="/signup" />
+          <PrivateRoute page={WorkspaceList} path="/workspacelist" />
+          <PrivateRoute page={SetupTeam} path="/setupteam" />
+          <PrivateRoute page={Workspace} path="/client/:channelId" />
+          <PrivateRoute page={BrowseChannel} path="/browsechannel" />
+          <PrivateRoute page={InvitedCode} path="/invitecode" />
+          <PrivateRoute page={GeneratedCode} path="/generatecode" />
+          <TotalRoute page={NotLogin} path="/notlogin" />
+          <TotalRoute page={NotLogout} path="/notlogout" />
+          <TotalRoute page={Changepassword} path="/changepassword" />
+          <TotalRoute page={NotFound} path="*" />
         </Switch>
       </BrowserRouter>
     </ThemeProvider>

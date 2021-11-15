@@ -1,6 +1,6 @@
 import useAsync from '@hook/useAsync';
 
-function checkIsLogin() {
+function checkIsLogout() {
   try {
     const { data, loading, error } = useAsync(
       null,
@@ -8,10 +8,10 @@ function checkIsLogin() {
       [],
       'POST',
     );
-    return !(data === null || data.message === 'User is not Login');
+    return !(data === null) && data.message === 'User is not Login';
   } catch (error) {
     return false;
   }
 }
 
-export default checkIsLogin;
+export default checkIsLogout;

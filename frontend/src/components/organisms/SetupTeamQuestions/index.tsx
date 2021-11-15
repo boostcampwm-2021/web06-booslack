@@ -12,7 +12,6 @@ interface IPage {
 
 const SetupTeamQuestions = (): JSX.Element => {
   const history = useHistory();
-
   const [name, setName] = useState<string>('');
   const [channel, setChannel] = useState<string>('');
   const [selectedFile, setSelectedFile] = useState(null);

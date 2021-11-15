@@ -1,7 +1,6 @@
 import SidebarDivision from '@molecules/SidebarDivision';
 import SidebarChannelElement from '@molecules/SidebarChannelElement';
 import React from 'react';
-import { Container } from './style';
 import SidebarAddElement from '@molecules/SidebarAddElement';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import {
@@ -10,6 +9,7 @@ import {
 } from 'src/state/modal';
 import { NavLink } from 'react-router-dom';
 import { channelListFromServerState } from 'src/state/Channel';
+import { Container } from './style';
 
 const WorkspaceSidebar = (): JSX.Element => {
   const [isChannelCreateModalOpen, setIsChannelCreateModalOpen] =
@@ -25,7 +25,7 @@ const WorkspaceSidebar = (): JSX.Element => {
 
   return (
     <Container>
-      <SidebarDivision label="Channels" options={true} type="Channels" />
+      <SidebarDivision label="Channels" options type="Channels" />
       <NavLink
         to="/client/browse-channels"
         style={{ textDecoration: 'none', color: 'black' }}
