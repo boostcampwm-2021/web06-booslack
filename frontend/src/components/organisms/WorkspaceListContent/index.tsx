@@ -2,8 +2,10 @@ import React from 'react';
 import { useHistory } from 'react-router-dom';
 import Label from '@atoms/Label';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
+import AsyncBranch from '@molecules/AsyncBranch';
 import API from '@global/api';
 import useAsync from '@hook/useAsync';
+
 import {
   StyledSelectWorkspace,
   StyledDiv,
@@ -12,30 +14,37 @@ import {
   WorkspaceListContainer,
   StyledLabeledButton,
 } from './styles';
-import AsyncBranch from '@molecules/AsyncBranch';
 
-interface Props {
-  name?: string;
-  content?: number;
+interface Idata {
+  data: { workspaces: Iworkspace };
 }
 
-const WorkSpaceLists = ({ name, content }: Props): JSX.Element => {
+interface Iworkspace {
+  map(arg0: ({ id, name }: Iworkspace) => JSX.Element);
+  id: number;
+  name: string;
+}
+
+const WorkSpaceLists = ({ data }: Idata): JSX.Element => {
   const history = useHistory();
 
-  return (
-    <StyledDiv>
-      <StyledSelectWorkspace firstLabelContent={name} content={content} />
-      <StyledLabeledButton
-        text="실행"
-        onClick={() => history.push('client/1')}
-      />
-    </StyledDiv>
-  );
-};
+  const { workspaces } = data;
 
-WorkSpaceLists.defaultProps = {
-  name: '부캠',
-  content: 0,
+  return (
+    <>
+      {workspaces?.map(({ id, name }: Iworkspace) => {
+        return (
+          <StyledDiv key={`workspacelist${id}`}>
+            <StyledSelectWorkspace firstLabelContent={name} content={123} />
+            <StyledLabeledButton
+              text="실행"
+              onClick={() => history.push('client/1')}
+            />
+          </StyledDiv>
+        );
+      })}
+    </>
+  );
 };
 
 const WorkSpaceListContent = (): JSX.Element => {
@@ -48,9 +57,8 @@ const WorkSpaceListContent = (): JSX.Element => {
       <StyledHeader title={NameLabel} content={<></>} rightButton={<></>} />
       <WorkspaceListContainer>
         <AsyncBranch data={data} loading={loading} error={error}>
-          <WorkSpaceLists />
+          <WorkSpaceLists data={data} />
         </AsyncBranch>
-        ;
         <LabeledDefaultButton text="더보기" />
       </WorkspaceListContainer>
     </Container>
