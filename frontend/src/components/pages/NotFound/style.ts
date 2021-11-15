@@ -28,13 +28,13 @@ export const StyledLabel = styled(Label)`
   color: #3881e7;
 `;
 
-export const StyledButton = styled(LabeledDefaultButton)`\
-  position : absolute;
-  bottom:3vh;
+export const StyledButton = styled(LabeledDefaultButton)`
+  position: absolute;
+  bottom: 3vh;
   height: 5vh;
-  width:10vw;
-  min-width:200px;
-  min-height:30px;
+  width: 10vw;
+  min-width: 200px;
+  min-height: 30px;
 
   background-color: #5c8dcf;
   ${bouncing}
