@@ -4,11 +4,9 @@ import SubmitCodeForm from '@molecules/SubmitCodeForm';
 import CodeTemplate from '@templates/Code';
 import { Container } from './style';
 
-interface Props {
-  history: any;
-}
+const InvitedCode = (): JSX.Element => {
+  const history = useHistory();
 
-const InvitedCode = ({ history }: Props): JSX.Element => {
   return (
     <CodeTemplate
       text="코드을 입력해주세요!"
