@@ -31,21 +31,8 @@ loginRouter.get('/info', (req, res) => {
   try {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const userInfo = req.session.passport.user;
-
-    res.json(userInfo);
-  } catch (e) {
-    res.json({ message: 'Error while reading user information.' });
-  }
-});
-
-loginRouter.get('/loggedIn', (req, res) => {
-  try {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    const loggedIn = req.session.passport.user;
-
-    res.json({ loggedIn });
+    const user = req.session.passport?.user;
+    res.json(user ? user[0] : user);
   } catch (e) {
     res.json({ message: 'Error while checking login status.' });
   }

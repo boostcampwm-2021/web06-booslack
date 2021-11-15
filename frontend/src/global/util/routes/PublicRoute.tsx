@@ -1,20 +1,28 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
 import checkIsLogin from '@global/util/CheckIsLogin';
+import { useRecoilValue } from 'recoil';
+import userState from '@state/user';
 
 interface Props {
-  Page: () => JSX.Element;
+  component: () => JSX.Element;
   path: string;
 }
 
-const PublicRoute = ({ Page, path }: Props) => {
-  if (checkIsLogin()) {
-    return <Redirect to="/notlogout" />;
-  }
+const PublicRoute = ({
+  component: Component,
+  path,
+  ...rest
+}: Props): JSX.Element => {
+  const user = useRecoilValue(userState);
+
   return (
-    <Route path={path}>
-      <Page />
-    </Route>
+    <Route
+      {...rest}
+      render={(props) =>
+        user ? <Redirect to="/notlogout" /> : <Component {...props} />
+      }
+    />
   );
 };
 

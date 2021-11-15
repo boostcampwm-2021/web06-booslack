@@ -1,21 +1,27 @@
 import React from 'react';
 import { Redirect, Route } from 'react-router-dom';
-import useAsync from '@hook/useAsync';
+import { useRecoilValue } from 'recoil';
+import userState from '@state/user';
 
 interface Props {
-  Page: () => JSX.Element;
+  component: () => JSX.Element;
   path: string;
 }
 
-const PrivateRoute = ({ Page, path }: Props) => {
-  const { data } = useAsync(null, 'api/login/info', [], 'POST');
-  if (!(data === null) && data.message === 'User is not Login') {
-    return <Redirect to="/notlogin" />;
-  }
+const PrivateRoute = ({
+  component: Component,
+  path,
+  ...rest
+}: Props): JSX.Element => {
+  const user = useRecoilValue(userState);
+
   return (
-    <Route path={path}>
-      <Page />
-    </Route>
+    <Route
+      {...rest}
+      render={(props) =>
+        user ? <Component {...props} /> : <Redirect to="/login" />
+      }
+    />
   );
 };
 
