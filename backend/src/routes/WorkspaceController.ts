@@ -5,10 +5,11 @@ import {
   addOneWorkspace,
   updateOneWorkspace,
   deleteOneWorkspace,
+  addOneWorkspaceWithFile,
 } from '../service/WorkspaceService';
 
 const workspaceRouter = Router();
-
+workspaceRouter.post('/image', addOneWorkspaceWithFile);
 workspaceRouter.get('/', getAllWorkspaces);
 workspaceRouter.get('/:id', getOneWorkspace);
 workspaceRouter.post('/', addOneWorkspace);

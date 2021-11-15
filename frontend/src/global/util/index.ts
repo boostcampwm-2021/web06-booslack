@@ -71,9 +71,6 @@ export const axiosWithFile = async (
       method,
       url: path,
       data: formData,
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
     });
   } catch (error) {
     return null;

@@ -159,6 +159,14 @@
   resolved "https://registry.yarnpkg.com/@types/cors/-/cors-2.8.12.tgz#6b2c510a7ad7039e98e7b8d3d6598f4359e5c080"
   integrity sha512-vt+kDhq/M2ayberEtJcIN/hxXy1Pk+59g2FV/ZQceeaTyCtCucjL2Q7FXlFjtWn4n15KCr1NE2lNNFhp0lEThw==
 
+"@types/express-formidable@^1.2.0":
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/@types/express-formidable/-/express-formidable-1.2.0.tgz#53e59618a07118e48597d4d8345c49d9769e8d6f"
+  integrity sha512-nmqjkWllce71jVB0dWilJHyv676GmYESDtY12gcxgUwwl6J55FaOEAfn9bcShnydxj4f+AWIN1gEF4ItXyubUA==
+  dependencies:
+    "@types/express" "*"
+    "@types/formidable" "*"
+
 "@types/express-mysql-session@^2.1.3":
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/@types/express-mysql-session/-/express-mysql-session-2.1.3.tgz#ed380f24e5bc39f6b5bdede081f47ffe0a001847"
@@ -196,6 +204,13 @@
   version "0.2.1"
   resolved "https://registry.yarnpkg.com/@types/find/-/find-0.2.1.tgz#e8d0d7a952be2d90768d6f8dd7f2e6630bb260f8"
   integrity sha512-qUrCBlWoo9ij6ZEMx8G2WEjkdpofFks37/eZSDce7e0BY8lCYS2u7dVAoBy6AKRGX8z/ukllrUAyQ8h+/zlW9w==
+
+"@types/formidable@*":
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/@types/formidable/-/formidable-2.0.0.tgz#7100d6121871c6300e16c89cf4002f3b66157359"
+  integrity sha512-oqgX7AxK7R+NxI2kEGHV2ZqKHJ2MgGOSp2rZxpq2DMrX59h5FVkEJpUhscvqMktDCY3CQ1uqIdC+heVmJ0xTbg==
+  dependencies:
+    "@types/node" "*"
 
 "@types/fs-extra@^9.0.13":
   version "9.0.13"
@@ -1332,6 +1347,13 @@ express-async-errors@^3.1.1:
   resolved "https://registry.yarnpkg.com/express-async-errors/-/express-async-errors-3.1.1.tgz#6053236d61d21ddef4892d6bd1d736889fc9da41"
   integrity sha512-h6aK1da4tpqWSbyCa3FxB/V6Ehd4EEB15zyQq9qe75OZBp0krinNKuH4rAY+S/U/2I36vdLAUFSjQJ+TFmODng==
 
+express-formidable@^1.2.0:
+  version "1.2.0"
+  resolved "https://registry.yarnpkg.com/express-formidable/-/express-formidable-1.2.0.tgz#6b05bc05da9e4cd712cac166fcb41ef7172b760c"
+  integrity sha512-w1vXjF3gb50UKTNkFaW8/4rqY4dUrKfZ1sAZzwAF9YxCAgj/29QZsycf71di0GkskrZOAkubk9pvGYfxyAMYiw==
+  dependencies:
+    formidable "^1.0.17"
+
 express-mysql-session@^2.1.7:
   version "2.1.7"
   resolved "https://registry.yarnpkg.com/express-mysql-session/-/express-mysql-session-2.1.7.tgz#36a2d578273194ab5595225c3405584d694977bb"
@@ -1495,6 +1517,11 @@ flatted@^3.1.0:
   version "3.2.2"
   resolved "https://registry.yarnpkg.com/flatted/-/flatted-3.2.2.tgz#64bfed5cb68fe3ca78b3eb214ad97b63bedce561"
   integrity sha512-JaTY/wtrcSyvXJl4IMFHPKyFur1sE9AUqc0QnhOaJ0CxHtAoIV8pYDzeEfAaNEtGkOfq4gr3LBFmdXW5mOQFnA==
+
+formidable@^1.0.17:
+  version "1.2.6"
+  resolved "https://registry.yarnpkg.com/formidable/-/formidable-1.2.6.tgz#d2a51d60162bbc9b4a055d8457a7c75315d1a168"
+  integrity sha512-KcpbcpuLNOwrEjnbpMC0gS+X8ciDoZE1kkqzat4a8vrprf+s9pKNQ/QIwWfbfs4ltgmFl3MD177SNTkve3BwGQ==
 
 forwarded@0.2.0:
   version "0.2.0"

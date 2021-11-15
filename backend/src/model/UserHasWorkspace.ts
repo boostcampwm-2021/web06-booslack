@@ -16,10 +16,10 @@ export class UserHasWorkspace {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
+  @Column({ nullable: true })
   profile!: string;
 
-  @Column()
+  @Column({ nullable: true })
   name!: string;
 
   @Column({ nullable: true })

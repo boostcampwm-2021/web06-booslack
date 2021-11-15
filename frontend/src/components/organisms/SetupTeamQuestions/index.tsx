@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 import QuestionForm from '@molecules/QuestionForm';
 import { submitInput, axiosWithFile, changeFile } from '@global/util';
 import Container, { StyledLabel, StyledButton } from './style';
@@ -63,15 +64,14 @@ const SetupTeamQuestions = (): JSX.Element => {
       <StyledButton
         text="제출"
         onClick={async () => {
-          await axiosWithFile(
-            '/api/workspaces',
-            {
+          await axios({
+            method: 'post',
+            url: '/api/workspaces',
+            data: {
               name,
               channel,
             },
-            [selectedFile],
-            'POST',
-          );
+          });
 
           history.push({
             pathname: '/generatecode',

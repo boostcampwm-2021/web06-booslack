@@ -16,7 +16,7 @@ export class Workspace implements IWorkspace {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
+  @Column({ nullable: true })
   profile!: string;
 
   @Column()
@@ -25,9 +25,6 @@ export class Workspace implements IWorkspace {
   @OneToMany(() => Channel, (channel) => channel.workspace)
   channels!: Channel[];
 
-  @OneToMany(
-    () => UserHasWorkspace,
-    (userHasWorkspace) => userHasWorkspace.workspace,
-  )
+  @OneToMany(() => UserHasWorkspace, (userHasWorkspace) => userHasWorkspace.workspace)
   userHasWorkspaces!: UserHasWorkspace[];
 }
