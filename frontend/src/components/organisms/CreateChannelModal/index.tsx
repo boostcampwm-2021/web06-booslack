@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import axios from 'axios';
-import { channelCreateModalState } from 'src/state/modal';
-import useInputs from 'src/hooks/useInputs';
+import { channelCreateModalState } from '@state/modal';
+import useInputs from '@hook/useInputs';
 import Label from '@atoms/Label';
 import LabeledButton from '@atoms/LabeledButton';
 import {

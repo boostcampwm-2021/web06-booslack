@@ -11,6 +11,7 @@ module.exports = {
   entry: './src/index.tsx',
   mode: 'development',
   devtool: 'inline-source-map',
+
   devServer: {
     host: '0.0.0.0',
     port: '3001',

@@ -72,7 +72,7 @@ const SetupTeamQuestions = (): JSX.Element => {
 
       <StyledLabel text={`workspace Name : ${name}`} />
       <StyledLabel text={`workspace 시작 채널 : ${channel}`} />
-      <StyledLabel text={`파일 정보 : ${selectedFile}`} />
+      <StyledLabel text={`파일 정보 : ${selectedFile} (skip)`} />
 
       <StyledButton
         text="제출"

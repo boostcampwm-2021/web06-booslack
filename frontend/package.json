@@ -7,10 +7,7 @@
     "start": "webpack serve",
     "lint-watch": "eslint . --ext .ts",
     "lint": "eslint --fix --ext .ts .",
-    "test": "jest --watch"
-  },
-  "jest": {
-    "testEnvironment": "jsdom"
+    "test": "jest --watch "
   },
   "license": "MIT",
   "dependencies": {
@@ -26,7 +23,8 @@
     "react-router-dom": "5.2.0",
     "recoil": "^0.4.1",
     "styled-components": "^5.3.3",
-    "styled-tools": "^1.7.2"
+    "styled-tools": "^1.7.2",
+    "unicode-emoji": "^2.3.0"
   },
   "devDependencies": {
     "@babel/cli": "^7.15.7",
