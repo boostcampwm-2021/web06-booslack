@@ -4,7 +4,7 @@ import { useRecoilState } from 'recoil';
 import { LoginModalState } from '@state/modal';
 import useInputs from '@hook/useInputs';
 import CreateLoginModal from '@organisms/CreateLoginModal';
-import { validPassword } from '@global/util/ValidPassword';
+import { validatePassword } from '@global/util/validatePassword';
 import {
   LabelColumn,
   LoginForm,
@@ -30,11 +30,13 @@ const SignupContent = (): JSX.Element => {
   let flag = true;
   const [context, setContext] = useState<any | null>(null);
   const [LoginModal] = useRecoilState(LoginModalState);
-  const [{ username, password, passwordTwo }, onChange] = useInputs(initialData);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useRecoilState(LoginModalState);
+  const [{ username, password, passwordTwo }, onChange] =
+    useInputs(initialData);
+  const [isLoginModalOpen, setIsLoginModalOpen] =
+    useRecoilState(LoginModalState);
   const onValidate = (e) => {
     flag = false;
-    const result: string = validPassword(password);
+    const result: string = validatePassword(password);
     if (username.length < 8 || username.length > 20) {
       setContext(contextList[0]);
     } else if (password.length < 8 || password.length > 20) {
@@ -79,7 +81,9 @@ const SignupContent = (): JSX.Element => {
           value={passwordTwo}
         />
         <NoticeDiv>
-          비밀번호는 8자리 이상 20자리 이하로 구성되어야 하며, 영어 대문자/소문자, 1개 이상의 숫자, 1개 이상의 특수문자  로 구성되어야 합니다.
+          비밀번호는 8자리 이상 20자리 이하로 구성되어야 하며, 영어
+          대문자/소문자, 1개 이상의 숫자, 1개 이상의 특수문자 로 구성되어야
+          합니다.
         </NoticeDiv>
         <LabelColumn>
           <RouterLabeledButton text="확인" type="submit" onClick={onValidate} />

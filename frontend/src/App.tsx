@@ -15,13 +15,12 @@ import themeState from '@state/Theme';
 import { Itheme } from '@global/theme';
 import InvitedCode from '@pages/InvitedCode';
 import GeneratedCode from '@pages/GeneratedCode';
-import PublicRoute from '@global/util/routes/PublicRoute';
 import Login from '@pages/Login';
-import PrivateRoute from '@global/util/routes/PrivateRoute';
-import TotalRoute from '@global/util/routes/TotalRoute';
-import GlobalStyle from './global/globalstyle';
 import axios from 'axios';
 import userState from '@state/user';
+import PrivateRoute from '@routes/PrivateRoute';
+import PublicRoute from '@routes/PublicRoute';
+import GlobalStyle from './global/globalstyle';
 
 const ThemeContainer = (): JSX.Element => {
   const currentTheme = useRecoilValue<Itheme>(themeState);
