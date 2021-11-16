@@ -23,25 +23,10 @@ export async function getAllUserWorkspaces(req: Request, res: Response) {
       throw BAD_REQUEST;
     }
 
-    const subquery = getCustomRepository(UserHasWorkspaceRepository)
-      .createQueryBuilder('usercount')
-      .select('usercount.workspaceId', 'id')
-      .addSelect('COUNT(*)', 'count')
-      .groupBy('usercount.workspaceId');
+    // eslint-disable-next-line max-len
+    const workspaces = await getCustomRepository(UserHasWorkspaceRepository).findAndEachCount(userId as number);
 
-    const workspaces = await getCustomRepository(UserHasWorkspaceRepository)
-      .createQueryBuilder('user')
-      .leftJoinAndSelect('user.workspace', 'workspace')
-      .select('workspace.name', 'name')
-      .addSelect('user.workspaceId', 'id')
-      // eslint-disable-next-line max-len
-      .leftJoinAndSelect(`( ${subquery.getQuery()} )`, 'jointable', 'user.workspaceId = jointable.id')
-      .where('user.userId = :userId', { userId })
-      .getRawMany();
-
-    console.log([...workspaces]);
-
-    return res.status(OK).json({ workspaces: [...workspaces] });
+    return res.status(OK).json({ workspaces: [...(workspaces as [])] });
   } catch (error) {
     console.log(error);
     return res.status(BAD_REQUEST).json(error);
