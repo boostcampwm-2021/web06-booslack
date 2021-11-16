@@ -25,10 +25,10 @@ const WorkSpaceLists = ({
 
   return (
     <>
-      {workspaces?.map(({ id, name }: Workspace) => {
+      {workspaces?.map(({ id, name, count }: Workspace & { count: number }) => {
         return (
           <StyledDiv key={`workspacelist${id}`}>
-            <StyledSelectWorkspace firstLabelContent={name} content={123} />
+            <StyledSelectWorkspace firstLabelContent={name} content={count} />
             <StyledLabeledButton
               text="실행"
               onClick={() => history.push(`client/${id}/1`)}
