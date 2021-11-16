@@ -6,7 +6,7 @@ import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import AsyncBranch from '@molecules/AsyncBranch';
 import API from '@global/api';
 import useAsync from '@hook/useAsync';
-
+import { Workspace } from '@global/type';
 import {
   StyledSelectWorkspace,
   StyledDiv,
@@ -16,30 +16,22 @@ import {
   StyledLabeledButton,
 } from './styles';
 
-interface Idata {
-  data: { workspaces: Iworkspace };
-}
-
-interface Iworkspace {
-  map(arg0: ({ id, name }: Iworkspace) => JSX.Element);
-  id: number;
-  name: string;
-}
-
-const WorkSpaceLists = ({ data }: Idata): JSX.Element => {
+const WorkSpaceLists = ({
+  workspaces,
+}: {
+  workspaces: Workspace[];
+}): JSX.Element => {
   const history = useHistory();
-
-  const { workspaces } = data;
 
   return (
     <>
-      {workspaces?.map(({ id, name }: Iworkspace) => {
+      {workspaces?.map(({ id, name }: Workspace) => {
         return (
           <StyledDiv key={`workspacelist${id}`}>
             <StyledSelectWorkspace firstLabelContent={name} content={123} />
             <StyledLabeledButton
               text="실행"
-              onClick={() => history.push(`${id}/client/1`)}
+              onClick={() => history.push(`client/${id}/1`)}
             />
           </StyledDiv>
         );
@@ -58,7 +50,7 @@ const WorkSpaceListContent = (): JSX.Element => {
       <StyledHeader title={NameLabel} content={<></>} rightButton={<></>} />
       <WorkspaceListContainer>
         <AsyncBranch data={data} loading={loading} error={error}>
-          <WorkSpaceLists data={data} />
+          <WorkSpaceLists workspaces={data?.workspaces as Workspace[]} />
         </AsyncBranch>
         <LabeledDefaultButton text="더보기" />
       </WorkspaceListContainer>

@@ -50,8 +50,16 @@ const ThemeContainer = (): JSX.Element => {
           <PublicRoute component={Signup} path="/signup" />
           <PrivateRoute component={WorkspaceList} path="/workspacelist" />
           <PrivateRoute component={SetupTeam} path="/setupteam" />
-          <PrivateRoute component={Workspace} path="/client/:channelId" />
-          <PrivateRoute component={BrowseChannel} path="/browsechannel" />
+          <PrivateRoute
+            component={Workspace}
+            exact
+            path="/client/:workspaceId/:channelId"
+          />
+          <PrivateRoute
+            component={BrowseChannel}
+            exact
+            path="/client/:workspaceId/browse-channels"
+          />
           <PrivateRoute component={InvitedCode} path="/invitecode" />
           <PrivateRoute component={GeneratedCode} path="/generatecode" />
           <Route component={NotLogin} path="/notlogin" />
