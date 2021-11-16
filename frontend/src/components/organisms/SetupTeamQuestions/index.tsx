@@ -1,28 +1,16 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 import QuestionForm from '@molecules/QuestionForm';
-import { submitInput, changeFile } from '@global/util';
+import { submitInput, axiosWithFile, changeFile } from '@global/util';
+import API from '@global/api';
 import Container, { StyledLabel, StyledButton } from './style';
-
-interface IPage {
-  name: undefined | string;
-  channel: undefined | string;
-  selectedFile: undefined | File;
-}
 
 const SetupTeamQuestions = (): JSX.Element => {
   const history = useHistory();
   const [name, setName] = useState<string>('');
   const [channel, setChannel] = useState<string>('');
   const [selectedFile, setSelectedFile] = useState(null);
-
-  useEffect(() => {
-    return () => {
-      setName('');
-      setChannel('');
-      setSelectedFile(null);
-    };
-  }, []);
 
   const askName = (
     <QuestionForm
@@ -66,6 +54,25 @@ const SetupTeamQuestions = (): JSX.Element => {
   if (!selectedfile) return askFile;
   */
 
+  const generateWorkspace = async () => {
+    try {
+      await axios({
+        method: 'post',
+        url: API.post.workspace.addOne,
+        data: {
+          name,
+          channel,
+        },
+      });
+
+      history.push({
+        pathname: '/generatecode',
+      });
+    } catch (error) {
+      //to-do : popup
+    }
+  };
+
   return (
     <Container>
       <StyledLabel text="이 정보가 맞습니까?" />
@@ -74,15 +81,7 @@ const SetupTeamQuestions = (): JSX.Element => {
       <StyledLabel text={`workspace 시작 채널 : ${channel}`} />
       <StyledLabel text={`파일 정보 : ${selectedFile} (skip)`} />
 
-      <StyledButton
-        text="제출"
-        onClick={() => {
-          history.push({
-            pathname: '/generatecode',
-            state: { name, channel, selectedFile },
-          });
-        }}
-      />
+      <StyledButton text="제출" onClick={generateWorkspace} />
     </Container>
   );
 };

@@ -1,3 +1,4 @@
+import { ChangeEvent } from 'react';
 import styled from 'styled-components';
 import Input from '@atoms/Input';
 
@@ -10,7 +11,9 @@ const Container = styled.form`
   background: transparent;
 `;
 
-export const StyledInput = styled(Input)`
+export const StyledInput = styled(Input)<{
+  OnChange: ChangeEvent<HTMLFormElement>;
+}>`
   display: flex;
   height: 92px;
   width: 92px;

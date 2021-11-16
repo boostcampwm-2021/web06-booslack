@@ -55,7 +55,7 @@ const BrowseChannelList = (): JSX.Element => {
     setLikedOption(value);
   };
 
-  const getListByGET = (): JSX.Element => {
+  const GetListByGET = (): JSX.Element => {
     if (!data?.channels) return <></>;
 
     const { channels } = data;
@@ -73,15 +73,6 @@ const BrowseChannelList = (): JSX.Element => {
       </>
     );
   };
-
-  const ChannelLists = (
-    <AsyncBranch
-      data={data}
-      loading={loading}
-      error={error}
-      success={getListByGET()}
-    />
-  );
 
   const Title: JSX.Element = (
     <Label color="grey" text={`channel ${channelCount}개`} />
@@ -107,7 +98,9 @@ const BrowseChannelList = (): JSX.Element => {
       </CenterAlignedDiv>
       <ChannelListBackground>
         <ScrollBox width={ListWidth}>
-          {ChannelLists}
+          <AsyncBranch data={data} loading={loading} error={error}>
+            <GetListByGET />
+          </AsyncBranch>
           <SelectbrowseChannelPage dataCount={channelCount} />
           <MarginBottomDiv margin={30} />
         </ScrollBox>

@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Router } from 'express';
 import passport from 'passport';
 import { getCustomRepository } from 'typeorm';
@@ -6,7 +7,7 @@ import UserRepository from '../repository/UserRepository';
 const frontUrl = process.env.GITHUB_FRONTEND_URL || 'http://localhost:3001';
 const loginRouter = Router();
 
-loginRouter.get('/', ((req, res) => {
+loginRouter.get('/', (req, res) => {
   res.header({ 'Access-Control-Allow-Origin': '*' });
   res.header({ 'Access-Control-Allow-Credentials': true });
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -16,16 +17,15 @@ loginRouter.get('/', ((req, res) => {
   } else {
     res.redirect(`${frontUrl}/login`);
   }
-}));
+});
 
-loginRouter.get('/github/callback',
-  passport.authenticate(
-    'github',
-    {
-      successRedirect: `${frontUrl}/workspacelist`,
-      failureRedirect: `${frontUrl}/login`,
-    },
-  ));
+loginRouter.get(
+  '/github/callback',
+  passport.authenticate('github', {
+    successRedirect: `${frontUrl}/workspacelist`,
+    failureRedirect: `${frontUrl}/login`,
+  }),
+);
 
 loginRouter.post('/info', (req, res) => {
   try {
@@ -33,6 +33,8 @@ loginRouter.post('/info', (req, res) => {
     // @ts-ignore
     const userInfo = req.session.passport.user;
     if (userInfo) {
+      // @ts-ignore
+      req.session.userId = req.session.passport.user[0].id;
       res.json(userInfo);
     } else {
       res.json({ message: 'User is not Login' });
@@ -63,7 +65,7 @@ function verifyInform(username: string, password: string, password2: any) {
 
 function makeNickName(username: string) {
   const index = username.indexOf('@');
-  return (index === -1) ? username : username.substring(0, index);
+  return index === -1 ? username : username.substring(0, index);
 }
 
 loginRouter.post('/signup', async (req, res) => {
@@ -109,10 +111,13 @@ loginRouter.post('/changepassword', async (req, res) => {
   }
 });
 
-loginRouter.post('/login', passport.authenticate('local', {
-  successRedirect: `${frontUrl}/workspacelist`,
-  failureRedirect: `${frontUrl}/login`,
-  failureFlash: true,
-}));
+loginRouter.post(
+  '/login',
+  passport.authenticate('local', {
+    successRedirect: `${frontUrl}/workspacelist`,
+    failureRedirect: `${frontUrl}/login`,
+    failureFlash: true,
+  }),
+);
 
 export default loginRouter;

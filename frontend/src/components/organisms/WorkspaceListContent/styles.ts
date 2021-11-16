@@ -13,12 +13,15 @@ export const StyledHeader = styled(BrowseChannelHeader)`
 
 export const Container = styled.main`
   position: relative;
-  width: 70vw;
+  width: 55vw;
   background-color: #fff;
   margin-top: 30vh;
   border-radius: 9px;
+  position: relative;
 
-  overflow: hidden;
+  overflow-y: visible;
+
+  margin-bottom: 30vh;
 `;
 
 export const WorkspaceListContainer = styled.div`

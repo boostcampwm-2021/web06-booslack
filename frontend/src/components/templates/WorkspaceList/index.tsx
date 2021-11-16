@@ -26,8 +26,6 @@ const WorkspaceListTemplate = ({ children }: Props): JSX.Element => {
 
   const Title: JSX.Element = <StyledLabel text="booslack" />;
 
-  const { data, loading, error } = useAsync(null, 'api/login/info', [], 'POST');
-
   const RightButtonDiv: JSX.Element = (
     <div>
       <StyledLabeledButton
@@ -48,12 +46,10 @@ const WorkspaceListTemplate = ({ children }: Props): JSX.Element => {
   );
 
   return (
-    <AsyncBranch data={data} loading={loading} error={error} success={<></>}>
-      <Container>
-        <StyledHeader title={Title} rightButton={RightButtonDiv} />
-        {children}
-      </Container>
-    </AsyncBranch>
+    <Container>
+      <StyledHeader title={Title} rightButton={RightButtonDiv} />
+      {children}
+    </Container>
   );
 };
 
