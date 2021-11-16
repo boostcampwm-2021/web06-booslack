@@ -45,15 +45,41 @@ export async function getOneWorkspace(req: Request, res: Response) {
   }
 }
 
-export async function addOneWorkspaceWithFile(req: Request, res: Response) {
-  const workspace = req.body;
-  if (!workspace) {
+export async function addUserToWorkspace(req: Request, res: Response) {
+  try {
+    // @ts-ignore
+    const user = req.session.passport?.user;
+    const userId = user ? user[0].id : user;
+    const { code }: { code: string } = req.body;
+
+    console.log(code);
+
+    if (!userId || !code) {
+      throw BAD_REQUEST;
+    }
+
+    const Workspace = await getCustomRepository(WorkspaceRepository).findOneOrFail({
+      where: [{ code }],
+    });
+
+    console.log(Workspace);
+
+    if (!Workspace?.id) {
+      throw BAD_REQUEST;
+    }
+
+    const userHasWorkSpace = { userId, workspaceId: Workspace.id };
+
+    console.log(userHasWorkSpace);
+
+    await getCustomRepository(UserHasWorkspaceRepository).save(userHasWorkSpace);
+    return res.status(CREATED).end();
+  } catch (error) {
+    console.log(error);
     return res.status(BAD_REQUEST).json({
       error: paramMissingError,
     });
   }
-  await getCustomRepository(WorkspaceRepository).save(workspace);
-  return res.status(CREATED).end();
 }
 
 export async function addOneWorkspace(req: Request, res: Response) {
@@ -74,6 +100,7 @@ export async function addOneWorkspace(req: Request, res: Response) {
 
     const workspace = { name, profile, code: generateUniqSerial() };
 
+    // eslint-disable-next-line no-constant-condition
     while (true) {
       // eslint-disable-next-line no-await-in-loop
       const existCode = await getCustomRepository(WorkspaceRepository).find({

@@ -16,6 +16,7 @@ export const API = {
   post: {
     workspace: {
       addOne: `${PREFIX}/${WORKSPACE}`,
+      code: `${PREFIX}/${WORKSPACE}/code`,
     },
   },
 } as const;

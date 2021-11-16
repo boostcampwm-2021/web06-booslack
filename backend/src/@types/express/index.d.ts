@@ -10,6 +10,7 @@ declare module 'express' {
       email: string;
       type: string;
       workspace: IWorkspace;
+      Workspace: IWorkspace;
       name: string;
       password: string;
       profile: string;
@@ -19,6 +20,7 @@ declare module 'express' {
       userId: string;
       channelId: string;
       workspaceId: string;
+      code: string;
     };
   }
 }
