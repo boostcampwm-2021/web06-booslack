@@ -5,8 +5,9 @@ import { getCustomRepository } from 'typeorm';
 import WorkspaceRepository from '../repository/WorkspaceRepository';
 import paramMissingError from '../shared/constants';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
+import generateUniqSerial from '../shared/simpleuuid';
 
-const { UNAUTHORIZED, BAD_REQUEST, CREATED, OK } = StatusCodes;
+const { BAD_REQUEST, CREATED, OK } = StatusCodes;
 
 export async function getAllWorkspaces(req: Request, res: Response) {
   const workspaces = await getCustomRepository(WorkspaceRepository).find();
@@ -20,7 +21,7 @@ export async function getAllUserWorkspaces(req: Request, res: Response) {
     const userId = user ? user[0].id : user;
 
     if (!userId) {
-      throw UNAUTHORIZED;
+      throw BAD_REQUEST;
     }
 
     const workspaces = await getCustomRepository(UserHasWorkspaceRepository).find({
@@ -30,7 +31,6 @@ export async function getAllUserWorkspaces(req: Request, res: Response) {
 
     return res.status(OK).json({ workspaces: [...workspaces.map((ele) => ele.workspace)] });
   } catch (error) {
-    console.log(error);
     return res.status(BAD_REQUEST).json(error);
   }
 }
@@ -63,28 +63,36 @@ export async function addOneWorkspace(req: Request, res: Response) {
     const userId = user ? user[0].id : user;
 
     if (!userId) {
-      throw UNAUTHORIZED;
+      throw BAD_REQUEST;
     }
 
-    const { name, channel } = req.body;
+    const { name, description: profile } = req.body;
 
-    if (!name) {
-      throw paramMissingError;
+    if (!name || !profile) {
+      throw BAD_REQUEST;
     }
 
-    const workspace = {
-      name,
-    };
+    const workspace = { name, profile, code: generateUniqSerial() };
+
+    while (true) {
+      // eslint-disable-next-line no-await-in-loop
+      const existCode = await getCustomRepository(WorkspaceRepository).find({
+        where: [{ code: workspace.code }],
+      });
+      if (existCode.length <= 0) break;
+
+      workspace.code = generateUniqSerial();
+    }
 
     const { id: workspaceId } = await getCustomRepository(WorkspaceRepository).save(workspace);
 
-    const userHasWorkSpace = {
-      userId,
-      workspaceId,
-    };
+    const userHasWorkSpace = { userId, workspaceId };
 
     await getCustomRepository(UserHasWorkspaceRepository).save(userHasWorkSpace);
-    return res.status(CREATED).end();
+
+    return res.status(CREATED).json({
+      code: workspace.code,
+    });
   } catch (error) {
     return res.status(BAD_REQUEST).json({
       error,
