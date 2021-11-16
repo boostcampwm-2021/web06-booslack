@@ -76,7 +76,7 @@ const SetupTeamQuestions = (): JSX.Element => {
         state: { data },
       });
     } catch (error) {
-      setModalState(true);
+      setModalState({ status: true, text: undefined });
     }
   };
 

@@ -3,11 +3,10 @@ import StatusCodes from 'http-status-codes';
 import { Request, Response } from 'express';
 import { getCustomRepository } from 'typeorm';
 import WorkspaceRepository from '../repository/WorkspaceRepository';
-import paramMissingError from '../shared/constants';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
 import generateUniqSerial from '../shared/simpleuuid';
 
-const { BAD_REQUEST, CREATED, OK } = StatusCodes;
+const { CONFLICT, BAD_REQUEST, CREATED, OK } = StatusCodes;
 
 export async function getAllWorkspaces(req: Request, res: Response) {
   const workspaces = await getCustomRepository(WorkspaceRepository).find();
@@ -65,13 +64,16 @@ export async function addUserToWorkspace(req: Request, res: Response) {
     }
 
     const userHasWorkSpace = { userId, workspaceId: Workspace.id };
+    const isExist = await getCustomRepository(UserHasWorkspaceRepository).findOne({
+      where: [{ ...userHasWorkSpace }],
+    });
+
+    if (isExist) return res.status(CONFLICT).json({ error: 'you are already joined' });
 
     await getCustomRepository(UserHasWorkspaceRepository).save(userHasWorkSpace);
     return res.status(CREATED).end();
   } catch (error) {
-    return res.status(BAD_REQUEST).json({
-      error: paramMissingError,
-    });
+    return res.status(BAD_REQUEST).end();
   }
 }
 

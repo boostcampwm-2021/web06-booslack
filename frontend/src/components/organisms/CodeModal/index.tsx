@@ -8,15 +8,18 @@ interface Props {
 }
 
 const CodeModal = ({ Content }: Props): JSX.Element => {
-  const [isOpen, setIsOpen] = useRecoilState(codeModalState);
+  const [{ status, text }, setObject] = useRecoilState(codeModalState);
   return (
-    <StyledModal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+    <StyledModal
+      isOpen={status}
+      onClose={() => setObject({ status: false, text: undefined })}
+    >
       <Container>
-        <ModalMessage>{Content}</ModalMessage>
+        <ModalMessage>{text || Content}</ModalMessage>
         <ModalButton
           text="확인"
           type="button"
-          onClick={() => setIsOpen(false)}
+          onClick={() => setObject({ status: false, text: undefined })}
         />
       </Container>
     </StyledModal>

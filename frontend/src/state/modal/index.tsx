@@ -25,7 +25,10 @@ export const LoginModalState = atom({
   default: false,
 });
 
-export const codeModalState = atom<boolean>({
+export const codeModalState = atom({
   key: 'codeModal',
-  default: false,
+  default: {
+    status: false,
+    text: undefined,
+  },
 });

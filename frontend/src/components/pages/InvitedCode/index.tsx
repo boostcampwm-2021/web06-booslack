@@ -9,6 +9,7 @@ import SubmitCodeForm from '@organisms/SubmitCodeForm';
 import { checkInputValues } from '@global/util';
 import API from '@global/api';
 import { codeModalState } from '@state/modal';
+import { StatusCodes } from '@enum/index';
 import { Container } from './style';
 
 const InvitedCode = (): JSX.Element => {
@@ -24,12 +25,24 @@ const InvitedCode = (): JSX.Element => {
         data: { code },
       });
 
+      console.log(data);
+
       history.push({
         pathname: '/workspacelist',
         state: { data },
       });
     } catch (error) {
-      setModalState(true);
+      if (error.response.status === StatusCodes.CONFLICT) {
+        setModalState({
+          status: true,
+          text: '이미 들어간 워크스페이스는 참여 불가능합니다.',
+        });
+      } else {
+        setModalState({
+          status: true,
+          text: undefined,
+        });
+      }
     }
   };
 

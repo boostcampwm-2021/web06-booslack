@@ -1,5 +1,10 @@
 export const pageLimitCount = 2;
 
+export const StatusCodes = {
+  BADREQUEST: 400,
+  CONFLICT: 409,
+};
+
 export enum ChatInputSize {
   width = 78,
   height = 10,
