@@ -17,9 +17,9 @@ interface Props {
 const EmojiPopupTemplate = ({ matches, index }: Props): JSX.Element => {
   const ref = useRef(null);
 
-  useEffect(() => {
-    ref.current.firstChild.focus();
-  }, [ref.current]);
+  // useEffect(() => {
+  //   ref.current.firstChild.focus();
+  // }, [ref.current]);
 
   return (
     <Container ref={ref}>
@@ -29,19 +29,19 @@ const EmojiPopupTemplate = ({ matches, index }: Props): JSX.Element => {
           selected={idx === index}
           tabIndex={-1}
           onKeyDown={(e) => {
-            if (e.key === 'ArrowUp') {
-              if (idx === 0) {
-                ref.current.lastChild.focus();
-              } else {
-                e.currentTarget.previousSibling.focus();
-              }
-            } else if (e.key === 'ArrowDown') {
-              if (idx === matches.length - 1) {
-                ref.current.firstChild.focus();
-              } else {
-                e.currentTarget.nextSibling.focus();
-              }
-            }
+            // if (e.key === 'ArrowUp') {
+            //   if (idx === 0) {
+            //     ref.current.lastChild.focus();
+            //   } else {
+            //     e.currentTarget.previousSibling.focus();
+            //   }
+            // } else if (e.key === 'ArrowDown') {
+            //   if (idx === matches.length - 1) {
+            //     ref.current.firstChild.focus();
+            //   } else {
+            //     e.currentTarget.nextSibling.focus();
+            //   }
+            // }
           }}
         >
           <UserElement>

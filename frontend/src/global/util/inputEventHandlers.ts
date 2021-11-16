@@ -1,4 +1,4 @@
-function createAndDeleteCodeBlock(selection, event) {
+const createAndDeleteCodeBlock = (selection, event) => {
   const thisElement = selection.focusNode;
   const parent = thisElement.parentElement;
   if (parent.classList.contains('ql-code-block')) {
@@ -22,9 +22,9 @@ function createAndDeleteCodeBlock(selection, event) {
     parent.innerHTML = parent.innerHTML.substr(0, parent.innerHTML.length - 2);
   }
   event.preventDefault();
-}
+};
 
-function createBlockquote(selection) {
+const createBlockquote = (selection) => {
   const thisElement = selection.focusNode;
   const parent = thisElement.parentElement;
   if (parent.nodeName === 'P' && thisElement.data.startsWith('>')) {
@@ -37,14 +37,14 @@ function createBlockquote(selection) {
     parent.insertAdjacentElement('afterend', blockquoteElement);
     parent.remove();
   }
-}
+};
 
-function deleteBlockquote(selection) {
+const deleteBlockquote = (selection) => {
   selection.focusNode.insertAdjacentHTML('afterend', '<p><br></p>');
   selection.focusNode.remove();
-}
+};
 
-function createList(selection, event) {
+const createList = (selection, event) => {
   const thisElement = selection.focusNode;
   if (thisElement.parentElement.nodeName === 'P') {
     if (thisElement.data === '*' || thisElement.data === '-') {
@@ -61,9 +61,9 @@ function createList(selection, event) {
       event.preventDefault();
     }
   }
-}
+};
 
-function mergeList(selection) {
+const mergeList = (selection) => {
   const thisElement = selection.focusNode;
   const parent = thisElement.parentElement;
   let index = 0;
@@ -92,9 +92,9 @@ function mergeList(selection) {
       selection.collapse(collapsePositionElement, 1);
     }
   }
-}
+};
 
-function splitList(selection) {
+const splitList = (selection) => {
   const thisElement = selection.focusNode;
   const parent = thisElement.parentElement;
   let index = 0;
@@ -133,9 +133,9 @@ function splitList(selection) {
     parent.removeChild(thisElement);
     selection.collapse(pElement, 0);
   }
-}
+};
 
-function makeBold(selection) {
+const makeBold = (selection) => {
   const thisElement = selection.focusNode;
   if (
     (thisElement.data[thisElement.length - 1] ===
@@ -226,9 +226,17 @@ function makeBold(selection) {
       }
     }
   }
-}
+};
 
-export function inputHandle(e): void {
+export const inputHandle = (
+  e,
+  input,
+  setInput,
+  value,
+  setValue,
+  isOpen,
+  setIsOpen,
+): void => {
   if (e.nativeEvent.data === '>') {
     const selection = document.getSelection();
     createBlockquote(selection);
@@ -246,12 +254,58 @@ export function inputHandle(e): void {
         document.execCommand('bold');
       }
     }
-  }
-}
 
-export function keydownHandle(e): void {
+    if (isOpen) {
+      setInput((prevState) => prevState.substr(0, prevState.length - 1));
+    }
+  }
+
+  const selection = document.getSelection();
+  if (
+    selection.focusNode.length >= 3 &&
+    selection.focusNode.data[selection.focusOffset - 3] === ':'
+  ) {
+    setIsOpen(true);
+    setInput(selection.focusNode.data.substr(1, 2));
+  }
+
+  if (isOpen && e.nativeEvent.inputType !== 'deleteContentBackward') {
+    setInput((prevState) => prevState + e.nativeEvent.data);
+  }
+};
+
+export const keydownHandle = (
+  e,
+  input,
+  setInput,
+  value,
+  setValue,
+  isOpen,
+  setIsOpen,
+): void => {
   if (e.code === 'Enter') {
     document.execCommand('defaultParagraphSeparator', false, 'p');
+
+    if (isOpen) {
+      e.preventDefault();
+      const selection = document.getSelection();
+      const range = document.createRange();
+      range.setEnd(selection.focusNode, selection.focusOffset);
+
+      for (let i = selection.focusOffset - 1; i >= 0; i--) {
+        if (selection.focusNode.data[i] === ':') {
+          range.setStart(selection.focusNode, i);
+          break;
+        }
+      }
+      const img = document.createElement('img');
+      img.alt = value.emoji;
+      img.className = 'emoji';
+
+      range.deleteContents();
+      range.insertNode(img);
+      selection.collapse(img, 0);
+    }
   }
 
   if (e.code === 'Space') {
@@ -301,4 +355,4 @@ export function keydownHandle(e): void {
       createAndDeleteCodeBlock(selection, e);
     }
   }
-}
+};

@@ -21,6 +21,15 @@ export const Container = styled.div`
     word-wrap: break-word;
   }
 
+  .emoji{
+    background-position: 50% 50%;
+    background-repeat: no-repeat;
+    background-size: contain;
+    height: 22px;
+    vertical-align: bottom;
+    width: 22px;
+  }
+
   code{
     --saf-0: rgba(var(--sk_foreground_low,29,28,29),0.13);
     font-family: Monaco,Menlo,Consolas,Courier New,monospace!important;

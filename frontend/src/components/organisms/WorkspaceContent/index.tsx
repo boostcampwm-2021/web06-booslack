@@ -7,9 +7,11 @@ import React, { useEffect, useState } from 'react';
 import { Container, MarginedDiv } from './style';
 import { useParams } from 'react-router-dom';
 import { channelListFromServerState } from 'src/state/Channel';
-import { useRecoilValue } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import ChannelJoinFooter from '@organisms/ChannelJoinFooter';
 import axios from 'axios';
+import userState from '@state/user';
+import { channelListState } from '@state/Channel';
 
 const getChannelById = (id: string) => {
   const [channel, setChannel] = useState();
@@ -24,24 +26,27 @@ const getChannelById = (id: string) => {
 };
 
 const WorkspaceContent = (): JSX.Element => {
-  const { channelId } = useParams();
+  const user = useRecoilValue(userState);
+  const [channelList, setChannelList] = useRecoilState(channelListState);
 
-  const channelList = useRecoilValue(
-    channelListFromServerState({
-      userId: sessionStorage.getItem('id'),
-      workspaceId: sessionStorage.getItem('workspaceId'),
-    }),
-  );
-  const isUserInCurrentChannel = channelList.channels.find(
-    (channel) => String(channel.id) === channelId,
+  useEffect(() => {
+    if (!user.workspaceId) return;
+    const getChannelList = async () => {
+      const res = await axios.get(
+        `/api/channels/channelsThatUserIn?userId=${user.id}&workspaceId=${user.workspaceId}`,
+      );
+      setChannelList(res.data.channels);
+    };
+    getChannelList();
+  }, [user.workspaceId]);
+
+  const isUserInCurrentChannel = channelList.find(
+    (channel) => String(channel.id) === user.channelId,
   );
 
-  const currentChannel = getChannelById(channelId);
+  const currentChannel = getChannelById(user.channelId);
   const channelTitleText = currentChannel.channel
     ? currentChannel.channel.name
-    : '로딩';
-  const channelIdText = currentChannel.channel
-    ? currentChannel.channel.id
     : '로딩';
 
   const ChannelTitle: JSX.Element = <Label text={`# ${channelTitleText}`} />;
@@ -59,10 +64,7 @@ const WorkspaceContent = (): JSX.Element => {
   const InputBar: JSX.Element = isUserInCurrentChannel ? (
     <ChatInputBackground />
   ) : (
-    <ChannelJoinFooter
-      channelId={channelIdText}
-      channelName={channelTitleText}
-    />
+    <ChannelJoinFooter channelName={channelTitleText} />
   );
   const RightButton = (
     <LabeledDefaultButton
