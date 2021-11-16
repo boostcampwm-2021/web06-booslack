@@ -21,6 +21,28 @@ export const Container = styled.div`
     word-wrap: break-word;
   }
 
+  code{
+    --saf-0: rgba(var(--sk_foreground_low,29,28,29),0.13);
+    font-family: Monaco,Menlo,Consolas,Courier New,monospace!important;
+    font-size: 12px;
+    line-height: 1.50001;
+    font-variant-ligatures: none;
+    white-space: pre;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    word-break: normal;
+    -webkit-tab-size: 4;
+    -moz-tab-size: 4;
+    tab-size: 4;
+
+    padding: 2px 3px 1px;
+    border: 1px
+    solid var(--saf-0);
+    border-radius: 3px;
+    background-color: rgba(var(--sk_foreground_min,29,28,29),.04);
+    color: #e01e5a;
+  }
+
   ul{
     list-style: disc;
     padding-inline-start: 26px;
