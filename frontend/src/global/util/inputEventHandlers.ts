@@ -40,24 +40,26 @@ const createBlockquote = (selection) => {
 };
 
 const deleteBlockquote = (selection) => {
-  selection.focusNode.insertAdjacentHTML('afterend', '<p><br></p>');
-  selection.focusNode.remove();
+  const thisElement = selection.focusNode;
+  thisElement.insertAdjacentHTML('afterend', '<p><br></p>');
+  thisElement.remove();
 };
 
 const createList = (selection, event) => {
   const thisElement = selection.focusNode;
-  if (thisElement.parentElement.nodeName === 'P') {
+  const parent = thisElement.parentElement;
+  if (parent.nodeName === 'P') {
     if (thisElement.data === '*' || thisElement.data === '-') {
       const ulElement = document.createElement('ul');
       ulElement.insertAdjacentHTML('beforeend', '<li><br></li>');
-      thisElement.parentElement.insertAdjacentElement('afterend', ulElement);
-      thisElement.parentElement.remove();
+      parent.insertAdjacentElement('afterend', ulElement);
+      parent.remove();
       event.preventDefault();
     } else if (thisElement.data === '1.') {
       const olElement = document.createElement('ol');
       olElement.insertAdjacentHTML('beforeend', '<li><br></li>');
-      thisElement.parentElement.insertAdjacentElement('afterend', olElement);
-      thisElement.parentElement.remove();
+      parent.insertAdjacentElement('afterend', olElement);
+      parent.remove();
       event.preventDefault();
     }
   }
@@ -228,24 +230,25 @@ const makeBold = (selection) => {
   }
 };
 
-const checkEmojiListOpenPossible = (e, isOpen, setIsOpen, setInput) => {
+const checkEmojiListOpenPossible = (setIsOpen, setInput) => {
   const selection = document.getSelection();
+  const thisElement = selection.focusNode;
 
   let possible = false;
   const range = document.createRange();
   for (let i = selection.focusOffset - 3; i >= 0; i--) {
-    if (selection.focusNode.data[i] === ':') {
-      range.setStart(selection.focusNode, i + 1);
+    if (thisElement.data[i] === ':') {
+      range.setStart(thisElement, i + 1);
       possible = true;
       break;
-    } else if (selection.focusNode.data[i] === ' ') {
+    } else if (thisElement.data[i] === ' ') {
       possible = false;
       break;
     }
   }
   if (possible) {
     setIsOpen(true);
-    range.setEnd(selection.focusNode, selection.focusOffset);
+    range.setEnd(thisElement, selection.focusOffset);
     setInput(range.toString());
   }
 };
@@ -278,7 +281,7 @@ export const inputHandle = (
     }
   }
 
-  checkEmojiListOpenPossible(e, isOpen, setIsOpen, setInput);
+  checkEmojiListOpenPossible(setIsOpen, setInput);
 };
 
 export const keydownHandle = (e): void => {
