@@ -4,7 +4,7 @@ import UserSampleValue from './value/UserSampleValue';
 
 const insertUserSample = async () => {
   const UserCount = await getRepository(User).count();
-  if (UserCount === 0) return;
+  if (UserCount > 0) return;
   await getConnection()
     .createQueryBuilder()
     .insert()

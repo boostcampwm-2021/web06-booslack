@@ -4,7 +4,7 @@ import UserHasWorkspaceSampleValue from './value/UserHasWorkspaceSampleValue';
 
 const insertUserHasWorkspaceSample = async () => {
   const UserHasWorkspaceCount = await getRepository(UserHasWorkspace).count();
-  if (UserHasWorkspaceCount === 0) return;
+  if (UserHasWorkspaceCount > 0) return;
   await getConnection()
     .createQueryBuilder()
     .insert()
