@@ -1,5 +1,5 @@
-/* eslint-disable-next-line max-len */
-import getNowDate from '../../util/getNowDate';
+/* eslint-disable */
+import { getNowDate } from '../../util/getNowDate';
 
 const nowDate = getNowDate();
 

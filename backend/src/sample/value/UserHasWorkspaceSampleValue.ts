@@ -1,3 +1,4 @@
+/* eslint-disable */
 const UserHasWorkspaceSampleValue = [
   { profile: 'random', name: 'random', workspaceId: 1, userId: 1 },
   { profile: 'Web', name: 'Web', workspaceId: 2, userId: 1 },

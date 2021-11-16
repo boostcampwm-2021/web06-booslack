@@ -1,3 +1,4 @@
+/* eslint-disable */
 const WorkspaceSampleValue = [
   { profile: 'random', name: 'random' },
   { profile: 'Web', name: 'Web' },

@@ -132,7 +132,7 @@ export async function deleteUserFromChannel(req: Request, res: Response) {
       throw new Error(`user ${userId} does not exist`);
     }
     channel.userHasWorkspaces = channel.userHasWorkspaces.filter(
-      (eachUserHasWorkspace) => eachUserHasWorkspace.id !== Number(userHasWorkspace.id),
+      (eachUserHasWorkspace: any) => eachUserHasWorkspace.id !== Number(userHasWorkspace.id),
     );
     await getCustomRepository(ChannelRepository).save(channel);
     return res.status(OK).json({ channel });

@@ -1,4 +1,4 @@
-/* eslint-disable-next-line max-len */
+/* eslint-disable */
 const userSampleValue = [
   { nickname: 'SnowCraft', email: 'SnowCraft', type: 'local', password: '12345678!' },
   { nickname: 'Snow', email: 'Snow', type: 'local', password: '12345678!' },

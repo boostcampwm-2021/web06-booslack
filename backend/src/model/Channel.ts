@@ -5,8 +5,9 @@ import {
   Column,
   ManyToOne,
   ManyToMany,
-  JoinTable,
+  JoinTable, OneToMany,
 } from 'typeorm';
+import { Thread } from '@daos/Thread';
 import { UserHasWorkspace } from './UserHasWorkspace';
 import { Workspace } from './Workspace';
 
@@ -42,6 +43,9 @@ export class Channel implements IChannel {
 
   @Column({ nullable: true })
   workspaceId!: number;
+
+  @OneToMany(() => Thread, (thread) => thread.channel)
+  threads!: Thread[];
 
   @ManyToOne(() => Workspace, (workspace) => workspace.channels)
   workspace!: Workspace;

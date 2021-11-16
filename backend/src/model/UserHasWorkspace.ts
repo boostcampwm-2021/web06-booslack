@@ -1,7 +1,8 @@
 /* eslint-disable import/prefer-default-export */
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, OneToMany } from 'typeorm';
 import { User } from './User';
 import { Workspace } from './Workspace';
+import { Thread } from './Thread';
 
 export interface IUserHasWorkspace {
   id: number;
@@ -41,4 +42,7 @@ export class UserHasWorkspace implements IUserHasWorkspace {
     { cascade: ['insert', 'update', 'remove'] },
   )
   user!: User;
+
+  @OneToMany(() => Thread, (thread) => thread.userHasWorkspace)
+  threads!: Thread[];
 }
