@@ -3,9 +3,10 @@ import { useHistory } from 'react-router-dom';
 import CodeModal from '@organisms/CodeModal';
 import CodeTemplate from '@templates/Code';
 import SubmitCodeForm from '@molecules/SubmitCodeForm';
+import { checkInputValues } from '@global/util';
 import { Container } from './style';
 
-const InvitedCode = ({ name, channel, selectedFile }): JSX.Element => {
+const InvitedCode = (): JSX.Element => {
   const history = useHistory();
   const [code, setCode] = useState<string>('');
 
@@ -16,7 +17,10 @@ const InvitedCode = ({ name, channel, selectedFile }): JSX.Element => {
         onClick={() => history.push('workspacelist')}
       >
         <Container>
-          <SubmitCodeForm setCode={setCode} />
+          <SubmitCodeForm
+            setCode={setCode}
+            highOrderFunction={checkInputValues}
+          />
         </Container>
       </CodeTemplate>
       <CodeModal Content="잘못된 코드입니다." />

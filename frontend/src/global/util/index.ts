@@ -52,6 +52,18 @@ export const selectRefValue = (
   return ref?.current?.value;
 };
 
+export const checkInputValues = (inputTag: HTMLInputElement): string => {
+  const inputValue: string | undefined = inputTag?.value;
+
+  // eslint-disable-next-line no-param-reassign
+  if (inputValue) inputTag.value = inputValue[inputValue.length - 1];
+  if (!/[a-zA-Z0-9]/.exec(inputTag.value)) {
+    // eslint-disable-next-line no-param-reassign
+    inputTag.value = '';
+  }
+  return inputTag.value as string;
+};
+
 export const axiosWithFile = async (
   path: string,
   json: unknown,

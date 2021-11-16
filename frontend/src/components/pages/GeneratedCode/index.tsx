@@ -21,7 +21,12 @@ const GeneratedCode = (): JSX.Element => {
         onClick={() => history.push('workspacelist')}
       >
         <Container>
-          <SubmitCodeForm setCode={null} readOnly />
+          <SubmitCodeForm
+            code={code}
+            setCode={null}
+            highOrderFunction={null}
+            readOnly
+          />
         </Container>
       </CodeTemplate>
       <CodeModal Content="잘못된 코드입니다." />
