@@ -4,6 +4,7 @@ import app from './Server';
 import logger from './shared/Logger';
 import 'reflect-metadata';
 import connectionOptions from './ormconfig';
+import addSampleData from './sample';
 
 createConnection(connectionOptions)
   .then(() => {
@@ -13,4 +14,5 @@ createConnection(connectionOptions)
       logger.info(`Express server started on port: ${port}`);
     });
   })
+  .then(() => addSampleData())
   .catch((error) => console.log(error));

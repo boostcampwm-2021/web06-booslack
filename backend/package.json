@@ -9,7 +9,8 @@
     "test:no-reloading": "./node_modules/.bin/ts-node -r tsconfig-paths/register ./spec",
     "prettier": "npx prettier --write .",
     "lint-watch": "eslint . --ext .ts",
-    "lint": "eslint --fix --ext .ts ."
+    "lint": "eslint --fix --ext .ts .",
+    "sample": "./node_modules/.bin/ts-node ./src/sample/index.ts"
   },
   "nodemonConfig": {
     "watch": [

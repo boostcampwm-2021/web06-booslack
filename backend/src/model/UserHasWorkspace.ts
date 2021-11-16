@@ -12,7 +12,7 @@ export interface IUserHasWorkspace {
 }
 
 @Entity()
-export class UserHasWorkspace {
+export class UserHasWorkspace implements IUserHasWorkspace {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -28,9 +28,17 @@ export class UserHasWorkspace {
   @Column({ nullable: true })
   userId!: number;
 
-  @ManyToOne(() => Workspace, (workspace) => workspace.userHasWorkspaces)
+  @ManyToOne(
+    () => Workspace,
+    (workspace) => workspace.userHasWorkspaces,
+    { cascade: ['insert', 'update', 'remove'] },
+  )
   workspace!: Workspace;
 
-  @ManyToOne(() => User, (user) => user.userHasWorkspaces)
+  @ManyToOne(
+    () => User,
+    (user) => user.userHasWorkspaces,
+    { cascade: ['insert', 'update', 'remove'] },
+  )
   user!: User;
 }
