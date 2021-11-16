@@ -1,12 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import {
-  Entity,
-  PrimaryGeneratedColumn,
-  Column,
-  ManyToOne,
-  OneToOne,
-  JoinColumn,
-} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { Channel } from './Channel';
 import { UserHasWorkspace } from './UserHasWorkspace';
 
@@ -21,10 +14,16 @@ export class Thread {
   @Column()
   message!: string;
 
+  @Column()
+  channelId!: number;
+
+  @Column()
+  userHasWorkspaceId!: number;
+
   @ManyToOne(() => Channel, (channel) => channel.workspace)
   channel!: Channel;
 
-  @OneToOne(() => UserHasWorkspace)
+  @ManyToOne(() => UserHasWorkspace)
   @JoinColumn()
   userHasWorkspace!: UserHasWorkspace;
 }

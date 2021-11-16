@@ -15,10 +15,13 @@ declare module 'express' {
       profile: string;
       channel: IChannel;
       description: string;
+      message: string;
+      time: Date;
 
       userId: string;
       channelId: string;
       workspaceId: string;
+      userHasWorkspaceId: string;
     };
   }
 }
