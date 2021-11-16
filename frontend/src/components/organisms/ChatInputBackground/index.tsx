@@ -1,12 +1,22 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import EmojiPopup from '@molecules/EmojiPopup';
-import { keydownHandle, inputHandle } from '@global/util/inputEventHandlers';
+import {
+  keydownHandle,
+  inputHandle,
+  makeEmoji,
+} from '@global/util/inputEventHandlers';
 import { Container } from './styles';
 
 const ChatInputBackGround = (): JSX.Element => {
   const [isOpen, setIsOpen] = useState(false);
   const [input, setInput] = useState('');
   const [value, setValue] = useState(undefined);
+
+  useEffect(() => {
+    if (!value) return;
+    makeEmoji(value, setValue);
+    setInput('');
+  }, [value]);
 
   return (
     <Container>
@@ -23,6 +33,7 @@ const ChatInputBackGround = (): JSX.Element => {
         onInput={(e) =>
           inputHandle(e, input, setInput, value, setValue, isOpen, setIsOpen)
         }
+        suppressContentEditableWarning="true"
       >
         <p>
           <br />

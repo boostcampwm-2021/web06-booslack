@@ -228,6 +228,28 @@ const makeBold = (selection) => {
   }
 };
 
+const checkEmojiListOpenPossible = (e, isOpen, setIsOpen, setInput) => {
+  const selection = document.getSelection();
+
+  let possible = false;
+  const range = document.createRange();
+  for (let i = selection.focusOffset - 3; i >= 0; i--) {
+    if (selection.focusNode.data[i] === ':') {
+      range.setStart(selection.focusNode, i + 1);
+      possible = true;
+      break;
+    } else if (selection.focusNode.data[i] === ' ') {
+      possible = false;
+      break;
+    }
+  }
+  if (possible) {
+    setIsOpen(true);
+    range.setEnd(selection.focusNode, selection.focusOffset);
+    setInput(range.toString());
+  }
+};
+
 export const inputHandle = (
   e,
   input,
@@ -254,58 +276,14 @@ export const inputHandle = (
         document.execCommand('bold');
       }
     }
-
-    if (isOpen) {
-      setInput((prevState) => prevState.substr(0, prevState.length - 1));
-    }
   }
 
-  const selection = document.getSelection();
-  if (
-    selection.focusNode.length >= 3 &&
-    selection.focusNode.data[selection.focusOffset - 3] === ':'
-  ) {
-    setIsOpen(true);
-    setInput(selection.focusNode.data.substr(1, 2));
-  }
-
-  if (isOpen && e.nativeEvent.inputType !== 'deleteContentBackward') {
-    setInput((prevState) => prevState + e.nativeEvent.data);
-  }
+  checkEmojiListOpenPossible(e, isOpen, setIsOpen, setInput);
 };
 
-export const keydownHandle = (
-  e,
-  input,
-  setInput,
-  value,
-  setValue,
-  isOpen,
-  setIsOpen,
-): void => {
+export const keydownHandle = (e): void => {
   if (e.code === 'Enter') {
     document.execCommand('defaultParagraphSeparator', false, 'p');
-
-    if (isOpen) {
-      e.preventDefault();
-      const selection = document.getSelection();
-      const range = document.createRange();
-      range.setEnd(selection.focusNode, selection.focusOffset);
-
-      for (let i = selection.focusOffset - 1; i >= 0; i--) {
-        if (selection.focusNode.data[i] === ':') {
-          range.setStart(selection.focusNode, i);
-          break;
-        }
-      }
-      const img = document.createElement('img');
-      img.alt = value.emoji;
-      img.className = 'emoji';
-
-      range.deleteContents();
-      range.insertNode(img);
-      selection.collapse(img, 0);
-    }
   }
 
   if (e.code === 'Space') {
@@ -355,4 +333,27 @@ export const keydownHandle = (
       createAndDeleteCodeBlock(selection, e);
     }
   }
+};
+
+export const makeEmoji = (value, setValue) => {
+  const selection = document.getSelection();
+  const range = document.createRange();
+  range.setEnd(selection.focusNode, selection.focusOffset);
+
+  for (let i = selection.focusOffset - 1; i >= 0; i--) {
+    if (selection.focusNode.data[i] === ':') {
+      range.setStart(selection.focusNode, i);
+      break;
+    }
+  }
+
+  const img = document.createElement('img');
+  img.alt = value.emoji;
+  img.className = 'emoji';
+
+  range.deleteContents();
+  range.insertNode(img);
+  selection.collapse(img.nextSibling, 0);
+
+  setValue(undefined);
 };
