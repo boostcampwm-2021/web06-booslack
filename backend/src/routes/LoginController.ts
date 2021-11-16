@@ -27,20 +27,14 @@ loginRouter.get(
   }),
 );
 
-loginRouter.post('/info', (req, res) => {
+loginRouter.get('/info', (req, res) => {
   try {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const userInfo = req.session.passport.user;
-    if (userInfo) {
-      // @ts-ignore
-      req.session.userId = req.session.passport.user[0].id;
-      res.json(userInfo);
-    } else {
-      res.json({ message: 'User is not Login' });
-    }
+    const user = req.session.passport?.user;
+    res.json(user ? user[0] : user);
   } catch (e) {
-    res.json({ message: 'User is not Login' });
+    res.json({ message: 'Error while checking login status.' });
   }
 });
 
@@ -52,7 +46,7 @@ loginRouter.get('/logout', (req, res) => {
       res.json({ url: `${frontUrl}/login` });
     });
   } catch (e) {
-    res.json({ message: 'session is not destroy' });
+    res.json({ message: 'Session is not destroyed.' });
   }
 });
 
@@ -72,11 +66,13 @@ loginRouter.post('/signup', async (req, res) => {
   try {
     const { username, password, passwordTwo } = req.body;
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    if (!verifyInform(username, password, passwordTwo)) throw new Error('no user data verify');
+    if (!verifyInform(username, password, passwordTwo)) {
+      throw new Error('Given data does not meet the requirements. ');
+    }
     const user = await getCustomRepository(UserRepository).find({
-      where: { email: username },
+      where: { nickname: username },
     });
-    if (user.length > 0) throw new Error('user is exist');
+    if (user.length > 0) throw new Error('Given username already exists.');
     const newUser = {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       nickname: makeNickName(username),

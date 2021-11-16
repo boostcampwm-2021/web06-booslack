@@ -19,7 +19,8 @@
       "@enum/*": ["src/enum/*"],
       "@global/*": ["src/global/*"],
       "@hook/*": ["src/hooks/*"],
-      "@state/*": ["src/state/*"]
+      "@state/*": ["src/state/*"],
+      "@routes/*": ["src/routes/*"]
     },
     "plugins": [{ "name": "typescript-styled-plugin", "validate": false }],
     "skipLibCheck": true

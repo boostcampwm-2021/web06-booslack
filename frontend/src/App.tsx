@@ -1,6 +1,6 @@
-import React from 'react';
-import { RecoilRoot, useRecoilValue } from 'recoil';
-import { BrowserRouter, Switch } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { RecoilRoot, useRecoilValue, useSetRecoilState } from 'recoil';
+import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import Workspace from '@pages/Workspace';
 import BrowseChannel from '@pages/BrowseChannel';
@@ -15,31 +15,57 @@ import themeState from '@state/Theme';
 import { Itheme } from '@global/theme';
 import InvitedCode from '@pages/InvitedCode';
 import GeneratedCode from '@pages/GeneratedCode';
-import PublicRoute from '@global/util/routes/PublicRoute';
 import Login from '@pages/Login';
-import PrivateRoute from '@global/util/routes/PrivateRoute';
-import TotalRoute from '@global/util/routes/TotalRoute';
+import axios from 'axios';
+import userState from '@state/user';
+import PrivateRoute from '@routes/PrivateRoute';
+import PublicRoute from '@routes/PublicRoute';
 import GlobalStyle from './global/globalstyle';
 
 const ThemeContainer = (): JSX.Element => {
   const currentTheme = useRecoilValue<Itheme>(themeState);
-  return (
+  const [isLoading, setIsLoading] = useState(true);
+  const setUserState = useSetRecoilState(userState);
+
+  useEffect(() => {
+    const getLoginStatus = async () => {
+      const res = await axios.get('/api/login/info');
+      setUserState(res.data);
+      setIsLoading(false);
+    };
+    getLoginStatus();
+  }, []);
+
+  return isLoading ? (
+    <div>loading</div>
+  ) : (
     <ThemeProvider theme={currentTheme}>
       <GlobalStyle />
       <BrowserRouter>
         <Switch>
-          <PublicRoute Page={Login} path="/login" />
-          <PublicRoute Page={Signup} path="/signup" />
-          <PrivateRoute Page={WorkspaceList} path="/workspacelist" />
-          <PrivateRoute Page={SetupTeam} path="/setupteam" />
-          <PrivateRoute Page={Workspace} path="/client/:channelId" />
-          <PrivateRoute Page={BrowseChannel} path="/browsechannel" />
-          <PrivateRoute Page={InvitedCode} path="/invitecode" />
-          <PrivateRoute Page={GeneratedCode} path="/generatecode" />
-          <TotalRoute Page={NotLogin} path="/notlogin" />
-          <TotalRoute Page={NotLogout} path="/notlogout" />
-          <TotalRoute Page={Changepassword} path="/changepassword" />
-          <TotalRoute Page={NotFound} path="*" />
+          <Route exact path="/">
+            <Redirect to="/workspacelist" />
+          </Route>
+          <PublicRoute component={Login} path="/login" />
+          <PublicRoute component={Signup} path="/signup" />
+          <PrivateRoute component={WorkspaceList} path="/workspacelist" />
+          <PrivateRoute component={SetupTeam} path="/setupteam" />
+          <PrivateRoute
+            component={Workspace}
+            exact
+            path="/client/:workspaceId/:channelId"
+          />
+          <PrivateRoute
+            component={BrowseChannel}
+            exact
+            path="/client/:workspaceId/browse-channels"
+          />
+          <PrivateRoute component={InvitedCode} path="/invitecode" />
+          <PrivateRoute component={GeneratedCode} path="/generatecode" />
+          <Route component={NotLogin} path="/notlogin" />
+          <Route component={NotLogout} path="/notlogout" />
+          <Route component={Changepassword} path="/changepassword" />
+          <Route component={NotFound} path="*" />
         </Switch>
       </BrowserRouter>
     </ThemeProvider>

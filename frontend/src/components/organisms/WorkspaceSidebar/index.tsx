@@ -1,38 +1,57 @@
+import React, { useEffect } from 'react';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { NavLink } from 'react-router-dom';
 import SidebarDivision from '@molecules/SidebarDivision';
 import SidebarChannelElement from '@molecules/SidebarChannelElement';
-import React from 'react';
 import SidebarAddElement from '@molecules/SidebarAddElement';
-import { useRecoilState, useRecoilValue } from 'recoil';
 import {
   channelCreateModalState,
   sidebarChannelInfoModalState,
 } from '@state/modal';
-import { NavLink } from 'react-router-dom';
-import { channelListFromServerState } from '@state/Channel';
+import userState from '@state/user';
+import { channelListState } from '@state/Channel';
 import { Container } from './style';
+import axios from 'axios';
 
 const WorkspaceSidebar = (): JSX.Element => {
-  const [isChannelCreateModalOpen, setIsChannelCreateModalOpen] =
-    useRecoilState(channelCreateModalState);
+  // const user = useRecoilValue(userState);
+  const [user, setUser] = useRecoilState(userState);
+  const setIsChannelCreateModalOpen = useSetRecoilState(
+    channelCreateModalState,
+  );
   const [isSidebarChannelInfoModalOpen, setIsSidebarChannelInfoModalOpen] =
     useRecoilState(sidebarChannelInfoModalState);
-  const channelList = useRecoilValue(
-    channelListFromServerState({
-      userId: sessionStorage.getItem('id'),
-      workspaceId: sessionStorage.getItem('workspaceId'),
-    }),
-  );
+  // const channelList = useRecoilValue(
+  //   channelListFromServerState({
+  //     userId: sessionStorage.getItem('id'),
+  //     workspaceId: sessionStorage.getItem('workspaceId'),
+  //   }),
+  // );
+
+  const [channelList, setChannelList] = useRecoilState(channelListState);
+
+  useEffect(() => {
+    if (!user.workspaceId) return;
+
+    const getChannelList = async () => {
+      const res = await axios.get(
+        `/api/channels/channelsThatUserIn?userId=${user.id}&workspaceId=${user.workspaceId}`,
+      );
+      setChannelList(res.data.channels);
+    };
+    getChannelList();
+  }, [user.workspaceId]);
 
   return (
     <Container>
       <SidebarDivision label="Channels" options type="Channels" />
       <NavLink
-        to="/client/browse-channels"
+        to={`/client/${user.workspaceId}/browse-channels`}
         style={{ textDecoration: 'none', color: 'black' }}
         activeStyle={{ color: 'red' }}
       >
         <SidebarChannelElement
-          label="browse-channels"
+          label="Channel browser"
           isPrivate={false}
           onClick={() => {}}
           onContextMenu={(e) => {
@@ -41,11 +60,14 @@ const WorkspaceSidebar = (): JSX.Element => {
         />
       </NavLink>
 
-      {channelList.channels.map((channel) => {
+      {channelList.map((channel) => {
+        {
+          /* {channelList.channels.map((channel) => { */
+        }
         return (
           <NavLink
             key={channel.id}
-            to={`/client/${channel.id}`}
+            to={`/client/${user.workspaceId}/${channel.id}`}
             style={{ textDecoration: 'none', color: 'black' }}
             activeStyle={{ color: 'red' }}
           >

@@ -1,4 +1,4 @@
-export const validPassword = (password: string) => {
+export const validatePassword = (password: string): string => {
   const pattern1 = /[0-9]/;
   const pattern2 = /[a-zA-Z]/;
   const pattern3 = /[`~!@#$%^&*()_+|<>?:{}]/;
