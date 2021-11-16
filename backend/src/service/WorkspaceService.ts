@@ -52,8 +52,6 @@ export async function addUserToWorkspace(req: Request, res: Response) {
     const userId = user ? user[0].id : user;
     const { code }: { code: string } = req.body;
 
-    console.log(code);
-
     if (!userId || !code) {
       throw BAD_REQUEST;
     }
@@ -62,20 +60,15 @@ export async function addUserToWorkspace(req: Request, res: Response) {
       where: [{ code }],
     });
 
-    console.log(Workspace);
-
     if (!Workspace?.id) {
       throw BAD_REQUEST;
     }
 
     const userHasWorkSpace = { userId, workspaceId: Workspace.id };
 
-    console.log(userHasWorkSpace);
-
     await getCustomRepository(UserHasWorkspaceRepository).save(userHasWorkSpace);
     return res.status(CREATED).end();
   } catch (error) {
-    console.log(error);
     return res.status(BAD_REQUEST).json({
       error: paramMissingError,
     });
