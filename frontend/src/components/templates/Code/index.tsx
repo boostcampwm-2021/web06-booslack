@@ -1,5 +1,7 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { useResetRecoilState } from 'recoil';
 import Label from '@atoms/Label';
+import { codeModalState } from '@state/modal';
 import { Container, StyledLabel, StyledButton } from './styles';
 
 interface Props {
@@ -9,6 +11,14 @@ interface Props {
 }
 
 const CodeTemplate = ({ children, onClick, text }: Props): JSX.Element => {
+  const resetModalState = useResetRecoilState(codeModalState);
+
+  useEffect(() => {
+    return () => {
+      resetModalState();
+    };
+  });
+
   return (
     <Container>
       <StyledLabel text="booslack" />
