@@ -13,6 +13,6 @@ export class Reply {
   @Column()
   message!: string;
 
-  @ManyToOne(() => Thread, (thread) => thread.channel)
+  @ManyToOne(() => Thread, (thread) => thread.replys)
   thread!: Thread;
 }

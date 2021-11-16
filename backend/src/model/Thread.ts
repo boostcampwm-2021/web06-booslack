@@ -1,29 +1,37 @@
 /* eslint-disable import/prefer-default-export */
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  ManyToOne, OneToMany,
+} from 'typeorm';
 import { Channel } from './Channel';
 import { UserHasWorkspace } from './UserHasWorkspace';
+import { Reply } from './Reply';
 
 @Entity()
 export class Thread {
   @PrimaryGeneratedColumn()
   id!: number;
 
-  @Column()
+  @Column({ type: 'date' })
   time!: Date;
 
   @Column()
   message!: string;
 
-  @Column()
+  @Column({ nullable: true })
   channelId!: number;
 
-  @Column()
+  @Column({ nullable: true })
   userHasWorkspaceId!: number;
 
-  @ManyToOne(() => Channel, (channel) => channel.workspace)
+  @ManyToOne(() => Channel, (channel) => channel.threads)
   channel!: Channel;
 
-  @ManyToOne(() => UserHasWorkspace)
-  @JoinColumn()
+  @ManyToOne(() => UserHasWorkspace, (userHasWorkspace) => userHasWorkspace.threads)
   userHasWorkspace!: UserHasWorkspace;
+
+  @OneToMany(() => Reply, (reply) => reply.thread)
+  replys!: Reply[];
 }
