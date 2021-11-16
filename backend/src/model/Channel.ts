@@ -21,7 +21,7 @@ export interface IChannel {
 }
 
 @Entity()
-export class Channel {
+export class Channel implements IChannel {
   @PrimaryGeneratedColumn()
   id!: number;
 
@@ -33,6 +33,15 @@ export class Channel {
 
   @Column()
   description!: string;
+
+  @Column()
+  topic!: string;
+
+  @Column()
+  createdBy!: string;
+
+  @Column({ nullable: true })
+  workspaceId!: number;
 
   @ManyToOne(() => Workspace, (workspace) => workspace.channels)
   workspace!: Workspace;
