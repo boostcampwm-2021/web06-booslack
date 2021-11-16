@@ -25,8 +25,6 @@ const InvitedCode = (): JSX.Element => {
         data: { code },
       });
 
-      console.log(data);
-
       history.push({
         pathname: '/workspacelist',
         state: { data },
