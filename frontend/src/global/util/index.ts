@@ -61,7 +61,11 @@ export const checkInputValues = (inputTag: HTMLInputElement): string => {
     // eslint-disable-next-line no-param-reassign
     inputTag.value = '';
   }
-  return inputTag.value as string;
+  return inputTag.value.toUpperCase() as string;
+};
+
+export const copyText = (text: string): void => {
+  navigator.clipboard.writeText(text);
 };
 
 export const axiosWithFile = async (

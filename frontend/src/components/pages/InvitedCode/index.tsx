@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import CodeModal from '@organisms/CodeModal';
 import CodeTemplate from '@templates/Code';
-import SubmitCodeForm from '@molecules/SubmitCodeForm';
+import SubmitCodeForm from '@organisms/SubmitCodeForm';
 import { checkInputValues } from '@global/util';
 import { Container } from './style';
 
@@ -15,6 +15,7 @@ const InvitedCode = (): JSX.Element => {
       <CodeTemplate
         text="코드를 입력해주세요!"
         onClick={() => history.push('workspacelist')}
+        code={code}
       >
         <Container>
           <SubmitCodeForm

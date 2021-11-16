@@ -1,5 +1,4 @@
-import { endsWith } from 'lodash';
-import React, { Dispatch, SetStateAction, useEffect, useRef } from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
 import Container, {
   StyledInputContainer,
   StyledInput,
