@@ -16,7 +16,8 @@ export async function getAllWorkspaces(req: Request, res: Response) {
 export async function getAllUserWorkspaces(req: Request, res: Response) {
   try {
     // @ts-ignore
-    const { userId } = req.session;
+    const user = req.session.passport?.user;
+    const userId = user ? user[0].id : user;
 
     if (!userId) {
       throw UNAUTHORIZED;
@@ -58,7 +59,8 @@ export async function addOneWorkspaceWithFile(req: Request, res: Response) {
 export async function addOneWorkspace(req: Request, res: Response) {
   try {
     // @ts-ignore
-    const { userId } = req.session;
+    const user = req.session.passport?.user;
+    const userId = user ? user[0].id : user;
 
     if (!userId) {
       throw UNAUTHORIZED;
