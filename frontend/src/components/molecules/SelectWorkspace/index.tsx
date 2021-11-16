@@ -16,6 +16,13 @@ const SelectWorkspace = ({
   content,
   className,
 }: Props): JSX.Element => {
+  // eslint-disable-next-line no-trailing-spaces
+  // eslint-disable-next-line operator-linebreak
+  const titleText =
+    firstLabelContent?.length > 13
+      ? `${firstLabelContent.substr(0, 13)}...`
+      : firstLabelContent;
+
   return (
     <Container className={className}>
       <StlyedImageButton
@@ -25,7 +32,7 @@ const SelectWorkspace = ({
         image="./img"
       />
       <TextSet>
-        <Label text={firstLabelContent} />
+        <Label text={titleText} />
         <Label text={secondLabelContent} />
         <div>{`${content}명의 맴버`}</div>
       </TextSet>
