@@ -5,7 +5,7 @@ interface IusePagenation {
   page: number;
   setPage: Dispatch<SetStateAction<number>>;
   isLoading: boolean;
-  data: { hasMore: boolean };
+  data: any;
   error: unknown;
   isFetching: boolean;
   isPreviousData: boolean;
@@ -14,7 +14,7 @@ interface IusePagenation {
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const usePagenation = (
   key: string,
-  axiosFunction: (page: number) => Promise<unknown & { hasMore: boolean }>,
+  axiosFunction: (page: number) => Promise<any>,
   option?: typeof Object,
 ): IusePagenation => {
   const queryClient = useQueryClient();
