@@ -18,6 +18,7 @@ export async function getAllWorkspaces(req: Request, res: Response) {
 export async function getAllUserWorkspaces(req: Request, res: Response) {
   try {
     const { page } = req.query;
+    const pageNumber = parseInt(page as string, 10);
 
     // @ts-ignore
     const user = req.session.passport?.user;
@@ -30,13 +31,12 @@ export async function getAllUserWorkspaces(req: Request, res: Response) {
     // eslint-disable-next-line max-len
     const workspaces = await getCustomRepository(UserHasWorkspaceRepository).findAndEachCount(
       userId as number,
-      page as unknown as number,
+      pageNumber,
     );
 
     const data = [...(workspaces as [])];
-    const Cursor = parseInt(page as string, 10) + data.length;
-
-    const nextCursor = Cursor !== parseInt(page as string, 10) ? Cursor : null;
+    const cursor = pageNumber + data.length;
+    const nextCursor = cursor !== pageNumber ? cursor : null;
 
     return res.status(OK).json({ workspaces: data, nextCursor });
   } catch (error) {

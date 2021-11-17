@@ -17,7 +17,7 @@ export default class UserHasWorkspaceRepository extends Repository<UserHasWorksp
       // eslint-disable-next-line max-len
       .leftJoinAndSelect(`( ${subquery.getQuery()} )`, 'jointable', 'user.workspaceId = jointable.id')
       .where('user.userId = :userId', { userId })
-      .offset(page * workspaceListPageLimitCount)
+      .offset(page)
       .limit(workspaceListPageLimitCount)
       .getRawMany();
 

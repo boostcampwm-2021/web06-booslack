@@ -18,8 +18,8 @@ const useInfinityScroll = (
     hasNextPage,
     hasPreviousPage,
   } = useInfiniteQuery(key, axiosFunction, {
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
-    getPreviousPageParam: (firstPage) => firstPage.prevCursor,
+    getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
+    getPreviousPageParam: (firstPage, pages) => firstPage.prevCursor,
   });
 
   return {

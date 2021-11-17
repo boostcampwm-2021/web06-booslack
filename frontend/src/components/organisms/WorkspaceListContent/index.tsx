@@ -67,15 +67,22 @@ const WorkSpaceListContent = (): JSX.Element => {
     isFetchingNextPage,
   } = useInfinityScroll('workspacelists', getWorkspaceLists);
 
+  const [workspaces, setWorkspaces] = useState(
+    queryFlatMap<Workspace>(data, 'workspaces'),
+  );
+
+  useEffect(() => {
+    setWorkspaces(queryFlatMap<Workspace>(data, 'workspaces'));
+  }, [data]);
+
   return (
     <Container>
       <StyledHeader title={NameLabel} content={<></>} rightButton={<></>} />
       <WorkspaceListContainer>
         <AsyncBranch data={data} loading={isLoading} error={error}>
-          <WorkSpaceLists
-            workspaces={queryFlatMap<Workspace>(data, 'workspaces')}
-          />
+          <WorkSpaceLists workspaces={workspaces} />
         </AsyncBranch>
+        {isFetchingNextPage && <div>loading...</div>}
         <LabeledDefaultButton
           text="더보기"
           disabled={!hasNextPage || isFetchingNextPage}
