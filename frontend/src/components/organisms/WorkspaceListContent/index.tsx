@@ -9,6 +9,7 @@ import API from '@global/api';
 import useInfinityScroll from '@hook/useInfinityScroll';
 import userState from '@state/user';
 import { Workspace } from '@global/type';
+import { queryFlatMap } from '@global/util/reactQueryUtil';
 import {
   StyledLabel,
   StyledSelectWorkspace,
@@ -66,16 +67,14 @@ const WorkSpaceListContent = (): JSX.Element => {
     isFetchingNextPage,
   } = useInfinityScroll('workspacelists', getWorkspaceLists);
 
-  const workspacesList = data?.pages
-    ?.map(({ workspaces }) => workspaces)
-    .flat();
-
   return (
     <Container>
       <StyledHeader title={NameLabel} content={<></>} rightButton={<></>} />
       <WorkspaceListContainer>
         <AsyncBranch data={data} loading={isLoading} error={error}>
-          <WorkSpaceLists workspaces={workspacesList as Workspace[]} />
+          <WorkSpaceLists
+            workspaces={queryFlatMap<Workspace>(data, 'workspaces')}
+          />
         </AsyncBranch>
         <LabeledDefaultButton
           text="더보기"
