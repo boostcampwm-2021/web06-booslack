@@ -253,14 +253,39 @@ const checkEmojiListOpenPossible = (setIsOpen, setInput) => {
   }
 };
 
+const checkMentionListOpenPossible = (setIsOpen, setInput) => {
+  const selection = document.getSelection();
+  const thisElement = selection.focusNode;
+
+  let possible = false;
+  const range = document.createRange();
+  for (let i = selection.focusOffset - 1; i >= 0; i--) {
+    if (thisElement.data[i] === '@') {
+      range.setStart(thisElement, i + 1);
+      possible = true;
+      break;
+    } else if (thisElement.data[i] === ' ') {
+      possible = false;
+      break;
+    }
+  }
+  if (possible) {
+    setIsOpen(true);
+    range.setEnd(thisElement, selection.focusOffset);
+    setInput(range.toString());
+  }
+};
+
 export const inputHandle = (
   e,
   input,
   setInput,
   value,
   setValue,
-  isOpen,
-  setIsOpen,
+  isEmojiOpen,
+  setIsEmojiOpen,
+  isMentionOpen,
+  setIsMentionOpen,
 ): void => {
   if (e.nativeEvent.data === '>') {
     const selection = document.getSelection();
@@ -281,10 +306,22 @@ export const inputHandle = (
     }
   }
 
-  checkEmojiListOpenPossible(setIsOpen, setInput);
+  checkMentionListOpenPossible(setIsMentionOpen, setInput);
+
+  checkEmojiListOpenPossible(setIsEmojiOpen, setInput);
 };
 
-export const keydownHandle = (e): void => {
+export const keydownHandle = (
+  e,
+  input,
+  setInput,
+  value,
+  setValue,
+  isEmojiOpen,
+  setIsEmojiOpen,
+  isMentionOpen,
+  setIsMentionOpen,
+): void => {
   if (e.code === 'Enter') {
     document.execCommand('defaultParagraphSeparator', false, 'p');
   }
@@ -338,7 +375,7 @@ export const keydownHandle = (e): void => {
   }
 };
 
-export const makeEmoji = (value, setValue) => {
+export const makeEmoji = (value) => {
   const selection = document.getSelection();
   const range = document.createRange();
   range.setEnd(selection.focusNode, selection.focusOffset);
@@ -357,6 +394,25 @@ export const makeEmoji = (value, setValue) => {
   range.deleteContents();
   range.insertNode(img);
   selection.collapse(img.nextSibling, 0);
+};
 
-  setValue(undefined);
+export const makeMention = (value) => {
+  const selection = document.getSelection();
+  const range = document.createRange();
+  range.setEnd(selection.focusNode, selection.focusOffset);
+
+  for (let i = selection.focusOffset - 1; i >= 0; i--) {
+    if (selection.focusNode.data[i] === '@') {
+      range.setStart(selection.focusNode, i);
+      break;
+    }
+  }
+
+  const span = document.createElement('span');
+  span.className = 'c-member_slug--link';
+  span.innerText = `@${value.name}`;
+
+  range.deleteContents();
+  range.insertNode(span);
+  selection.collapse(span.nextSibling, 0);
 };

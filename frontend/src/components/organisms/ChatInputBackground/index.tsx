@@ -1,21 +1,26 @@
 import React, { useState, useEffect } from 'react';
 import EmojiPopup from '@molecules/EmojiPopup';
+import MentionPopup from '@molecules/MentionPopup';
 import {
   keydownHandle,
   inputHandle,
   makeEmoji,
+  makeMention,
 } from '@global/util/inputEventHandlers';
 import { Container } from './styles';
 
 const ChatInputBackGround = (): JSX.Element => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [isEmojiOpen, setIsEmojiOpen] = useState(false);
+  const [isMentionOpen, setIsMentionOpen] = useState(false);
   const [input, setInput] = useState('');
   const [value, setValue] = useState(undefined);
 
   useEffect(() => {
     if (!value) return;
-    makeEmoji(value, setValue);
+    if (isEmojiOpen) makeEmoji(value);
+    else if (isMentionOpen) makeMention(value);
     setInput('');
+    setValue(undefined);
   }, [value]);
 
   return (
@@ -28,10 +33,30 @@ const ChatInputBackGround = (): JSX.Element => {
         aria-multiline="true"
         aria-autocomplete="list"
         onKeyDown={(e) =>
-          keydownHandle(e, input, setInput, value, setValue, isOpen, setIsOpen)
+          keydownHandle(
+            e,
+            input,
+            setInput,
+            value,
+            setValue,
+            isEmojiOpen,
+            setIsEmojiOpen,
+            isMentionOpen,
+            setIsMentionOpen,
+          )
         }
         onInput={(e) =>
-          inputHandle(e, input, setInput, value, setValue, isOpen, setIsOpen)
+          inputHandle(
+            e,
+            input,
+            setInput,
+            value,
+            setValue,
+            isEmojiOpen,
+            setIsEmojiOpen,
+            isMentionOpen,
+            setIsMentionOpen,
+          )
         }
         suppressContentEditableWarning="true"
       >
@@ -41,10 +66,17 @@ const ChatInputBackGround = (): JSX.Element => {
       </div>
       <EmojiPopup
         input={input}
-        isOpen={isOpen}
+        isOpen={isEmojiOpen}
         value={value}
         setValue={setValue}
-        close={() => setIsOpen(false)}
+        close={() => setIsEmojiOpen(false)}
+      />
+      <MentionPopup
+        input={input}
+        isOpen={isMentionOpen}
+        value={value}
+        setValue={setValue}
+        close={() => setIsMentionOpen(false)}
       />
     </Container>
   );
