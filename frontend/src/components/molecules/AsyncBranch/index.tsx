@@ -1,8 +1,9 @@
 import React from 'react';
+import { InfiniteData } from 'react-query';
 import { Data } from '@hook/useAsync';
 
 interface Props {
-  data: Data | unknown[];
+  data: Data | unknown[] | InfiniteData<any>;
   loading: boolean;
   error: Error | unknown;
   children: JSX.Element;

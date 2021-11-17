@@ -34,8 +34,11 @@ export async function getAllUserWorkspaces(req: Request, res: Response) {
     );
 
     const data = [...(workspaces as [])];
+    const Cursor = parseInt(page as string, 10) + data.length;
 
-    return res.status(OK).json({ workspaces: data, hasMore: data.length >= workspaceListPageLimitCount });
+    const nextCursor = Cursor !== parseInt(page as string, 10) ? Cursor : null;
+
+    return res.status(OK).json({ workspaces: data, nextCursor });
   } catch (error) {
     return res.status(BAD_REQUEST).json(error);
   }

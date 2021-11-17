@@ -6,8 +6,7 @@ import axios from 'axios';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import AsyncBranch from '@molecules/AsyncBranch';
 import API from '@global/api';
-
-import usePagenation from '@hook/usePagenation';
+import useInfinityScroll from '@hook/useInfinityScroll';
 import userState from '@state/user';
 import { Workspace } from '@global/type';
 import {
@@ -44,45 +43,44 @@ const WorkSpaceLists = ({
   );
 };
 
-async function fetchProjects(page = 0) {
-  try {
-    const { data } = await axios.get(API.get.workspace.user, {
-      params: {
-        page,
-      },
-    });
-    return data;
-  } catch (error) {
-    return Error;
-  }
+async function getWorkspaceLists({ pageParam = 0 }) {
+  const { data } = await axios.get(API.get.workspace.user, {
+    params: {
+      page: pageParam,
+    },
+  });
+
+  return data;
 }
 
 const WorkSpaceListContent = (): JSX.Element => {
   const { nickname } = useRecoilValue(userState);
   const NameLabel = <StyledLabel text={`${nickname ?? ''}의 워크스페이스`} />;
 
-  const [dataList, setDataList] = useState<unknown[]>([]);
+  const {
+    isLoading,
+    data,
+    error,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useInfinityScroll('workspacelists', getWorkspaceLists);
 
-  const { setPage, isLoading, data, error, isPreviousData } = usePagenation(
-    'workspacelists',
-    fetchProjects,
-  );
-
-  useEffect(() => {
-    if (data) setDataList([...dataList, ...data?.workspaces]);
-  }, [data]);
+  const workspacesList = data?.pages
+    ?.map(({ workspaces }) => workspaces)
+    .flat();
 
   return (
     <Container>
       <StyledHeader title={NameLabel} content={<></>} rightButton={<></>} />
       <WorkspaceListContainer>
-        <AsyncBranch data={dataList} loading={isLoading} error={error}>
-          <WorkSpaceLists workspaces={dataList as Workspace[]} />
+        <AsyncBranch data={data} loading={isLoading} error={error}>
+          <WorkSpaceLists workspaces={workspacesList as Workspace[]} />
         </AsyncBranch>
         <LabeledDefaultButton
           text="더보기"
-          disabled={isPreviousData || !data?.hasMore}
-          onClick={() => setPage((old) => (data?.hasMore ? old + 1 : old))}
+          disabled={!hasNextPage || isFetchingNextPage}
+          onClick={() => fetchNextPage()}
         />
       </WorkspaceListContainer>
     </Container>
