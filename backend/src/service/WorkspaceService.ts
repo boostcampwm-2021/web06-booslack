@@ -1,7 +1,9 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import StatusCodes from 'http-status-codes';
 import { Request, Response } from 'express';
 import { getCustomRepository } from 'typeorm';
+import { workspaceListPageLimitCount } from '@enum';
 import WorkspaceRepository from '../repository/WorkspaceRepository';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
 import generateUniqSerial from '../shared/simpleuuid';
@@ -15,13 +17,25 @@ export async function getAllWorkspaces(req: Request, res: Response) {
 
 export async function getAllUserWorkspaces(req: Request, res: Response) {
   try {
+    const { page } = req.query;
+
     // @ts-ignore
     const user = req.session.passport?.user;
     const userId = user ? user[0].id : user;
-    if (!userId) throw new Error('not found User');
-    const workspaces = await getCustomRepository(UserHasWorkspaceRepository)
-      .findAndEachCount(userId as number);
-    return res.status(OK).json({ workspaces: [...(workspaces as [])] });
+
+    if (!userId) {
+      throw BAD_REQUEST;
+    }
+
+    // eslint-disable-next-line max-len
+    const workspaces = await getCustomRepository(UserHasWorkspaceRepository).findAndEachCount(
+      userId as number,
+      page as unknown as number,
+    );
+
+    const data = [...(workspaces as [])];
+
+    return res.status(OK).json({ workspaces: data, hasMore: data.length >= workspaceListPageLimitCount });
   } catch (error) {
     return res.status(BAD_REQUEST).json(error);
   }

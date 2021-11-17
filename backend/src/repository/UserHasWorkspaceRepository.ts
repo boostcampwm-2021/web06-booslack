@@ -4,7 +4,7 @@ import UserHasWorkspace from '../model/UserHasWorkspace';
 
 @EntityRepository(UserHasWorkspace)
 export default class UserHasWorkspaceRepository extends Repository<UserHasWorkspace> {
-  findAndEachCount(userId: number): Promise<undefined | RowDataPacket[]> {
+  findAndEachCount(userId: number, page: number): Promise<undefined | RowDataPacket[]> {
     const subquery = this.createQueryBuilder('usercount')
       .select('usercount.workspaceId', 'id')
       .addSelect('COUNT(*)', 'count')
@@ -17,6 +17,8 @@ export default class UserHasWorkspaceRepository extends Repository<UserHasWorksp
       // eslint-disable-next-line max-len
       .leftJoinAndSelect(`( ${subquery.getQuery()} )`, 'jointable', 'user.workspaceId = jointable.id')
       .where('user.userId = :userId', { userId })
+      .offset(0 + page * workspaceListPageLimitCount)
+      .limit(workspaceListPageLimitCount)
       .getRawMany();
 
     return workspaces;

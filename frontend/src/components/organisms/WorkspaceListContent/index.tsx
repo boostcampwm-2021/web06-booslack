@@ -1,13 +1,12 @@
 /* eslint-disable react/no-unused-prop-types */
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import { useQuery, useQueryClient } from 'react-query';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import AsyncBranch from '@molecules/AsyncBranch';
 import API from '@global/api';
-import useAsync from '@hook/useAsync';
+
 import usePagenation from '@hook/usePagenation';
 import userState from '@state/user';
 import { Workspace } from '@global/type';
@@ -62,21 +61,28 @@ const WorkSpaceListContent = (): JSX.Element => {
   const { nickname } = useRecoilValue(userState);
   const NameLabel = <StyledLabel text={`${nickname ?? ''}의 워크스페이스`} />;
 
-  // eslint-disable-next-line operator-linebreak
-  const { page, setPage, isLoading, data, error, isPreviousData } =
-    usePagenation('workspacelists', fetchProjects);
+  const [dataList, setDataList] = useState<unknown[]>([]);
+
+  const { setPage, isLoading, data, error, isPreviousData } = usePagenation(
+    'workspacelists',
+    fetchProjects,
+  );
+
+  useEffect(() => {
+    if (data) setDataList([...dataList, ...data?.workspaces]);
+  }, [data]);
 
   return (
     <Container>
       <StyledHeader title={NameLabel} content={<></>} rightButton={<></>} />
       <WorkspaceListContainer>
-        <AsyncBranch data={data} loading={isLoading} error={error}>
-          <WorkSpaceLists workspaces={data?.workspaces as Workspace[]} />
+        <AsyncBranch data={dataList} loading={isLoading} error={error}>
+          <WorkSpaceLists workspaces={dataList as Workspace[]} />
         </AsyncBranch>
         <LabeledDefaultButton
           text="더보기"
           disabled={isPreviousData || !data?.hasMore}
-          onClick={() => setPage(page + 1)}
+          onClick={() => setPage((old) => (data?.hasMore ? old + 1 : old))}
         />
       </WorkspaceListContainer>
     </Container>

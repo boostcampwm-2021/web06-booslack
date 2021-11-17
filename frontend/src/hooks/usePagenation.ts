@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { QueryFunction, useQuery, useQueryClient } from 'react-query';
+import { useQuery, useQueryClient } from 'react-query';
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const usePagenation = (
@@ -21,7 +21,7 @@ const usePagenation = (
         axiosFunction(page + 1);
       });
     }
-  }, [data, page, queryClient]);
+  }, [page, queryClient]);
 
   return { page, setPage, isLoading, data, error, isFetching, isPreviousData };
 };

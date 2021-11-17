@@ -2,7 +2,7 @@ import React from 'react';
 import { Data } from '@hook/useAsync';
 
 interface Props {
-  data: Data;
+  data: Data | unknown[];
   loading: boolean;
   error: Error | unknown;
   children: JSX.Element;
