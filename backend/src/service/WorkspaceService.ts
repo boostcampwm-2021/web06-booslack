@@ -59,9 +59,11 @@ export async function addUserToWorkspace(req: Request, res: Response) {
     // @ts-ignore
     const user = req.session.passport?.user;
     const userId = user ? user[0].id : user;
+    const name = user ? user[0].nickname : user;
+
     const { code }: { code: string } = req.body;
 
-    if (!userId || !code) {
+    if (!userId || !code || !name) {
       throw BAD_REQUEST;
     }
 
@@ -73,7 +75,7 @@ export async function addUserToWorkspace(req: Request, res: Response) {
       throw BAD_REQUEST;
     }
 
-    const userHasWorkSpace = { userId, workspaceId: Workspace.id };
+    const userHasWorkSpace = { name, userId, workspaceId: Workspace.id };
     const isExist = await getCustomRepository(UserHasWorkspaceRepository).findOne({
       where: [{ ...userHasWorkSpace }],
     });
@@ -92,6 +94,7 @@ export async function addOneWorkspace(req: Request, res: Response) {
     // @ts-ignore
     const user = req.session.passport?.user;
     const userId = user ? user[0].id : user;
+    const nickname = user ? user[0].nickname : user;
 
     if (!userId) {
       throw BAD_REQUEST;
@@ -118,7 +121,7 @@ export async function addOneWorkspace(req: Request, res: Response) {
 
     const { id: workspaceId } = await getCustomRepository(WorkspaceRepository).save(workspace);
 
-    const userHasWorkSpace = { userId, workspaceId };
+    const userHasWorkSpace = { name: nickname, userId, workspaceId };
 
     await getCustomRepository(UserHasWorkspaceRepository).save(userHasWorkSpace);
 
