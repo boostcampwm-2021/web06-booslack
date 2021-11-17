@@ -1,7 +1,9 @@
 /* eslint-disable react/no-unused-prop-types */
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useRecoilValue } from 'recoil';
+import { useQuery, useQueryClient } from 'react-query';
 import { useHistory } from 'react-router-dom';
+import axios from 'axios';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import AsyncBranch from '@molecules/AsyncBranch';
 import API from '@global/api';
@@ -42,17 +44,47 @@ const WorkSpaceLists = ({
   );
 };
 
+async function fetchProjects(page = 0) {
+  try {
+    const { data } = await axios.get(API.get.workspace.user, {
+      params: {
+        page,
+      },
+    });
+    return data;
+  } catch (error) {
+    return Error;
+  }
+}
+
 const WorkSpaceListContent = (): JSX.Element => {
   const { nickname } = useRecoilValue(userState);
   const NameLabel = <StyledLabel text={`${nickname}의 워크스페이스`} />;
 
-  const { data, loading, error } = useAsync(null, API.get.workspace.user, []);
+  const queryClient = useQueryClient();
+  const [page, setPage] = React.useState(0);
+
+  const { isLoading, data, error, isFetching, isPreviousData } = useQuery(
+    ['workspacelists', page],
+    () => fetchProjects(page),
+    { keepPreviousData: true, staleTime: 5000 },
+  );
+
+  useEffect(() => {
+    if (data?.hasMore) {
+      queryClient.prefetchQuery(['projects', page + 1], () => {
+        fetchProjects(page + 1);
+      });
+    }
+  }, [data, page, queryClient]);
+
+  //const { data, loading, error } = useAsync(null, API.get.workspace.user, []);
 
   return (
     <Container>
       <StyledHeader title={NameLabel} content={<></>} rightButton={<></>} />
       <WorkspaceListContainer>
-        <AsyncBranch data={data} loading={loading} error={error}>
+        <AsyncBranch data={data} loading={isLoading} error={error}>
           <WorkSpaceLists workspaces={data?.workspaces as Workspace[]} />
         </AsyncBranch>
         <LabeledDefaultButton text="더보기" />

@@ -4,7 +4,7 @@ import { Data } from '@hook/useAsync';
 interface Props {
   data: Data;
   loading: boolean;
-  error: Error;
+  error: Error | unknown;
   children: JSX.Element;
 }
 
