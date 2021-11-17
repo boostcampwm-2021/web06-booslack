@@ -1,10 +1,12 @@
 /* eslint-disable react/no-unused-prop-types */
 import React from 'react';
+import { useRecoilValue } from 'recoil';
 import { useHistory } from 'react-router-dom';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import AsyncBranch from '@molecules/AsyncBranch';
 import API from '@global/api';
 import useAsync from '@hook/useAsync';
+import userState from '@state/user';
 import { Workspace } from '@global/type';
 import {
   StyledLabel,
@@ -41,7 +43,8 @@ const WorkSpaceLists = ({
 };
 
 const WorkSpaceListContent = (): JSX.Element => {
-  const NameLabel = <StyledLabel text={`${'ycp998'}의 워크스페이스`} />;
+  const { nickname } = useRecoilValue(userState);
+  const NameLabel = <StyledLabel text={`${nickname}의 워크스페이스`} />;
 
   const { data, loading, error } = useAsync(null, API.get.workspace.user, []);
 
