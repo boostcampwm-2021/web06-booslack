@@ -3,7 +3,7 @@ import Label from '@atoms/Label';
 import { useHistory } from 'react-router-dom';
 import { Container, StyledLabel, StyledButton } from './style';
 
-const NotFound = (): JSX.Element => {
+const GetError = (): JSX.Element => {
   const history = useHistory();
   return (
     <Container>
@@ -14,4 +14,4 @@ const NotFound = (): JSX.Element => {
   );
 };
 
-export default NotFound;
+export default GetError;
