@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import { theme } from 'styled-tools';
+import Label from '@atoms/Label';
 import LabeledButton from '@atoms/LabeledButton';
 import SelectWorkspace from '@molecules/SelectWorkspace';
 import BrowseChannelHeader from '@molecules/BrowseChannelHeader';
@@ -7,6 +8,7 @@ import { defaultTheme } from '@global/theme';
 import { hoverChangeColor } from '@global/mixin';
 
 export const StyledHeader = styled(BrowseChannelHeader)`
+  min-width: 300px;
   background-color: ${theme('smallHeaderColor', defaultTheme.smallHeaderColor)};
   z-index: 3;
 `;
@@ -14,6 +16,7 @@ export const StyledHeader = styled(BrowseChannelHeader)`
 export const Container = styled.main`
   position: relative;
   width: 55vw;
+  min-width: 300px;
   background-color: #fff;
   margin-top: 30vh;
   border-radius: 9px;
@@ -39,6 +42,7 @@ export const WorkspaceListContainer = styled.div`
 export const StyledDiv = styled.div`
   width: inherit;
   height: inherit;
+
   display: flex;
   background-color: #fff;
 
@@ -50,6 +54,10 @@ export const StyledDiv = styled.div`
   & > * {
     margin: 10px 20px 3px 20px;
   }
+`;
+
+export const StyledLabel = styled(Label)`
+  min-width: 500px;
 `;
 
 export const StyledSelectWorkspace = styled(SelectWorkspace)``;

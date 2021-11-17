@@ -1,13 +1,13 @@
 /* eslint-disable react/no-unused-prop-types */
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import Label from '@atoms/Label';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import AsyncBranch from '@molecules/AsyncBranch';
 import API from '@global/api';
 import useAsync from '@hook/useAsync';
 import { Workspace } from '@global/type';
 import {
+  StyledLabel,
   StyledSelectWorkspace,
   StyledDiv,
   Container,
@@ -41,7 +41,7 @@ const WorkSpaceLists = ({
 };
 
 const WorkSpaceListContent = (): JSX.Element => {
-  const NameLabel = <Label text={`${'ycp998'}의 워크스페이스`} />;
+  const NameLabel = <StyledLabel text={`${'ycp998'}의 워크스페이스`} />;
 
   const { data, loading, error } = useAsync(null, API.get.workspace.user, []);
 
