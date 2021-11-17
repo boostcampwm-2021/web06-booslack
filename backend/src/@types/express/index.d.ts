@@ -17,6 +17,7 @@ declare module 'express' {
       description: string;
       message: string;
       time: Date;
+      code: string;
 
       userId: string;
       channelId: string;

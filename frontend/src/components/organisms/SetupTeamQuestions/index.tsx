@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { useSetRecoilState } from 'recoil';
 import axios from 'axios';
 import QuestionForm from '@molecules/QuestionForm';
+import { codeModalState } from '@state/modal';
 import { submitInput, axiosWithFile, changeFile } from '@global/util';
 import API from '@global/api';
 import Container, { StyledLabel, StyledButton } from './style';
 
 const SetupTeamQuestions = (): JSX.Element => {
   const history = useHistory();
+
+  const setModalState = useSetRecoilState(codeModalState);
+
   const [name, setName] = useState<string>('');
-  const [channel, setChannel] = useState<string>('');
+  const [description, setDescription] = useState<string>('');
   const [selectedFile, setSelectedFile] = useState(null);
 
   const askName = (
@@ -27,10 +32,10 @@ const SetupTeamQuestions = (): JSX.Element => {
     <QuestionForm
       count="2/3"
       key="askChannel"
-      title="채널을 생성합니다."
-      content="처음 채널의 이름을 무엇으로 할까요?"
-      onSubmit={(e) => setChannel(submitInput(e))}
-      onSet={({ value }: { value: string }) => setChannel(value)}
+      title="워크스페이스 설명을 적어주세요."
+      content="만드려는 워크스페이스에 대한 설명을 적어주세요!"
+      onSubmit={(e) => setDescription(submitInput(e))}
+      onSet={({ value }: { value: string }) => setDescription(value)}
     />
   );
 
@@ -49,27 +54,29 @@ const SetupTeamQuestions = (): JSX.Element => {
   */
 
   if (!name) return askName;
-  if (!channel) return askChannel;
+  if (!description) return askChannel;
   /*
   if (!selectedfile) return askFile;
   */
 
   const generateWorkspace = async () => {
     try {
-      await axios({
+      const { data } = await axios({
         method: 'post',
         url: API.post.workspace.addOne,
         data: {
           name,
-          channel,
+          description,
         },
       });
+      if (!data?.code) throw new Error('no data');
 
       history.push({
         pathname: '/generatecode',
+        state: { data },
       });
     } catch (error) {
-      //to-do : popup
+      setModalState({ status: true, text: undefined });
     }
   };
 
@@ -78,7 +85,7 @@ const SetupTeamQuestions = (): JSX.Element => {
       <StyledLabel text="이 정보가 맞습니까?" />
 
       <StyledLabel text={`workspace Name : ${name}`} />
-      <StyledLabel text={`workspace 시작 채널 : ${channel}`} />
+      <StyledLabel text={`workspace description : ${description}`} />
       <StyledLabel text={`파일 정보 : ${selectedFile} (skip)`} />
 
       <StyledButton text="제출" onClick={generateWorkspace} />

@@ -8,39 +8,47 @@ import Container, {
 const InputTag = ({
   name,
   readOnly,
+  value,
 }: {
   name: string;
   readOnly?: boolean;
+  value?: string;
 }): JSX.Element => {
   if (readOnly) {
     return (
       <StyledInput
         autoComplete="new-password"
         name={name}
-        value=""
-        onChange={(e: React.ChangeEvent<HTMLFormElement>) => {
+        value={value}
+        readOnly
+        onChange={(e) => {
           e.stopPropagation();
         }}
-        readOnly
       />
     );
   }
 
-  return (
-    <StyledInput autoComplete="new-password" name={name} onChange={() => {}} />
-  );
+  return <StyledInput autoComplete="new-password" name={name} />;
 };
 
 InputTag.defaultProps = {
   readOnly: false,
+  value: '',
 };
 
 interface Props {
+  highOrderFunction: (inputTag: HTMLInputElement, index: number) => string;
   setCode: Dispatch<SetStateAction<string>>;
   readOnly?: boolean;
+  code?: string;
 }
 
-const SubmitCodeForm = ({ readOnly, setCode }: Props): JSX.Element => {
+const SubmitCodeForm = ({
+  readOnly,
+  setCode,
+  code,
+  highOrderFunction,
+}: Props): JSX.Element => {
   const OnChangeLotateForm = (e: React.ChangeEvent<HTMLFormElement>) => {
     e.stopPropagation();
     const { currentTarget, target } = e;
@@ -55,30 +63,26 @@ const SubmitCodeForm = ({ readOnly, setCode }: Props): JSX.Element => {
     const inputList: NodeListOf<HTMLInputElement> =
       currentTarget.querySelectorAll('input');
 
-    const values = Array.from(inputList)?.map((inputTag: HTMLInputElement) => {
-      const inputValue = inputTag.value as string | undefined;
-
-      // eslint-disable-next-line no-param-reassign
-      if (inputValue) inputTag.value = inputValue[inputValue.length - 1];
-      return inputTag.value as string;
-    });
+    const values = Array.from(inputList)?.map(highOrderFunction);
 
     setCode(values.join(''));
-    inputList[myIndex > 5 ? 5 : myIndex].focus();
+    if (inputList[myIndex - 1]?.value) {
+      inputList[myIndex > 5 ? 5 : myIndex].focus();
+    }
   };
 
   return (
     <Container autoComplete="off" onChange={OnChangeLotateForm}>
       <StyledInputContainer>
-        <InputTag name="codeInput1" readOnly={readOnly} />
-        <InputTag name="codeInput2" readOnly={readOnly} />
-        <InputTag name="codeInput3" readOnly={readOnly} />
+        <InputTag value={code[0]} name="codeInput1" readOnly={readOnly} />
+        <InputTag value={code[1]} name="codeInput2" readOnly={readOnly} />
+        <InputTag value={code[2]} name="codeInput3" readOnly={readOnly} />
       </StyledInputContainer>
       <StyledDiv>-</StyledDiv>
       <StyledInputContainer>
-        <InputTag name="codeInput4" readOnly={readOnly} />
-        <InputTag name="codeInput5" readOnly={readOnly} />
-        <InputTag name="codeInput6" readOnly={readOnly} />
+        <InputTag value={code[3]} name="codeInput4" readOnly={readOnly} />
+        <InputTag value={code[4]} name="codeInput5" readOnly={readOnly} />
+        <InputTag value={code[5]} name="codeInput6" readOnly={readOnly} />
       </StyledInputContainer>
     </Container>
   );
@@ -86,6 +90,7 @@ const SubmitCodeForm = ({ readOnly, setCode }: Props): JSX.Element => {
 
 SubmitCodeForm.defaultProps = {
   readOnly: false,
+  code: '',
 };
 
 export default SubmitCodeForm;

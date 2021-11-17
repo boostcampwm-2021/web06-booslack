@@ -22,6 +22,9 @@ export class Workspace implements IWorkspace {
   @Column()
   name!: string;
 
+  @Column()
+  code!: string;
+
   @OneToMany(() => Channel, (channel) => channel.workspace)
   channels!: Channel[];
 

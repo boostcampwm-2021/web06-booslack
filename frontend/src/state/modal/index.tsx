@@ -24,3 +24,11 @@ export const LoginModalState = atom({
   key: 'Login',
   default: false,
 });
+
+export const codeModalState = atom({
+  key: 'codeModal',
+  default: {
+    status: false,
+    text: undefined,
+  },
+});

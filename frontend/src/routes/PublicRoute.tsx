@@ -1,6 +1,5 @@
 import React from 'react';
 import { Route, Redirect } from 'react-router-dom';
-import checkIsLogin from '@global/util/CheckIsLogin';
 import { useRecoilValue } from 'recoil';
 import userState from '@state/user';
 
