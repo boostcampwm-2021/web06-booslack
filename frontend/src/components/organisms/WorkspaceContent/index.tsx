@@ -1,17 +1,15 @@
+import React, { useEffect, useState } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import axios from 'axios';
 import Label from '@atoms/Label';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import ChatHeader from '@molecules/ChatHeader';
 import ChatInputBackground from '@organisms/ChatInputBackground';
 import ChatContent from '@organisms/ChatContent';
-import React, { useEffect, useState } from 'react';
-import { Container, MarginedDiv } from './style';
-import { useParams } from 'react-router-dom';
-import { channelListFromServerState } from 'src/state/Channel';
-import { useRecoilState, useRecoilValue } from 'recoil';
 import ChannelJoinFooter from '@organisms/ChannelJoinFooter';
-import axios from 'axios';
 import userState from '@state/user';
 import { channelListState } from '@state/Channel';
+import { Container, MarginedDiv } from './style';
 
 const getChannelById = (id: string) => {
   const [channel, setChannel] = useState();

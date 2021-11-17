@@ -1,10 +1,10 @@
-import { ChatInputSize } from '@enum/index';
 import React, { useMemo } from 'react';
-import { Container } from './styles';
-import LabeledButton from '@atoms/LabeledButton';
-import axios from 'axios';
 import { useRecoilValue } from 'recoil';
+import axios from 'axios';
+import LabeledButton from '@atoms/LabeledButton';
+import { ChatInputSize } from '@enum/index';
 import userState from '@state/user';
+import { Container } from './styles';
 
 interface Props {
   channelName: string;
