@@ -35,13 +35,15 @@ const EmojiPopup = ({
 
   return (
     <StyledPopup isOpen={isOpen} onClose={close}>
-      <Autocomplete
-        input={input}
-        filterList={emojis}
-        filter={(emoji) => emoji.description.includes(input)}
-        setValue={setValue}
-        ResultTemplate={EmojiPopupTemplate}
-      />
+      {isOpen && (
+        <Autocomplete
+          input={input}
+          filterList={emojis}
+          filter={(emoji) => emoji.description.includes(input)}
+          setValue={setValue}
+          ResultTemplate={EmojiPopupTemplate}
+        />
+      )}
     </StyledPopup>
   );
 };

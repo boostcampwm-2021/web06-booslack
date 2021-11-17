@@ -1,9 +1,13 @@
-function createAndDeleteCodeBlock(selection, event) {
+const createAndDeleteCodeBlock = (selection, event) => {
   const thisElement = selection.focusNode;
   const parent = thisElement.parentElement;
   if (parent.classList.contains('ql-code-block')) {
     parent.innerHTML = parent.innerHTML.substr(0, parent.innerHTML.length - 2);
-    parent.insertAdjacentHTML('afterend', '<p><br></p>');
+
+    const pElement = document.createElement('p');
+    pElement.innerHTML = '<br>';
+    parent.insertAdjacentElement('afterend', pElement);
+    selection.collapse(pElement, 0);
   } else if (thisElement.data === '``') {
     parent.insertAdjacentHTML(
       'afterend',
@@ -18,9 +22,9 @@ function createAndDeleteCodeBlock(selection, event) {
     parent.innerHTML = parent.innerHTML.substr(0, parent.innerHTML.length - 2);
   }
   event.preventDefault();
-}
+};
 
-function createBlockquote(selection) {
+const createBlockquote = (selection) => {
   const thisElement = selection.focusNode;
   const parent = thisElement.parentElement;
   if (parent.nodeName === 'P' && thisElement.data.startsWith('>')) {
@@ -33,33 +37,35 @@ function createBlockquote(selection) {
     parent.insertAdjacentElement('afterend', blockquoteElement);
     parent.remove();
   }
-}
+};
 
-function deleteBlockquote(selection) {
-  selection.focusNode.insertAdjacentHTML('afterend', '<p><br></p>');
-  selection.focusNode.remove();
-}
-
-function createList(selection, event) {
+const deleteBlockquote = (selection) => {
   const thisElement = selection.focusNode;
-  if (thisElement.parentElement.nodeName === 'P') {
+  thisElement.insertAdjacentHTML('afterend', '<p><br></p>');
+  thisElement.remove();
+};
+
+const createList = (selection, event) => {
+  const thisElement = selection.focusNode;
+  const parent = thisElement.parentElement;
+  if (parent.nodeName === 'P') {
     if (thisElement.data === '*' || thisElement.data === '-') {
       const ulElement = document.createElement('ul');
       ulElement.insertAdjacentHTML('beforeend', '<li><br></li>');
-      thisElement.parentElement.insertAdjacentElement('afterend', ulElement);
-      thisElement.parentElement.remove();
+      parent.insertAdjacentElement('afterend', ulElement);
+      parent.remove();
       event.preventDefault();
     } else if (thisElement.data === '1.') {
       const olElement = document.createElement('ol');
       olElement.insertAdjacentHTML('beforeend', '<li><br></li>');
-      thisElement.parentElement.insertAdjacentElement('afterend', olElement);
-      thisElement.parentElement.remove();
+      parent.insertAdjacentElement('afterend', olElement);
+      parent.remove();
       event.preventDefault();
     }
   }
-}
+};
 
-function mergeList(selection) {
+const mergeList = (selection) => {
   const thisElement = selection.focusNode;
   const parent = thisElement.parentElement;
   let index = 0;
@@ -88,9 +94,9 @@ function mergeList(selection) {
       selection.collapse(collapsePositionElement, 1);
     }
   }
-}
+};
 
-function splitList(selection) {
+const splitList = (selection) => {
   const thisElement = selection.focusNode;
   const parent = thisElement.parentElement;
   let index = 0;
@@ -109,7 +115,7 @@ function splitList(selection) {
     } else {
       parent.removeChild(thisElement);
     }
-    selection.collapse(pElement, 0);
+    selection.collapse(pElement, 1);
   } else {
     const list = [];
     const listParent =
@@ -129,16 +135,156 @@ function splitList(selection) {
     parent.removeChild(thisElement);
     selection.collapse(pElement, 0);
   }
-}
+};
 
-export function inputHandle(e): void {
+const makeBold = (selection) => {
+  const thisElement = selection.focusNode;
+  if (
+    (thisElement.data[thisElement.length - 1] ===
+      thisElement.data[selection.focusOffset - 1] ||
+      thisElement.data[selection.focusOffset] === ' ') &&
+    thisElement.length !== 1 &&
+    thisElement.data[selection.focusOffset - 2] !== ' ' &&
+    thisElement.data[selection.focusOffset - 2] !== '*'
+  ) {
+    // 맨 뒤일 경우 or 뒤에 띄어쓰기가 있을 경우 or 뒤에 italic이 있을 경우
+    // 앞으로 봐나가면 됨
+    let currentCheckingNode = thisElement;
+    let endIndex = selection.focusOffset - 2;
+    while (currentCheckingNode != null) {
+      const strong = document.createElement('b');
+      if (currentCheckingNode.nodeName === '#text') {
+        for (let i = endIndex; i >= 0; i--) {
+          if (
+            currentCheckingNode.data[i] === '*' &&
+            (i === 0 ||
+              currentCheckingNode.data[i - 1] === ' ' ||
+              currentCheckingNode.data[i - 1] === '*') &&
+            currentCheckingNode.data[i + 1] !== ' '
+          ) {
+            const range = document.createRange();
+            range.setStart(currentCheckingNode, i);
+            range.setEnd(thisElement, selection.focusOffset);
+            range.surroundContents(strong);
+
+            strong.innerHTML = strong.innerHTML.slice(1, -1);
+            strong.innerHTML = strong.innerHTML
+              .replace('<b>', '')
+              .replace('</b>', '');
+            selection.collapse(strong, 1);
+            document.execCommand('bold');
+            return;
+          }
+        }
+      }
+      currentCheckingNode = currentCheckingNode.previousSibling;
+      if (currentCheckingNode != null) {
+        endIndex = currentCheckingNode.length - 1;
+      }
+    }
+  }
+
+  if (
+    (selection.focusOffset === 1 ||
+      thisElement.data[selection.focusOffset - 2] === ' ') &&
+    thisElement.data[selection.focusOffset] !== ' '
+  ) {
+    // 맨 앞일 경우 or 앞에 띄어쓰기가 있을 경우 or 앞에 italic이 있을 경우
+    // 뒤로 봐나가면 됨
+    let currentCheckingNode = thisElement;
+    let startIndex = selection.focusOffset;
+    while (currentCheckingNode != null) {
+      const strong = document.createElement('b');
+      if (
+        currentCheckingNode.nodeName === '#text' &&
+        currentCheckingNode.length !== 0
+      ) {
+        for (let i = startIndex; i < currentCheckingNode.length; i++) {
+          if (
+            currentCheckingNode.data[i] === '*' &&
+            (i === currentCheckingNode.length - 1 ||
+              currentCheckingNode.data[i + 1] === ' ' ||
+              currentCheckingNode.data[i + 1] === '*') &&
+            currentCheckingNode.data[i - 1] !== ' '
+          ) {
+            const range = document.createRange();
+            range.setStart(thisElement, selection.focusOffset - 1);
+            range.setEnd(currentCheckingNode, i + 1);
+            range.surroundContents(strong);
+
+            strong.innerHTML = strong.innerHTML.slice(1, -1);
+            strong.innerHTML = strong.innerHTML
+              .replace('<b>', '')
+              .replace('</b>', '');
+            selection.collapse(strong, 0);
+            document.execCommand('bold');
+            return;
+          }
+        }
+      }
+      currentCheckingNode = currentCheckingNode.nextSibling;
+      if (currentCheckingNode != null) {
+        startIndex = 0;
+      }
+    }
+  }
+};
+
+const checkEmojiListOpenPossible = (setIsOpen, setInput) => {
+  const selection = document.getSelection();
+  const thisElement = selection.focusNode;
+
+  let possible = false;
+  const range = document.createRange();
+  for (let i = selection.focusOffset - 3; i >= 0; i--) {
+    if (thisElement.data[i] === ':') {
+      range.setStart(thisElement, i + 1);
+      possible = true;
+      break;
+    } else if (thisElement.data[i] === ' ') {
+      possible = false;
+      break;
+    }
+  }
+  if (possible) {
+    setIsOpen(true);
+    range.setEnd(thisElement, selection.focusOffset);
+    setInput(range.toString());
+  }
+};
+
+export const inputHandle = (
+  e,
+  input,
+  setInput,
+  value,
+  setValue,
+  isOpen,
+  setIsOpen,
+): void => {
   if (e.nativeEvent.data === '>') {
     const selection = document.getSelection();
     createBlockquote(selection);
   }
-}
 
-export function keydownHandle(e): void {
+  if (e.nativeEvent.data === '*') {
+    const selection = document.getSelection();
+    makeBold(selection);
+  }
+
+  if (e.nativeEvent.inputType === 'deleteContentBackward') {
+    const selection = document.getSelection();
+    if (selection.focusNode.innerHTML === '<br>') {
+      if (document.queryCommandState('bold')) {
+        document.execCommand('bold');
+      }
+    }
+  }
+
+  checkEmojiListOpenPossible(setIsOpen, setInput);
+};
+
+export const keydownHandle = (e): void => {
   if (e.code === 'Enter') {
     document.execCommand('defaultParagraphSeparator', false, 'p');
   }
@@ -190,4 +336,27 @@ export function keydownHandle(e): void {
       createAndDeleteCodeBlock(selection, e);
     }
   }
-}
+};
+
+export const makeEmoji = (value, setValue) => {
+  const selection = document.getSelection();
+  const range = document.createRange();
+  range.setEnd(selection.focusNode, selection.focusOffset);
+
+  for (let i = selection.focusOffset - 1; i >= 0; i--) {
+    if (selection.focusNode.data[i] === ':') {
+      range.setStart(selection.focusNode, i);
+      break;
+    }
+  }
+
+  const img = document.createElement('img');
+  img.alt = value.emoji;
+  img.className = 'emoji';
+
+  range.deleteContents();
+  range.insertNode(img);
+  selection.collapse(img.nextSibling, 0);
+
+  setValue(undefined);
+};
