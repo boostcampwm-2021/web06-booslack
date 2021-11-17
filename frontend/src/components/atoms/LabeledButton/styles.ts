@@ -3,6 +3,7 @@ import styled from 'styled-components';
 interface Props {
   color: string;
   backgroundColor: string;
+  disabled?: unknown;
 }
 
 const Container = styled.button<Props>`

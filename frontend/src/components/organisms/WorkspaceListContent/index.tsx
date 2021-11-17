@@ -62,7 +62,8 @@ const WorkSpaceListContent = (): JSX.Element => {
   const { nickname } = useRecoilValue(userState);
   const NameLabel = <StyledLabel text={`${nickname ?? ''}의 워크스페이스`} />;
 
-  const { page, isLoading, data, error, isFetching, isPreviousData } =
+  // eslint-disable-next-line operator-linebreak
+  const { page, setPage, isLoading, data, error, isPreviousData } =
     usePagenation('workspacelists', fetchProjects);
 
   return (
@@ -72,7 +73,11 @@ const WorkSpaceListContent = (): JSX.Element => {
         <AsyncBranch data={data} loading={isLoading} error={error}>
           <WorkSpaceLists workspaces={data?.workspaces as Workspace[]} />
         </AsyncBranch>
-        <LabeledDefaultButton text="더보기" />
+        <LabeledDefaultButton
+          text="더보기"
+          disabled={isPreviousData || !data?.hasMore}
+          onClick={() => setPage(page + 1)}
+        />
       </WorkspaceListContainer>
     </Container>
   );

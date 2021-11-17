@@ -23,7 +23,7 @@ const usePagenation = (
     }
   }, [data, page, queryClient]);
 
-  return { page, isLoading, data, error, isFetching, isPreviousData };
+  return { page, setPage, isLoading, data, error, isFetching, isPreviousData };
 };
 
 export default usePagenation;
