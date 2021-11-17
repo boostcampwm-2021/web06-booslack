@@ -43,6 +43,7 @@ const Autocomplete = ({
         return prevIndex === 0 ? filteredList.length - 1 : prevIndex - 1;
       });
     } else if (e.key === 'Enter') {
+      e.preventDefault();
       setSelected(true);
     }
   };

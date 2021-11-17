@@ -1,5 +1,8 @@
 import ThreadContent from '@molecules/ThreadContent';
-import React from 'react';
+import userState from '@state/user';
+import axios from 'axios';
+import React, { useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import { Container } from './styles';
 
 interface Props {
@@ -7,13 +10,27 @@ interface Props {
 }
 
 const ChatContent = ({ inputBar }: Props): JSX.Element => {
-  const ThreadContents = new Array(100).fill(null).map((value, index) => {
-    return <ThreadContent firstLabelContent={`user ${index}`} key={index} />; //key 나중 반드시 바꾸세요.
-  });
+  const [threads, setThreads] = useState([]);
+  const user = useRecoilValue(userState);
+
+  useEffect(() => {
+    const getThreads = async () => {
+      const res = await axios.get(`/api/threads?channelId=${user.channelId}`);
+      setThreads(res.data.threads);
+    };
+    getThreads();
+  }, [user.channelId]);
 
   return (
     <>
-      <Container>{ThreadContents}</Container>
+      <Container>
+        {threads.map((thread) => (
+          <ThreadContent
+            key={thread.id}
+            firstLabelContent={`user ${thread.id}: ${thread.message} at ${thread.time}`}
+          />
+        ))}
+      </Container>
       {inputBar}
     </>
   );

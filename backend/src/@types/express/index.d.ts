@@ -10,17 +10,19 @@ declare module 'express' {
       email: string;
       type: string;
       workspace: IWorkspace;
-      Workspace: IWorkspace;
       name: string;
       password: string;
       profile: string;
       channel: IChannel;
       description: string;
+      message: string;
+      time: Date;
+      code: string;
 
       userId: string;
       channelId: string;
       workspaceId: string;
-      code: string;
+      userHasWorkspaceId: string;
     };
   }
 }
