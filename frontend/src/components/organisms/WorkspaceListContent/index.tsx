@@ -8,6 +8,7 @@ import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import AsyncBranch from '@molecules/AsyncBranch';
 import API from '@global/api';
 import useAsync from '@hook/useAsync';
+import usePagenation from '@hook/usePagenation';
 import userState from '@state/user';
 import { Workspace } from '@global/type';
 import {
@@ -59,26 +60,10 @@ async function fetchProjects(page = 0) {
 
 const WorkSpaceListContent = (): JSX.Element => {
   const { nickname } = useRecoilValue(userState);
-  const NameLabel = <StyledLabel text={`${nickname}의 워크스페이스`} />;
+  const NameLabel = <StyledLabel text={`${nickname ?? ''}의 워크스페이스`} />;
 
-  const queryClient = useQueryClient();
-  const [page, setPage] = React.useState(0);
-
-  const { isLoading, data, error, isFetching, isPreviousData } = useQuery(
-    ['workspacelists', page],
-    () => fetchProjects(page),
-    { keepPreviousData: true, staleTime: 5000 },
-  );
-
-  useEffect(() => {
-    if (data?.hasMore) {
-      queryClient.prefetchQuery(['projects', page + 1], () => {
-        fetchProjects(page + 1);
-      });
-    }
-  }, [data, page, queryClient]);
-
-  //const { data, loading, error } = useAsync(null, API.get.workspace.user, []);
+  const { page, isLoading, data, error, isFetching, isPreviousData } =
+    usePagenation('workspacelists', fetchProjects);
 
   return (
     <Container>
