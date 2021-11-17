@@ -1,23 +1,32 @@
 import React from 'react';
 import { RecoilRoot } from 'recoil';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { render, cleanup, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/';
 import 'jest-styled-components';
+import axios from 'axios';
 
 import Login from '@pages/Login';
-import WorkspaceList from '@pages/WorkspaceList';
-import axios from 'axios';
 import BrowseChannelList from '@organisms/BrowseChannelList';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
+const queryClient = new QueryClient();
 
-const DefaultEnvironment = ({ children }: { children: JSX.Element }) => {
+const DefaultEnvironment = ({
+  children,
+  initializeState,
+}: {
+  children: JSX.Element;
+  initializeState: any;
+}) => {
   return (
-    <RecoilRoot>
-      <BrowserRouter>{children}</BrowserRouter>
+    <RecoilRoot initializeState={initializeState ?? null}>
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>{children}</BrowserRouter>
+      </QueryClientProvider>
     </RecoilRoot>
   );
 };
@@ -34,35 +43,11 @@ afterEach(cleanup);
 describe('page rendering test />', () => {
   it('login page', () => {
     const { getByText } = render(
-      <DefaultEnvironment>
+      <DefaultEnvironment initializeState={null}>
         <Login />
       </DefaultEnvironment>,
     );
     const header = getByText('booslack');
-    expect(header).toBeInTheDocument();
-  });
-
-  it('workspacelist page', async () => {
-    const data = {
-      id: 2,
-      nickname: 'lodado',
-      email: 'https://blog.naver.com/ycp998',
-      type: 'github',
-      password: '',
-    };
-
-    mockedAxios.post.mockResolvedValue({ data: { ...data } });
-
-    expect(axios.post).not.toHaveBeenCalled();
-
-    render(
-      <DefaultEnvironment>
-        <WorkspaceList />
-      </DefaultEnvironment>,
-    );
-
-    const header = await waitFor(() => screen.getByText('booslack'));
-    // expect(axios.post).toHaveBeenCalled();
     expect(header).toBeInTheDocument();
   });
 
@@ -81,7 +66,7 @@ describe('page rendering test />', () => {
     expect(axios.get).not.toHaveBeenCalled();
 
     render(
-      <DefaultEnvironment>
+      <DefaultEnvironment initializeState={undefined}>
         <BrowseChannelList />
       </DefaultEnvironment>,
     );
