@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { theme } from 'styled-tools';
 import Input from '@atoms/Input';
+import NoOverlayModal from '@molecules/NoOverlayModal';
 import { defaultTheme } from '@global/theme';
 
 export const Container = styled.div`
@@ -21,9 +22,22 @@ export const Container = styled.div`
 `;
 
 export const StyledInput = styled(Input)`
-  width: 30vw;
-  min-width: 300px;
+  width: 40vw;
+  min-width: 400px;
   height: 50px;
+  border-radius: 6px;
+
+  color: ${theme('titleText', defaultTheme.titleText)};
+  background-color: ${theme('searchBar', defaultTheme.searchBar)};
+
+  &::placeholder {
+    color: ${theme('titleText', defaultTheme.titleText)};
+  }
+  &:focus {
+    border: 1px solid ${theme('searchBar', defaultTheme.searchBar)};
+  }
 `;
+
+export const StyledNoOverlayModal = styled(NoOverlayModal)``;
 
 export default Container;

@@ -6,7 +6,7 @@ import axios from 'axios';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import AsyncBranch from '@molecules/AsyncBranch';
 import API from '@global/api';
-import useInfinityScroll from '@hook/useInfinityScroll';
+import useInfinityScroll from '@hook/useInfinityPage';
 import userState from '@state/user';
 import { Workspace } from '@global/type';
 import { queryFlatMap } from '@global/util/reactQueryUtil';

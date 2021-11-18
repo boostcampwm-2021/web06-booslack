@@ -95,7 +95,7 @@ export const axiosWithFile = async (
   }
 };
 
-export const generateCodePage = async (
+export const getCode = async (
   axiosRequest: () => Promise<AxiosResponse>,
   setModal: (context: { status: boolean; text: undefined }) => void,
 ): Promise<string> => {

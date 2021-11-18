@@ -1,15 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import axios from 'axios';
 import QuestionForm from '@molecules/QuestionForm';
 import { codeModalState } from '@state/modal';
-import {
-  submitInput,
-  axiosWithFile,
-  changeFile,
-  generateCodePage,
-} from '@global/util';
+import { submitInput, axiosWithFile, changeFile, getCode } from '@global/util';
 import API from '@global/api';
 import Container, { StyledLabel, StyledButton } from './style';
 
@@ -84,7 +79,7 @@ const SetupTeamQuestions = (): JSX.Element => {
       <StyledButton
         text="제출"
         onClick={async () => {
-          const code = await generateCodePage(postAxiostest, setModalState);
+          const code = await getCode(postAxiostest, setModalState);
           if (code) {
             history.push({
               pathname: '/generatecode',
