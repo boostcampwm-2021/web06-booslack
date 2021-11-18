@@ -30,6 +30,14 @@ export const Container = styled.div`
     width: 22px;
   }
 
+  em{
+    font-style: italic;
+  }
+
+  s{
+    text-decoration: line-through;
+  }
+
   code{
     --saf-0: rgba(var(--sk_foreground_low,29,28,29),0.13);
     font-family: Monaco,Menlo,Consolas,Courier New,monospace!important;

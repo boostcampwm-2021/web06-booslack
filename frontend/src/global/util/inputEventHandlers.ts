@@ -137,7 +137,7 @@ const splitList = (selection) => {
   }
 };
 
-const makeBold = (selection) => {
+const makeFont = (selection, symbol, font) => {
   const thisElement = selection.focusNode;
   if (
     (thisElement.data[thisElement.length - 1] ===
@@ -145,21 +145,21 @@ const makeBold = (selection) => {
       thisElement.data[selection.focusOffset] === ' ') &&
     thisElement.length !== 1 &&
     thisElement.data[selection.focusOffset - 2] !== ' ' &&
-    thisElement.data[selection.focusOffset - 2] !== '*'
+    thisElement.data[selection.focusOffset - 2] !== symbol
   ) {
     // 맨 뒤일 경우 or 뒤에 띄어쓰기가 있을 경우 or 뒤에 italic이 있을 경우
     // 앞으로 봐나가면 됨
     let currentCheckingNode = thisElement;
     let endIndex = selection.focusOffset - 2;
     while (currentCheckingNode != null) {
-      const strong = document.createElement('b');
+      const strong = document.createElement(font);
       if (currentCheckingNode.nodeName === '#text') {
         for (let i = endIndex; i >= 0; i--) {
           if (
-            currentCheckingNode.data[i] === '*' &&
+            currentCheckingNode.data[i] === symbol &&
             (i === 0 ||
               currentCheckingNode.data[i - 1] === ' ' ||
-              currentCheckingNode.data[i - 1] === '*') &&
+              currentCheckingNode.data[i - 1] === symbol) &&
             currentCheckingNode.data[i + 1] !== ' '
           ) {
             const range = document.createRange();
@@ -168,8 +168,8 @@ const makeBold = (selection) => {
             range.surroundContents(strong);
 
             strong.innerHTML = strong.innerHTML
-              .replace('<b>', '')
-              .replace('</b>', '');
+              .replace(`<${font}>`, '')
+              .replace(`</${font}>`, '');
             strong.innerHTML = strong.innerHTML.slice(1, -1);
 
             let nextSibling = strong.nextSibling;
@@ -199,17 +199,17 @@ const makeBold = (selection) => {
     let currentCheckingNode = thisElement;
     let startIndex = selection.focusOffset;
     while (currentCheckingNode != null) {
-      const strong = document.createElement('b');
+      const strong = document.createElement(font);
       if (
         currentCheckingNode.nodeName === '#text' &&
         currentCheckingNode.length !== 0
       ) {
         for (let i = startIndex; i < currentCheckingNode.length; i++) {
           if (
-            currentCheckingNode.data[i] === '*' &&
+            currentCheckingNode.data[i] === symbol &&
             (i === currentCheckingNode.length - 1 ||
               currentCheckingNode.data[i + 1] === ' ' ||
-              currentCheckingNode.data[i + 1] === '*') &&
+              currentCheckingNode.data[i + 1] === symbol) &&
             currentCheckingNode.data[i - 1] !== ' '
           ) {
             const range = document.createRange();
@@ -219,8 +219,8 @@ const makeBold = (selection) => {
 
             strong.innerHTML = strong.innerHTML.slice(1, -1);
             strong.innerHTML = strong.innerHTML
-              .replace('<b>', '')
-              .replace('</b>', '');
+              .replace(`<${font}>`, '')
+              .replace(`</${font}>`, '');
 
             selection.collapse(
               strong.previousSibling,
@@ -302,7 +302,16 @@ export const inputHandle = (
 
   if (e.nativeEvent.data === '*') {
     const selection = document.getSelection();
-    makeBold(selection);
+    makeFont(selection, '*', 'b');
+  } else if (e.nativeEvent.data === '_') {
+    const selection = document.getSelection();
+    makeFont(selection, '_', 'em');
+  } else if (e.nativeEvent.data === '~') {
+    const selection = document.getSelection();
+    makeFont(selection, '~', 's');
+  } else if (e.nativeEvent.data === '`') {
+    const selection = document.getSelection();
+    makeFont(selection, '`', 'code');
   }
 
   if (e.nativeEvent.inputType === 'deleteContentBackward') {
