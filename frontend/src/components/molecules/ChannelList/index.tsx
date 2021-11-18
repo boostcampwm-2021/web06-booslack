@@ -1,26 +1,51 @@
 import Label from '@atoms/Label';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
+import userState from '@state/user';
+import axios from 'axios';
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
 import { Container, TextSet, SpaceBetweenDiv, MarginedDiv } from './styles';
 
 interface Props {
+  id: string;
   firstLabelContent?: string;
   secondLabelContent?: string;
   content?: string;
 }
 
 const ChannelList = ({
+  id,
   firstLabelContent,
   secondLabelContent,
   content,
 }: Props): JSX.Element => {
   const [isHover, setHover] = useState<boolean>(false);
-
+  const user = useRecoilValue(userState);
+  const history = useHistory();
   const MouseHover = (): void => setHover(true);
   const MouseOut = (): void => setHover(false);
 
+  const navigateToChannel = (e) => {
+    e.stopPropagation();
+    history.push(`/client/${user.workspaceId}/${id}`);
+  };
+
+  const joinChannel = (e) => {
+    e.stopPropagation();
+    axios.post('/api/channels/userToChannel', {
+      userId: user.id,
+      channelId: id,
+      workspaceId: user.workspaceId,
+    });
+  };
+
   return (
-    <SpaceBetweenDiv onMouseEnter={MouseHover} onMouseLeave={MouseOut}>
+    <SpaceBetweenDiv
+      onMouseEnter={MouseHover}
+      onMouseLeave={MouseOut}
+      onClick={navigateToChannel}
+    >
       <Container>
         <div>{firstLabelContent || 'channel name'}</div>
 
@@ -30,9 +55,16 @@ const ChannelList = ({
         </TextSet>
       </Container>
       <MarginedDiv>
-        {isHover && <LabeledDefaultButton text="view" />}
         {isHover && (
-          <LabeledDefaultButton backgroundColor="green" text="join" />
+          <LabeledDefaultButton onClick={navigateToChannel} text="view" />
+        )}
+        {isHover && (
+          <LabeledDefaultButton
+            onClick={joinChannel}
+            backgroundColor="green"
+            text="join"
+            data-action="join"
+          />
         )}
       </MarginedDiv>
     </SpaceBetweenDiv>
