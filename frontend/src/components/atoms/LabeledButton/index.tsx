@@ -2,7 +2,7 @@ import React, { RefObject } from 'react';
 import Container from './styles';
 
 interface Props<T> {
-  onClick: () => void | React.FormEventHandler<Element>;
+  onClick: (e) => void | React.FormEventHandler<Element>;
   text: string;
   width?: number;
   height?: number;
