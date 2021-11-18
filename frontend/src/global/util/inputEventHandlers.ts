@@ -167,12 +167,17 @@ const makeBold = (selection) => {
             range.setEnd(thisElement, selection.focusOffset);
             range.surroundContents(strong);
 
-            strong.innerHTML = strong.innerHTML.slice(1, -1);
             strong.innerHTML = strong.innerHTML
               .replace('<b>', '')
               .replace('</b>', '');
-            selection.collapse(strong, 1);
-            document.execCommand('bold');
+            strong.innerHTML = strong.innerHTML.slice(1, -1);
+
+            let nextSibling = strong.nextSibling;
+            if (nextSibling.length === 0) {
+              nextSibling = document.createTextNode(' ');
+              strong.parentNode.insertBefore(nextSibling, null);
+            }
+            selection.collapse(nextSibling, 1);
             return;
           }
         }
@@ -216,8 +221,11 @@ const makeBold = (selection) => {
             strong.innerHTML = strong.innerHTML
               .replace('<b>', '')
               .replace('</b>', '');
-            selection.collapse(strong, 0);
-            document.execCommand('bold');
+
+            selection.collapse(
+              strong.previousSibling,
+              strong.previousSibling.length,
+            );
             return;
           }
         }
@@ -300,9 +308,9 @@ export const inputHandle = (
   if (e.nativeEvent.inputType === 'deleteContentBackward') {
     const selection = document.getSelection();
     if (selection.focusNode.innerHTML === '<br>') {
-      if (document.queryCommandState('bold')) {
-        document.execCommand('bold');
-      }
+      // if (document.queryCommandState('bold')) {
+      //   document.execCommand('bold');
+      // }
     }
   }
 
@@ -322,10 +330,6 @@ export const keydownHandle = (
   isMentionOpen,
   setIsMentionOpen,
 ): void => {
-  if (e.code === 'Enter') {
-    document.execCommand('defaultParagraphSeparator', false, 'p');
-  }
-
   if (e.code === 'Space') {
     const selection = document.getSelection();
     createList(selection, e);
@@ -333,7 +337,7 @@ export const keydownHandle = (
 
   if (e.code === 'Backspace') {
     const selection = document.getSelection();
-    const currentNode = <HTMLElement>selection.focusNode;
+    const currentNode = selection.focusNode;
     if (
       currentNode.innerHTML === '<br>' &&
       currentNode.nodeName === 'P' &&
@@ -368,7 +372,7 @@ export const keydownHandle = (
 
   if (e.code === 'Backquote') {
     const selection = document.getSelection();
-    const currentNode = <HTMLElement>selection.focusNode;
+    const currentNode = selection.focusNode;
     if (currentNode.nodeName === '#text' && currentNode.data.endsWith('``')) {
       createAndDeleteCodeBlock(selection, e);
     }
