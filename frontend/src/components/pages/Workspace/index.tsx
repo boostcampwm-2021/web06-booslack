@@ -20,11 +20,7 @@ const Workspace = (): JSX.Element => {
   }, [workspaceId, channelId]);
 
   const workspaceContent =
-    user.channelId === 'browse-channels' ? (
-      <BrowseContent />
-    ) : (
-      <WorkspaceContent />
-    );
+    channelId === 'browse-channels' ? <BrowseContent /> : <WorkspaceContent />;
 
   return (
     <>
