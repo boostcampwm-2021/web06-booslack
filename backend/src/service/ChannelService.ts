@@ -42,28 +42,32 @@ export async function getOneChannel(req: Request, res: Response) {
 }
 
 export async function addOneChannel(req: Request, res: Response) {
-  const channel = req.body;
-  if (!channel) {
-    return res.status(BAD_REQUEST).json({
-      error: paramMissingError,
+  try {
+    const channel = req.body;
+    if (!channel) {
+      return res.status(BAD_REQUEST).json({
+        error: paramMissingError,
+      });
+    }
+
+    const workspace = await getCustomRepository(WorkspaceRepository).findOne({
+      where: [{ id: channel.workspaceId }],
     });
+
+    if (!workspace) {
+      throw new Error(`workspace ${channel.workspaceId} does not exist`);
+    }
+
+    channel.workspace = workspace;
+    const ChannelRepo = getCustomRepository(ChannelRepository);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const newChannel = await ChannelRepo.save(ChannelRepo.create(channel));
+
+    return res.status(CREATED).json({ channel: newChannel });
+  } catch (e) {
+    return res.status(BAD_REQUEST).json(e);
   }
-
-  const workspace = await getCustomRepository(WorkspaceRepository).findOne({
-    where: [{ id: channel.workspaceId }],
-  });
-
-  if (!workspace) {
-    throw new Error(`workspace ${channel.workspaceId} does not exist`);
-  }
-
-  channel.workspace = workspace;
-  const ChannelRepo = getCustomRepository(ChannelRepository);
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  await ChannelRepo.save(ChannelRepo.create(channel));
-
-  return res.status(CREATED).end();
 }
 
 export async function updateOneChannel(req: Request, res: Response) {

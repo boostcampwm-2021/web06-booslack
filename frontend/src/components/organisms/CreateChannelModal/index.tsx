@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
-import { useRecoilState } from 'recoil';
-import axios from 'axios';
-import { channelCreateModalState } from '@state/modal';
-import useInputs from '@hook/useInputs';
-import Label from '@atoms/Label';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import LabeledButton from '@atoms/LabeledButton';
+import Label from '@atoms/Label';
+import useInputs from '@hook/useInputs';
+import { channelCreateModalState } from '@state/modal';
+import userState from '@state/user';
+import { createChanel, joinChannel } from '@global/api/channel';
 import {
   Container,
   ContentContainer,
@@ -29,18 +30,17 @@ const CreateChannelModal = (): JSX.Element => {
   const [isOpen, setIsOpen] = useRecoilState(channelCreateModalState);
   const [isPrivate, setIsPrivate] = useState(false);
   const [{ name, description }, onChange, clear] = useInputs(initialData);
+  const user = useRecoilValue(userState);
 
-  const createChannel = async () => {
+  const createChannelAndClose = async () => {
     if (!name) return;
-    await axios({
-      method: 'POST',
-      url: 'api/channels',
-      data: {
-        name,
-        type: isPrivate ? 'private' : 'public',
-        description,
-      },
-    });
+    const { channel } = await createChanel(
+      name,
+      isPrivate,
+      description,
+      user.workspaceId,
+    );
+    joinChannel(user.id, channel.id, user.workspaceId);
     clear();
     setIsOpen(false);
   };
@@ -84,7 +84,7 @@ const CreateChannelModal = (): JSX.Element => {
           </ToggleContainer>
         </ContentContainer>
         <Footer>
-          <StyledLabeledButton text="Create" onClick={createChannel} />
+          <StyledLabeledButton text="Create" onClick={createChannelAndClose} />
         </Footer>
       </Container>
     </StyledModal>

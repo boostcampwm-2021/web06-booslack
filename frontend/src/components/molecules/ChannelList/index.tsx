@@ -53,7 +53,10 @@ const ChannelList = ({
         )}
         {isHover && (
           <LabeledDefaultButton
-            onClick={(e) => joinChannel(e, user.id, id, user.workspaceId)}
+            onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+              e.stopPropagation();
+              joinChannel(user.id, id, user.workspaceId);
+            }}
             backgroundColor="green"
             text="join"
             data-action="join"
