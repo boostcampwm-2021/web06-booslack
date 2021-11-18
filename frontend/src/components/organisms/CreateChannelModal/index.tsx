@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
-import LabeledButton from '@atoms/LabeledButton';
+import { useParams } from 'react-router-dom';
 import Label from '@atoms/Label';
+import LabeledButton from '@atoms/LabeledButton';
 import useInputs from '@hook/useInputs';
 import { channelCreateModalState } from '@state/modal';
 import userState from '@state/user';
@@ -27,10 +28,12 @@ const initialData = {
 };
 
 const CreateChannelModal = (): JSX.Element => {
+  const user = useRecoilValue(userState);
+  const { workspaceId }: { workspaceId: string } = useParams();
+
   const [isOpen, setIsOpen] = useRecoilState(channelCreateModalState);
   const [isPrivate, setIsPrivate] = useState(false);
   const [{ name, description }, onChange, clear] = useInputs(initialData);
-  const user = useRecoilValue(userState);
 
   const createChannelAndClose = async () => {
     if (!name) return;
@@ -38,9 +41,9 @@ const CreateChannelModal = (): JSX.Element => {
       name,
       isPrivate,
       description,
-      user.workspaceId,
+      workspaceId,
     );
-    joinChannel(user.id, channel.id, user.workspaceId);
+    joinChannel(user.id, channel.id, workspaceId);
     clear();
     setIsOpen(false);
   };
@@ -54,7 +57,7 @@ const CreateChannelModal = (): JSX.Element => {
           ) : (
             <HeaderLabel text="Create a channel" />
           )}
-          <LabeledButton text="x" />
+          <LabeledButton onClick={() => setIsOpen(false)} text="x" />
         </Header>
         <ContentContainer>
           <StyledLightLabel text="Channels are where your team communicates.." />

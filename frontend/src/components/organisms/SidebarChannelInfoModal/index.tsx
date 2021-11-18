@@ -4,7 +4,7 @@ import Modal from '@atoms/Modal';
 import { useRecoilState } from 'recoil';
 import { sidebarChannelInfoModalState } from 'src/state/modal';
 import axios from 'axios';
-import { Container } from './styles';
+import { Container, StyledModal } from './styles';
 
 const SidebarChannelInfoModal = (): JSX.Element => {
   const [isOpen, setIsOpen] = useRecoilState(sidebarChannelInfoModalState);
@@ -22,7 +22,7 @@ const SidebarChannelInfoModal = (): JSX.Element => {
   };
 
   return (
-    <Modal
+    <StyledModal
       isOpen={isOpen.status}
       onClose={() => setIsOpen({ status: false, channelId: isOpen.channelId })}
     >
@@ -57,7 +57,7 @@ const SidebarChannelInfoModal = (): JSX.Element => {
         <LabeledButton text="새 섹션 생성" onClick={() => {}} />
         <LabeledButton text="사이드바 편집" onClick={() => {}} />
       </Container>
-    </Modal>
+    </StyledModal>
   );
 };
 
