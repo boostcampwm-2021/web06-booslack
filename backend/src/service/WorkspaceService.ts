@@ -7,7 +7,7 @@ import WorkspaceRepository from '../repository/WorkspaceRepository';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
 import generateUniqSerial from '../shared/simpleuuid';
 
-const { BAD_REQUEST, CREATED, OK } = StatusCodes;
+const { CONFLICT, BAD_REQUEST, CREATED, OK } = StatusCodes;
 
 export async function getAllWorkspaces(req: Request, res: Response) {
   const workspaces = await getCustomRepository(WorkspaceRepository).find();
@@ -79,7 +79,7 @@ export async function addUserToWorkspace(req: Request, res: Response) {
       where: [{ ...userHasWorkSpace }],
     });
 
-    if (isExist) return res.status(BAD_REQUEST).json({ error: 'you are already joined' });
+    if (isExist) return res.status(CONFLICT).end();
 
     await getCustomRepository(UserHasWorkspaceRepository).save(userHasWorkSpace);
     return res.status(CREATED).end();
@@ -99,9 +99,9 @@ export async function addOneWorkspace(req: Request, res: Response) {
       throw BAD_REQUEST;
     }
 
-    const { name, description: profile } = req.body;
+    const { name, description } = req.body;
 
-    if (!name || !profile) {
+    if (!name || !description) {
       throw BAD_REQUEST;
     }
 
@@ -120,7 +120,7 @@ export async function addOneWorkspace(req: Request, res: Response) {
 
     const { id: workspaceId } = await getCustomRepository(WorkspaceRepository).save(workspace);
 
-    const userHasWorkSpace = { nickname, userId, workspaceId };
+    const userHasWorkSpace = { nickname, userId, workspaceId, description };
 
     await getCustomRepository(UserHasWorkspaceRepository).save(userHasWorkSpace);
 

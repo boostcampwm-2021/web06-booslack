@@ -28,7 +28,7 @@ const usePagnation = (
 
   useEffect(() => {
     if (data?.hasMore) {
-      queryClient.prefetchQuery(['projects', page + 1], () => {
+      queryClient.prefetchQuery([key, page + 1], () => {
         axiosFunction(page + 1);
       });
     }

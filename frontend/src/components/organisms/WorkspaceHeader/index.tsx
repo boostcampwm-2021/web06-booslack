@@ -6,7 +6,7 @@ import { StyledInput, Container } from './styles';
 const WorkspaceHeader = (): JSX.Element => {
   return (
     <Container>
-      <div></div>
+      <div />
       <StyledInput placeholder="Search {채널 이름}" />
       <ImageButton
         width={38}
