@@ -1,4 +1,4 @@
-let fontState: boolean = false;
+let fontState = false;
 
 const createAndDeleteCodeBlock = (selection, event) => {
   const thisElement = selection.focusNode;
@@ -22,6 +22,7 @@ const createAndDeleteCodeBlock = (selection, event) => {
       '<div class="ql-code-block"><br></div>',
     );
     parent.innerHTML = parent.innerHTML.substr(0, parent.innerHTML.length - 2);
+    selection.collapse(parent.nextSibling, 0);
   }
   event.preventDefault();
 };
@@ -333,6 +334,15 @@ export const inputHandle = (
 
       fontState = false;
     }
+  }
+
+  const s = document.getSelection();
+  if (
+    s.focusNode.parentNode.nodeName === 'P' &&
+    (s.focusNode.parentNode.innerHTML === ' ' ||
+      s.focusNode.parentNode.innerHTML === '  ')
+  ) {
+    s.focusNode.parentNode.innerHTML = '<br>';
   }
 
   checkMentionListOpenPossible(setIsMentionOpen, setInput);
