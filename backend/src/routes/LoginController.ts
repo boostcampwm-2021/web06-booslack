@@ -52,8 +52,8 @@ loginRouter.get('/logout', (req, res) => {
 
 function verifyInform(username: string, password: string, password2: any) {
   if (username.length > 20 || password.length > 20) return false;
-  if (username.length === 0 || password.length === 0) return false;
-  return (!password2 || password === password2);
+  if (username.length === 0 || password.length === 0 || password2.length === 0) return false;
+  return (password === password2);
 }
 
 function makeNickName(username: string) {
