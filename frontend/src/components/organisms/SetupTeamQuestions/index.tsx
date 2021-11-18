@@ -83,8 +83,14 @@ const SetupTeamQuestions = (): JSX.Element => {
 
       <StyledButton
         text="제출"
-        onClick={() => {
-          generateCodePage(history, postAxiostest, setModalState);
+        onClick={async () => {
+          const code = await generateCodePage(postAxiostest, setModalState);
+          if (code) {
+            history.push({
+              pathname: '/generatecode',
+              state: { data: { code, nextPage: 'workspacelist' } },
+            });
+          }
         }}
       />
     </Container>
