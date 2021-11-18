@@ -15,7 +15,7 @@ import Workspace from './Workspace';
 @Entity()
 class Channel {
   @PrimaryGeneratedColumn()
-  id!: number
+  id!: number;
 
   @Column()
   name!: string;

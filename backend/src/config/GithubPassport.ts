@@ -2,6 +2,7 @@ import passport from 'passport';
 import GitHubStrategy, { Profile } from 'passport-github';
 import { getCustomRepository } from 'typeorm';
 import UserRepository from '../repository/UserRepository';
+import { LOCALTYPE_GITHUB } from '../enum';
 
 function settingGithubPassport() {
   passport.use(<passport.Strategy> new GitHubStrategy.Strategy(
@@ -24,7 +25,7 @@ function settingGithubPassport() {
           const newUser = {
             account: githubID,
             email: githubUrl,
-            local: 0,
+            local: LOCALTYPE_GITHUB,
             password: '',
           };
           await getCustomRepository(UserRepository).save(newUser);

@@ -2,6 +2,7 @@
 import { Router } from 'express';
 import passport from 'passport';
 import { getCustomRepository } from 'typeorm';
+import { LOCALTYPE_LOCAL } from '../enum';
 import UserRepository from '../repository/UserRepository';
 
 const frontUrl = process.env.GITHUB_FRONTEND_URL || 'http://localhost:3001';
@@ -52,7 +53,7 @@ loginRouter.get('/logout', (req, res) => {
 function verifyInform(username: string, password: string, password2: any) {
   if (username.length > 20 || password.length > 20) return false;
   if (username.length === 0 || password.length === 0) return false;
-  return !(password2 && password !== password2);
+  return (!password2 || password === password2);
 }
 
 function makeNickName(username: string) {
@@ -75,7 +76,7 @@ loginRouter.post('/signup', async (req, res) => {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
       account: makeNickName(username),
       email: username,
-      local: 1,
+      local: LOCALTYPE_LOCAL,
       password,
     };
     await getCustomRepository(UserRepository).save(newUser);

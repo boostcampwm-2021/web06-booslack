@@ -87,7 +87,7 @@ export async function addUserToWorkspace(req: Request, res: Response) {
     }
 
     const userHasWorkspace: UserHasWorkspace = new UserHasWorkspace();
-    userHasWorkspace.description = 'temporary description';
+    userHasWorkspace.description = '';
     userHasWorkspace.nickname = user.account;
     userHasWorkspace.workspaceId = Number(workspaceId);
     userHasWorkspace.userId = Number(userId);
