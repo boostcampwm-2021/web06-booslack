@@ -1,5 +1,6 @@
 import React from 'react';
-import axios from 'axios';
+import { RouteComponentProps } from 'react-router-dom';
+import axios, { AxiosResponse } from 'axios';
 import { METHOD } from '@global/type';
 
 interface Option {
@@ -92,5 +93,23 @@ export const axiosWithFile = async (
     });
   } catch (error) {
     return null;
+  }
+};
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
+export const generateCodePage = async (
+  history: RouteComponentProps['history'],
+  axiosRequest: () => Promise<AxiosResponse>,
+  setModal: (context: { status: boolean; text: undefined }) => void,
+) => {
+  try {
+    const { data } = await axiosRequest();
+    if (!data?.code) throw new Error('no data');
+
+    history.push({
+      pathname: '/generatecode',
+      state: { data },
+    });
+  } catch (error) {
+    setModal({ status: true, text: undefined });
   }
 };
