@@ -1,10 +1,10 @@
-import Label from '@atoms/Label';
-import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
-import userState from '@state/user';
-import axios from 'axios';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import Label from '@atoms/Label';
+import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
+import { joinChannel } from '@global/api/channel';
+import userState from '@state/user';
 import { Container, TextSet, SpaceBetweenDiv, MarginedDiv } from './styles';
 
 interface Props {
@@ -26,18 +26,11 @@ const ChannelList = ({
   const MouseHover = (): void => setHover(true);
   const MouseOut = (): void => setHover(false);
 
-  const navigateToChannel = (e) => {
+  const navigateToChannel = (
+    e: React.MouseEvent<HTMLDivElement, MouseEvent>,
+  ) => {
     e.stopPropagation();
     history.push(`/client/${user.workspaceId}/${id}`);
-  };
-
-  const joinChannel = (e) => {
-    e.stopPropagation();
-    axios.post('/api/channels/userToChannel', {
-      userId: user.id,
-      channelId: id,
-      workspaceId: user.workspaceId,
-    });
   };
 
   return (
@@ -60,7 +53,7 @@ const ChannelList = ({
         )}
         {isHover && (
           <LabeledDefaultButton
-            onClick={joinChannel}
+            onClick={(e) => joinChannel(e, user.id, id, user.workspaceId)}
             backgroundColor="green"
             text="join"
             data-action="join"
