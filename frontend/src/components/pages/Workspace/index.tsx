@@ -5,6 +5,7 @@ import WorkspaceTemplate from '@templates/Workspace';
 import { useRecoilState } from 'recoil';
 import userState from '@state/user';
 import BrowseContent from '@organisms/BrowseContent';
+import axios from 'axios';
 
 const Workspace = (): JSX.Element => {
   const { workspaceId, channelId }: { workspaceId: string; channelId: string } =
@@ -12,12 +13,22 @@ const Workspace = (): JSX.Element => {
   const [user, setUser] = useRecoilState(userState);
 
   useEffect(() => {
-    setUser((prevState) => ({
-      ...prevState,
-      workspaceId,
-      channelId,
-    }));
-  }, [workspaceId, channelId]);
+    const getUserHasWorkspace = async () => {
+      const res = await axios.get(
+        `/api/userHasWorkspaces?userId=${user.id}&workspaceId=${workspaceId}`,
+      );
+      const { id, nickname, description, theme } = res.data.userHasWorkspace;
+
+      setUser((prevState) => ({
+        ...prevState,
+        userHasWorkspaceId: id,
+        nickname,
+        description,
+        theme,
+      }));
+    };
+    getUserHasWorkspace();
+  }, [workspaceId]);
 
   const workspaceContent =
     channelId === 'browse-channels' ? <BrowseContent /> : <WorkspaceContent />;
