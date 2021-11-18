@@ -245,11 +245,11 @@ const checkEmojiListOpenPossible = (setIsOpen, setInput) => {
   let possible = false;
   const range = document.createRange();
   for (let i = selection.focusOffset - 3; i >= 0; i--) {
-    if (thisElement.data[i] === ':') {
+    if (thisElement.nodeValue[i] === ':') {
       range.setStart(thisElement, i + 1);
       possible = true;
       break;
-    } else if (thisElement.data[i] === ' ') {
+    } else if (thisElement.nodeValue[i] === ' ') {
       possible = false;
       break;
     }
@@ -268,11 +268,11 @@ const checkMentionListOpenPossible = (setIsOpen, setInput) => {
   let possible = false;
   const range = document.createRange();
   for (let i = selection.focusOffset - 1; i >= 0; i--) {
-    if (thisElement.data[i] === '@') {
+    if (thisElement.nodeValue[i] === '@') {
       range.setStart(thisElement, i + 1);
       possible = true;
       break;
-    } else if (thisElement.data[i] === ' ') {
+    } else if (thisElement.nodeValue[i] === ' ') {
       possible = false;
       break;
     }
@@ -316,7 +316,7 @@ export const inputHandle = (
 
   if (e.nativeEvent.inputType === 'deleteContentBackward') {
     const selection = document.getSelection();
-    if (selection.focusNode.innerHTML === '<br>') {
+    if ((<Element>selection.focusNode).innerHTML === '<br>') {
       // if (document.queryCommandState('bold')) {
       //   document.execCommand('bold');
       // }
@@ -348,7 +348,7 @@ export const keydownHandle = (
     const selection = document.getSelection();
     const currentNode = selection.focusNode;
     if (
-      currentNode.innerHTML === '<br>' &&
+      (<Element>currentNode).innerHTML === '<br>' &&
       currentNode.nodeName === 'P' &&
       currentNode.parentElement.firstElementChild === currentNode
     ) {
@@ -356,7 +356,7 @@ export const keydownHandle = (
     }
 
     if (
-      currentNode.innerHTML === '<br>' &&
+      (<Element>currentNode).innerHTML === '<br>' &&
       currentNode.nodeName === 'P' &&
       currentNode.previousSibling != null &&
       currentNode.nextSibling != null &&
@@ -365,13 +365,13 @@ export const keydownHandle = (
       mergeList(selection);
       e.preventDefault();
     } else if (
-      currentNode.innerHTML === '<br>' &&
+      (<Element>currentNode).innerHTML === '<br>' &&
       currentNode.nodeName === 'LI'
     ) {
       splitList(selection);
       e.preventDefault();
     } else if (
-      currentNode.innerHTML === '<br>' &&
+      (<Element>currentNode).innerHTML === '<br>' &&
       currentNode.nodeName === 'BLOCKQUOTE'
     ) {
       deleteBlockquote(selection);
@@ -382,7 +382,10 @@ export const keydownHandle = (
   if (e.code === 'Backquote') {
     const selection = document.getSelection();
     const currentNode = selection.focusNode;
-    if (currentNode.nodeName === '#text' && currentNode.data.endsWith('``')) {
+    if (
+      currentNode.nodeName === '#text' &&
+      currentNode.nodeValue.endsWith('``')
+    ) {
       createAndDeleteCodeBlock(selection, e);
     }
   }
@@ -394,7 +397,7 @@ export const makeEmoji = (value) => {
   range.setEnd(selection.focusNode, selection.focusOffset);
 
   for (let i = selection.focusOffset - 1; i >= 0; i--) {
-    if (selection.focusNode.data[i] === ':') {
+    if (selection.focusNode.nodeValue[i] === ':') {
       range.setStart(selection.focusNode, i);
       break;
     }
@@ -415,7 +418,7 @@ export const makeMention = (value) => {
   range.setEnd(selection.focusNode, selection.focusOffset);
 
   for (let i = selection.focusOffset - 1; i >= 0; i--) {
-    if (selection.focusNode.data[i] === '@') {
+    if (selection.focusNode.nodeValue[i] === '@') {
       range.setStart(selection.focusNode, i);
       break;
     }
