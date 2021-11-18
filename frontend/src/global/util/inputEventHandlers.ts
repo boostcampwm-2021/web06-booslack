@@ -137,7 +137,7 @@ const splitList = (selection) => {
   }
 };
 
-const makeBold = (selection) => {
+const makeFont = (selection, symbol, font) => {
   const thisElement = selection.focusNode;
   if (
     (thisElement.data[thisElement.length - 1] ===
@@ -145,34 +145,39 @@ const makeBold = (selection) => {
       thisElement.data[selection.focusOffset] === ' ') &&
     thisElement.length !== 1 &&
     thisElement.data[selection.focusOffset - 2] !== ' ' &&
-    thisElement.data[selection.focusOffset - 2] !== '*'
+    thisElement.data[selection.focusOffset - 2] !== symbol
   ) {
     // 맨 뒤일 경우 or 뒤에 띄어쓰기가 있을 경우 or 뒤에 italic이 있을 경우
     // 앞으로 봐나가면 됨
     let currentCheckingNode = thisElement;
     let endIndex = selection.focusOffset - 2;
     while (currentCheckingNode != null) {
-      const strong = document.createElement('b');
+      const fontTag = document.createElement(font);
       if (currentCheckingNode.nodeName === '#text') {
         for (let i = endIndex; i >= 0; i--) {
           if (
-            currentCheckingNode.data[i] === '*' &&
+            currentCheckingNode.data[i] === symbol &&
             (i === 0 ||
               currentCheckingNode.data[i - 1] === ' ' ||
-              currentCheckingNode.data[i - 1] === '*') &&
+              currentCheckingNode.data[i - 1] === symbol) &&
             currentCheckingNode.data[i + 1] !== ' '
           ) {
             const range = document.createRange();
             range.setStart(currentCheckingNode, i);
             range.setEnd(thisElement, selection.focusOffset);
-            range.surroundContents(strong);
+            range.surroundContents(fontTag);
 
-            strong.innerHTML = strong.innerHTML.slice(1, -1);
-            strong.innerHTML = strong.innerHTML
-              .replace('<b>', '')
-              .replace('</b>', '');
-            selection.collapse(strong, 1);
-            document.execCommand('bold');
+            fontTag.innerHTML = fontTag.innerHTML
+              .replace(`<${font}>`, '')
+              .replace(`</${font}>`, '');
+            fontTag.innerHTML = fontTag.innerHTML.slice(1, -1);
+
+            let nextSibling = fontTag.nextSibling;
+            if (nextSibling.length === 0) {
+              nextSibling = document.createTextNode(' ');
+              fontTag.parentNode.insertBefore(nextSibling, null);
+            }
+            selection.collapse(nextSibling, 1);
             return;
           }
         }
@@ -194,17 +199,17 @@ const makeBold = (selection) => {
     let currentCheckingNode = thisElement;
     let startIndex = selection.focusOffset;
     while (currentCheckingNode != null) {
-      const strong = document.createElement('b');
+      const strong = document.createElement(font);
       if (
         currentCheckingNode.nodeName === '#text' &&
         currentCheckingNode.length !== 0
       ) {
         for (let i = startIndex; i < currentCheckingNode.length; i++) {
           if (
-            currentCheckingNode.data[i] === '*' &&
+            currentCheckingNode.data[i] === symbol &&
             (i === currentCheckingNode.length - 1 ||
               currentCheckingNode.data[i + 1] === ' ' ||
-              currentCheckingNode.data[i + 1] === '*') &&
+              currentCheckingNode.data[i + 1] === symbol) &&
             currentCheckingNode.data[i - 1] !== ' '
           ) {
             const range = document.createRange();
@@ -214,10 +219,13 @@ const makeBold = (selection) => {
 
             strong.innerHTML = strong.innerHTML.slice(1, -1);
             strong.innerHTML = strong.innerHTML
-              .replace('<b>', '')
-              .replace('</b>', '');
-            selection.collapse(strong, 0);
-            document.execCommand('bold');
+              .replace(`<${font}>`, '')
+              .replace(`</${font}>`, '');
+
+            selection.collapse(
+              strong.previousSibling,
+              strong.previousSibling.length,
+            );
             return;
           }
         }
@@ -237,11 +245,34 @@ const checkEmojiListOpenPossible = (setIsOpen, setInput) => {
   let possible = false;
   const range = document.createRange();
   for (let i = selection.focusOffset - 3; i >= 0; i--) {
-    if (thisElement.data[i] === ':') {
+    if (thisElement.nodeValue[i] === ':') {
       range.setStart(thisElement, i + 1);
       possible = true;
       break;
-    } else if (thisElement.data[i] === ' ') {
+    } else if (thisElement.nodeValue[i] === ' ') {
+      possible = false;
+      break;
+    }
+  }
+  if (possible) {
+    setIsOpen(true);
+    range.setEnd(thisElement, selection.focusOffset);
+    setInput(range.toString());
+  }
+};
+
+const checkMentionListOpenPossible = (setIsOpen, setInput) => {
+  const selection = document.getSelection();
+  const thisElement = selection.focusNode;
+
+  let possible = false;
+  const range = document.createRange();
+  for (let i = selection.focusOffset - 1; i >= 0; i--) {
+    if (thisElement.nodeValue[i] === '@') {
+      range.setStart(thisElement, i + 1);
+      possible = true;
+      break;
+    } else if (thisElement.nodeValue[i] === ' ') {
       possible = false;
       break;
     }
@@ -259,8 +290,10 @@ export const inputHandle = (
   setInput,
   value,
   setValue,
-  isOpen,
-  setIsOpen,
+  isEmojiOpen,
+  setIsEmojiOpen,
+  isMentionOpen,
+  setIsMentionOpen,
 ): void => {
   if (e.nativeEvent.data === '>') {
     const selection = document.getSelection();
@@ -269,26 +302,43 @@ export const inputHandle = (
 
   if (e.nativeEvent.data === '*') {
     const selection = document.getSelection();
-    makeBold(selection);
+    makeFont(selection, '*', 'b');
+  } else if (e.nativeEvent.data === '_') {
+    const selection = document.getSelection();
+    makeFont(selection, '_', 'em');
+  } else if (e.nativeEvent.data === '~') {
+    const selection = document.getSelection();
+    makeFont(selection, '~', 's');
+  } else if (e.nativeEvent.data === '`') {
+    const selection = document.getSelection();
+    makeFont(selection, '`', 'code');
   }
 
   if (e.nativeEvent.inputType === 'deleteContentBackward') {
     const selection = document.getSelection();
-    if (selection.focusNode.innerHTML === '<br>') {
-      if (document.queryCommandState('bold')) {
-        document.execCommand('bold');
-      }
+    if ((<Element>selection.focusNode).innerHTML === '<br>') {
+      // if (document.queryCommandState('bold')) {
+      //   document.execCommand('bold');
+      // }
     }
   }
 
-  checkEmojiListOpenPossible(setIsOpen, setInput);
+  checkMentionListOpenPossible(setIsMentionOpen, setInput);
+
+  checkEmojiListOpenPossible(setIsEmojiOpen, setInput);
 };
 
-export const keydownHandle = (e): void => {
-  if (e.code === 'Enter') {
-    document.execCommand('defaultParagraphSeparator', false, 'p');
-  }
-
+export const keydownHandle = (
+  e,
+  input,
+  setInput,
+  value,
+  setValue,
+  isEmojiOpen,
+  setIsEmojiOpen,
+  isMentionOpen,
+  setIsMentionOpen,
+): void => {
   if (e.code === 'Space') {
     const selection = document.getSelection();
     createList(selection, e);
@@ -296,9 +346,9 @@ export const keydownHandle = (e): void => {
 
   if (e.code === 'Backspace') {
     const selection = document.getSelection();
-    const currentNode = <HTMLElement>selection.focusNode;
+    const currentNode = selection.focusNode;
     if (
-      currentNode.innerHTML === '<br>' &&
+      (<Element>currentNode).innerHTML === '<br>' &&
       currentNode.nodeName === 'P' &&
       currentNode.parentElement.firstElementChild === currentNode
     ) {
@@ -306,7 +356,7 @@ export const keydownHandle = (e): void => {
     }
 
     if (
-      currentNode.innerHTML === '<br>' &&
+      (<Element>currentNode).innerHTML === '<br>' &&
       currentNode.nodeName === 'P' &&
       currentNode.previousSibling != null &&
       currentNode.nextSibling != null &&
@@ -315,13 +365,13 @@ export const keydownHandle = (e): void => {
       mergeList(selection);
       e.preventDefault();
     } else if (
-      currentNode.innerHTML === '<br>' &&
+      (<Element>currentNode).innerHTML === '<br>' &&
       currentNode.nodeName === 'LI'
     ) {
       splitList(selection);
       e.preventDefault();
     } else if (
-      currentNode.innerHTML === '<br>' &&
+      (<Element>currentNode).innerHTML === '<br>' &&
       currentNode.nodeName === 'BLOCKQUOTE'
     ) {
       deleteBlockquote(selection);
@@ -331,20 +381,23 @@ export const keydownHandle = (e): void => {
 
   if (e.code === 'Backquote') {
     const selection = document.getSelection();
-    const currentNode = <HTMLElement>selection.focusNode;
-    if (currentNode.nodeName === '#text' && currentNode.data.endsWith('``')) {
+    const currentNode = selection.focusNode;
+    if (
+      currentNode.nodeName === '#text' &&
+      currentNode.nodeValue.endsWith('``')
+    ) {
       createAndDeleteCodeBlock(selection, e);
     }
   }
 };
 
-export const makeEmoji = (value, setValue) => {
+export const makeEmoji = (value) => {
   const selection = document.getSelection();
   const range = document.createRange();
   range.setEnd(selection.focusNode, selection.focusOffset);
 
   for (let i = selection.focusOffset - 1; i >= 0; i--) {
-    if (selection.focusNode.data[i] === ':') {
+    if (selection.focusNode.nodeValue[i] === ':') {
       range.setStart(selection.focusNode, i);
       break;
     }
@@ -357,6 +410,31 @@ export const makeEmoji = (value, setValue) => {
   range.deleteContents();
   range.insertNode(img);
   selection.collapse(img.nextSibling, 0);
+};
 
-  setValue(undefined);
+export const makeMention = (value) => {
+  const selection = document.getSelection();
+  const range = document.createRange();
+  range.setEnd(selection.focusNode, selection.focusOffset);
+
+  for (let i = selection.focusOffset - 1; i >= 0; i--) {
+    if (selection.focusNode.nodeValue[i] === '@') {
+      range.setStart(selection.focusNode, i);
+      break;
+    }
+  }
+
+  const span = document.createElement('span');
+  span.className = 'c-member_slug--link';
+  span.innerText = `@${value.name}`;
+
+  range.deleteContents();
+  range.insertNode(span);
+
+  let nextSibling = span.nextSibling;
+  if (nextSibling === null || nextSibling.length === 0) {
+    nextSibling = document.createTextNode(' ');
+    span.parentNode.insertBefore(nextSibling, null);
+  }
+  selection.collapse(nextSibling, 1);
 };

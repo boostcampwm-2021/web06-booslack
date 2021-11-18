@@ -25,9 +25,10 @@ const MentionPopup = ({
     const getUsers = async () => {
       const { data } = await axios({
         method: 'GET',
-        url: `api/users/workspaces?workspaceId=${1}`, // workspaceId that this channel belongs to
+        url: `/api/users/workspaces?workspaceId=${1}`, // workspaceId that this channel belongs to
         baseURL: '/',
       });
+      console.log(data.users);
       setUsers(data.users);
     };
     getUsers();
@@ -42,13 +43,15 @@ const MentionPopup = ({
 
   return (
     <StyledPopup isOpen={isOpen} onClose={close}>
-      <Autocomplete
-        input={input}
-        filterList={users}
-        filter={(user) => user.name.includes(input)}
-        setValue={setValue}
-        ResultTemplate={MentionPopupTemplate}
-      />
+      {isOpen && (
+        <Autocomplete
+          input={input}
+          filterList={users}
+          filter={(user) => user.name.includes(input)}
+          setValue={setValue}
+          ResultTemplate={MentionPopupTemplate}
+        />
+      )}
     </StyledPopup>
   );
 };
