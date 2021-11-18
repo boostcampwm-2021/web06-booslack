@@ -1,6 +1,6 @@
 import { EntityRepository, Repository, Like } from 'typeorm';
 import { pageLimitCount } from '@enum';
-import { Channel } from '../model/Channel';
+import Channel from '../model/Channel';
 
 export type SortOption = 'alpha' | 'rAlpha';
 
@@ -43,7 +43,7 @@ export default class ChannelRepository extends Repository<Channel> {
       take: LIMIT,
       relations: ['workspace'],
       order: getOrderOption(sortOption),
-      where: [{ type: 'public', ...likeQuery }],
+      where: [{ private: false, ...likeQuery }],
     });
   }
 
@@ -52,8 +52,8 @@ export default class ChannelRepository extends Repository<Channel> {
       `
       select * from booslack.channel
       where booslack.channel.id in (
-        select channelId from booslack.channel_user_has_workspaces_user_has_workspace
-        where booslack.channel_user_has_workspaces_user_has_workspace.userHasWorkspaceId = (
+        select channelId from booslack.user_has_workspace_channel
+        where booslack.user_has_workspace_channel.userHasWorkspaceId = (
           select id from booslack.user_has_workspace
           where booslack.user_has_workspace.userId = ${userId}
           and booslack.user_has_workspace.workspaceId = ${workspaceId}));

@@ -11,6 +11,8 @@ import NotFound from '@pages/NotFound';
 import SetupTeam from '@pages/SetupTeam';
 import NotLogin from '@pages/NotLogin';
 import NotLogout from '@pages/NotLogout';
+import GetError from '@pages/GetError';
+import Loading from '@pages/Loading';
 import themeState from '@state/Theme';
 import { Itheme } from '@global/theme';
 import InvitedCode from '@pages/InvitedCode';
@@ -65,6 +67,8 @@ const ThemeContainer = (): JSX.Element => {
           <Route component={NotLogin} path="/notlogin" />
           <Route component={NotLogout} path="/notlogout" />
           <Route component={Changepassword} path="/changepassword" />
+          <Route component={GetError} path="/error" />
+          <Route component={Loading} path="/loading" />
           <Route component={NotFound} path="*" />
         </Switch>
       </BrowserRouter>

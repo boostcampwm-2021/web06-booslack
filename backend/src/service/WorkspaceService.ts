@@ -6,7 +6,7 @@ import WorkspaceRepository from '../repository/WorkspaceRepository';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
 import generateUniqSerial from '../shared/simpleuuid';
 
-const { CONFLICT, BAD_REQUEST, CREATED, OK } = StatusCodes;
+const { BAD_REQUEST, CREATED, OK } = StatusCodes;
 
 export async function getAllWorkspaces(req: Request, res: Response) {
   const workspaces = await getCustomRepository(WorkspaceRepository).find();
@@ -18,17 +18,11 @@ export async function getAllUserWorkspaces(req: Request, res: Response) {
     // @ts-ignore
     const user = req.session.passport?.user;
     const userId = user ? user[0].id : user;
-
-    if (!userId) {
-      throw BAD_REQUEST;
-    }
-
-    // eslint-disable-next-line max-len
-    const workspaces = await getCustomRepository(UserHasWorkspaceRepository).findAndEachCount(userId as number);
-
+    if (!userId) throw new Error('not found User');
+    const workspaces = await getCustomRepository(UserHasWorkspaceRepository)
+      .findAndEachCount(userId as number);
     return res.status(OK).json({ workspaces: [...(workspaces as [])] });
   } catch (error) {
-    console.log(error);
     return res.status(BAD_REQUEST).json(error);
   }
 }
@@ -67,7 +61,7 @@ export async function addUserToWorkspace(req: Request, res: Response) {
       where: [{ ...userHasWorkSpace }],
     });
 
-    if (isExist) return res.status(CONFLICT).json({ error: 'you are already joined' });
+    if (isExist) return res.status(BAD_REQUEST).json({ error: 'you are already joined' });
 
     await getCustomRepository(UserHasWorkspaceRepository).save(userHasWorkSpace);
     return res.status(CREATED).end();
@@ -92,7 +86,7 @@ export async function addOneWorkspace(req: Request, res: Response) {
       throw BAD_REQUEST;
     }
 
-    const workspace = { name, profile, code: generateUniqSerial() };
+    const workspace = { name, code: generateUniqSerial() };
 
     // eslint-disable-next-line no-constant-condition
     while (true) {
@@ -123,11 +117,10 @@ export async function addOneWorkspace(req: Request, res: Response) {
 
 export async function updateOneWorkspace(req: Request, res: Response) {
   const { id } = req.params;
-  const { profile, name } = req.body;
+  const { name } = req.body;
   try {
     if (Object.keys(req.body).length === 0) throw new Error('no workspace data in body');
     const workspaceById = await getCustomRepository(WorkspaceRepository).findOneOrFail(id);
-    workspaceById.profile = profile || workspaceById.profile;
     workspaceById.name = name || workspaceById.name;
     const workspace = await getCustomRepository(WorkspaceRepository).save(workspaceById);
     return res.status(OK).json({ workspace });

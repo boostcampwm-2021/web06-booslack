@@ -2,6 +2,7 @@ import passport from 'passport';
 import GitHubStrategy, { Profile } from 'passport-github';
 import { getCustomRepository } from 'typeorm';
 import UserRepository from '../repository/UserRepository';
+import { LOCALTYPE_GITHUB } from '../enum';
 
 function settingGithubPassport() {
   passport.use(<passport.Strategy> new GitHubStrategy.Strategy(
@@ -16,15 +17,15 @@ function settingGithubPassport() {
         const { _json } = profile;
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        const { login: githubID, blog: githubUrl } = _json;
+        const { login: githubID, html_url: githubUrl } = _json;
         const user = await getCustomRepository(UserRepository).find({
-          where: { nickname: githubID, email: githubUrl },
+          where: { account: githubID, email: githubUrl },
         });
         if (user.length === 0) {
           const newUser = {
-            nickname: githubID,
+            account: githubID,
             email: githubUrl,
-            type: 'github',
+            local: LOCALTYPE_GITHUB,
             password: '',
           };
           await getCustomRepository(UserRepository).save(newUser);

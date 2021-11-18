@@ -1,26 +1,30 @@
-/* eslint-disable import/prefer-default-export */
-import { Entity, PrimaryGeneratedColumn, Column, ManyToOne } from 'typeorm';
-import { User } from './User';
-import { Workspace } from './Workspace';
-
-export interface IUserHasWorkspace {
-  id: number;
-
-  profile: string;
-
-  name: string;
-}
+import {
+  Column,
+  ManyToOne,
+  OneToMany,
+  Entity,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
+} from 'typeorm';
+import User from './User';
+import Workspace from './Workspace';
+import Thread from './Thread';
+import Reply from './Reply';
+import Reaction from './Reaction';
 
 @Entity()
-export class UserHasWorkspace {
+class UserHasWorkspace {
   @PrimaryGeneratedColumn()
-  id!: number;
+  id!: number
 
   @Column({ nullable: true })
-  profile!: string;
+  nickname!: string;
 
   @Column({ nullable: true })
-  name!: string;
+  description!: string;
+
+  @Column({ nullable: true })
+  theme!: number;
 
   @Column({ nullable: true })
   workspaceId!: number;
@@ -28,9 +32,26 @@ export class UserHasWorkspace {
   @Column({ nullable: true })
   userId!: number;
 
+  @Column({ nullable: true })
+  fileId!: number;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt!: Date
+
+  @OneToMany(() => Reply, (reply) => reply.userHasWorkspace)
+  replys!: Reply[];
+
+  @OneToMany(() => Thread, (thread) => thread.userHasWorkspace)
+  threads!: Thread[];
+
+  @OneToMany(() => Reaction, (reaction) => reaction.userHasWorkspace)
+  reactions!: Reaction[];
+
   @ManyToOne(() => Workspace, (workspace) => workspace.userHasWorkspaces)
   workspace!: Workspace;
 
   @ManyToOne(() => User, (user) => user.userHasWorkspaces)
   user!: User;
 }
+
+export default UserHasWorkspace;

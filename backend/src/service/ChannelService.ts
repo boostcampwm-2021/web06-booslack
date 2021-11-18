@@ -59,6 +59,8 @@ export async function addOneChannel(req: Request, res: Response) {
 
   channel.workspace = workspace;
   const ChannelRepo = getCustomRepository(ChannelRepository);
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
   await ChannelRepo.save(ChannelRepo.create(channel));
 
   return res.status(CREATED).end();
@@ -66,12 +68,16 @@ export async function addOneChannel(req: Request, res: Response) {
 
 export async function updateOneChannel(req: Request, res: Response) {
   const { id } = req.params;
-  const { name, type, description } = req.body;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const { name, isPrivate, description } = req.body;
   try {
     if (Object.keys(req.body).length === 0) throw new Error('no channel data in body');
     const channelById = await getCustomRepository(ChannelRepository).findOneOrFail(id);
     channelById.name = name || channelById.name;
-    channelById.type = type || channelById.type;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    channelById.private = isPrivate || channelById.private;
     channelById.description = description || channelById.description;
     const channel = await getCustomRepository(ChannelRepository).save(channelById);
     return res.status(OK).json({ channel });
@@ -95,7 +101,7 @@ export async function addUserToChannel(req: Request, res: Response) {
   try {
     const { userId, workspaceId, channelId } = req.body;
     const userHasWorkspace = await getCustomRepository(UserHasWorkspaceRepository).findOne({
-      where: [{ userId: userId, workspaceId: workspaceId }],
+      where: [{ userId, workspaceId }],
     });
     const channel = await getCustomRepository(ChannelRepository).findOne({
       where: [{ id: channelId }],
@@ -119,20 +125,22 @@ export async function deleteUserFromChannel(req: Request, res: Response) {
   try {
     const { userId, workspaceId, channelId } = req.query;
     const userHasWorkspace = await getCustomRepository(UserHasWorkspaceRepository).findOne({
-      where: [{ userId: userId, workspaceId: workspaceId }],
+      where: [{ userId, workspaceId }],
     });
     const channel = await getCustomRepository(ChannelRepository).findOne({
       where: [{ id: channelId }],
       relations: ['userHasWorkspaces'],
     });
     if (!channel) {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       throw new Error(`channel ${channelId} does not exist`);
     }
     if (!userHasWorkspace) {
+      // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
       throw new Error(`user ${userId} does not exist`);
     }
     channel.userHasWorkspaces = channel.userHasWorkspaces.filter(
-      (eachUserHasWorkspace) => eachUserHasWorkspace.id !== Number(userHasWorkspace.id),
+      (eachUserHasWorkspace: any) => eachUserHasWorkspace.id !== Number(userHasWorkspace.id),
     );
     await getCustomRepository(ChannelRepository).save(channel);
     return res.status(OK).json({ channel });

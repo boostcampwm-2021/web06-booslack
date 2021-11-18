@@ -9,7 +9,8 @@
     "test:no-reloading": "./node_modules/.bin/ts-node -r tsconfig-paths/register ./spec",
     "prettier": "npx prettier --write .",
     "lint-watch": "eslint . --ext .ts",
-    "lint": "eslint --fix --ext .ts ."
+    "lint": "eslint --fix --ext .ts .",
+    "sample": "./node_modules/.bin/ts-node ./src/sample/index.ts"
   },
   "nodemonConfig": {
     "watch": [
@@ -41,6 +42,7 @@
     "helmet": "^4.6.0",
     "http-status-codes": "^2.1.4",
     "jet-logger": "^1.0.6",
+    "js-joda": "^1.11.0",
     "jsonfile": "^6.1.0",
     "module-alias": "^2.2.2",
     "morgan": "^1.10.0",

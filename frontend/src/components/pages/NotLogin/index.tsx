@@ -8,7 +8,7 @@ import {
   StyledButtonColumn,
 } from './style';
 
-const NotFound = (): JSX.Element => {
+const NotLogin = (): JSX.Element => {
   const history = useHistory();
   return (
     <Container>
@@ -25,4 +25,4 @@ const NotFound = (): JSX.Element => {
   );
 };
 
-export default NotFound;
+export default NotLogin;

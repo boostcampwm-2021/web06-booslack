@@ -9,7 +9,7 @@ import {
   StyledButtonColumn,
 } from './style';
 
-const NotFound = (): JSX.Element => {
+const NotLogout = (): JSX.Element => {
   const history = useHistory();
   return (
     <Container>
@@ -23,4 +23,4 @@ const NotFound = (): JSX.Element => {
   );
 };
 
-export default NotFound;
+export default NotLogout;
