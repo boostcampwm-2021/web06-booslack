@@ -1,3 +1,5 @@
+let fontState: boolean = false;
+
 const createAndDeleteCodeBlock = (selection, event) => {
   const thisElement = selection.focusNode;
   const parent = thisElement.parentElement;
@@ -316,8 +318,20 @@ export const inputHandle = (
 
   if (e.nativeEvent.inputType === 'deleteContentBackward') {
     const selection = document.getSelection();
-    if (selection.focusNode.nodeValue === ' ') {
-      selection.collapse(selection.focusNode.previousSibling, 0);
+    if (
+      fontState === true &&
+      selection.focusNode.nodeValue === ' ' &&
+      selection.focusNode.previousSibling !== null
+    ) {
+      selection.collapse(selection.focusNode, 0);
+      const parent = selection.focusNode.parentNode;
+      if (parent.innerHTML === ' ') {
+        parent.removeChild(parent.childNodes[0]);
+        parent.removeChild(parent.childNodes[0]);
+        parent.appendChild(document.createElement('br'));
+      }
+
+      fontState = false;
     }
   }
 
@@ -337,6 +351,8 @@ export const keydownHandle = (
   isMentionOpen,
   setIsMentionOpen,
 ): void => {
+  const selection = document.getSelection();
+  console.log(1);
   if (e.code === 'Space') {
     const selection = document.getSelection();
     createList(selection, e);
@@ -357,6 +373,7 @@ export const keydownHandle = (
         document.createTextNode(' '),
         currentNode.parentNode,
       );
+      fontState = true;
     }
 
     if (
