@@ -316,7 +316,11 @@ export const inputHandle = (
 
   if (e.nativeEvent.inputType === 'deleteContentBackward') {
     const selection = document.getSelection();
-    if ((<Element>selection.focusNode).innerHTML === '<br>') {
+    if (selection.focusNode.nodeValue === ' ') {
+      // 몇가지 시도를 해보기 위해 놔둠
+      // selection.focusNode.nodeValue = ' ';
+      // selection.focusNode.parentNode.appendChild(document.createElement('br'));
+      // console.log(1);
       // if (document.queryCommandState('bold')) {
       //   document.execCommand('bold');
       // }
@@ -347,6 +351,20 @@ export const keydownHandle = (
   if (e.code === 'Backspace') {
     const selection = document.getSelection();
     const currentNode = selection.focusNode;
+
+    if (
+      (currentNode.parentNode.nodeName === 'B' ||
+        currentNode.parentNode.nodeName === 'EM' ||
+        currentNode.parentNode.nodeName === 'S' ||
+        currentNode.parentNode.nodeName === 'CODE') &&
+      currentNode.nodeValue.length === 1
+    ) {
+      currentNode.parentNode.parentNode.insertBefore(
+        document.createTextNode(' '),
+        currentNode.parentNode,
+      );
+    }
+
     if (
       (<Element>currentNode).innerHTML === '<br>' &&
       currentNode.nodeName === 'P' &&
