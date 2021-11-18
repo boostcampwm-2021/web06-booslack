@@ -317,13 +317,7 @@ export const inputHandle = (
   if (e.nativeEvent.inputType === 'deleteContentBackward') {
     const selection = document.getSelection();
     if (selection.focusNode.nodeValue === ' ') {
-      // 몇가지 시도를 해보기 위해 놔둠
-      // selection.focusNode.nodeValue = ' ';
-      // selection.focusNode.parentNode.appendChild(document.createElement('br'));
-      // console.log(1);
-      // if (document.queryCommandState('bold')) {
-      //   document.execCommand('bold');
-      // }
+      selection.collapse(selection.focusNode.previousSibling, 0);
     }
   }
 
