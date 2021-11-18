@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { RecoilRoot, useRecoilValue, useSetRecoilState } from 'recoil';
+import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
 import Workspace from '@pages/Workspace';
@@ -23,6 +24,8 @@ import userState from '@state/user';
 import PrivateRoute from '@routes/PrivateRoute';
 import PublicRoute from '@routes/PublicRoute';
 import GlobalStyle from './global/globalstyle';
+
+const queryClient = new QueryClient();
 
 const ThemeContainer = (): JSX.Element => {
   const currentTheme = useRecoilValue<Itheme>(themeState);
@@ -79,7 +82,9 @@ const ThemeContainer = (): JSX.Element => {
 const App = (): JSX.Element => {
   return (
     <RecoilRoot>
-      <ThemeContainer />
+      <QueryClientProvider client={queryClient}>
+        <ThemeContainer />
+      </QueryClientProvider>
     </RecoilRoot>
   );
 };

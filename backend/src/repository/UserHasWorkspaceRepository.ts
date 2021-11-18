@@ -1,10 +1,12 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { RowDataPacket } from 'mysql2';
+import { workspaceListPageLimitCount } from '@enum';
 import UserHasWorkspace from '../model/UserHasWorkspace';
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 @EntityRepository(UserHasWorkspace)
 export default class UserHasWorkspaceRepository extends Repository<UserHasWorkspace> {
-  findAndEachCount(userId: number): Promise<undefined | RowDataPacket[]> {
+  findAndEachCount(userId: number, page: number): Promise<undefined | RowDataPacket[]> {
     const subquery = this.createQueryBuilder('usercount')
       .select('usercount.workspaceId', 'id')
       .addSelect('COUNT(*)', 'count')
@@ -17,6 +19,8 @@ export default class UserHasWorkspaceRepository extends Repository<UserHasWorksp
       // eslint-disable-next-line max-len
       .leftJoinAndSelect(`( ${subquery.getQuery()} )`, 'jointable', 'user.workspaceId = jointable.id')
       .where('user.userId = :userId', { userId })
+      .offset(page)
+      .limit(workspaceListPageLimitCount)
       .getRawMany();
 
     return workspaces;

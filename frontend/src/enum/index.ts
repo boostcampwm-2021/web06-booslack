@@ -21,8 +21,7 @@ export enum BrowserChannelListSize {
   width = 75,
   height = 5,
 }
-
-export enum CHANNELTYPE {
-  'private' = '🔒',
-  'public' = '#',
-}
+export const CHANNELTYPE = {
+  1: '🔒',
+  0: '#',
+} as const;

@@ -1,3 +1,4 @@
+/* eslint-disable max-len */
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import StatusCodes from 'http-status-codes';
 import { Request, Response } from 'express';
@@ -15,13 +16,28 @@ export async function getAllWorkspaces(req: Request, res: Response) {
 
 export async function getAllUserWorkspaces(req: Request, res: Response) {
   try {
+    const { page } = req.query;
+    const pageNumber = parseInt(page as string, 10);
+
     // @ts-ignore
     const user = req.session.passport?.user;
     const userId = user ? user[0].id : user;
-    if (!userId) throw new Error('not found User');
-    const workspaces = await getCustomRepository(UserHasWorkspaceRepository)
-      .findAndEachCount(userId as number);
-    return res.status(OK).json({ workspaces: [...(workspaces as [])] });
+
+    if (!userId) {
+      throw BAD_REQUEST;
+    }
+
+    // eslint-disable-next-line max-len
+    const workspaces = await getCustomRepository(UserHasWorkspaceRepository).findAndEachCount(
+      userId as number,
+      pageNumber,
+    );
+
+    const data = [...(workspaces as [])];
+    const cursor = pageNumber + data.length;
+    const nextCursor = cursor !== pageNumber ? cursor : null;
+
+    return res.status(OK).json({ workspaces: data, nextCursor });
   } catch (error) {
     return res.status(BAD_REQUEST).json(error);
   }
@@ -42,9 +58,11 @@ export async function addUserToWorkspace(req: Request, res: Response) {
     // @ts-ignore
     const user = req.session.passport?.user;
     const userId = user ? user[0].id : user;
+    const nickname = user ? user[0].account : user;
+
     const { code }: { code: string } = req.body;
 
-    if (!userId || !code) {
+    if (!userId || !code || !nickname) {
       throw BAD_REQUEST;
     }
 
@@ -56,7 +74,7 @@ export async function addUserToWorkspace(req: Request, res: Response) {
       throw BAD_REQUEST;
     }
 
-    const userHasWorkSpace = { userId, workspaceId: Workspace.id };
+    const userHasWorkSpace = { nickname, userId, workspaceId: Workspace.id };
     const isExist = await getCustomRepository(UserHasWorkspaceRepository).findOne({
       where: [{ ...userHasWorkSpace }],
     });
@@ -75,6 +93,7 @@ export async function addOneWorkspace(req: Request, res: Response) {
     // @ts-ignore
     const user = req.session.passport?.user;
     const userId = user ? user[0].id : user;
+    const nickname = user ? user[0].account : user;
 
     if (!userId) {
       throw BAD_REQUEST;
@@ -101,7 +120,7 @@ export async function addOneWorkspace(req: Request, res: Response) {
 
     const { id: workspaceId } = await getCustomRepository(WorkspaceRepository).save(workspace);
 
-    const userHasWorkSpace = { userId, workspaceId };
+    const userHasWorkSpace = { nickname, userId, workspaceId };
 
     await getCustomRepository(UserHasWorkspaceRepository).save(userHasWorkSpace);
 

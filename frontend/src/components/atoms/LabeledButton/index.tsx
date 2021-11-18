@@ -11,6 +11,7 @@ interface Props<T> {
   backgroundColor?: string;
   className?: T;
   customRef?: undefined | RefObject<HTMLButtonElement>;
+  disabled?: boolean;
 }
 
 const LabeledButton = ({
@@ -23,6 +24,7 @@ const LabeledButton = ({
   backgroundColor = 'transparent',
   className,
   customRef,
+  disabled,
 }: Props<typeof className>): JSX.Element => {
   return (
     <Container
@@ -33,6 +35,7 @@ const LabeledButton = ({
       ref={customRef}
       backgroundColor={backgroundColor}
       className={className}
+      disabled={disabled}
       type={type}
     >
       {text}
@@ -47,6 +50,7 @@ LabeledButton.defaultProps = {
   color: undefined,
   backgroundColor: undefined,
   customRef: undefined,
+  disabled: false,
 };
 
 export default LabeledButton;

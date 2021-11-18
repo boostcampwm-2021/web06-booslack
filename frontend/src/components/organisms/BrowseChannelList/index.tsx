@@ -61,10 +61,10 @@ const BrowseChannelList = (): JSX.Element => {
     const { channels } = data;
     return (
       <>
-        {channels.map(({ id, name, type, description }) => {
+        {channels.map(({ id, name, private:isPrivate, description }) => {
           return (
             <ChannelList
-              firstLabelContent={`${CHANNELTYPE[type]} ${id} ${name}`}
+              firstLabelContent={`${CHANNELTYPE[isPrivate]} ${id} ${name}`}
               secondLabelContent={description}
               key={`BrowseChannelList${id}`}
             />

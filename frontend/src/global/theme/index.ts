@@ -4,6 +4,7 @@ export interface Itheme {
   smallHeaderColor: string;
   titleText: string;
   smallText: string;
+  searchBar: string;
 }
 
 /*
@@ -12,11 +13,12 @@ export interface Itheme {
     추천
 */
 export const defaultTheme: Itheme = {
-  backgroundColor: '#350D36',
+  backgroundColor: '#3F0E40',
   bigHeaderColor: '#350D36',
   smallHeaderColor: '#ecdeec',
   titleText: '#fff',
   smallText: '#BDABBC',
+  searchBar: '#644565',
 };
 
 export const yellowTheme: Itheme = {
@@ -25,6 +27,7 @@ export const yellowTheme: Itheme = {
   smallHeaderColor: '#D99E10',
   titleText: '#591035',
   smallText: '#935D51',
+  searchBar: '#D99E10',
 };
 
 export const THEME = {
