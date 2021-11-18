@@ -1,7 +1,9 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { RowDataPacket } from 'mysql2';
+import { workspaceListPageLimitCount } from '@enum';
 import UserHasWorkspace from '../model/UserHasWorkspace';
 
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 @EntityRepository(UserHasWorkspace)
 export default class UserHasWorkspaceRepository extends Repository<UserHasWorkspace> {
   findAndEachCount(userId: number, page: number): Promise<undefined | RowDataPacket[]> {

@@ -55,8 +55,8 @@ async function getWorkspaceLists({ pageParam = 0 }) {
 }
 
 const WorkSpaceListContent = (): JSX.Element => {
-  const { nickname } = useRecoilValue(userState);
-  const NameLabel = <StyledLabel text={`${nickname ?? ''}의 워크스페이스`} />;
+  const { account } = useRecoilValue(userState);
+  const NameLabel = <StyledLabel text={`${account ?? ''}의 워크스페이스`} />;
 
   const {
     isLoading,

@@ -3,7 +3,6 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response } from 'express';
 import { getCustomRepository } from 'typeorm';
-import { workspaceListPageLimitCount } from '@enum';
 import WorkspaceRepository from '../repository/WorkspaceRepository';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
 import generateUniqSerial from '../shared/simpleuuid';
@@ -59,11 +58,11 @@ export async function addUserToWorkspace(req: Request, res: Response) {
     // @ts-ignore
     const user = req.session.passport?.user;
     const userId = user ? user[0].id : user;
-    const name = user ? user[0].nickname : user;
+    const nickname = user ? user[0].account : user;
 
     const { code }: { code: string } = req.body;
 
-    if (!userId || !code || !name) {
+    if (!userId || !code || !nickname) {
       throw BAD_REQUEST;
     }
 
@@ -75,7 +74,7 @@ export async function addUserToWorkspace(req: Request, res: Response) {
       throw BAD_REQUEST;
     }
 
-    const userHasWorkSpace = { name, userId, workspaceId: Workspace.id };
+    const userHasWorkSpace = { nickname, userId, workspaceId: Workspace.id };
     const isExist = await getCustomRepository(UserHasWorkspaceRepository).findOne({
       where: [{ ...userHasWorkSpace }],
     });
@@ -94,7 +93,7 @@ export async function addOneWorkspace(req: Request, res: Response) {
     // @ts-ignore
     const user = req.session.passport?.user;
     const userId = user ? user[0].id : user;
-    const nickname = user ? user[0].nickname : user;
+    const nickname = user ? user[0].account : user;
 
     if (!userId) {
       throw BAD_REQUEST;
@@ -121,7 +120,7 @@ export async function addOneWorkspace(req: Request, res: Response) {
 
     const { id: workspaceId } = await getCustomRepository(WorkspaceRepository).save(workspace);
 
-    const userHasWorkSpace = { name: nickname, userId, workspaceId };
+    const userHasWorkSpace = { nickname, userId, workspaceId };
 
     await getCustomRepository(UserHasWorkspaceRepository).save(userHasWorkSpace);
 
