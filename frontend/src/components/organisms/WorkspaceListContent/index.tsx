@@ -22,27 +22,21 @@ import {
   SpinnerContainer,
 } from './styles';
 
-const WorkSpaceLists = ({
-  workspaces,
-}: {
-  workspaces: Workspace[];
-}): JSX.Element => {
+const WorkSpaceLists = (workspaces: Workspace[]) => {
   const history = useHistory();
 
-  return (
-    <>
-      {workspaces.map(({ id, name, count }: Workspace & { count: number }) => {
-        return (
-          <StyledDiv key={`workspacelist${id}`}>
-            <StyledSelectWorkspace firstLabelContent={name} content={count} />
-            <StyledLabeledButton
-              text="실행"
-              onClick={() => history.push(`client/${id}/browse-channels`)}
-            />
-          </StyledDiv>
-        );
-      })}
-    </>
+  return workspaces.map(
+    ({ id, name, count }: Workspace & { count: number }) => {
+      return (
+        <StyledDiv key={`workspacelist${id}`}>
+          <StyledSelectWorkspace firstLabelContent={name} content={count} />
+          <StyledLabeledButton
+            text="실행"
+            onClick={() => history.push(`client/${id}/1`)}
+          />
+        </StyledDiv>
+      );
+    },
   );
 };
 
@@ -74,9 +68,7 @@ const WorkSpaceListContent = (): JSX.Element => {
       <StyledHeader title={NameLabel} content={<></>} rightButton={<></>} />
       <WorkspaceListContainer>
         <AsyncBranch data={data} loading={isLoading} error={error}>
-          <WorkSpaceLists
-            workspaces={queryFlatMap<Workspace>(data, 'workspaces')}
-          />
+          {WorkSpaceLists(queryFlatMap<Workspace>(data, 'workspaces'))}
         </AsyncBranch>
         {isFetchingNextPage && (
           <SpinnerContainer>

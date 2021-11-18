@@ -3,10 +3,10 @@ import { InfiniteData } from 'react-query';
 import { Data } from '@hook/useAsync';
 
 interface Props {
-  data: Data | unknown[] | InfiniteData<any>;
+  data: Data | unknown[] | InfiniteData<unknown>;
   loading: boolean;
   error: Error | unknown;
-  children: JSX.Element;
+  children: JSX.Element | JSX.Element[];
 }
 
 const AsyncBranch = ({
