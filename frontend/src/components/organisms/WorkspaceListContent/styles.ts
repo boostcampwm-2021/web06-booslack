@@ -1,11 +1,12 @@
 import styled from 'styled-components';
 import { theme } from 'styled-tools';
+import { BeatLoader } from 'react-spinners';
 import Label from '@atoms/Label';
 import LabeledButton from '@atoms/LabeledButton';
 import SelectWorkspace from '@molecules/SelectWorkspace';
 import BrowseChannelHeader from '@molecules/BrowseChannelHeader';
 import { defaultTheme } from '@global/theme';
-import { hoverChangeColor } from '@global/mixin';
+import { flexAlignCenter, hoverChangeColor } from '@global/mixin';
 
 export const StyledHeader = styled(BrowseChannelHeader)`
   min-width: 300px;
@@ -72,6 +73,18 @@ export const StyledLabeledButton = styled(LabeledButton)`
     color: ${theme('backgroundColor', defaultTheme.backgroundColor)};
     background-color: ${theme('titleText', defaultTheme.titleText)};
   }
+`;
+
+export const SpinnerContainer = styled.div`
+  width: 55vw;
+  min-width: 300px;
+  height: 60px;
+
+  ${flexAlignCenter}
+`;
+
+export const LoadingSpinner = styled(BeatLoader)`
+  background-color: ${theme('backgroundColor', defaultTheme.backgroundColor)};
 `;
 
 export default Container;

@@ -1,5 +1,5 @@
 /* eslint-disable react/no-unused-prop-types */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
@@ -18,6 +18,8 @@ import {
   StyledHeader,
   WorkspaceListContainer,
   StyledLabeledButton,
+  LoadingSpinner,
+  SpinnerContainer,
 } from './styles';
 
 const WorkSpaceLists = ({
@@ -29,7 +31,7 @@ const WorkSpaceLists = ({
 
   return (
     <>
-      {workspaces?.map(({ id, name, count }: Workspace & { count: number }) => {
+      {workspaces.map(({ id, name, count }: Workspace & { count: number }) => {
         return (
           <StyledDiv key={`workspacelist${id}`}>
             <StyledSelectWorkspace firstLabelContent={name} content={count} />
@@ -67,22 +69,20 @@ const WorkSpaceListContent = (): JSX.Element => {
     isFetchingNextPage,
   } = useInfinityScroll('workspacelists', getWorkspaceLists);
 
-  const [workspaces, setWorkspaces] = useState(
-    queryFlatMap<Workspace>(data, 'workspaces'),
-  );
-
-  useEffect(() => {
-    setWorkspaces(queryFlatMap<Workspace>(data, 'workspaces'));
-  }, [data]);
-
   return (
     <Container>
       <StyledHeader title={NameLabel} content={<></>} rightButton={<></>} />
       <WorkspaceListContainer>
         <AsyncBranch data={data} loading={isLoading} error={error}>
-          <WorkSpaceLists workspaces={workspaces} />
+          <WorkSpaceLists
+            workspaces={queryFlatMap<Workspace>(data, 'workspaces')}
+          />
         </AsyncBranch>
-        {isFetchingNextPage && <div>loading...</div>}
+        {isFetchingNextPage && (
+          <SpinnerContainer>
+            <LoadingSpinner />
+          </SpinnerContainer>
+        )}
         <LabeledDefaultButton
           text="더보기"
           disabled={!hasNextPage || isFetchingNextPage}

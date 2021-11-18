@@ -12,6 +12,9 @@ const GeneratedCode = (): JSX.Element => {
   const {
     data: { code, nextPage },
   } = location.state as { data: { code: string; nextPage: string } };
+
+  console.log(code, nextPage);
+
   return (
     <>
       <CodeTemplate
