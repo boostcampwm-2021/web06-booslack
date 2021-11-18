@@ -55,8 +55,8 @@ describe('page rendering test />', () => {
     const channels = [
       {
         id: 1,
-        name: 'lodado',
-        type: 'public',
+        account: 'lodado',
+        private: 0,
         description: '12321321',
       },
     ];
