@@ -15,3 +15,10 @@ export const useChannelListQuery = (userId: string, workspaceId: string) => {
     },
   );
 };
+
+export const useChannelQuery = (id: string) => {
+  return useQuery(['channel', id], async () => {
+    const res = await axios.get(`/api/channels/${id}`);
+    return res.data.channel;
+  });
+};
