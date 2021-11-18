@@ -35,7 +35,7 @@ const WorkSpaceLists = ({
             <StyledSelectWorkspace firstLabelContent={name} content={count} />
             <StyledLabeledButton
               text="실행"
-              onClick={() => history.push(`client/${id}/1`)}
+              onClick={() => history.push(`client/${id}/browse-channels`)}
             />
           </StyledDiv>
         );
