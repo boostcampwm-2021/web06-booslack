@@ -4,7 +4,7 @@ import { getCustomRepository, getRepository } from 'typeorm';
 import ThreadRepository from '../repository/ThreadRepository';
 import ChannelRepository from '../repository/ChannelRepository';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
-import { Thread } from '../model/Thread';
+import Thread from '../model/Thread';
 
 const { BAD_REQUEST, OK } = StatusCodes;
 
@@ -70,7 +70,6 @@ export async function addThread(req: Request, res: Response) {
     }
 
     const thread: Thread = new Thread();
-    thread.time = time;
     thread.message = message;
     thread.channel = channel;
     thread.channelId = Number(channelId);

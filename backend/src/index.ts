@@ -14,5 +14,7 @@ createConnection(connectionOptions)
       logger.info(`Express server started on port: ${port}`);
     });
   })
-  .then(() => addSampleData())
+  .then(() => {
+    if (process.env.DB_AUTO_ADD_DATA === 'true') addSampleData();
+  })
   .catch((error) => console.log(error));

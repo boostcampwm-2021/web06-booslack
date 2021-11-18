@@ -1,5 +1,5 @@
 import { getConnection, getRepository } from 'typeorm';
-import { User } from '../model/User';
+import User from '../model/User';
 import UserSampleValue from './value/UserSampleValue';
 
 const insertUserSample = async () => {

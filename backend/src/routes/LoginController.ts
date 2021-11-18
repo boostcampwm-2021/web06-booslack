@@ -10,7 +10,6 @@ const loginRouter = Router();
 loginRouter.get('/', (req, res) => {
   res.header({ 'Access-Control-Allow-Origin': '*' });
   res.header({ 'Access-Control-Allow-Credentials': true });
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   if (req.session.passport) {
     res.redirect(`${frontUrl}/workspacelist`);
@@ -53,8 +52,7 @@ loginRouter.get('/logout', (req, res) => {
 function verifyInform(username: string, password: string, password2: any) {
   if (username.length > 20 || password.length > 20) return false;
   if (username.length === 0 || password.length === 0) return false;
-  if (password2 && password !== password2) return false;
-  return true;
+  return !(password2 && password !== password2);
 }
 
 function makeNickName(username: string) {
@@ -70,14 +68,14 @@ loginRouter.post('/signup', async (req, res) => {
       throw new Error('Given data does not meet the requirements. ');
     }
     const user = await getCustomRepository(UserRepository).find({
-      where: { nickname: username },
+      where: { account: username },
     });
     if (user.length > 0) throw new Error('Given username already exists.');
     const newUser = {
       // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-      nickname: makeNickName(username),
+      account: makeNickName(username),
       email: username,
-      type: 'local',
+      local: 1,
       password,
     };
     await getCustomRepository(UserRepository).save(newUser);
@@ -93,12 +91,11 @@ loginRouter.post('/changepassword', async (req, res) => {
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
     if (!verifyInform(username, password, passwordTwo)) throw new Error('no user data verify');
     const userById = await getCustomRepository(UserRepository).findOneOrFail({
-      where: { email: username },
+      where: { account: username },
     });
     // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
-    userById.nickname = makeNickName(username) || userById.nickname;
+    userById.account = makeNickName(username) || userById.account;
     userById.email = username || userById.email;
-    userById.type = userById.type || 'local';
     userById.password = password || userById.password;
     await getCustomRepository(UserRepository).save(userById);
     res.redirect(`${frontUrl}/login`);

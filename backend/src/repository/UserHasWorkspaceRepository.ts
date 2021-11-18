@@ -1,6 +1,6 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { RowDataPacket } from 'mysql2';
-import { UserHasWorkspace } from '../model/UserHasWorkspace';
+import UserHasWorkspace from '../model/UserHasWorkspace';
 
 @EntityRepository(UserHasWorkspace)
 export default class UserHasWorkspaceRepository extends Repository<UserHasWorkspace> {

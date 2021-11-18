@@ -1,34 +1,28 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { UserHasWorkspace } from './UserHasWorkspace';
-
-export interface IUser {
-  id: number;
-
-  nickname: string;
-
-  email: string;
-
-  type: string;
-
-  password: string;
-}
+import { Column, OneToMany, Entity, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import UserHasWorkspace from './UserHasWorkspace';
 
 @Entity()
-export class User implements IUser {
+class User {
   @PrimaryGeneratedColumn()
-  id!: number;
+  id!: number
 
   @Column()
-  nickname!: string;
+  account!: string;
 
-  @Column()
+  @Column({ nullable: true })
   email!: string;
 
-  @Column()
-  type!: string;
-
-  @Column()
+  @Column({ nullable: true })
   password!: string;
+
+  @Column({ type: 'tinyint' })
+  local!: number;
+
+  @Column({ nullable: true })
+  theme!: number;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt!: Date
 
   @OneToMany(
     () => UserHasWorkspace,
@@ -36,3 +30,5 @@ export class User implements IUser {
   )
   userHasWorkspaces!: UserHasWorkspace[];
 }
+
+export default User;

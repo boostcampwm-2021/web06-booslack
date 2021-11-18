@@ -1,5 +1,5 @@
 import { getConnection, getRepository } from 'typeorm';
-import { Channel } from '../model/Channel';
+import Channel from '../model/Channel';
 import ChannelSampleValue from './value/ChannelSampleValue';
 
 const insertChannelSample = async () => {

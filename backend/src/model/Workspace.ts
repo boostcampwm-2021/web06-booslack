@@ -1,33 +1,33 @@
-/* eslint-disable import/prefer-default-export */
-import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
-import { Channel } from './Channel';
-import { UserHasWorkspace } from './UserHasWorkspace';
-
-export interface IWorkspace {
-  id: number;
-
-  profile: string;
-
-  name: string;
-}
+import { Column, Entity, OneToMany, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
+import Channel from './Channel';
+import UserHasWorkspace from './UserHasWorkspace';
+import Dm from './Dm';
 
 @Entity()
-export class Workspace implements IWorkspace {
+class Workspace {
   @PrimaryGeneratedColumn()
-  id!: number;
-
-  @Column({ nullable: true })
-  profile!: string;
+  id!: number
 
   @Column()
   name!: string;
 
-  @Column()
+  @Column({ nullable: true })
   code!: string;
+
+  @Column({ nullable: true })
+  fileId!: number;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt!: Date
+
+  @OneToMany(() => UserHasWorkspace, (userHasWorkspace) => userHasWorkspace.workspace)
+  userHasWorkspaces!: UserHasWorkspace[];
 
   @OneToMany(() => Channel, (channel) => channel.workspace)
   channels!: Channel[];
 
-  @OneToMany(() => UserHasWorkspace, (userHasWorkspace) => userHasWorkspace.workspace)
-  userHasWorkspaces!: UserHasWorkspace[];
+  @OneToMany(() => Dm, (dm) => dm.workspace)
+  dms!: Dm[];
 }
+
+export default Workspace;

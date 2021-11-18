@@ -16,15 +16,15 @@ function settingGithubPassport() {
         const { _json } = profile;
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        const { login: githubID, blog: githubUrl } = _json;
+        const { login: githubID, html_url: githubUrl } = _json;
         const user = await getCustomRepository(UserRepository).find({
-          where: { nickname: githubID, email: githubUrl },
+          where: { account: githubID, email: githubUrl },
         });
         if (user.length === 0) {
           const newUser = {
-            nickname: githubID,
+            account: githubID,
             email: githubUrl,
-            type: 'github',
+            local: 0,
             password: '',
           };
           await getCustomRepository(UserRepository).save(newUser);

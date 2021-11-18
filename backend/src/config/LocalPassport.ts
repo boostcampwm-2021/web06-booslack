@@ -12,20 +12,21 @@ function settingLocalPassport() {
     return !(password2 && password !== password2);
   }
   passport.use(
-    <passport.Strategy>new LocalStrategy.Strategy(async (username: string, passwordLocal: string, done) => {
-      try {
-        const user = await getCustomRepository(UserRepository).find({
-          where: { email: username, password: passwordLocal },
-        });
-        // @ts-ignore
-        const { password } = user;
-        if (!verifyInform(username, passwordLocal, password)) return done(null, false);
-        if (user.length === 1) return done(null, user);
-        return done(null, false);
-      } catch (e) {
-        return done(null, false);
-      }
-    }),
+    <passport.Strategy> new LocalStrategy
+      .Strategy(async (username: string, passwordLocal: string, done) => {
+        try {
+          const user = await getCustomRepository(UserRepository).find({
+            where: { account: username, password: passwordLocal },
+          });
+          // @ts-ignore
+          const { password } = user;
+          if (!verifyInform(username, passwordLocal, password)) return done(null, false);
+          if (user.length === 1) return done(null, user);
+          return done(null, false);
+        } catch (e) {
+          return done(null, false);
+        }
+      }),
   );
   passport.serializeUser((user, done) => {
     done(null, user);

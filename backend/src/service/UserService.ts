@@ -1,17 +1,16 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response } from 'express';
-import { getCustomRepository, getRepository } from 'typeorm';
-import { User } from '../model/User';
+import { getCustomRepository } from 'typeorm';
 import UserRepository from '../repository/UserRepository';
 import WorkspaceRepository from '../repository/WorkspaceRepository';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
-import { UserHasWorkspace } from '../model/UserHasWorkspace';
+import UserHasWorkspace from '../model/UserHasWorkspace';
 
 const { BAD_REQUEST, OK } = StatusCodes;
 
 export async function getAllUsers(req: Request, res: Response) {
   try {
-    const users = await getRepository(User).find();
+    const users = await getCustomRepository(UserRepository).find();
     return res.status(OK).json({ users });
   } catch (e) {
     return res.status(BAD_REQUEST).json(e);
@@ -21,7 +20,7 @@ export async function getAllUsers(req: Request, res: Response) {
 export async function getOneUser(req: Request, res: Response) {
   const { id } = req.params;
   try {
-    const users = await getRepository(User).findOne(id);
+    const users = await getCustomRepository(UserRepository).findOne(id);
     return res.status(OK).json({ users });
   } catch (e) {
     return res.status(BAD_REQUEST).json(e);
@@ -30,15 +29,17 @@ export async function getOneUser(req: Request, res: Response) {
 
 export async function updateOneUser(req: Request, res: Response) {
   const { id } = req.params;
-  const { nickname, email, type, password } = req.body;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const { account, email, isLocal, password } = req.body;
   try {
     if (Object.keys(req.body).length === 0) throw new Error('no user data in body');
-    const userById = await getRepository(User).findOneOrFail(id);
-    userById.nickname = nickname || userById.nickname;
+    const userById = await getCustomRepository(UserRepository).findOneOrFail(id);
+    userById.account = account || userById.account;
     userById.email = email || userById.email;
-    userById.type = type || userById.type;
+    userById.local = isLocal || userById.local;
     userById.password = password || userById.password;
-    const users = await getRepository(User).save(userById);
+    const users = await getCustomRepository(UserRepository).save(userById);
     return res.status(OK).json({ users });
   } catch (e) {
     return res.status(BAD_REQUEST).json(e);
@@ -49,7 +50,7 @@ export async function addOneUser(req: Request, res: Response) {
   const user = req.body;
   try {
     if (Object.keys(user).length === 0) throw new Error('no user data in body');
-    const users = await getRepository(User).save(user);
+    const users = await getCustomRepository(UserRepository).save(user);
     return res.status(OK).json({ users });
   } catch (e) {
     return res.status(BAD_REQUEST).json(e);
@@ -59,8 +60,8 @@ export async function addOneUser(req: Request, res: Response) {
 export async function deleteOneUser(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    const user = await getRepository(User).findOneOrFail(id);
-    await getRepository(User).remove(user);
+    const user = await getCustomRepository(UserRepository).findOneOrFail(id);
+    await getCustomRepository(UserRepository).remove(user);
     return res.status(OK).end();
   } catch (e) {
     return res.status(BAD_REQUEST).json(e);
@@ -86,8 +87,8 @@ export async function addUserToWorkspace(req: Request, res: Response) {
     }
 
     const userHasWorkspace: UserHasWorkspace = new UserHasWorkspace();
-    userHasWorkspace.profile = 'temporary profile';
-    userHasWorkspace.name = user.nickname;
+    userHasWorkspace.description = 'temporary description';
+    userHasWorkspace.nickname = user.account;
     userHasWorkspace.workspaceId = Number(workspaceId);
     userHasWorkspace.userId = Number(userId);
     userHasWorkspace.workspace = workspace;
@@ -103,8 +104,8 @@ export async function addUserToWorkspace(req: Request, res: Response) {
 export async function getAllUsersWithChannelInfo(req: Request, res: Response) {
   try {
     const { workspaceId } = req.query;
-    const users = await getCustomRepository(UserRepository).findAllUsersWithChannelInfo(String(workspaceId));
-
+    const users = await getCustomRepository(UserRepository)
+      .findAllUsersWithChannelInfo(String(workspaceId));
     return res.status(OK).json({ users });
   } catch (e) {
     return res.status(BAD_REQUEST).json(e);

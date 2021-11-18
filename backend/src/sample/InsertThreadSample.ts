@@ -1,5 +1,5 @@
 import { getConnection, getRepository } from 'typeorm';
-import { Thread } from '../model/Thread';
+import Thread from '../model/Thread';
 import ThreadSampleValue from './value/ThreadSampleValue';
 
 const insertThreadSample = async () => {

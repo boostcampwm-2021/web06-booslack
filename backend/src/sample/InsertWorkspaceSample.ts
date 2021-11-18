@@ -1,5 +1,5 @@
 import { getConnection, getRepository } from 'typeorm';
-import { Workspace } from '../model/Workspace';
+import Workspace from '../model/Workspace';
 import WorkspaceSampleValue from './value/WorkspaceSampleValue';
 
 const insertWorkspaceSample = async () => {

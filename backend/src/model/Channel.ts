@@ -1,48 +1,39 @@
-/* eslint-disable import/prefer-default-export */
 import {
-  Entity,
-  PrimaryGeneratedColumn,
   Column,
   ManyToOne,
   ManyToMany,
-  JoinTable, OneToMany,
+  JoinTable,
+  OneToMany,
+  Entity,
+  PrimaryGeneratedColumn,
+  CreateDateColumn,
 } from 'typeorm';
-import { Thread } from '@daos/Thread';
-import { UserHasWorkspace } from './UserHasWorkspace';
-import { Workspace } from './Workspace';
-
-export interface IChannel {
-  id: number;
-
-  name: string;
-
-  type: string;
-
-  description: string;
-}
+import Thread from './Thread';
+import UserHasWorkspace from './UserHasWorkspace';
+import Workspace from './Workspace';
 
 @Entity()
-export class Channel implements IChannel {
+class Channel {
   @PrimaryGeneratedColumn()
-  id!: number;
+  id!: number
 
   @Column()
   name!: string;
 
-  @Column()
-  type!: string;
-
-  @Column()
+  @Column({ nullable: true })
   description!: string;
 
-  @Column()
+  @Column({ nullable: true })
   topic!: string;
 
-  @Column()
-  createdBy!: string;
+  @Column({ type: 'tinyint' })
+  private!: number;
 
   @Column({ nullable: true })
   workspaceId!: number;
+
+  @CreateDateColumn({ type: 'timestamp' })
+  createdAt!: Date
 
   @OneToMany(() => Thread, (thread) => thread.channel)
   threads!: Thread[];
@@ -51,6 +42,10 @@ export class Channel implements IChannel {
   workspace!: Workspace;
 
   @ManyToMany(() => UserHasWorkspace)
-  @JoinTable()
+  @JoinTable({
+    name: 'user_has_workspace_channel',
+  })
   userHasWorkspaces!: UserHasWorkspace[];
 }
+
+export default Channel;
