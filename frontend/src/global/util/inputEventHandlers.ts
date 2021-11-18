@@ -152,7 +152,7 @@ const makeFont = (selection, symbol, font) => {
     let currentCheckingNode = thisElement;
     let endIndex = selection.focusOffset - 2;
     while (currentCheckingNode != null) {
-      const strong = document.createElement(font);
+      const fontTag = document.createElement(font);
       if (currentCheckingNode.nodeName === '#text') {
         for (let i = endIndex; i >= 0; i--) {
           if (
@@ -165,17 +165,17 @@ const makeFont = (selection, symbol, font) => {
             const range = document.createRange();
             range.setStart(currentCheckingNode, i);
             range.setEnd(thisElement, selection.focusOffset);
-            range.surroundContents(strong);
+            range.surroundContents(fontTag);
 
-            strong.innerHTML = strong.innerHTML
+            fontTag.innerHTML = fontTag.innerHTML
               .replace(`<${font}>`, '')
               .replace(`</${font}>`, '');
-            strong.innerHTML = strong.innerHTML.slice(1, -1);
+            fontTag.innerHTML = fontTag.innerHTML.slice(1, -1);
 
-            let nextSibling = strong.nextSibling;
+            let nextSibling = fontTag.nextSibling;
             if (nextSibling.length === 0) {
               nextSibling = document.createTextNode(' ');
-              strong.parentNode.insertBefore(nextSibling, null);
+              fontTag.parentNode.insertBefore(nextSibling, null);
             }
             selection.collapse(nextSibling, 1);
             return;
@@ -427,5 +427,11 @@ export const makeMention = (value) => {
 
   range.deleteContents();
   range.insertNode(span);
-  selection.collapse(span.nextSibling, 0);
+
+  let nextSibling = span.nextSibling;
+  if (nextSibling === null || nextSibling.length === 0) {
+    nextSibling = document.createTextNode(' ');
+    span.parentNode.insertBefore(nextSibling, null);
+  }
+  selection.collapse(nextSibling, 1);
 };

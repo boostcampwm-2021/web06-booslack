@@ -21,6 +21,13 @@ export const Container = styled.div`
     word-wrap: break-word;
   }
 
+  .c-member_slug--link{
+    background: rgba(var(--sk_highlight_accent,29,155,209),.1);
+    color: rgba(var(--sk_highlight,18,100,163),1);
+    padding: 0 2px 1px 2px;
+    border-radius: 3px;
+  }
+
   .emoji{
     background-position: 50% 50%;
     background-repeat: no-repeat;
