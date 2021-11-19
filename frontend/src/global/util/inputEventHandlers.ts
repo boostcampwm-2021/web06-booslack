@@ -339,8 +339,7 @@ export const inputHandle = (
   const s = document.getSelection();
   if (
     s.focusNode.parentNode.nodeName === 'P' &&
-    (s.focusNode.parentNode.innerHTML === ' ' ||
-      s.focusNode.parentNode.innerHTML === '  ')
+    s.focusNode.parentElement.innerHTML.trim() === ''
   ) {
     s.focusNode.parentNode.innerHTML = '<br>';
   }
