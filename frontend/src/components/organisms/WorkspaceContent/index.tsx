@@ -2,7 +2,7 @@ import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { useParams } from 'react-router-dom';
 import ChatHeader from '@molecules/ChatHeader';
-import ChatInputBackground from '@organisms/ChatInputBackground';
+import ChatInputBar from '@organisms/ChatInputBar';
 import ChatContent from '@organisms/ChatContent';
 import ChannelJoinFooter from '@organisms/ChannelJoinFooter';
 import userState from '@state/user';
@@ -27,7 +27,7 @@ const WorkspaceContent = (): JSX.Element => {
   );
 
   const InputBar: JSX.Element = isUserInCurrentChannel ? (
-    <ChatInputBackground />
+    <ChatInputBar />
   ) : (
     <ChannelJoinFooter channelName={channelQuery.data.name} />
   );

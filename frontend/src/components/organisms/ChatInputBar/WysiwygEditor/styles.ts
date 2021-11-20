@@ -1,34 +1,47 @@
 import styled from 'styled-components';
 
 export const Container = styled.div`
-  padding: 0px 20px;
-  max-height: 40vh;
+  grid-area: input;
+  align-self: stretch;
+  display: flex;
+  flex: 1;
+  min-width: 0;
+`;
 
-  #input-bar {
-    padding: 8px 8px;
-    border: 1px solid black;
-    border-radius: 4px;
-    box-sizing: border-box;
-    cursor: text;
-    line-height: 1.42;
-    height: 100%;
-    outline: none;
-    overflow-y: auto;
-    padding: 12px 15px;
-    tab-size: 4
-    text-align: left;
-    white-space: pre-wrap;
-    word-wrap: break-word;
+export const MessageInputArea = styled.div`
+  padding: 8px;
+  box-sizing: border-box;
+  cursor: text;
+  line-height: 1.42;
+  height: 100%;
+  width: 100%;
+  outline: none;
+  overflow-y: auto;
+  tab-size: 4;
+  text-align: left;
+  white-space: pre-wrap;
+  word-wrap: break-word;
+
+  :before {
+    color: rgba(0, 0, 0, 0.6);
+    content: attr(data-placeholder);
+    font-style: italic;
+    pointer-events: none;
+    position: absolute;
   }
 
-  .c-member_slug--link{
-    background: rgba(var(--sk_highlight_accent,29,155,209),.1);
-    color: rgba(var(--sk_highlight,18,100,163),1);
+  max-height: calc(60vh - 80px);
+
+  font-size: 15px;
+
+  .c-member_slug--link {
+    background: rgba(var(--sk_highlight_accent, 29, 155, 209), 0.1);
+    color: rgba(var(--sk_highlight, 18, 100, 163), 1);
     padding: 0 2px 1px 2px;
     border-radius: 3px;
   }
 
-  .emoji{
+  .emoji {
     background-position: 50% 50%;
     background-repeat: no-repeat;
     background-size: contain;
@@ -37,17 +50,17 @@ export const Container = styled.div`
     width: 22px;
   }
 
-  em{
+  em {
     font-style: italic;
   }
 
-  s{
+  s {
     text-decoration: line-through;
   }
 
-  code{
-    --saf-0: rgba(var(--sk_foreground_low,29,28,29),0.13);
-    font-family: Monaco,Menlo,Consolas,Courier New,monospace!important;
+  code {
+    --saf-0: rgba(var(--sk_foreground_low, 29, 28, 29), 0.13);
+    font-family: Monaco, Menlo, Consolas, Courier New, monospace !important;
     font-size: 12px;
     line-height: 1.50001;
     font-variant-ligatures: none;
@@ -60,14 +73,13 @@ export const Container = styled.div`
     tab-size: 4;
 
     padding: 2px 3px 1px;
-    border: 1px
-    solid var(--saf-0);
+    border: 1px solid var(--saf-0);
     border-radius: 3px;
-    background-color: rgba(var(--sk_foreground_min,29,28,29),.04);
+    background-color: rgba(var(--sk_foreground_min, 29, 28, 29), 0.04);
     color: #e01e5a;
   }
 
-  ul{
+  ul {
     list-style: disc;
     padding-inline-start: 26px;
   }
@@ -144,7 +156,7 @@ export const Container = styled.div`
     width: calc(100% + 2px);
   }
 
-  #input-bar>.ql-code-block:first-child, #input-bar>:not(.ql-code-block)+.ql-code-block {
+  .ql-code-block:first-child {
     margin-top: 4px;
     padding-top: 8px;
     border-top: 1px solid #dddddd;

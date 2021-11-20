@@ -7,9 +7,9 @@ import {
   makeEmoji,
   makeMention,
 } from '@global/util/inputEventHandlers';
-import { Container } from './styles';
+import { Container, MessageInputArea } from './styles';
 
-const ChatInputBackGround = (): JSX.Element => {
+const WysiwygEditor = (): JSX.Element => {
   const [isEmojiOpen, setIsEmojiOpen] = useState(false);
   const [isMentionOpen, setIsMentionOpen] = useState(false);
   const [input, setInput] = useState('');
@@ -25,7 +25,7 @@ const ChatInputBackGround = (): JSX.Element => {
 
   return (
     <Container>
-      <div
+      <MessageInputArea
         id="input-bar"
         role="textbox"
         contentEditable="true"
@@ -63,7 +63,7 @@ const ChatInputBackGround = (): JSX.Element => {
         <p>
           <br />
         </p>
-      </div>
+      </MessageInputArea>
       <EmojiPopup
         input={input}
         isOpen={isEmojiOpen}
@@ -82,4 +82,4 @@ const ChatInputBackGround = (): JSX.Element => {
   );
 };
 
-export default ChatInputBackGround;
+export default WysiwygEditor;
