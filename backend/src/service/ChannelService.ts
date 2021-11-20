@@ -24,14 +24,11 @@ export async function getAllChannels(req: Request, res: Response) {
       where: [{ userId, workspaceId }],
     });
 
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    console.log(`userID = ${userId} ${VaildUser}`);
-
     if (!VaildUser) {
       throw BAD_REQUEST;
     }
 
-    const [channels, count] = await getCustomRepository(ChannelRepository).findByOffset(
+    const channels = await getCustomRepository(ChannelRepository).findByOffset(
       userId as string,
       workspaceId as string,
       offsetStart as unknown as number,
@@ -39,8 +36,13 @@ export async function getAllChannels(req: Request, res: Response) {
       like as string,
     );
 
+    console.log(channels);
+
+    const count = channels.length;
+
     return res.status(OK).json({ count, channels });
   } catch (error) {
+    console.log(error);
     return res.status(BAD_REQUEST).end();
   }
 }
