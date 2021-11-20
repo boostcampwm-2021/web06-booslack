@@ -10,7 +10,7 @@ const createAndDeleteCodeBlock = (selection, event) => {
     pElement.innerHTML = '<br>';
     parent.insertAdjacentElement('afterend', pElement);
     selection.collapse(pElement, 0);
-  } else if (thisElement.data === '``') {
+  } else if (thisElement.data === '``' && parent.previousSibling === null) {
     parent.insertAdjacentHTML(
       'afterend',
       '<div class="ql-code-block"><br></div>',
