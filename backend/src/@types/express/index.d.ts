@@ -18,6 +18,8 @@ declare module 'express' {
       message: string;
       time: Date;
       code: string;
+      theme: string;
+      fileId: string;
 
       userId: string;
       channelId: string;

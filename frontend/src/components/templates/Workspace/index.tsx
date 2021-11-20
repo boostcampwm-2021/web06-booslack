@@ -1,14 +1,16 @@
 import React, { Suspense } from 'react';
-import { useRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import WorkspaceHeader from '@organisms/WorkspaceHeader';
 import WorkspaceSidebar from '@organisms/WorkspaceSidebar';
 import CreateChannelModal from '@organisms/CreateChannelModal';
 import ChannelInfoModal from '@organisms/ChannelInfoModal';
 import ChannelDescriptionModal from '@organisms/ChannelDescriptionModal';
+import SidebarChannelInfoModal from '@organisms/SidebarChannelInfoModal';
 import {
   channelCreateModalState,
   channelDescriptionModalState,
   channelInfoModalState,
+  sidebarChannelInfoModalState,
 } from '@state/modal';
 import { RowDiv } from './styles';
 
@@ -17,9 +19,10 @@ interface Props {
 }
 
 const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
-  const [channelModal] = useRecoilState(channelCreateModalState);
-  const [infoModal] = useRecoilState(channelInfoModalState);
-  const [descriptionModal] = useRecoilState(channelDescriptionModalState);
+  const channelCreateModal = useRecoilValue(channelCreateModalState);
+  const channelInfoModal = useRecoilValue(channelInfoModalState);
+  const channelDescriptionModal = useRecoilValue(channelDescriptionModalState);
+  const sidebarChannelModal = useRecoilValue(sidebarChannelInfoModalState);
 
   return (
     <>
@@ -30,9 +33,10 @@ const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
           {Content}
         </RowDiv>
       </Suspense>
-      {channelModal && <CreateChannelModal />}
-      {infoModal && <ChannelInfoModal />}
-      {descriptionModal && <ChannelDescriptionModal />}
+      {channelCreateModal && <CreateChannelModal />}
+      {channelInfoModal && <ChannelInfoModal />}
+      {channelDescriptionModal && <ChannelDescriptionModal />}
+      {sidebarChannelModal && <SidebarChannelInfoModal />}
     </>
   );
 };

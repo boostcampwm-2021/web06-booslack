@@ -1,14 +1,8 @@
 import styled from 'styled-components';
 
-interface Props {
-  width: number;
-  height: number;
-}
-
-export const Container = styled.div<Props>`
+export const Container = styled.div`
   display: flex;
   flex-direction: column;
-  width: inherit;
   height: 10vh;
 
   align-items: center;

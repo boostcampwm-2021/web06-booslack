@@ -36,7 +36,7 @@ const ChannelMembers = (): JSX.Element => {
     };
     getUsers();
   }, []);
-
+  console.log(users);
   return (
     <Container>
       <StyledInput

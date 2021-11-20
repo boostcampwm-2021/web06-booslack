@@ -28,7 +28,6 @@ const MentionPopup = ({
         url: `/api/users/workspaces?workspaceId=${1}`, // workspaceId that this channel belongs to
         baseURL: '/',
       });
-      console.log(data.users);
       setUsers(data.users);
     };
     getUsers();

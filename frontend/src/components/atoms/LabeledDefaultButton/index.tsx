@@ -3,7 +3,7 @@ import LabeledButton from '@atoms/LabeledButton';
 import { ButtonSize } from '@enum/index';
 
 interface Props<T> {
-  onClick?: () => void;
+  onClick?: (e) => void;
   width?: number;
   height?: number;
   text: string;
@@ -48,7 +48,7 @@ const LabeledDefaultButton = ({
 };
 
 LabeledDefaultButton.defaultProps = {
-  onClick: () => {},
+  onClick: (e) => {},
   width: ButtonWidth as number,
   height: ButtonHeight as number,
   color: ButtonColor,

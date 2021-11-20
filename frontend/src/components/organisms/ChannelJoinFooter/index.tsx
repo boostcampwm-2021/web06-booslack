@@ -1,42 +1,28 @@
-import React, { useMemo } from 'react';
+import React from 'react';
 import { useRecoilValue } from 'recoil';
-import axios from 'axios';
+import { useParams } from 'react-router-dom';
 import LabeledButton from '@atoms/LabeledButton';
-import { ChatInputSize } from '@enum/index';
 import userState from '@state/user';
+import { joinChannel } from '@global/api/channel';
 import { Container } from './styles';
 
 interface Props {
   channelName: string;
 }
 
-const addUserToChannel = async (
-  userId: number,
-  channelId: number,
-  workspaceId: number,
-) => {
-  await axios.post('/api/channels/userToChannel', {
-    userId,
-    channelId,
-    workspaceId,
-  });
-  window.location.href = window.location.href;
-};
-
 const ChatInputBackGround = ({ channelName }: Props): JSX.Element => {
-  const { width, height } = useMemo(() => {
-    return ChatInputSize;
-  }, []);
-
   const user = useRecoilValue(userState);
+  const { workspaceId, channelId }: { workspaceId: string; channelId: string } =
+    useParams();
 
   return (
-    <Container width={width} height={height}>
+    <Container>
       <div>#{channelName}을(를) 보고 있습니다.</div>
       <div>
         <LabeledButton
-          onClick={() => {
-            addUserToChannel(user.id, user.channelId, user.workspaceId);
+          onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
+            e.stopPropagation();
+            joinChannel(user.id, channelId, workspaceId);
           }}
           text="채널 참여"
         />

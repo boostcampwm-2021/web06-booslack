@@ -1,10 +1,12 @@
 import React, { useState } from 'react';
-import { useRecoilState } from 'recoil';
-import axios from 'axios';
-import { channelCreateModalState } from '@state/modal';
-import useInputs from '@hook/useInputs';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { useParams } from 'react-router-dom';
 import Label from '@atoms/Label';
 import LabeledButton from '@atoms/LabeledButton';
+import useInputs from '@hook/useInputs';
+import { channelCreateModalState } from '@state/modal';
+import userState from '@state/user';
+import { createChanel, joinChannel } from '@global/api/channel';
 import {
   Container,
   ContentContainer,
@@ -26,21 +28,22 @@ const initialData = {
 };
 
 const CreateChannelModal = (): JSX.Element => {
+  const user = useRecoilValue(userState);
+  const { workspaceId }: { workspaceId: string } = useParams();
+
   const [isOpen, setIsOpen] = useRecoilState(channelCreateModalState);
   const [isPrivate, setIsPrivate] = useState(false);
   const [{ name, description }, onChange, clear] = useInputs(initialData);
 
-  const createChannel = async () => {
+  const createChannelAndClose = async () => {
     if (!name) return;
-    await axios({
-      method: 'POST',
-      url: 'api/channels',
-      data: {
-        name,
-        type: isPrivate ? 'private' : 'public',
-        description,
-      },
-    });
+    const { channel } = await createChanel(
+      name,
+      isPrivate,
+      description,
+      workspaceId,
+    );
+    joinChannel(user.id, channel.id, workspaceId);
     clear();
     setIsOpen(false);
   };
@@ -54,7 +57,7 @@ const CreateChannelModal = (): JSX.Element => {
           ) : (
             <HeaderLabel text="Create a channel" />
           )}
-          <LabeledButton text="x" />
+          <LabeledButton onClick={() => setIsOpen(false)} text="x" />
         </Header>
         <ContentContainer>
           <StyledLightLabel text="Channels are where your team communicates.." />
@@ -84,7 +87,7 @@ const CreateChannelModal = (): JSX.Element => {
           </ToggleContainer>
         </ContentContainer>
         <Footer>
-          <StyledLabeledButton text="Create" onClick={createChannel} />
+          <StyledLabeledButton text="Create" onClick={createChannelAndClose} />
         </Footer>
       </Container>
     </StyledModal>
