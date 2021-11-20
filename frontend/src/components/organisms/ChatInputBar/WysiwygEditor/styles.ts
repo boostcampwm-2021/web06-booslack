@@ -156,7 +156,8 @@ export const MessageInputArea = styled.div`
     width: calc(100% + 2px);
   }
 
-  .ql-code-block:first-child {
+  .ql-code-block:first-child,
+  :not(.ql-code-block) + .ql-code-block {
     margin-top: 4px;
     padding-top: 8px;
     border-top: 1px solid #dddddd;

@@ -1,14 +1,16 @@
 import React from 'react';
 import WysiwygEditor from './WysiwygEditor';
+import Toolbar from './toolbar';
 import { Container, WysiwygContainer, NotificationBar } from './styles';
 
 const ChatInputBar = (): JSX.Element => {
   return (
     <Container>
       <WysiwygContainer>
-        <WysiwygEditor></WysiwygEditor>
+        <WysiwygEditor />
+        <Toolbar />
       </WysiwygContainer>
-      <NotificationBar></NotificationBar>
+      <NotificationBar />
     </Container>
   );
 };

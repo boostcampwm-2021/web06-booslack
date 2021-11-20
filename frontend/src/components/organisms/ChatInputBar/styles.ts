@@ -2,7 +2,7 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   padding: 0px 20px;
-  background: #dddddd;
+  background: #ffffff;
 `;
 
 export const NotificationBar = styled.div`
@@ -15,7 +15,7 @@ export const NotificationBar = styled.div`
 export const WysiwygContainer = styled.div`
   border-color: #868686;
   border-radius: 4px;
-  border-style: sold;
+  border-style: solid;
   border-width: 1px;
   background: #ffffff;
 

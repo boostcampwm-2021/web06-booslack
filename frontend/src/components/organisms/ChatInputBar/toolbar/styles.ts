@@ -1,3 +1,4 @@
+import IconButton from '@atoms/IconButton';
 import styled from 'styled-components';
 
 export const Container = styled.div`
@@ -11,6 +12,45 @@ export const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+`;
+
+export const ToolbarMiddle = styled.div`
+  padding: 4px;
+  opacity: 0.2;
+`;
+
+export const ToolbarSuffix = styled.div`
+  padding: 4px;
+  grid-area: suffix;
+  align-items: flex-end;
+  display: flex;
+  flex-shrink: 0;
+`;
+
+export const ToolBarIconButton = styled(IconButton)`
+  background: transparent;
+  color: #1d1c1d;
+  opacity: 0.7;
+  border-radius: 2px;
+  flex: 0 0 32px;
+
+  height: 32px;
+  width: 32px;
+
+  align-items: center;
+  display: inline-flex;
+  justify-content: center;
+  position: relative;
+
+  cursor: pointer;
+
+  margin: 0;
+  padding: 0;
+  border: 0;
+
+  :not(:last-child) {
+    margin-right: 1px;
+  }
 `;
 
 export default Container;
