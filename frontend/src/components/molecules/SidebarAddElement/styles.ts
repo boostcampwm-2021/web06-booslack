@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { theme } from 'styled-tools';
+import { defaultTheme } from '@global/theme';
 
 interface Props {
   width: number;
@@ -12,10 +14,11 @@ export const Container = styled.div<Props>`
   height: 36px;
   width: 100%;
 
+  color: ${theme('smallText', defaultTheme.smallText)};
   &: hover {
     cursor: pointer;
-    background-color: #58606c;
-  } ;
+    background-color: ${theme('focusedMenu', defaultTheme.focusedMenu)};
+  }
 `;
 
 export const StyledLabel = styled.span<Props>`

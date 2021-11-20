@@ -1,4 +1,6 @@
 import styled from 'styled-components';
+import { theme } from 'styled-tools';
+import { defaultTheme } from '@global/theme';
 
 interface Props {
   width: number;
@@ -14,7 +16,7 @@ export const Container = styled.div<Props>`
 
   &: hover {
     cursor: pointer;
-    background-color: #58606c;
+    background-color: ${theme('focusedMenu', defaultTheme.focusedMenu)};
   }
 `;
 

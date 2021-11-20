@@ -1,6 +1,8 @@
 import React, { useRef, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import ImageButton from '@atoms/ImageButton';
 import useRefLocate from '@hook/useRefLocate';
+import userState from '@state/user';
 import { StyledInput, Container, StyledNoOverlayModal } from './styles';
 
 const WorkspaceHeader = (): JSX.Element => {
@@ -9,10 +11,12 @@ const WorkspaceHeader = (): JSX.Element => {
 
   const [xWidth, yHeight] = useRefLocate(ButtonRef, 50);
 
+  const user = useRecoilValue(userState);
+
   return (
     <Container>
       <div />
-      <StyledInput placeholder="Search {채널 이름}" />
+      <StyledInput placeholder={`Search in ${user.nickname ?? 'workspace'}`} />
       <ImageButton
         customRef={ButtonRef}
         width={38}
