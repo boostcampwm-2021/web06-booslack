@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { useParams } from 'react-router-dom';
 import Label from '@atoms/Label';
 import AsyncBranch from '@molecules/AsyncBranch';
 import BrowseChannelHeader from '@molecules/BrowseChannelHeader';
@@ -32,11 +33,14 @@ const BrowseChannelList = (): JSX.Element => {
   const resetCursor = useResetRecoilState(browseCursor);
   const [dbLikedOption, setLikedOption] = useState<string>('');
 
+  const { workspaceId }: { workspaceId: string } = useParams();
+
   const { data, loading, error } = useAsync(
     {
       params: {
         offsetStart: cursorOption,
         sortOption,
+        workspaceId,
         like: dbLikedOption,
       },
     },

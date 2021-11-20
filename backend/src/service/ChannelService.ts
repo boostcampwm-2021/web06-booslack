@@ -9,26 +9,40 @@ import WorkspaceRepository from '../repository/WorkspaceRepository';
 const { BAD_REQUEST, CREATED, OK } = StatusCodes;
 
 export async function getAllChannels(req: Request, res: Response) {
-  const { userId, offsetStart, sortOption, like } = req.query;
+  try {
+    const { offsetStart, sortOption, like, workspaceId } = req.query;
 
-  const CustomRepo = getCustomRepository(ChannelRepository);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const user = req.session.passport?.user;
+    const userId = user ? user[0].id : user;
 
-  let channels;
-  let count;
-  if (req.query) {
-    [channels, count] = await CustomRepo.findByOffset(
-      userId as unknown as number,
-      parseInt(offsetStart as string, 10),
+    if (!userId) {
+      throw BAD_REQUEST;
+    }
+    const VaildUser = await getCustomRepository(UserHasWorkspaceRepository).findOneOrFail({
+      where: [{ userId, workspaceId }],
+    });
+
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    console.log(`userID = ${userId} ${VaildUser}`);
+
+    if (!VaildUser) {
+      throw BAD_REQUEST;
+    }
+
+    const [channels, count] = await getCustomRepository(ChannelRepository).findByOffset(
+      userId as string,
+      workspaceId as string,
+      offsetStart as unknown as number,
       sortOption as unknown as SortOption,
       like as string,
     );
-  } else {
-    [channels, count] = await CustomRepo.findAndCount({
-      relations: ['workspace'],
-    });
-  }
 
-  return res.status(OK).json({ count, channels });
+    return res.status(OK).json({ count, channels });
+  } catch (error) {
+    return res.status(BAD_REQUEST).end();
+  }
 }
 
 export async function getOneChannel(req: Request, res: Response) {

@@ -29,8 +29,9 @@ const getOrderOption = (sortOption: SortOption): OrderOption => {
 
 @EntityRepository(Channel)
 export default class ChannelRepository extends Repository<Channel> {
-  findByOffset(
-    userID: number,
+  async findByOffset(
+    userId: string,
+    workspaceId: string,
     OFFSET: number,
     sortOption: SortOption,
     like: string,
@@ -38,12 +39,40 @@ export default class ChannelRepository extends Repository<Channel> {
   ): Promise<[Channel[], number]> {
     const likeQuery = like ? { name: Like(`%${like}%`) } : null;
 
+    try {
+      console.log(
+        await this.query(
+          `
+          select * from booslack.channel
+          where booslack.channel.id in (
+            select channelId from booslack.user_has_workspace_channel
+            where booslack.user_has_workspace_channel.userHasWorkspaceId = (
+              select id 
+                from booslack.user_has_workspace
+              where (booslack.user_has_workspace.userId = ${userId}
+              and booslack.user_has_workspace.workspaceId = ${workspaceId}
+              and booslack.channel.private = 1
+              ) or 
+              (
+                booslack.user_has_workspace.workspaceId = ${workspaceId}
+                and booslack.channel.private = 0
+              )
+              )
+              
+              );
+        `,
+        ),
+      );
+    } catch (error) {
+      console.log(error);
+    }
+
     return this.findAndCount({
       skip: OFFSET,
       take: LIMIT,
       relations: ['workspace'],
       order: getOrderOption(sortOption),
-      where: [{ ...likeQuery }],
+      where: [{ ...likeQuery, workspaceId }],
     });
   }
 
