@@ -1,35 +1,15 @@
 import React from 'react';
-import { RecoilRoot } from 'recoil';
-import { QueryClient, QueryClientProvider } from 'react-query';
 import ReactDOM from 'react-dom';
 import axios from 'axios';
-import { BrowserRouter } from 'react-router-dom';
 import { render, cleanup, screen, waitFor } from '@testing-library/react';
 import '@testing-library/jest-dom/';
 import 'jest-styled-components';
-
 import WorkspaceList from '@pages/WorkspaceList';
 import userState from '@state/user';
+import DefaultEnvironment from './DefaultEnvironment';
 
 jest.mock('axios');
 const mockedAxios = axios as jest.Mocked<typeof axios>;
-const queryClient = new QueryClient();
-
-const DefaultEnvironment = ({
-  children,
-  initializeState,
-}: {
-  children: JSX.Element;
-  initializeState: any;
-}) => {
-  return (
-    <RecoilRoot initializeState={initializeState ?? null}>
-      <QueryClientProvider client={queryClient}>
-        <BrowserRouter>{children}</BrowserRouter>
-      </QueryClientProvider>
-    </RecoilRoot>
-  );
-};
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
