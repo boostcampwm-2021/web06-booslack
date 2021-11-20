@@ -38,10 +38,15 @@ const ChannelList = ({
     history.push(`/client/${workspaceId}/${channelId}`);
   };
 
-  const isJoined = useMemo(
-    () => !data?.some((channelLists: Channel) => channelLists.id === channelId),
-    [data],
-  );
+  const isJoined = useMemo(() => {
+    if (data) {
+      return !data?.some(
+        (channelLists: Channel) => channelLists.id === channelId,
+      );
+    }
+
+    return false;
+  }, [data]);
 
   return (
     <SpaceBetweenDiv
