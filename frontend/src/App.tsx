@@ -56,14 +56,14 @@ const ThemeContainer = (): JSX.Element => {
           <PrivateRoute component={WorkspaceList} path="/workspacelist" />
           <PrivateRoute component={SetupTeam} path="/setupteam" />
           <PrivateRoute
-            component={Workspace}
-            exact
-            path="/client/:workspaceId/:channelId"
-          />
-          <PrivateRoute
             component={BrowseChannel}
             exact
             path="/client/:workspaceId/browse-channels"
+          />
+          <PrivateRoute
+            component={Workspace}
+            exact
+            path="/client/:workspaceId/:channelId"
           />
           <PrivateRoute component={InvitedCode} path="/invitecode" />
           <PrivateRoute component={GeneratedCode} path="/generatecode" />
