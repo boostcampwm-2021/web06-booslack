@@ -17,7 +17,7 @@ const WorkspaceSidebar = (): JSX.Element => {
   const user = useRecoilValue(userState);
   const { workspaceId }: { workspaceId: string } = useParams();
   const themeContext = useContext(ThemeContext);
-  const { titleText, smallText, focusedMenu } = themeContext;
+  const { titleText, smallText } = themeContext;
 
   const setIsChannelCreateModalOpen = useSetRecoilState(
     channelCreateModalState,

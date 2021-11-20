@@ -40,8 +40,10 @@ export const SpaceBetweenDiv = styled.div<Props>`
 `;
 
 export const MarginedDiv = styled.div`
+  display: flex;
+  min-width: 8vw;
+  justify-content: space-evenly;
   & > button {
-    margin-left: 1vw;
-    margin-right: 1vw;
+    margin-right: 2vw;
   }
 `;

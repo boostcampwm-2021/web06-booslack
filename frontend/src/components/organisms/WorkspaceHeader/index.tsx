@@ -21,7 +21,7 @@ const WorkspaceHeader = (): JSX.Element => {
         customRef={ButtonRef}
         width={38}
         height={38}
-        image="https://www.google.com/url?sa=i&url=https%3A%2F%2Fko.wikipedia.org%2Fwiki%2FYee&psig=AOvVaw3jv837jYrNQRC5johUOZqh&ust=1635839887382000&source=images&cd=vfe&ved=0CAsQjRxqFwoTCIDnp83Y9vMCFQAAAAAdAAAAABAD"
+        image=""
         onClick={() => setModalState(true)}
       />
       <StyledNoOverlayModal
