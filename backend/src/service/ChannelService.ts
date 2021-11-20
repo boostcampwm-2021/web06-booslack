@@ -38,7 +38,7 @@ export async function getAllChannels(req: Request, res: Response) {
 
     console.log(channels);
 
-    const count = channels.length;
+    const count = channels ? channels[0]?.full_count : 0;
 
     return res.status(OK).json({ count, channels });
   } catch (error) {

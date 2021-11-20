@@ -6,18 +6,17 @@ export type SortOption = 'alpha' | 'rAlpha';
 
 @EntityRepository(Channel)
 export default class ChannelRepository extends Repository<Channel> {
-  async findByOffset(
+  findByOffset(
     userId: string,
     workspaceId: string,
     OFFSET: number,
     sortOption: SortOption,
     like: string,
     LIMIT: number = pageLimitCount,
-  ): Promise<Channel[] | []> {
+  ) {
     const likeQuery = (): string => (like ? `name like '%${like}%' and` : '');
-
     const rawQuery = this.query(`
-    select * from booslack.channel
+    select *, count(*) OVER() AS full_count from booslack.channel
     where ${likeQuery()} booslack.channel.id in (
       select channelId from booslack.user_has_workspace_channel
       where booslack.user_has_workspace_channel.userHasWorkspaceId =ANY (
@@ -36,7 +35,7 @@ export default class ChannelRepository extends Repository<Channel> {
     ORDER BY name ${sortOption === 'rAlpha' ? 'DESC' : ''}
     LIMIT ${LIMIT}
     OFFSET ${OFFSET};
-  `) as Promise<Channel[] | []>;
+  `);
 
     return rawQuery;
   }
@@ -47,7 +46,7 @@ export default class ChannelRepository extends Repository<Channel> {
       take: LIMIT,
       relations: ['workspace'],
       order: getOrderOption(sortOption),
-      where: [{ ...likeQuery, workspaceId }],
+      where: [{ ...likeQuery, workspaceId, private: }],
     });
     */
 
