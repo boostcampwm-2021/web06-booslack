@@ -43,7 +43,7 @@ export default class ChannelRepository extends Repository<Channel> {
       take: LIMIT,
       relations: ['workspace'],
       order: getOrderOption(sortOption),
-      where: [{ private: false, ...likeQuery }],
+      where: [{ ...likeQuery }],
     });
   }
 
