@@ -36,8 +36,6 @@ export async function getAllChannels(req: Request, res: Response) {
       like as string,
     );
 
-    console.log(channels);
-
     const count = channels ? channels[0]?.full_count : 0;
 
     return res.status(OK).json({ count, channels });

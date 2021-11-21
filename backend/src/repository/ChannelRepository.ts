@@ -16,70 +16,39 @@ export default class ChannelRepository extends Repository<Channel> {
   ) {
     const likeQuery = (): string => (like ? `name like '%${like}%' and` : '');
 
+    // FULL OUTER JOIN booslack.user_has_workspace_channel as user_has_workspace
+
     const rawQuery = this.query(`
-    select *, COUNT(*) OVER() AS full_count FROM (
-    select *
-      from  booslack.channel
-    where booslack.channel.private = 1 
-    and booslack.channel.id = ANY (
-      select channelId from booslack.user_has_workspace_channel
-      where booslack.user_has_workspace_channel.userHasWorkspaceId =ANY (
-        select id 
-          from booslack.user_has_workspace
-        where booslack.user_has_workspace.userId = ${userId}
-        and booslack.user_has_workspace.workspaceId = ${workspaceId}
-      ))
-    UNION ALL
-    select *
-    from  booslack.channel
-    where booslack.channel.private = 0
-    and booslack.channel.id = ANY (
-    select channelId from booslack.user_has_workspace_channel
-    where booslack.user_has_workspace_channel.userHasWorkspaceId =ANY (
-      select id 
-        from booslack.user_has_workspace
-      where booslack.user_has_workspace.workspaceId = ${workspaceId}
-    ))) as RESULT
+    with tmp as (
+      select 
+      channel.id,
+      channel.name,
+      channel.description,
+      channel.private,
+      joinTable.userId,
+      joinTable.channelId
+      from booslack.channel channel
+      RIGHT JOIN (
+        select channelId, user_has_workspace.userId 
+        from booslack.user_has_workspace_channel user_has_workspace_channel
+        INNER JOIN booslack.user_has_workspace as user_has_workspace
+        ON user_has_workspace_channel.userHasWorkspaceId = user_has_workspace.id
+        AND user_has_workspace.workspaceId = ${workspaceId}
+        ) as joinTable
+      ON booslack.channel.id = joinTable.channelId
+    )
+    SELECT *, COUNT(name) OVER() AS full_count
+    from tmp
+    where ${likeQuery()} ((tmp.private = 0)
+    OR (tmp.userId = ${userId} AND tmp.private = 1))
+    GROUP BY name
     ORDER BY name ${sortOption === 'rAlpha' ? 'DESC' : ''}
     LIMIT ${LIMIT}
     OFFSET ${OFFSET};
-
     `);
-
-    const rawQuery1 = this.query(`
-    select *, count(*) OVER() AS full_count from booslack.channel
-    where ${likeQuery()} booslack.channel.id = ANY (
-      select channelId from booslack.user_has_workspace_channel
-      where booslack.user_has_workspace_channel.userHasWorkspaceId =ANY (
-        select id 
-          from booslack.user_has_workspace
-        where (booslack.user_has_workspace.userId = ${userId}
-        and booslack.user_has_workspace.workspaceId = ${workspaceId}
-        and booslack.channel.private = 1
-        ) or 
-        (
-          booslack.user_has_workspace.workspaceId = ${workspaceId}
-          and booslack.channel.private = 0
-        )
-      )    
-      )
-    ORDER BY name ${sortOption === 'rAlpha' ? 'DESC' : ''}
-    LIMIT ${LIMIT}
-    OFFSET ${OFFSET};
-  `);
 
     return rawQuery;
   }
-
-  /*
-    return this.findAndCount({
-      skip: OFFSET,
-      take: LIMIT,
-      relations: ['workspace'],
-      order: getOrderOption(sortOption),
-      where: [{ ...likeQuery, workspaceId, private: }],
-    });
-    */
 
   findChannelsThatUserIn(userId: string, workspaceId: string) {
     return this.query(
