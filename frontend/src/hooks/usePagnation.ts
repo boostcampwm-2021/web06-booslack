@@ -24,7 +24,12 @@ const usePagnation = (
   const { isLoading, data, error, isFetching, isPreviousData } = useQuery(
     [...key, page],
     () => axiosFunction(page),
-    { keepPreviousData: true, staleTime: 5000, ...option },
+    {
+      keepPreviousData: true,
+      staleTime: 5000,
+      refetchOnWindowFocus: false,
+      ...option,
+    },
   );
 
   useEffect(() => {

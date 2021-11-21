@@ -6,11 +6,7 @@ export const Container = styled.div`
   display: flex;
   justify-content: space-between;
   min-height: 48.99px;
-  width: ${({ width }) => {
-    if (width) return `${width}vw`;
-    else return 'inherit';
-  }};
-
+  
   justify-content: space-between;
   align-items: center;
   }
