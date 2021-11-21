@@ -23,10 +23,17 @@ import {
   ToolBarIconButton,
 } from './styles';
 
-const Toolbar = (): JSX.Element => {
+interface Props {
+  message: string;
+  focused: boolean;
+}
+
+const Toolbar = ({ message, focused }: Props): JSX.Element => {
+  const sendable = message !== '<p><br></p>' && message.length > 8;
+
   return (
     <Container>
-      <ToolbarMiddle>
+      <ToolbarMiddle focused={focused}>
         <ToolBarIconButton onClick={() => {}} icon={BsTypeBold} />
         <ToolBarIconButton onClick={() => {}} icon={BsTypeItalic} />
         <ToolBarIconButton onClick={() => {}} icon={BsTypeStrikethrough} />
@@ -43,7 +50,11 @@ const Toolbar = (): JSX.Element => {
         <ToolBarIconButton onClick={() => {}} icon={BsEmojiSmile} />
         <ToolBarIconButton onClick={() => {}} icon={MdAttachFile} />
         {/* 파일 붙이기는 나중에 인풋 타입으로 바꿔야함  */}
-        <ToolBarIconButton onClick={() => {}} icon={MdSend} />
+        <ToolBarIconButton
+          onClick={() => {}}
+          icon={MdSend}
+          className={sendable ? 'sendButtonActive' : 'sendButtonDisable'}
+        />
       </ToolbarSuffix>
     </Container>
   );

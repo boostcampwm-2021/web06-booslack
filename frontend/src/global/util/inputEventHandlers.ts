@@ -297,6 +297,7 @@ export const inputHandle = (
   setIsEmojiOpen,
   isMentionOpen,
   setIsMentionOpen,
+  setMessage,
 ): void => {
   if (e.nativeEvent.data === '>') {
     const selection = document.getSelection();
@@ -347,6 +348,8 @@ export const inputHandle = (
   checkMentionListOpenPossible(setIsMentionOpen, setInput);
 
   checkEmojiListOpenPossible(setIsEmojiOpen, setInput);
+
+  setMessage(e.target.innerHTML);
 };
 
 export const keydownHandle = (

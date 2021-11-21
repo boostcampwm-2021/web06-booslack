@@ -17,6 +17,8 @@ export const Container = styled.div`
 export const ToolbarMiddle = styled.div`
   padding: 4px;
   opacity: 0.2;
+
+  opacity: ${(props) => (props.focused ? 1 : 0.2)};
 `;
 
 export const ToolbarSuffix = styled.div`
@@ -25,6 +27,16 @@ export const ToolbarSuffix = styled.div`
   align-items: flex-end;
   display: flex;
   flex-shrink: 0;
+
+  .sendButtonActive {
+    background: #007a5a;
+    color: #fff;
+  }
+
+  .sendButtonActive:hover {
+    background: #148567;
+    color: #fff;
+  }
 `;
 
 export const ToolBarIconButton = styled(IconButton)`

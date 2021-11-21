@@ -9,7 +9,12 @@ import {
 } from '@global/util/inputEventHandlers';
 import { Container, MessageInputArea } from './styles';
 
-const WysiwygEditor = (): JSX.Element => {
+interface Props {
+  setMessage: (message: string) => void;
+  setFocused: (focused: boolean) => void;
+}
+
+const WysiwygEditor = ({ setMessage, setFocused }: Props): JSX.Element => {
   const [isEmojiOpen, setIsEmojiOpen] = useState(false);
   const [isMentionOpen, setIsMentionOpen] = useState(false);
   const [input, setInput] = useState('');
@@ -22,6 +27,14 @@ const WysiwygEditor = (): JSX.Element => {
     setInput('');
     setValue(undefined);
   }, [value]);
+
+  const handleOnfocus = () => {
+    setFocused(true);
+  };
+
+  const handleOnBlur = () => {
+    setFocused(false);
+  };
 
   return (
     <Container>
@@ -56,9 +69,12 @@ const WysiwygEditor = (): JSX.Element => {
             setIsEmojiOpen,
             isMentionOpen,
             setIsMentionOpen,
+            setMessage,
           )
         }
         suppressContentEditableWarning="true"
+        onFocus={handleOnfocus}
+        onBlur={handleOnBlur}
       >
         <p>
           <br />
