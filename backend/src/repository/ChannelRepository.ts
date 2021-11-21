@@ -44,7 +44,7 @@ export default class ChannelRepository extends Repository<Channel> {
     GROUP BY name
     ORDER BY name ${sortOption === 'rAlpha' ? 'DESC' : ''}
     LIMIT ${LIMIT}
-    OFFSET ${OFFSET};
+    OFFSET ${OFFSET * pageLimitCount};
     `);
 
     return rawQuery;

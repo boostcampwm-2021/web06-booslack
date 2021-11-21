@@ -34,8 +34,8 @@ const createSpan = (
     return (
       <button
         type="button"
-        key={`browseCursor${element}`}
-        onClick={() => setCursor(element)}
+        key={`browseCursor${element - 1}`}
+        onClick={() => setCursor(element - 1)}
       >
         {element}
       </button>

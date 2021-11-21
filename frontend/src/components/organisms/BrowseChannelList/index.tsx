@@ -33,7 +33,7 @@ const BrowseChannelList = (): JSX.Element => {
   const { workspaceId }: { workspaceId: string } = useParams();
 
   async function getWorkspaceLists(page: number) {
-    const res = axios.get(API.get.channel.all, {
+    const res = await axios.get(API.get.channel.all, {
       params: {
         offsetStart: page,
         sortOption,
@@ -41,12 +41,13 @@ const BrowseChannelList = (): JSX.Element => {
         like: dbLikedOption,
       },
     });
-    return res;
+    return res.data;
   }
 
   const { page, setPage, isFetching, data, error } = usePagnation(
     [sortOption, dbLikedOption],
     getWorkspaceLists,
+    { staleTime: 'Infinity' },
   );
 
   const channelCount = data?.count ?? 0;

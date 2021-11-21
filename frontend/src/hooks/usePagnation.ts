@@ -16,7 +16,7 @@ interface IusePagenation {
 const usePagnation = (
   key: (number | string)[],
   axiosFunction: <T, D>(page: number) => Promise<AxiosResponse<T, D>>,
-  option: typeof Object | undefined = null,
+  option = null,
 ): IusePagenation => {
   const queryClient = useQueryClient();
   const [page, setPage] = useState<number>(0);
@@ -41,7 +41,7 @@ const usePagnation = (
     page,
     setPage,
     isLoading,
-    data: data?.data,
+    data,
     error,
     isFetching,
     isPreviousData,
