@@ -11,7 +11,7 @@ import {
 import userState from '@state/user';
 import { useChannelListQuery } from '@hook/useChannels';
 import { ThemeContext } from 'styled-components';
-import { Container } from './style';
+import { Container, MarginDiv } from './style';
 
 const WorkspaceSidebar = (): JSX.Element => {
   const user = useRecoilValue(userState);
@@ -82,6 +82,7 @@ const WorkspaceSidebar = (): JSX.Element => {
         label="Add Channels"
         onClick={() => setIsChannelCreateModalOpen(true)}
       />
+      <MarginDiv />
     </Container>
   );
 };

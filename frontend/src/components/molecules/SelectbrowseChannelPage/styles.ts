@@ -11,7 +11,7 @@ const Container = styled.div`
   margin-top: 5vh;
 `;
 
-export const StyledButton = styled.button<{ isCursor: boolean }>`
+export const StyledButton = styled.button<{ isCursor?: boolean }>`
   background: transparent;
   border: 0;
 

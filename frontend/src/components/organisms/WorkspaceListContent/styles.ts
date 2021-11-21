@@ -10,6 +10,7 @@ import { flexAlignCenter, hoverChangeColor } from '@global/mixin';
 
 export const StyledHeader = styled(BrowseChannelHeader)`
   min-width: 300px;
+
   background-color: ${theme('smallHeaderColor', defaultTheme.smallHeaderColor)};
   z-index: 3;
 `;

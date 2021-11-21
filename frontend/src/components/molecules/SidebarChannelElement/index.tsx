@@ -20,7 +20,7 @@ const SidebarChannelElement = ({
       <StyledLabel>
         <Label text={isPrivate ? '🔒' : '#'} />
       </StyledLabel>
-      <Label text={label} />
+      <Label text={label.length < 18 ? label : `${label.substr(0, 18)}...`} />
     </Container>
   );
 };

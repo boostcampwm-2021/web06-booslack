@@ -12,8 +12,7 @@ export const Container = styled.div<Props>`
   flex-direction: row;
   align-items: center;
   height: 36px;
-  width: 100%;
-
+  min-width: 250px;
   &: hover {
     cursor: pointer;
     background-color: ${theme('focusedMenu', defaultTheme.focusedMenu)};

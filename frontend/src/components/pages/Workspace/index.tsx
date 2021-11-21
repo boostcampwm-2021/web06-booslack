@@ -6,11 +6,7 @@ import WorkspaceTemplate from '@templates/Workspace';
 const Workspace = (): JSX.Element => {
   const workspaceContent = <WorkspaceContent />;
 
-  return (
-    <>
-      <WorkspaceTemplate Content={workspaceContent} />
-    </>
-  );
+  return <WorkspaceTemplate Content={workspaceContent} />;
 };
 
 export default Workspace;
