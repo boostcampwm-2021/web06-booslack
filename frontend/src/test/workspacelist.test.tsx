@@ -37,7 +37,7 @@ describe('workspacelist page render test', () => {
     expect(mockedAxios.get).not.toHaveBeenCalled();
 
     const initializeState = ({ set }) => {
-      set(userState, { account: 'loda' });
+      set(userState, { account: 'loda', id: 1 });
     };
 
     render(

@@ -6,6 +6,7 @@ import 'jest-styled-components';
 import axios from 'axios';
 import BrowseChannelList from '@organisms/BrowseChannelList';
 import Login from '@pages/Login';
+import userState from '@state/user';
 import DefaultEnvironment from './DefaultEnvironment';
 
 jest.mock('axios');
@@ -41,12 +42,16 @@ describe('page rendering test />', () => {
       },
     ];
 
+    const initializeState = ({ set }) => {
+      set(userState, { account: 'loda', id: 1 });
+    };
+
     mockedAxios.get.mockResolvedValue({ data: { channels } });
 
     expect(axios.get).not.toHaveBeenCalled();
 
     render(
-      <DefaultEnvironment initializeState={undefined}>
+      <DefaultEnvironment initializeState={initializeState}>
         <BrowseChannelList />
       </DefaultEnvironment>,
     );
