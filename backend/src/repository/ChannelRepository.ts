@@ -37,11 +37,11 @@ export default class ChannelRepository extends Repository<Channel> {
         ) as joinTable
       ON booslack.channel.id = joinTable.channelId
     )
-    SELECT *, COUNT(name) OVER() AS full_count
+    SELECT tmp.name, tmp.id, tmp.description, tmp.private, COUNT(name) OVER() AS full_count
     from tmp
     where ${likeQuery()} ((tmp.private = 0)
     OR (tmp.userId = ${userId} AND tmp.private = 1))
-    GROUP BY name
+    GROUP BY tmp.name, tmp.id, tmp.description, tmp.private
     ORDER BY name ${sortOption === 'rAlpha' ? 'DESC' : ''}
     LIMIT ${LIMIT}
     OFFSET ${OFFSET * pageLimitCount};
