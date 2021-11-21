@@ -10,7 +10,6 @@ export const Container = styled.div<Props>`
   height: inherit;
   min-height: 40vh;
   width: ${(props) => props.width ?? 'inherit'};
-  background-color: grey;
   ${RoundScrollBar}
   overflow-y: scroll;
   overflow-x: hidden;

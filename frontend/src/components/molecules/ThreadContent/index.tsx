@@ -1,32 +1,45 @@
 import React from 'react';
 import ImageButton from '@atoms/ImageButton';
-import Label from '@atoms/Label';
-import { Container, TextSet } from './styles';
+import {
+  Container,
+  MessageKit,
+  MessageKitLeft,
+  MessageKitRight,
+  MessageSender,
+  MessageTimestamp,
+  MessageText,
+} from './styles';
 
 interface Props {
-  firstLabelContent: string | undefined;
-  secondLabelContent: string | undefined;
+  nickname: string;
+  message: string;
+  createdTime: string;
 }
 
 const ThreadContent = ({
-  firstLabelContent,
-  secondLabelContent,
+  nickname,
+  message,
+  createdTime,
 }: Props): JSX.Element => {
   return (
     <Container>
-      <ImageButton
-        onClick={() => {
-          console.log('img');
-        }}
-        width={30}
-        height={30}
-        image="./img"
-      />
-      <TextSet>
-        <Label text={firstLabelContent || 'user name'} />
-        <Label text={secondLabelContent || ' time '} />
-        <div>content insert here</div>
-      </TextSet>
+      <MessageKit>
+        <MessageKitLeft>
+          <ImageButton
+            onClick={() => {}}
+            height={36}
+            width={36}
+            image="../../../../public/default_account.png"
+          />
+        </MessageKitLeft>
+        <MessageKitRight>
+          <MessageSender>{nickname}</MessageSender>
+          &nbsp; &nbsp;
+          <MessageTimestamp>{createdTime}</MessageTimestamp>
+          <br />
+          <MessageText>{message}</MessageText>
+        </MessageKitRight>
+      </MessageKit>
     </Container>
   );
 };

@@ -14,6 +14,7 @@ export async function getAllThreadsByChannelId(req: Request, res: Response) {
 
     const threads = await getRepository(Thread).find({
       where: [{ channelId }],
+      relations: ['userHasWorkspace'],
     });
 
     return res.status(OK).json({ threads });
