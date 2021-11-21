@@ -1,11 +1,11 @@
 import React from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
-import { browseCursor, browseCursorValue } from '@state/Channel';
 import { pageLimitCount } from '@enum/index';
 import Container from './styles';
 
 interface Props {
   dataCount: number;
+  cursor: number;
+  setCursor: (number) => void;
 }
 
 const pageNumber = 5;
@@ -43,9 +43,12 @@ const createSpan = (
   });
 };
 
-const SelectbrowseChannelPage = ({ dataCount }: Props): JSX.Element => {
-  const [cursor, setCursor] = useRecoilState(browseCursor);
-  const cursorValue = useRecoilValue(browseCursorValue);
+const SelectbrowseChannelPage = ({
+  dataCount,
+  cursor,
+  setCursor,
+}: Props): JSX.Element => {
+  const cursorValue = (cursor - 1) * pageLimitCount;
   const SpanContainer = createSpan(cursor, cursorValue, dataCount, setCursor);
 
   const moveLeft = (): number => {

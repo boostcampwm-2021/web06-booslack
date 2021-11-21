@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
-import { useRecoilValue, useResetRecoilState } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { useParams } from 'react-router-dom';
+import axios from 'axios';
+
 import Label from '@atoms/Label';
 import AsyncBranch from '@molecules/AsyncBranch';
 import BrowseChannelHeader from '@molecules/BrowseChannelHeader';
@@ -9,14 +11,11 @@ import SearchBar from '@molecules/SearchBar';
 import SelectbrowseChannelPage from '@molecules/SelectbrowseChannelPage';
 import BrowseMordalContainer from '@organisms/BrowseMordalContainer';
 import { BrowserChannelListSize, CHANNELTYPE } from '@enum/index';
-import useAsync from '@hook/useAsync';
+import usePagnation from '@hook/usePagnation';
 import API from '@global/api';
 import { SortOption } from '@global/type';
-import {
-  browseChannelSortOption,
-  browseCursor,
-  browseCursorValue,
-} from '@state/Channel';
+import { browseChannelSortOption } from '@state/Channel';
+
 import {
   Container,
   ScrollBox,
@@ -29,23 +28,25 @@ const { width: ListWidth, height: ListHeight } = BrowserChannelListSize;
 
 const BrowseChannelList = (): JSX.Element => {
   const sortOption = useRecoilValue<SortOption>(browseChannelSortOption);
-  const cursorOption = useRecoilValue<number>(browseCursorValue);
-  const resetCursor = useResetRecoilState(browseCursor);
   const [dbLikedOption, setLikedOption] = useState<string>('');
 
   const { workspaceId }: { workspaceId: string } = useParams();
 
-  const { data, loading, error } = useAsync(
-    {
+  async function getWorkspaceLists(page: number) {
+    const res = axios.get(API.get.channel.all, {
       params: {
-        offsetStart: cursorOption,
+        offsetStart: page,
         sortOption,
         workspaceId,
         like: dbLikedOption,
       },
-    },
-    API.get.channel.all,
-    [sortOption, cursorOption, dbLikedOption],
+    });
+    return res;
+  }
+
+  const { page, setPage, isFetching, data, error } = usePagnation(
+    [sortOption, dbLikedOption],
+    getWorkspaceLists,
   );
 
   const channelCount = data?.count ?? 0;
@@ -55,7 +56,7 @@ const BrowseChannelList = (): JSX.Element => {
 
     const target = e.target as HTMLFormElement;
     const { value } = target.firstChild as HTMLInputElement;
-    resetCursor();
+    setPage(0);
     setLikedOption(value);
   };
 
@@ -103,10 +104,14 @@ const BrowseChannelList = (): JSX.Element => {
       </CenterAlignedDiv>
       <ChannelListBackground>
         <ScrollBox width={ListWidth}>
-          <AsyncBranch data={data} loading={loading} error={error}>
+          <AsyncBranch data={data} loading={isFetching} error={error}>
             <GetListByGET />
           </AsyncBranch>
-          <SelectbrowseChannelPage dataCount={channelCount} />
+          <SelectbrowseChannelPage
+            dataCount={channelCount}
+            cursor={page}
+            setCursor={setPage}
+          />
           <MarginBottomDiv margin={30} />
         </ScrollBox>
       </ChannelListBackground>

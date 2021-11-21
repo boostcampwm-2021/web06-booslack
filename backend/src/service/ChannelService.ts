@@ -20,13 +20,9 @@ export async function getAllChannels(req: Request, res: Response) {
     if (!userId) {
       throw BAD_REQUEST;
     }
-    const VaildUser = await getCustomRepository(UserHasWorkspaceRepository).findOneOrFail({
+    await getCustomRepository(UserHasWorkspaceRepository).findOneOrFail({
       where: [{ userId, workspaceId }],
     });
-
-    if (!VaildUser) {
-      throw BAD_REQUEST;
-    }
 
     const channels = await getCustomRepository(ChannelRepository).findByOffset(
       userId as string,
@@ -40,7 +36,6 @@ export async function getAllChannels(req: Request, res: Response) {
 
     return res.status(OK).json({ count, channels });
   } catch (error) {
-    console.log(error);
     return res.status(BAD_REQUEST).end();
   }
 }

@@ -1,11 +1,10 @@
 import React, { useContext } from 'react';
 import { ThemeContext } from 'styled-components';
 import { InfiniteData } from 'react-query';
-import { Data } from '@hook/useAsync';
 import Container, { LoadingSpinner, MarginDiv } from './styles';
 
 interface Props {
-  data: Data | unknown[] | InfiniteData<unknown>;
+  data: unknown[] | InfiniteData<unknown>;
   loading: boolean;
   error: Error | unknown;
   children: JSX.Element | JSX.Element[];
