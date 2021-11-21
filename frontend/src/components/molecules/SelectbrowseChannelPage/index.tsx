@@ -20,7 +20,7 @@ const createSpan = (
 
   // eslint-disable-next-line operator-linebreak
   const leftSide =
-    cursorValue - pageNumber * pageLimitCount > 0 ? cursor - pageNumber : 1;
+    cursorValue - pageNumber * pageLimitCount > 0 ? cursor - pageNumber + 1 : 1;
 
   for (
     let i = (leftSide - 1) * pageLimitCount, index = leftSide, count = 0;
@@ -52,7 +52,7 @@ const SelectbrowseChannelPage = ({
   const SpanContainer = createSpan(cursor, cursorValue, dataCount, setCursor);
 
   const moveLeft = (): number => {
-    return cursorValue - 10 * pageLimitCount > 0 ? cursor - pageNumber * 2 : 1;
+    return cursorValue - 10 * pageLimitCount > 0 ? cursor - pageNumber * 2 : 0;
   };
 
   const moveRight = (): number => {
