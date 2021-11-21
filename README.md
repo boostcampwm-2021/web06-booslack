@@ -5,7 +5,7 @@
 booslack은 팀원들과 원활한 소통을 할 수 있게 채팅 및 화상회의를 지원해주는 협업 도구입니다.
 
 <p align="center">
- <img src="https://user-images.githubusercontent.com/42922298/139284485-809eefac-2fbd-48d9-85e7-d3bafdecf0ff.png" />
+ <img src="https://user-images.githubusercontent.com/42922298/142765977-fb0146f3-6014-4a17-a317-7ba33965759f.jpg" />
 </p>
 
 # 👨‍👧‍👦 Member
@@ -21,6 +21,7 @@ booslack은 팀원들과 원활한 소통을 할 수 있게 채팅 및 화상회
 ![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
 ![TypeScript](https://img.shields.io/badge/typescript-%23007ACC.svg?style=for-the-badge&logo=typescript&logoColor=white)
 ![Recoil](https://img.shields.io/badge/recoil-%23593d88.svg?style=for-the-badge&logoColor=white)
+![React Query](https://img.shields.io/badge/React_Query-CA4245?style=for-the-badge&logoColor=white)
 
 ### 🔗 Backend
 
