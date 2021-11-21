@@ -1,6 +1,6 @@
 import React from 'react';
 import { pageLimitCount } from '@enum/index';
-import Container from './styles';
+import Container, { StyledButton } from './styles';
 
 interface Props {
   dataCount: number;
@@ -20,10 +20,10 @@ const createSpan = (
 
   // eslint-disable-next-line operator-linebreak
   const leftSide =
-    cursorValue - pageNumber * pageLimitCount > 0 ? cursor - pageNumber + 1 : 1;
+    cursorValue - pageNumber * pageLimitCount > 0 ? cursor - pageNumber : 0;
 
   for (
-    let i = (leftSide - 1) * pageLimitCount, index = leftSide, count = 0;
+    let i = leftSide * pageLimitCount, index = leftSide, count = 0;
     i < dataCount && count < 10;
     i += pageLimitCount, index += 1, count += 1
   ) {
@@ -32,13 +32,14 @@ const createSpan = (
 
   return divContainer.map((element: number) => {
     return (
-      <button
+      <StyledButton
         type="button"
-        key={`browseCursor${element - 1}`}
-        onClick={() => setCursor(element - 1)}
+        isCursor={cursor === element}
+        key={`browseCursor${element}`}
+        onClick={() => setCursor(element)}
       >
-        {element}
-      </button>
+        {element + 1}
+      </StyledButton>
     );
   });
 };
@@ -48,7 +49,7 @@ const SelectbrowseChannelPage = ({
   cursor,
   setCursor,
 }: Props): JSX.Element => {
-  const cursorValue = (cursor - 1) * pageLimitCount;
+  const cursorValue = 1 + (cursor - 1) * pageLimitCount;
   const SpanContainer = createSpan(cursor, cursorValue, dataCount, setCursor);
 
   const moveLeft = (): number => {
@@ -57,24 +58,24 @@ const SelectbrowseChannelPage = ({
 
   const moveRight = (): number => {
     return cursorValue + 10 * pageLimitCount < dataCount
-      ? cursor + pageNumber * 2
+      ? cursor + pageNumber * 2 - 1
       : cursor;
   };
 
   return (
     <Container>
-      <button type="button" onClick={() => setCursor(moveLeft())}>
+      <StyledButton type="button" onClick={() => setCursor(moveLeft())}>
         {'<'}
-      </button>
+      </StyledButton>
       {SpanContainer}
-      <button
+      <StyledButton
         type="button"
         onClick={() => {
           setCursor(moveRight());
         }}
       >
         {'>'}
-      </button>
+      </StyledButton>
     </Container>
   );
 };
