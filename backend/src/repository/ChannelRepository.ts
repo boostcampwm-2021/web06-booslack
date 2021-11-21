@@ -15,9 +15,40 @@ export default class ChannelRepository extends Repository<Channel> {
     LIMIT: number = pageLimitCount,
   ) {
     const likeQuery = (): string => (like ? `name like '%${like}%' and` : '');
+
     const rawQuery = this.query(`
+    select *, COUNT(*) OVER() AS full_count FROM (
+    select *
+      from  booslack.channel
+    where booslack.channel.private = 1 
+    and booslack.channel.id = ANY (
+      select channelId from booslack.user_has_workspace_channel
+      where booslack.user_has_workspace_channel.userHasWorkspaceId =ANY (
+        select id 
+          from booslack.user_has_workspace
+        where booslack.user_has_workspace.userId = ${userId}
+        and booslack.user_has_workspace.workspaceId = ${workspaceId}
+      ))
+    UNION ALL
+    select *
+    from  booslack.channel
+    where booslack.channel.private = 0
+    and booslack.channel.id = ANY (
+    select channelId from booslack.user_has_workspace_channel
+    where booslack.user_has_workspace_channel.userHasWorkspaceId =ANY (
+      select id 
+        from booslack.user_has_workspace
+      where booslack.user_has_workspace.workspaceId = ${workspaceId}
+    ))) as RESULT
+    ORDER BY name ${sortOption === 'rAlpha' ? 'DESC' : ''}
+    LIMIT ${LIMIT}
+    OFFSET ${OFFSET};
+
+    `);
+
+    const rawQuery1 = this.query(`
     select *, count(*) OVER() AS full_count from booslack.channel
-    where ${likeQuery()} booslack.channel.id in (
+    where ${likeQuery()} booslack.channel.id = ANY (
       select channelId from booslack.user_has_workspace_channel
       where booslack.user_has_workspace_channel.userHasWorkspaceId =ANY (
         select id 
