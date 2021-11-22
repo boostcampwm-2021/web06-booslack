@@ -1,42 +1,36 @@
-import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import React from 'react';
+import { useParams } from 'react-router-dom';
 import useInputs from '@hook/useInputs';
+import { useUserListWithChannelInfoQuery } from '@hook/useUsers';
 import Autocomplete from '@atoms/Autocomplete';
 import MemberElement from './MemberElement';
-import { Container, ScrollContainer, StyledInput } from './styles';
 import MemberTemplate from './MemberTemplate';
+import { Container, ScrollContainer, StyledInput } from './styles';
 
 const Unfiltered = ({ users }: { users: any[] }): JSX.Element => {
   return (
     <>
       <MemberElement key={0} nickname="Add people" email="" />
       {users.map((user) => (
-        <MemberElement
-          key={user.id}
-          nickname={user.name}
-          email={user.profile}
-        />
+        <MemberElement key={user.id} nickname={user.nickname} />
       ))}
     </>
   );
 };
 
 const ChannelMembers = (): JSX.Element => {
-  const [users, setUsers] = useState([]);
+  const { workspaceId, channelId }: { workspaceId: string; channelId: string } =
+    useParams();
   const [{ input }, onChange, clear] = useInputs({ input: '' });
 
-  useEffect(() => {
-    const getUsers = async () => {
-      const { data } = await axios({
-        method: 'GET',
-        url: `api/users/workspaces?workspaceId=${1}`, // workspaceId that this channel belongs to
-        baseURL: '/',
-      });
-      setUsers(data.users);
-    };
-    getUsers();
-  }, []);
-  console.log(users);
+  const { isLoading, isError, data } = useUserListWithChannelInfoQuery(
+    workspaceId,
+    channelId,
+  );
+
+  if (isLoading) return <div>Loading</div>;
+  if (isError) return <div>Error</div>;
+
   return (
     <Container>
       <StyledInput
@@ -49,13 +43,13 @@ const ChannelMembers = (): JSX.Element => {
         {input ? (
           <Autocomplete
             input={input}
-            filter={(user) => user.name.includes(input)}
-            filterList={users}
+            filter={(user) => user.nickname.includes(input)}
+            filterList={data}
             setValue={() => {}} // open user profile
             ResultTemplate={MemberTemplate}
           />
         ) : (
-          <Unfiltered users={users} />
+          <Unfiltered users={data} />
         )}
       </ScrollContainer>
     </Container>

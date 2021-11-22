@@ -22,6 +22,10 @@ const initializeSocket = (httpServer: http.Server) => {
     socket.on('channels', (workspaceId) => {
       namespace.emit('channels', workspaceId);
     });
+
+    socket.on('channel', (channelId) => {
+      namespace.emit('channel', channelId);
+    });
   });
 };
 

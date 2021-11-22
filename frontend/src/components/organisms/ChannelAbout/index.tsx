@@ -1,11 +1,26 @@
 import React from 'react';
-import { useRecoilState } from 'recoil';
-import { channelDescriptionModalState } from '@state/modal';
+import { useSetRecoilState } from 'recoil';
+import { useParams } from 'react-router-dom';
+import { useChannelQuery } from '@hook/useChannels';
+import {
+  channelDescriptionModalState,
+  channelTopicModalState,
+} from '@state/modal';
 import AboutElement from './AboutElement';
 import { BackgroundContainer, Container } from './styles';
 
 const ChannelAbout = (): JSX.Element => {
-  const [, setIsOpen] = useRecoilState(channelDescriptionModalState);
+  const { channelId }: { channelId: string } = useParams();
+
+  const setChannelDescriptionModalIsOpen = useSetRecoilState(
+    channelDescriptionModalState,
+  );
+  const setChannelTopicModalIsOpen = useSetRecoilState(channelTopicModalState);
+
+  const { isLoading, isError, data } = useChannelQuery(channelId);
+
+  if (isLoading) return <div>Loading</div>;
+  if (isError) return <div>Error</div>;
 
   return (
     <BackgroundContainer>
@@ -14,16 +29,15 @@ const ChannelAbout = (): JSX.Element => {
           light
           edit
           title="Topic"
-          description="Add a topic || topic"
-          onClick={() => console.log('edit topic')}
+          description={data.topic ?? 'Add a topic'}
+          onClick={() => setChannelTopicModalIsOpen(true)}
         />
         <AboutElement
           edit
           title="Description"
-          description="team description"
-          onClick={() => setIsOpen(true)}
+          description={data.description ?? 'Add a description'}
+          onClick={() => setChannelDescriptionModalIsOpen(true)}
         />
-        <AboutElement title="Created by" description="create by at when" />
         <AboutElement
           red
           title="Leave channel"

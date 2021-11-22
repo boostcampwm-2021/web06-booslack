@@ -1,3 +1,4 @@
+import { Channel } from '@global/type';
 import axios from 'axios';
 
 // refresh required
@@ -27,5 +28,11 @@ export const createChanel = async (
     workspaceId,
   });
   socket.emit('channels', workspaceId);
+  return res.data;
+};
+
+export const updateChannel = async (data: Channel, socket): Promise<any> => {
+  const res = await axios.put(`/api/channels/${data.id}`, data);
+  socket.emit('channel', data.id);
   return res.data;
 };

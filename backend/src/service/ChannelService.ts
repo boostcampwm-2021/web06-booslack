@@ -70,6 +70,7 @@ export async function addOneChannel(req: Request, res: Response) {
     }
 
     channel.workspace = workspace;
+    channel.topic = '';
     const ChannelRepo = getCustomRepository(ChannelRepository);
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -85,14 +86,15 @@ export async function updateOneChannel(req: Request, res: Response) {
   const { id } = req.params;
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const { name, isPrivate, description } = req.body;
+  const { name, topic, description } = req.body;
+
   try {
     if (Object.keys(req.body).length === 0) throw new Error('no channel data in body');
     const channelById = await getCustomRepository(ChannelRepository).findOneOrFail(id);
     channelById.name = name || channelById.name;
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    channelById.private = isPrivate || channelById.private;
+    channelById.topic = topic || channelById.topic;
     channelById.description = description || channelById.description;
     const channel = await getCustomRepository(ChannelRepository).save(channelById);
     return res.status(OK).json({ channel });

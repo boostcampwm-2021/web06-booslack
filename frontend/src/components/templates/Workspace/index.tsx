@@ -9,11 +9,13 @@ import CreateChannelModal from '@organisms/CreateChannelModal';
 import ChannelInfoModal from '@organisms/ChannelInfoModal';
 import ChannelDescriptionModal from '@organisms/ChannelDescriptionModal';
 import SidebarChannelInfoModal from '@organisms/SidebarChannelInfoModal';
+import ChannelTopicModal from '@organisms/ChannelTopicModal';
 import { initializeSocket } from '@hook/useSocket';
 import {
   channelCreateModalState,
   channelDescriptionModalState,
   channelInfoModalState,
+  channelTopicModalState,
   sidebarChannelInfoModalState,
 } from '@state/modal';
 import userState from '@state/user';
@@ -27,6 +29,7 @@ const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
   const channelCreateModal = useRecoilValue(channelCreateModalState);
   const channelInfoModal = useRecoilValue(channelInfoModalState);
   const channelDescriptionModal = useRecoilValue(channelDescriptionModalState);
+  const channelTopicModal = useRecoilValue(channelTopicModalState);
   const sidebarChannelModal = useRecoilValue(sidebarChannelInfoModalState);
 
   const { workspaceId }: { workspaceId: string } = useParams();
@@ -68,6 +71,12 @@ const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
         refetchActive: true,
       });
     });
+
+    user.socket.on('channel', (channelId) => {
+      queryClient.invalidateQueries(['channel', channelId], {
+        refetchActive: true,
+      });
+    });
   }, [user.socket, queryClient]);
 
   return (
@@ -81,8 +90,9 @@ const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
       </Suspense>
       {channelCreateModal && <CreateChannelModal />}
       {channelInfoModal && <ChannelInfoModal />}
-      {channelDescriptionModal && <ChannelDescriptionModal />}
       {sidebarChannelModal && <SidebarChannelInfoModal />}
+      {channelDescriptionModal && <ChannelDescriptionModal />}
+      {channelTopicModal && <ChannelTopicModal />}
     </>
   );
 };
