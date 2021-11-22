@@ -8,6 +8,7 @@ interface Props {
   children: JSX.Element;
   onClose: () => void;
   customRef: RefObject<HTMLElement>;
+  className?: string;
 }
 
 const NoOverlayModal = ({
@@ -17,6 +18,7 @@ const NoOverlayModal = ({
   onClose,
   customRef,
   children,
+  className,
 }: Props): JSX.Element => {
   return (
     <Container
@@ -26,6 +28,7 @@ const NoOverlayModal = ({
       isOpen={isOpened}
       onClose={onClose}
       zIndex={90}
+      className={className}
     >
       {children}
     </Container>

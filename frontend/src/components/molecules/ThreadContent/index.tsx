@@ -16,12 +16,20 @@ interface Props {
   nickname: string;
   message: string;
   createdTime: string;
+  threadId: string;
+  userHasWorkspaceId: string;
+  threads: string[];
+  setThreads: () => void;
 }
 
 const ThreadContent = ({
   nickname,
   message,
   createdTime,
+  threadId,
+  userHasWorkspaceId,
+  threads,
+  setThreads,
 }: Props): JSX.Element => {
   const [hoverState, setHoverState] = useState(false);
   const handleHoverIn = () => {
@@ -50,7 +58,14 @@ const ThreadContent = ({
           <MessageText dangerouslySetInnerHTML={{ __html: message }} />
         </MessageKitRight>
       </MessageKit>
-      {hoverState && <ThreadActions />}
+      {hoverState && (
+        <ThreadActions
+          threadId={threadId}
+          userHasWorkspaceId={userHasWorkspaceId}
+          threads={threads}
+          setThreads={setThreads}
+        />
+      )}
     </Container>
   );
 };

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { RefObject } from 'react';
 import { IconType } from 'react-icons';
 import Container from './styles';
 
@@ -8,6 +8,7 @@ interface Props<T> {
   height?: number;
   icon: IconType;
   className?: T;
+  customRef?: undefined | RefObject<HTMLButtonElement>;
 }
 
 const IconButton = ({
@@ -16,6 +17,7 @@ const IconButton = ({
   height,
   icon,
   className,
+  customRef,
 }: Props<typeof className>): JSX.Element => {
   const Icon = icon;
   return (
@@ -24,6 +26,7 @@ const IconButton = ({
       height={height}
       onClick={onClick}
       className={className}
+      ref={customRef}
     >
       <Icon />
     </Container>
@@ -32,6 +35,9 @@ const IconButton = ({
 
 IconButton.defaultProps = {
   className: {},
+  width: 30,
+  height: 30,
+  customRef: undefined,
 };
 
 export default IconButton;
