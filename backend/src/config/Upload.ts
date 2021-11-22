@@ -13,6 +13,7 @@ const s3 = new AWS.S3({
 const storage = multerS3({
   s3,
   bucket: process.env.NCLOUD_BUCKET || 'booslack',
+  // eslint-disable-next-line @typescript-eslint/unbound-method
   contentType: multerS3.AUTO_CONTENT_TYPE,
   acl: 'public-read',
   key: (req, file, callback) => {

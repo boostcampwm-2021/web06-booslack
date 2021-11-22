@@ -5,7 +5,7 @@ import workspaceRouter from './WorkspaceController';
 import loginRouter from './LoginController';
 import threadRouter from './ThreadController';
 import userHasWorkspaceRouter from './UserHasWorkspaceController';
-import FileRouter from './FileController';
+import FileRouter from './FilesController';
 
 const baseRouter = Router();
 baseRouter.use('/users', userRouter);
