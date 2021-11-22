@@ -2,7 +2,6 @@ import React from 'react';
 
 import {
   StyledLabel,
-  MarginDiv,
   RowDiv,
   ColDiv,
   StyledImageBox,
@@ -45,7 +44,6 @@ const AboutUs = (): JSX.Element => {
             openFunction('https://github.com/lodado');
           }}
         />
-        <MarginDiv />
         <NameBox
           image="https://github.com/loin3.png"
           code="J197"
@@ -78,7 +76,6 @@ const AboutUs = (): JSX.Element => {
           }}
         />
 
-        <MarginDiv />
         <NameBox
           code="J102"
           image="https://github.com/blogSoul.png"

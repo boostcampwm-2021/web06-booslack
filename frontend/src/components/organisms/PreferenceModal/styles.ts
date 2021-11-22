@@ -53,13 +53,10 @@ export const StyledDivLists = styled(DivLists)<{
 
 export const RowDiv = styled.div`
   display: flex;
-  width: inherit;
+  width: 100%;
   height: inherit;
   flex-direction: row;
-`;
-
-export const MarginDiv = styled.div`
-  margin: 40px;
+  justify-content: space-around;
 `;
 
 export const ColDiv = styled.div`
