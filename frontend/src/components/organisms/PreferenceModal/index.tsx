@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { useRecoilState } from 'recoil';
 import { preferenceModalState } from '@state/modal';
 import PreferenceMenuContent from './PreferenceMenuContent';
-import AboutUs from './AboutUs';
+import AboutUs from './AboutUs/AboutUs';
+import ThemeSelect from './ThemeSelect/ThemeSelect';
 import {
   Container,
   StyledTitleLabel,
@@ -16,6 +17,8 @@ const selectedContent = ({ isClicked }: { isClicked: number }): JSX.Element => {
   switch (isClicked) {
     case 1:
       return <AboutUs />;
+    case 2:
+      return <ThemeSelect />;
     default:
       return <></>;
   }
@@ -23,7 +26,7 @@ const selectedContent = ({ isClicked }: { isClicked: number }): JSX.Element => {
 
 const PreferenceModal = (): JSX.Element => {
   const [isOpen, setIsOpen] = useRecoilState(preferenceModalState);
-  const [isClicked, setClick] = useState<number>(-1);
+  const [isClicked, setClick] = useState<number>(1);
 
   return (
     <StyledModal isOpen={isOpen} onClose={() => setIsOpen(false)} zIndex={100}>

@@ -2,11 +2,11 @@ import React from 'react';
 
 import {
   StyledLabel,
-  RowDiv,
+  RowSpaceAroundDiv,
   ColDiv,
   StyledImageBox,
   MiddleDiv,
-} from './styles';
+} from '../styles';
 
 const NameBox = ({
   code,
@@ -35,7 +35,7 @@ const openFunction = (url: string) => {
 const AboutUs = (): JSX.Element => {
   return (
     <>
-      <RowDiv>
+      <RowSpaceAroundDiv>
         <NameBox
           image="https://github.com/lodado.png"
           code="J166"
@@ -52,7 +52,7 @@ const AboutUs = (): JSX.Element => {
             openFunction('https://github.com/loin3');
           }}
         />
-      </RowDiv>
+      </RowSpaceAroundDiv>
       <MiddleDiv>
         <a
           href="https://github.com/boostcampwm-2021/web06-booslack"
@@ -66,7 +66,7 @@ const AboutUs = (): JSX.Element => {
         </a>
       </MiddleDiv>
 
-      <RowDiv>
+      <RowSpaceAroundDiv>
         <NameBox
           code="J091"
           image="https://github.com/laz.png"
@@ -84,7 +84,7 @@ const AboutUs = (): JSX.Element => {
             openFunction('https://github.com/blogSoul');
           }}
         />
-      </RowDiv>
+      </RowSpaceAroundDiv>
     </>
   );
 };
