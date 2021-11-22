@@ -19,6 +19,7 @@ import {
   channelTopicModalState,
   sidebarChannelInfoModalState,
 } from '@state/modal';
+import { useWorkspaceQuery } from '@hook/useWorkspace';
 import userState from '@state/user';
 import { RowDiv } from './styles';
 
@@ -35,6 +36,7 @@ const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
 
   const { workspaceId }: { workspaceId: string } = useParams();
   const [user, setUser] = useRecoilState(userState);
+  useWorkspaceQuery(workspaceId);
 
   const queryClient = useQueryClient();
 

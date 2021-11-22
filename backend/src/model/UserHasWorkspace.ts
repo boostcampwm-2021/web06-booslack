@@ -5,17 +5,20 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   CreateDateColumn,
+  ManyToMany,
+  JoinTable,
 } from 'typeorm';
 import User from './User';
 import Workspace from './Workspace';
 import Thread from './Thread';
 import Reply from './Reply';
 import Reaction from './Reaction';
+import Channel from './Channel';
 
 @Entity()
 class UserHasWorkspace {
   @PrimaryGeneratedColumn()
-  id!: number
+  id!: number;
 
   @Column({ nullable: true })
   nickname!: string;
@@ -36,7 +39,7 @@ class UserHasWorkspace {
   fileId!: number;
 
   @CreateDateColumn({ type: 'timestamp' })
-  createdAt!: Date
+  createdAt!: Date;
 
   @OneToMany(() => Reply, (reply) => reply.userHasWorkspace)
   replys!: Reply[];
@@ -52,6 +55,12 @@ class UserHasWorkspace {
 
   @ManyToOne(() => User, (user) => user.userHasWorkspaces)
   user!: User;
+
+  @ManyToMany(() => Channel)
+  @JoinTable({
+    name: 'user_has_workspace_channel',
+  })
+  channels!: Channel[];
 }
 
 export default UserHasWorkspace;

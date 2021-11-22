@@ -1,16 +1,14 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { useHistory, useParams } from 'react-router-dom';
-import axios from 'axios';
 
 import DivLists from '@atoms/DivLists';
 import ImageButton from '@atoms/ImageButton';
 import Label from '@atoms/Label';
 import defaultProfile from '@global/image/default_account.png';
-import { getCode } from '@global/util';
-import API from '@global/api';
 import { logout } from '@global/util/auth';
 import userState from '@state/user';
+import { useWorkspaceQuery } from '@hook/useWorkspace';
 import Container, { RedDivLists, GreyLine } from './styles';
 
 interface Props {
@@ -21,19 +19,10 @@ const WorkspaceHeaderMenuList = (): JSX.Element => {
   const history = useHistory();
   const user = useRecoilValue(userState);
   const { workspaceId }: { workspaceId: string } = useParams();
+  const { data } = useWorkspaceQuery(workspaceId);
 
-  const getCodeAxios = async () => {
-    return axios({
-      method: 'get',
-      url: API.get.workspace.getCode,
-      params: {
-        workspaceId,
-      },
-    });
-  };
-
-  const showCode = async () => {
-    const code = await getCode(getCodeAxios, () => {});
+  const showCode = () => {
+    const code = data?.code;
 
     if (code) {
       history.push({
@@ -55,8 +44,8 @@ const WorkspaceHeaderMenuList = (): JSX.Element => {
       />
       <Label text={user?.account} />
       <DivLists text="코드 확인" onClick={showCode} />
-      <DivLists text="프로필" />
-      <DivLists text="환경 설정" />
+      <DivLists text="프로필" onClick={() => {}} />
+      <DivLists text="환경 설정" onClick={() => {}} />
       <GreyLine />
       <RedDivLists text="로그아웃" onClick={logout} />
       <RedDivLists

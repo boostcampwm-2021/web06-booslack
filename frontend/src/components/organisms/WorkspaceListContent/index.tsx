@@ -25,7 +25,6 @@ import {
 
 const WorkSpaceLists = (workspaces: Workspace[]) => {
   const history = useHistory();
-  const setWorkspace = useSetRecoilState(selectedWorkspaceState);
 
   return workspaces.map(
     ({ id, name, count }: Workspace & { count: number }) => {
@@ -35,7 +34,6 @@ const WorkSpaceLists = (workspaces: Workspace[]) => {
           <StyledLabeledButton
             text="실행"
             onClick={() => {
-              setWorkspace(name);
               history.push(`client/${id}/1`);
             }}
           />
