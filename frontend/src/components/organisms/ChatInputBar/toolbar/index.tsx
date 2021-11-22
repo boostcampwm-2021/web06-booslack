@@ -30,14 +30,14 @@ import {
 interface Props {
   message: string;
   focused: boolean;
-  setMessage: Dispatch<SetStateAction<string>>;
+  setMessageClear: Dispatch<SetStateAction<boolean>>;
 }
 
 const postMessage = async (
   userHasWorkspaceId: string,
   message: string,
   channelId: string,
-  setMessage,
+  setMessageClear: Dispatch<SetStateAction<boolean>>,
 ): Promise<any> => {
   const res = await axios.post('/api/threads', {
     userHasWorkspaceId,
@@ -45,11 +45,11 @@ const postMessage = async (
     channelId,
   });
   if (res.status === 200) {
-    setMessage('<p><br/></p>');
+    setMessageClear(true);
   }
 };
 
-const Toolbar = ({ message, setMessage, focused }: Props): JSX.Element => {
+const Toolbar = ({ message, setMessageClear, focused }: Props): JSX.Element => {
   const { channelId }: { channelId: string } = useParams();
   const user = useRecoilValue(userState);
   const sendable = message !== '<p><br></p>' && message.length > 8;
@@ -79,11 +79,12 @@ const Toolbar = ({ message, setMessage, focused }: Props): JSX.Element => {
               user.userHasWorkspaceId,
               message,
               channelId,
-              setMessage,
+              setMessageClear,
             );
           }}
           icon={MdSend}
           className={sendable ? 'sendButtonActive' : 'sendButtonDisable'}
+          disabled={!sendable}
         />
       </ToolbarSuffix>
     </Container>

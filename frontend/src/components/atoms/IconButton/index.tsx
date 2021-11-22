@@ -8,6 +8,7 @@ interface Props<T> {
   height?: number;
   icon: IconType;
   className?: T;
+  disabled?;
 }
 
 const IconButton = ({
