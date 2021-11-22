@@ -8,6 +8,7 @@ import CreateChannelModal from '@organisms/CreateChannelModal';
 import ChannelInfoModal from '@organisms/ChannelInfoModal';
 import ChannelDescriptionModal from '@organisms/ChannelDescriptionModal';
 import SidebarChannelInfoModal from '@organisms/SidebarChannelInfoModal';
+import { useSocket } from '@hook/useSocket';
 import {
   channelCreateModalState,
   channelDescriptionModalState,
@@ -27,11 +28,10 @@ const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
   const channelDescriptionModal = useRecoilValue(channelDescriptionModalState);
   const sidebarChannelModal = useRecoilValue(sidebarChannelInfoModalState);
 
-  
-
   const { workspaceId, channelId }: { workspaceId: string; channelId: string } =
     useParams();
   const [user, setUser] = useRecoilState(userState);
+  const [socket] = useSocket(workspaceId);
 
   useEffect(() => {
     const getUserHasWorkspace = async () => {
@@ -54,6 +54,13 @@ const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
   return (
     <>
       <Suspense fallback={<p>Loading...</p>}>
+        <button
+          style={{ width: 100, heigth: 100 }}
+          onClick={() => {
+            console.log('client send chat');
+            socket.emit('chat', 'chat chat chat');
+          }}
+        />
         <WorkspaceHeader />
         <RowDiv>
           <WorkspaceSidebar />
