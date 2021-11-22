@@ -1,7 +1,7 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import ThreadContent from '@molecules/ThreadContent';
+import { useThreadListQuery } from '@hook/useThreads';
 import { Container } from './styles';
 
 interface Props {
@@ -9,21 +9,17 @@ interface Props {
 }
 
 const ChatContent = ({ inputBar }: Props): JSX.Element => {
-  const [threads, setThreads] = useState([]);
   const { channelId }: { channelId: string } = useParams();
 
-  useEffect(() => {
-    const getThreads = async () => {
-      const res = await axios.get(`/api/threads?channelId=${channelId}`);
-      setThreads(res.data.threads);
-    };
-    getThreads();
-  }, [channelId]);
+  const { isLoading, isError, data } = useThreadListQuery(channelId);
+
+  if (isLoading) return <div>Loading</div>;
+  if (isError) return <div>Error</div>;
 
   return (
     <>
       <Container>
-        {threads.map((thread) => (
+        {data.map((thread) => (
           <ThreadContent
             key={thread.id}
             nickname={thread.userHasWorkspace.nickname}
