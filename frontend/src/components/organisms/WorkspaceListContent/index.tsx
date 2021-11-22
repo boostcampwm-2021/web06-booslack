@@ -1,6 +1,6 @@
 /* eslint-disable react/no-unused-prop-types */
 import React from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
@@ -8,6 +8,7 @@ import AsyncBranch from '@molecules/AsyncBranch';
 import API from '@global/api';
 import useInfinityScroll from '@hook/useInfinityPage';
 import userState from '@state/user';
+import { selectedWorkspaceState } from '@state/workspace';
 import { Workspace } from '@global/type';
 import { queryFlatMap } from '@global/util/reactQueryUtil';
 import {
@@ -24,6 +25,7 @@ import {
 
 const WorkSpaceLists = (workspaces: Workspace[]) => {
   const history = useHistory();
+  const setWorkspace = useSetRecoilState(selectedWorkspaceState);
 
   return workspaces.map(
     ({ id, name, count }: Workspace & { count: number }) => {
@@ -32,7 +34,10 @@ const WorkSpaceLists = (workspaces: Workspace[]) => {
           <StyledSelectWorkspace firstLabelContent={name} content={count} />
           <StyledLabeledButton
             text="실행"
-            onClick={() => history.push(`client/${id}/1`)}
+            onClick={() => {
+              setWorkspace(name);
+              history.push(`client/${id}/1`);
+            }}
           />
         </StyledDiv>
       );
