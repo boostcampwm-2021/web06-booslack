@@ -68,8 +68,6 @@ export async function deleteUserHasWorkspace(req: Request, res: Response) {
     await getCustomRepository(UserHasWorkspaceRepository).remove(workspace);
     return res.status(OK).end();
   } catch (e) {
-    console.log(e);
-
     return res.status(BAD_REQUEST).json(e);
   }
 }
