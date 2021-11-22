@@ -5,12 +5,14 @@ const Container = styled.div`
   text-overflow: ellipsis;
   text-align: center;
   overflow: hidden;
-
+  border-radius: 4px;
   margin: 5px 0 10px 0;
+  padding: 3px;
 
   &:hover {
     background-color: #1164a3;
     cursor: pointer;
+    color: #fff;
   }
 `;
 

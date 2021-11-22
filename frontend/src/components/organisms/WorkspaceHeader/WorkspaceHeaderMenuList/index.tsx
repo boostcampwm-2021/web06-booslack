@@ -1,5 +1,5 @@
 import React from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useHistory, useParams } from 'react-router-dom';
 
 import DivLists from '@atoms/DivLists';
@@ -8,16 +8,14 @@ import Label from '@atoms/Label';
 import defaultProfile from '@global/image/default_account.png';
 import { logout } from '@global/util/auth';
 import userState from '@state/user';
+import { preferenceModalState } from '@state/modal';
 import { useWorkspaceQuery } from '@hook/useWorkspace';
 import Container, { RedDivLists, GreyLine } from './styles';
-
-interface Props {
-  Profile: () => JSX.Element;
-}
 
 const WorkspaceHeaderMenuList = (): JSX.Element => {
   const history = useHistory();
   const user = useRecoilValue(userState);
+  const setIsOpen = useSetRecoilState(preferenceModalState);
   const { workspaceId }: { workspaceId: string } = useParams();
   const { data } = useWorkspaceQuery(workspaceId);
 
@@ -45,7 +43,7 @@ const WorkspaceHeaderMenuList = (): JSX.Element => {
       <Label text={user?.account} />
       <DivLists text="코드 확인" onClick={showCode} />
       <DivLists text="프로필" onClick={() => {}} />
-      <DivLists text="환경 설정" onClick={() => {}} />
+      <DivLists text="환경 설정" onClick={() => setIsOpen(true)} />
       <GreyLine />
       <RedDivLists text="로그아웃" onClick={logout} />
       <RedDivLists
