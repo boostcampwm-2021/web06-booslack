@@ -44,7 +44,7 @@ const CreateChannelModal = (): JSX.Element => {
       workspaceId,
       user.socket,
     );
-    joinChannel(user.id, channel.id, workspaceId);
+    joinChannel(user.id, channel.id, workspaceId, user.socket);
     clear();
     setIsOpen(false);
   };

@@ -69,7 +69,7 @@ const ChannelList = ({
             <LabeledDefaultButton
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                 e.stopPropagation();
-                joinChannel(user.id, channelId, workspaceId);
+                joinChannel(user.id, channelId, workspaceId, user.socket);
               }}
               backgroundColor="green"
               text="join"

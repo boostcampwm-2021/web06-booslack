@@ -2,16 +2,19 @@ import { Channel } from '@global/type';
 import axios from 'axios';
 
 // refresh required
-export const joinChannel = (
+export const joinChannel = async (
   userId: number | string,
   channelId: number | string,
   workspaceId: string,
+  socket,
 ): void => {
-  axios.post('/api/channels/userToChannel', {
+  const res = await axios.post('/api/channels/userToChannel', {
     userId,
     channelId,
     workspaceId,
   });
+  socket.emit('channels', workspaceId);
+  return res.data;
 };
 
 export const createChanel = async (
