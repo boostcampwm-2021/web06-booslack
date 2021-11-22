@@ -58,7 +58,7 @@ const ChannelList = ({
         <div>{firstLabelContent || 'channel name'}</div>
 
         <TextSet>
-          <Label color="grey" text={secondLabelContent || 'members'} />
+          <Label color="grey" text={secondLabelContent || ''} />
           <Label color="grey" text={content} />
         </TextSet>
       </Container>

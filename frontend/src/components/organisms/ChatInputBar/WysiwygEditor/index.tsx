@@ -7,9 +7,19 @@ import {
   makeEmoji,
   makeMention,
 } from '@global/util/inputEventHandlers';
-import { Container } from './styles';
+import { Container, MessageInputArea } from './styles';
 
-const ChatInputBackGround = (): JSX.Element => {
+interface Props {
+  message: string;
+  setMessage: (message: string) => void;
+  setFocused: (focused: boolean) => void;
+}
+
+const WysiwygEditor = ({
+  message,
+  setMessage,
+  setFocused,
+}: Props): JSX.Element => {
   const [isEmojiOpen, setIsEmojiOpen] = useState(false);
   const [isMentionOpen, setIsMentionOpen] = useState(false);
   const [input, setInput] = useState('');
@@ -23,9 +33,17 @@ const ChatInputBackGround = (): JSX.Element => {
     setValue(undefined);
   }, [value]);
 
+  const handleOnfocus = () => {
+    setFocused(true);
+  };
+
+  const handleOnBlur = () => {
+    setFocused(false);
+  };
+
   return (
     <Container>
-      <div
+      <MessageInputArea
         id="input-bar"
         role="textbox"
         contentEditable="true"
@@ -56,14 +74,14 @@ const ChatInputBackGround = (): JSX.Element => {
             setIsEmojiOpen,
             isMentionOpen,
             setIsMentionOpen,
+            setMessage,
           )
         }
         suppressContentEditableWarning="true"
-      >
-        <p>
-          <br />
-        </p>
-      </div>
+        onFocus={handleOnfocus}
+        onBlur={handleOnBlur}
+        dangerouslySetInnerHTML={{ __html: message }}
+      ></MessageInputArea>
       <EmojiPopup
         input={input}
         isOpen={isEmojiOpen}
@@ -82,4 +100,4 @@ const ChatInputBackGround = (): JSX.Element => {
   );
 };
 
-export default ChatInputBackGround;
+export default WysiwygEditor;

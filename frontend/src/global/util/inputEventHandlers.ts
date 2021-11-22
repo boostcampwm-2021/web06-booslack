@@ -1,3 +1,5 @@
+let fontState = false;
+
 const createAndDeleteCodeBlock = (selection, event) => {
   const thisElement = selection.focusNode;
   const parent = thisElement.parentElement;
@@ -8,7 +10,7 @@ const createAndDeleteCodeBlock = (selection, event) => {
     pElement.innerHTML = '<br>';
     parent.insertAdjacentElement('afterend', pElement);
     selection.collapse(pElement, 0);
-  } else if (thisElement.data === '``') {
+  } else if (thisElement.data === '``' && parent.previousSibling === null) {
     parent.insertAdjacentHTML(
       'afterend',
       '<div class="ql-code-block"><br></div>',
@@ -20,6 +22,7 @@ const createAndDeleteCodeBlock = (selection, event) => {
       '<div class="ql-code-block"><br></div>',
     );
     parent.innerHTML = parent.innerHTML.substr(0, parent.innerHTML.length - 2);
+    selection.collapse(parent.nextSibling, 0);
   }
   event.preventDefault();
 };
@@ -294,6 +297,7 @@ export const inputHandle = (
   setIsEmojiOpen,
   isMentionOpen,
   setIsMentionOpen,
+  setMessage,
 ): void => {
   if (e.nativeEvent.data === '>') {
     const selection = document.getSelection();
@@ -316,16 +320,36 @@ export const inputHandle = (
 
   if (e.nativeEvent.inputType === 'deleteContentBackward') {
     const selection = document.getSelection();
-    if ((<Element>selection.focusNode).innerHTML === '<br>') {
-      // if (document.queryCommandState('bold')) {
-      //   document.execCommand('bold');
-      // }
+    if (
+      fontState === true &&
+      selection.focusNode.nodeValue === ' ' &&
+      selection.focusNode.previousSibling !== null
+    ) {
+      selection.collapse(selection.focusNode, 0);
+      const parent = selection.focusNode.parentNode;
+      if (parent.innerHTML === ' ') {
+        parent.removeChild(parent.childNodes[0]);
+        parent.removeChild(parent.childNodes[0]);
+        parent.appendChild(document.createElement('br'));
+      }
+
+      fontState = false;
     }
+  }
+
+  const s = document.getSelection();
+  if (
+    s.focusNode.parentNode.nodeName === 'P' &&
+    s.focusNode.parentElement.innerHTML.trim() === ''
+  ) {
+    s.focusNode.parentNode.innerHTML = '<br>';
   }
 
   checkMentionListOpenPossible(setIsMentionOpen, setInput);
 
   checkEmojiListOpenPossible(setIsEmojiOpen, setInput);
+
+  setMessage(e.target.innerHTML);
 };
 
 export const keydownHandle = (
@@ -339,6 +363,8 @@ export const keydownHandle = (
   isMentionOpen,
   setIsMentionOpen,
 ): void => {
+  const selection = document.getSelection();
+  console.log(1);
   if (e.code === 'Space') {
     const selection = document.getSelection();
     createList(selection, e);
@@ -347,6 +373,21 @@ export const keydownHandle = (
   if (e.code === 'Backspace') {
     const selection = document.getSelection();
     const currentNode = selection.focusNode;
+
+    if (
+      (currentNode.parentNode.nodeName === 'B' ||
+        currentNode.parentNode.nodeName === 'EM' ||
+        currentNode.parentNode.nodeName === 'S' ||
+        currentNode.parentNode.nodeName === 'CODE') &&
+      currentNode.nodeValue.length === 1
+    ) {
+      currentNode.parentNode.parentNode.insertBefore(
+        document.createTextNode(' '),
+        currentNode.parentNode,
+      );
+      fontState = true;
+    }
+
     if (
       (<Element>currentNode).innerHTML === '<br>' &&
       currentNode.nodeName === 'P' &&
