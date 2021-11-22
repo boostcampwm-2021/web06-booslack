@@ -2,7 +2,6 @@ import { Router } from 'express';
 import {
   getAllWorkspaces,
   getOneWorkspace,
-  getOneWorkspaceCode,
   addOneWorkspace,
   updateOneWorkspace,
   deleteOneWorkspace,
@@ -12,7 +11,6 @@ import {
 
 const workspaceRouter = Router();
 workspaceRouter.post('/code', addUserToWorkspace);
-workspaceRouter.get('/code', getOneWorkspaceCode);
 workspaceRouter.get('/user', getAllUserWorkspaces);
 workspaceRouter.get('/', getAllWorkspaces);
 workspaceRouter.get('/:id', getOneWorkspace);

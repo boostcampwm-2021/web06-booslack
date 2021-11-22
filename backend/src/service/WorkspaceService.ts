@@ -69,31 +69,6 @@ export async function getOneWorkspace(req: Request, res: Response) {
   }
 }
 
-export async function getOneWorkspaceCode(req: Request, res: Response) {
-  const { workspaceId } = req.query;
-
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const user = req.session.passport?.user;
-  const userId = user ? user[0].id : user;
-  if (!userId || !workspaceId) {
-    throw BAD_REQUEST;
-  }
-
-  await getCustomRepository(UserHasWorkspaceRepository).findOneOrFail({
-    where: [{ userId, workspaceId }],
-  });
-
-  try {
-    const workspace = await getCustomRepository(WorkspaceRepository).findOne({
-      where: [{ id: workspaceId }],
-    });
-    return res.status(OK).json({ code: workspace?.code });
-  } catch (e) {
-    return res.status(BAD_REQUEST).json(e);
-  }
-}
-
 export async function addUserToWorkspace(req: Request, res: Response) {
   try {
     // @ts-ignore
