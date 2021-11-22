@@ -1,5 +1,6 @@
 import React from 'react';
 import ImageButton from '@atoms/ImageButton';
+import defaultPerson from '@global/image/default_account.png';
 import {
   Container,
   MessageKit,
@@ -29,7 +30,7 @@ const ThreadContent = ({
             onClick={() => {}}
             height={36}
             width={36}
-            image="../../../../public/default_account.png"
+            image={defaultPerson}
           />
         </MessageKitLeft>
         <MessageKitRight>
