@@ -4,7 +4,7 @@ import Modal from '@atoms/Modal';
 import DivLists from '@atoms/DivLists';
 import ImageBox from '@atoms/ImageBox';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
-import { bouncing, flexAlignCenter } from '@global/mixin';
+import { bouncing, flexAlignCenter, ThemeButton } from '@global/mixin';
 
 export const Container = styled.div`
   display: flex;
@@ -64,7 +64,7 @@ export const RowSpaceAroundDiv = styled.div`
   width: 100%;
   flex-direction: row;
   justify-content: space-around;
-  margin-bottom: 5px;
+  margin-bottom: 15px;
 `;
 
 export const ColDiv = styled.div`
@@ -103,6 +103,6 @@ export const StyledButton = styled(LabeledDefaultButton)`
   width: 100px;
   height: 30px;
 
-  background-color: #5c8dcf;
+  ${ThemeButton}
   ${bouncing}
 `;

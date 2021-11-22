@@ -36,7 +36,9 @@ const ThemeSelect = (): JSX.Element => {
         <RadioButton name="Rose" />
       </RowSpaceAroundDiv>
 
-      <StyledButton text="확인" />
+      <RowSpaceAroundDiv>
+        <StyledButton text="확인" />
+      </RowSpaceAroundDiv>
     </>
   );
 };
