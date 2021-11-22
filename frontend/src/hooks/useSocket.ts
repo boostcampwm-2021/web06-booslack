@@ -1,17 +1,11 @@
-import { useEffect, useRef } from 'react';
 import { io } from 'socket.io-client';
 
-export const useSocket = (workspaceId) => {
-  const socketRef = useRef(null);
+export const initializeSocket = (workspaceId) => {
+  const socket = io(`/workspace:${workspaceId}`);
 
-  useEffect(() => {
-    const socket = io(`/workspace:${workspaceId}`);
-    socketRef.current = socket;
+  socket.on('chat', (data) => {
+    console.log('received chat:', data);
+  });
 
-    socket.on('chat', (data) => {
-      console.log('received chat: ', data);
-    });
-  }, [workspaceId]);
-
-  return [socketRef.current];
+  return socket;
 };
