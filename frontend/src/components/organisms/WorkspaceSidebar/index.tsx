@@ -61,7 +61,7 @@ const WorkspaceSidebar = (): JSX.Element => {
             key={channel.id}
             to={`/client/${workspaceId}/${channel.id}`}
             style={{ textDecoration: 'none', color: smallText }}
-            activeStyle={{ color: titleText, fontSize: '22px' }}
+            activeStyle={{ color: titleText }}
           >
             <SidebarChannelElement
               label={channel.name}
