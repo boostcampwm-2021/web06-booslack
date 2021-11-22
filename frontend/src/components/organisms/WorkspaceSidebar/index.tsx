@@ -43,7 +43,7 @@ const WorkspaceSidebar = (): JSX.Element => {
           textDecoration: 'none',
           color: smallText,
         }}
-        activeStyle={{ color: titleText, fontSize: '22px' }}
+        activeStyle={{ color: titleText }}
       >
         <SidebarChannelElement
           label="Channel browser"
