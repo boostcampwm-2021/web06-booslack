@@ -20,7 +20,7 @@ export default class ChannelRepository extends Repository<Channel> {
 
     const rawQuery = this.query(`
     
-    select *, COUNT(name) OVER() AS full_count
+    select tmp.name, tmp.id, tmp.description, tmp.private, COUNT(name) OVER() AS full_count
     from (select *
       from booslack.channel channel
     where (workspaceId = ${workspaceId} and 
