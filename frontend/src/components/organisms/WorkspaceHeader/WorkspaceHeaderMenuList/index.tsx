@@ -9,8 +9,9 @@ import Label from '@atoms/Label';
 import defaultProfile from '@global/image/default_account.png';
 import { getCode } from '@global/util';
 import API from '@global/api';
+import { logout } from '@global/util/auth';
 import userState from '@state/user';
-import Container from './styles';
+import Container, { RedDivLists, GreyLine } from './styles';
 
 interface Props {
   Profile: () => JSX.Element;
@@ -25,21 +26,20 @@ const WorkspaceHeaderMenuList = (): JSX.Element => {
     return axios({
       method: 'get',
       url: API.get.workspace.getCode,
-      data: {
-        params: {
-          workspaceId,
-        },
+      params: {
+        workspaceId,
       },
     });
   };
 
   const showCode = async () => {
     const code = await getCode(getCodeAxios, () => {});
+
     if (code) {
       history.push({
         pathname: '/generatecode',
         state: {
-          data: { code, nextPage: `${workspaceId}/browse-channels` },
+          data: { code, nextPage: `client/${workspaceId}/browse-channels` },
         },
       });
     }
@@ -57,8 +57,16 @@ const WorkspaceHeaderMenuList = (): JSX.Element => {
       <DivLists text="코드 확인" onClick={showCode} />
       <DivLists text="프로필" />
       <DivLists text="환경 설정" />
-      <DivLists text="로그아웃" />
-      <DivLists text="워크스페이스 탈퇴" />
+      <GreyLine />
+      <RedDivLists text="로그아웃" onClick={logout} />
+      <RedDivLists
+        text="나가기"
+        onClick={() => {
+          history.push({
+            pathname: '/workspacelist',
+          });
+        }}
+      />
     </Container>
   );
 };
