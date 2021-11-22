@@ -65,7 +65,7 @@ const WorkspaceSidebar = (): JSX.Element => {
           >
             <SidebarChannelElement
               label={channel.name}
-              isPrivate={channel.type === 'private'}
+              isPrivate={channel.private === 1}
               onClick={() => {}}
               onContextMenu={(e) => {
                 e.preventDefault();
