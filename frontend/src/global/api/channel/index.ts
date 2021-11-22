@@ -18,6 +18,7 @@ export const createChanel = async (
   isPrivate: boolean,
   description: string,
   workspaceId: string,
+  socket,
 ): Promise<any> => {
   const res = await axios.post('/api/channels', {
     name,
@@ -25,5 +26,6 @@ export const createChanel = async (
     description,
     workspaceId,
   });
+  socket.emit('channels', workspaceId);
   return res.data;
 };

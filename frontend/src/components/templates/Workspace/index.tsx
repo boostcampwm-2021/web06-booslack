@@ -56,8 +56,15 @@ const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
   useEffect(() => {
     if (!user.socket) return;
 
-    user.socket.on('threads', () => {
-      queryClient.invalidateQueries(['threads'], {
+    user.socket.on('threads', (channelId) => {
+      queryClient.invalidateQueries(['threads', channelId], {
+        // 옵션 없이도 왜 refetch??
+        refetchActive: true,
+      });
+    });
+
+    user.socket.on('channels', (workspaceId) => {
+      queryClient.invalidateQueries(['channels', workspaceId], {
         refetchActive: true,
       });
     });

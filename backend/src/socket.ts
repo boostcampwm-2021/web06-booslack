@@ -15,8 +15,12 @@ const initializeSocket = (httpServer: http.Server) => {
   io.of(/^\/workspace:\d+$/).on('connection', (socket) => {
     const namespace = socket.nsp;
 
-    socket.on('threads', (data) => {
-      namespace.emit('threads', data);
+    socket.on('threads', (channelId) => {
+      namespace.emit('threads', channelId);
+    });
+
+    socket.on('channels', (workspaceId) => {
+      namespace.emit('channels', workspaceId);
     });
   });
 };
