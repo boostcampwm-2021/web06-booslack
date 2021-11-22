@@ -30,6 +30,7 @@
     "@enum": "dist/enum/index.js"
   },
   "dependencies": {
+    "aws-sdk": "^2.1033.0",
     "child_process": "^1.0.2",
     "command-line-args": "^5.2.0",
     "cookie-parser": "^1.4.5",
@@ -46,6 +47,8 @@
     "jsonfile": "^6.1.0",
     "module-alias": "^2.2.2",
     "morgan": "^1.10.0",
+    "multer": "^1.4.3",
+    "multer-s3": "^2.10.0",
     "mysql2": "^2.3.2",
     "passport": "^0.5.0",
     "passport-github": "^1.1.0",
@@ -57,6 +60,7 @@
     "typeorm": "^0.2.38"
   },
   "devDependencies": {
+    "@types/aws-sdk": "^2.7.0",
     "@types/command-line-args": "^5.2.0",
     "@types/cookie-parser": "^1.4.2",
     "@types/cors": "^2.8.12",
@@ -68,6 +72,8 @@
     "@types/jasmine": "^3.10.1",
     "@types/jsonfile": "^6.0.1",
     "@types/morgan": "^1.9.3",
+    "@types/multer": "^1.4.7",
+    "@types/multer-s3": "^2.7.11",
     "@types/node": "^16.11.6",
     "@types/passport": "^1.0.7",
     "@types/passport-github": "^1.1.6",
