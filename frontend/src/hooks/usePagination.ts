@@ -22,11 +22,10 @@ const usePagination = (
   const [page, setPage] = useState<number>(0);
 
   const { isLoading, data, error, isFetching, isPreviousData } = useQuery(
-    [...key, page],
+    ['pagination', ...key, page],
     () => axiosFunction(page),
     {
       keepPreviousData: true,
-      staleTime: 5000,
       refetchOnWindowFocus: false,
       ...option,
     },
