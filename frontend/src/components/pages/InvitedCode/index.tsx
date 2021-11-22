@@ -47,7 +47,7 @@ const InvitedCode = (): JSX.Element => {
   return (
     <>
       <CodeTemplate
-        text="코드를 입력해주세요!"
+        text="코드를 입력해주세요! 영/숫자만 가능합니다."
         onClick={enterWorkspace}
         code={code}
       >

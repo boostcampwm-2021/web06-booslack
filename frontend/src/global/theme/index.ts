@@ -5,6 +5,7 @@ export interface Itheme {
   titleText: string;
   smallText: string;
   searchBar: string;
+  focusedMenu: string;
 }
 
 /*
@@ -19,6 +20,7 @@ export const defaultTheme: Itheme = {
   titleText: '#fff',
   smallText: '#BDABBC',
   searchBar: '#644565',
+  focusedMenu: '#1164A3',
 };
 
 export const yellowTheme: Itheme = {
@@ -28,6 +30,7 @@ export const yellowTheme: Itheme = {
   titleText: '#591035',
   smallText: '#935D51',
   searchBar: '#D99E10',
+  focusedMenu: '#FFEB84',
 };
 
 export const THEME = {

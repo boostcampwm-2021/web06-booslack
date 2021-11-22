@@ -1,18 +1,16 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import axios from 'axios';
 import QuestionForm from '@molecules/QuestionForm';
 import { codeModalState } from '@state/modal';
-import { submitInput, axiosWithFile, changeFile } from '@global/util';
+import { submitInput, axiosWithFile, changeFile, getCode } from '@global/util';
 import API from '@global/api';
 import Container, { StyledLabel, StyledButton } from './style';
 
 const SetupTeamQuestions = (): JSX.Element => {
   const history = useHistory();
-
   const setModalState = useSetRecoilState(codeModalState);
-
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
   const [selectedFile, setSelectedFile] = useState(null);
@@ -59,25 +57,15 @@ const SetupTeamQuestions = (): JSX.Element => {
   if (!selectedfile) return askFile;
   */
 
-  const generateWorkspace = async () => {
-    try {
-      const { data } = await axios({
-        method: 'post',
-        url: API.post.workspace.addOne,
-        data: {
-          name,
-          description,
-        },
-      });
-      if (!data?.code) throw new Error('no data');
-
-      history.push({
-        pathname: '/generatecode',
-        state: { data },
-      });
-    } catch (error) {
-      setModalState({ status: true, text: undefined });
-    }
+  const postAxiostest = async () => {
+    return axios({
+      method: 'post',
+      url: API.post.workspace.addOne,
+      data: {
+        name,
+        description,
+      },
+    });
   };
 
   return (
@@ -88,7 +76,18 @@ const SetupTeamQuestions = (): JSX.Element => {
       <StyledLabel text={`workspace description : ${description}`} />
       <StyledLabel text={`파일 정보 : ${selectedFile} (skip)`} />
 
-      <StyledButton text="제출" onClick={generateWorkspace} />
+      <StyledButton
+        text="제출"
+        onClick={async () => {
+          const code = await getCode(postAxiostest, setModalState);
+          if (code) {
+            history.push({
+              pathname: '/generatecode',
+              state: { data: { code, nextPage: 'workspacelist' } },
+            });
+          }
+        }}
+      />
     </Container>
   );
 };

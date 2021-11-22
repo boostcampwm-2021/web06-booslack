@@ -1,50 +1,53 @@
-import { EntityRepository, Repository, Like } from 'typeorm';
+import { EntityRepository, Repository } from 'typeorm';
 import { pageLimitCount } from '@enum';
 import Channel from '../model/Channel';
 
 export type SortOption = 'alpha' | 'rAlpha';
 
-interface OrderOption {
-  workspace?: 'ASC' | 'DESC' | 1 | -1 | undefined;
-  id?: 'ASC' | 'DESC' | 1 | -1 | undefined;
-  name?: 'ASC' | 'DESC' | 1 | -1 | undefined;
-  type?: 'ASC' | 'DESC' | 1 | -1 | undefined;
-  description?: 'ASC' | 'DESC' | 1 | -1 | undefined;
-  users?: 'ASC' | 'DESC' | 1 | -1 | undefined;
-}
-
-const getOrderOption = (sortOption: SortOption): OrderOption => {
-  if (sortOption === 'rAlpha') {
-    return {
-      name: 'DESC',
-      id: 'ASC',
-    };
-  }
-
-  return {
-    name: 'ASC',
-    id: 'ASC',
-  };
-};
-
 @EntityRepository(Channel)
 export default class ChannelRepository extends Repository<Channel> {
   findByOffset(
-    userID: number,
+    userId: string,
+    workspaceId: string,
     OFFSET: number,
     sortOption: SortOption,
     like: string,
     LIMIT: number = pageLimitCount,
-  ): Promise<[Channel[], number]> {
-    const likeQuery = like ? { name: Like(`%${like}%`) } : null;
+  ) {
+    const likeQuery = (): string => (like ? `name like '%${like}%' and` : '');
 
-    return this.findAndCount({
-      skip: OFFSET,
-      take: LIMIT,
-      relations: ['workspace'],
-      order: getOrderOption(sortOption),
-      where: [{ private: false, ...likeQuery }],
-    });
+    // FULL OUTER JOIN booslack.user_has_workspace_channel as user_has_workspace
+
+    const rawQuery = this.query(`
+    with tmp as (
+      select 
+      channel.id,
+      channel.name,
+      channel.description,
+      channel.private,
+      joinTable.userId,
+      joinTable.channelId
+      from booslack.channel channel
+      RIGHT JOIN (
+        select channelId, user_has_workspace.userId 
+        from booslack.user_has_workspace_channel user_has_workspace_channel
+        INNER JOIN booslack.user_has_workspace as user_has_workspace
+        ON user_has_workspace_channel.userHasWorkspaceId = user_has_workspace.id
+        AND user_has_workspace.workspaceId = ${workspaceId}
+        ) as joinTable
+      ON booslack.channel.id = joinTable.channelId
+    )
+    SELECT tmp.name, tmp.id, tmp.description, tmp.private, COUNT(name) OVER() AS full_count
+    from tmp
+    where ${likeQuery()} ((tmp.private = 0)
+    OR (tmp.userId = ${userId} AND tmp.private = 1))
+    GROUP BY tmp.name, tmp.id, tmp.description, tmp.private
+    ORDER BY name ${sortOption === 'rAlpha' ? 'DESC' : ''}
+    LIMIT ${LIMIT}
+    OFFSET ${OFFSET * pageLimitCount};
+    `);
+
+    return rawQuery;
   }
 
   findChannelsThatUserIn(userId: string, workspaceId: string) {

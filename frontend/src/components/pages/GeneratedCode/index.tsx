@@ -10,14 +10,14 @@ const GeneratedCode = (): JSX.Element => {
   const location = useLocation();
 
   const {
-    data: { code },
-  } = location.state as { data: { code: string } };
+    data: { code, nextPage },
+  } = location.state as { data: { code: string; nextPage: string } };
 
   return (
     <>
       <CodeTemplate
         text="코드를 확인하세요!"
-        onClick={() => history.push('workspacelist')}
+        onClick={() => history.push(nextPage)}
         code={code}
       >
         <Container>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { NavLink, useParams } from 'react-router-dom';
 import SidebarDivision from '@molecules/SidebarDivision';
@@ -10,11 +10,14 @@ import {
 } from '@state/modal';
 import userState from '@state/user';
 import { useChannelListQuery } from '@hook/useChannels';
-import { Container } from './style';
+import { ThemeContext } from 'styled-components';
+import { Container, MarginDiv } from './style';
 
 const WorkspaceSidebar = (): JSX.Element => {
   const user = useRecoilValue(userState);
   const { workspaceId }: { workspaceId: string } = useParams();
+  const themeContext = useContext(ThemeContext);
+  const { titleText, smallText } = themeContext;
 
   const setIsChannelCreateModalOpen = useSetRecoilState(
     channelCreateModalState,
@@ -36,8 +39,11 @@ const WorkspaceSidebar = (): JSX.Element => {
       <SidebarDivision label="Channels" options type="Channels" />
       <NavLink
         to={`/client/${workspaceId}/browse-channels`}
-        style={{ textDecoration: 'none', color: 'black' }}
-        activeStyle={{ color: 'red' }}
+        style={{
+          textDecoration: 'none',
+          color: smallText,
+        }}
+        activeStyle={{ color: titleText }}
       >
         <SidebarChannelElement
           label="Channel browser"
@@ -54,8 +60,8 @@ const WorkspaceSidebar = (): JSX.Element => {
           <NavLink
             key={channel.id}
             to={`/client/${workspaceId}/${channel.id}`}
-            style={{ textDecoration: 'none', color: 'black' }}
-            activeStyle={{ color: 'red' }}
+            style={{ textDecoration: 'none', color: smallText }}
+            activeStyle={{ color: titleText }}
           >
             <SidebarChannelElement
               label={channel.name}
@@ -76,6 +82,7 @@ const WorkspaceSidebar = (): JSX.Element => {
         label="Add Channels"
         onClick={() => setIsChannelCreateModalOpen(true)}
       />
+      <MarginDiv />
     </Container>
   );
 };

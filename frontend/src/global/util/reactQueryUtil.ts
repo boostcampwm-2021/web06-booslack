@@ -1,6 +1,8 @@
+import { flatMap } from 'lodash';
+
 export const queryFlatMap = <T>(
   data: { pages: unknown[] },
   key: string,
 ): T[] => {
-  return data?.pages?.map((element) => element[key]).flat();
+  return flatMap(data?.pages, (element) => element[key]);
 };

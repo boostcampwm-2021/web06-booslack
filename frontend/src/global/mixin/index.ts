@@ -12,7 +12,7 @@ export const RoundScrollBar = css`
     border-radius: 4px;
   }
   ::-webkit-scrollbar-track {
-    background-color: #fff;
+    background-color: transparent;
   }
 `;
 

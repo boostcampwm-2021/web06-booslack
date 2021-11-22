@@ -1,5 +1,7 @@
-import React, { Suspense } from 'react';
-import { useRecoilValue } from 'recoil';
+import React, { Suspense, useEffect } from 'react';
+import { useRecoilState, useRecoilValue } from 'recoil';
+import { useParams } from 'react-router-dom';
+import axios from 'axios';
 import WorkspaceHeader from '@organisms/WorkspaceHeader';
 import WorkspaceSidebar from '@organisms/WorkspaceSidebar';
 import CreateChannelModal from '@organisms/CreateChannelModal';
@@ -12,6 +14,7 @@ import {
   channelInfoModalState,
   sidebarChannelInfoModalState,
 } from '@state/modal';
+import userState from '@state/user';
 import { RowDiv } from './styles';
 
 interface Props {
@@ -23,6 +26,30 @@ const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
   const channelInfoModal = useRecoilValue(channelInfoModalState);
   const channelDescriptionModal = useRecoilValue(channelDescriptionModalState);
   const sidebarChannelModal = useRecoilValue(sidebarChannelInfoModalState);
+
+  
+
+  const { workspaceId, channelId }: { workspaceId: string; channelId: string } =
+    useParams();
+  const [user, setUser] = useRecoilState(userState);
+
+  useEffect(() => {
+    const getUserHasWorkspace = async () => {
+      const res = await axios.get(
+        `/api/userHasWorkspaces?userId=${user.id}&workspaceId=${workspaceId}`,
+      );
+      const { id, nickname, description, theme } = res.data.userHasWorkspace;
+
+      setUser((prevState) => ({
+        ...prevState,
+        userHasWorkspaceId: id,
+        nickname,
+        description,
+        theme,
+      }));
+    };
+    getUserHasWorkspace();
+  }, [workspaceId]);
 
   return (
     <>

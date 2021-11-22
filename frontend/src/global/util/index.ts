@@ -1,5 +1,5 @@
 import React from 'react';
-import axios from 'axios';
+import axios, { AxiosResponse } from 'axios';
 import { METHOD } from '@global/type';
 
 interface Option {
@@ -91,6 +91,20 @@ export const axiosWithFile = async (
       data: formData,
     });
   } catch (error) {
+    return null;
+  }
+};
+
+export const getCode = async (
+  axiosRequest: () => Promise<AxiosResponse>,
+  setModal: (context: { status: boolean; text: undefined }) => void,
+): Promise<string> => {
+  try {
+    const { data } = await axiosRequest();
+    if (!data?.code) throw new Error('no data');
+    return data.code;
+  } catch (error) {
+    setModal({ status: true, text: undefined });
     return null;
   }
 };

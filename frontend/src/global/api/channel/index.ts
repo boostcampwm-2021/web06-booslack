@@ -2,8 +2,8 @@ import axios from 'axios';
 
 // refresh required
 export const joinChannel = (
-  userId: string,
-  channelId: string,
+  userId: number | string,
+  channelId: number | string,
   workspaceId: string,
 ): void => {
   axios.post('/api/channels/userToChannel', {
