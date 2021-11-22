@@ -13,7 +13,7 @@ interface IusePagenation {
 }
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const usePagnation = (
+const usePagination = (
   key: (number | string)[],
   axiosFunction: <T, D>(page: number) => Promise<AxiosResponse<T, D>>,
   option = null,
@@ -53,4 +53,4 @@ const usePagnation = (
   };
 };
 
-export default usePagnation;
+export default usePagination;

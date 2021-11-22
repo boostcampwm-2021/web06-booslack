@@ -11,7 +11,7 @@ import SearchBar from '@molecules/SearchBar';
 import SelectbrowseChannelPage from '@molecules/SelectbrowseChannelPage';
 import BrowseMordalContainer from '@organisms/BrowseMordalContainer';
 import { BrowserChannelListSize, CHANNELTYPE } from '@enum/index';
-import usePagnation from '@hook/usePagnation';
+import usePagination from '@hook/usePagination';
 import API from '@global/api';
 import { SortOption } from '@global/type';
 import { browseChannelSortOption } from '@state/Channel';
@@ -44,7 +44,7 @@ const BrowseChannelList = (): JSX.Element => {
     return res.data;
   }
 
-  const { page, setPage, isFetching, data, error } = usePagnation(
+  const { page, setPage, isFetching, data, error } = usePagination(
     [sortOption, dbLikedOption],
     getWorkspaceLists,
     { staleTime: 'Infinity' },
