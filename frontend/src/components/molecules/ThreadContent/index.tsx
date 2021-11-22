@@ -1,6 +1,7 @@
-import React from 'react';
+import React, { useState } from 'react';
 import ImageButton from '@atoms/ImageButton';
 import defaultPerson from '@global/image/default_account.png';
+import ThreadActions from './ThreadActions';
 import {
   Container,
   MessageKit,
@@ -22,8 +23,16 @@ const ThreadContent = ({
   message,
   createdTime,
 }: Props): JSX.Element => {
+  const [hoverState, setHoverState] = useState(false);
+  const handleHoverIn = () => {
+    setHoverState(true);
+  };
+  const handleHoverOut = () => {
+    setHoverState(false);
+  };
+
   return (
-    <Container>
+    <Container onMouseEnter={handleHoverIn} onMouseLeave={handleHoverOut}>
       <MessageKit>
         <MessageKitLeft>
           <ImageButton
@@ -41,6 +50,7 @@ const ThreadContent = ({
           <MessageText dangerouslySetInnerHTML={{ __html: message }} />
         </MessageKitRight>
       </MessageKit>
+      {hoverState && <ThreadActions />}
     </Container>
   );
 };

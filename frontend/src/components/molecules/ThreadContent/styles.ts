@@ -2,6 +2,11 @@ import styled from 'styled-components';
 
 export const Container = styled.div`
   width: 100%;
+  position: relative;
+
+  :hover {
+    background: #f8f8f8;
+  }
 `;
 
 export const MessageKit = styled.div`
