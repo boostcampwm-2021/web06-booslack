@@ -5,15 +5,12 @@ import {
   Entity,
   PrimaryGeneratedColumn,
   CreateDateColumn,
-  ManyToMany,
-  JoinTable,
 } from 'typeorm';
 import User from './User';
 import Workspace from './Workspace';
 import Thread from './Thread';
 import Reply from './Reply';
 import Reaction from './Reaction';
-import Channel from './Channel';
 
 @Entity()
 class UserHasWorkspace {
@@ -55,12 +52,6 @@ class UserHasWorkspace {
 
   @ManyToOne(() => User, (user) => user.userHasWorkspaces)
   user!: User;
-
-  @ManyToMany(() => Channel)
-  @JoinTable({
-    name: 'user_has_workspace_channel',
-  })
-  channels!: Channel[];
 }
 
 export default UserHasWorkspace;
