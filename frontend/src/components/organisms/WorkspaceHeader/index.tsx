@@ -36,13 +36,13 @@ const WorkspaceHeader = (): JSX.Element => {
       <StyledInput placeholder={`Search in ${workspaceName ?? 'workspace'}`} />
       <Profile />
       <StyledNoOverlayModal
-        xWidth={xWidth - 260}
+        xWidth={xWidth - 160}
         yHeight={yHeight + 50}
         isOpened={modalState}
         onClose={() => setModalState(false)}
         customRef={ButtonRef}
       >
-        <WorkspaceHeaderMenuList Profile={Profile} />
+        <WorkspaceHeaderMenuList />
       </StyledNoOverlayModal>
     </Container>
   );

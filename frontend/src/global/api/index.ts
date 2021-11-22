@@ -10,6 +10,7 @@ export const API = {
     },
     workspace: {
       user: `${PREFIX}/${WORKSPACE}/user`,
+      getCode: `${PREFIX}/${WORKSPACE}/code`,
     },
   },
 

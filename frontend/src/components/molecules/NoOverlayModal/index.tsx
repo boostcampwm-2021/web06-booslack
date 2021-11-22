@@ -35,4 +35,8 @@ const NoOverlayModal = ({
   );
 };
 
+NoOverlayModal.defaultProps = {
+  className: '',
+};
+
 export default NoOverlayModal;
