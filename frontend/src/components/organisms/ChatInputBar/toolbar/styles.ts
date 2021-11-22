@@ -14,7 +14,7 @@ export const Container = styled.div`
   align-items: center;
 `;
 
-export const ToolbarMiddle = styled.div`
+export const ToolbarMiddle = styled.div<{ focused: boolean }>`
   padding: 4px;
   opacity: 0.2;
 

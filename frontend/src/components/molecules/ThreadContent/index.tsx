@@ -38,7 +38,7 @@ const ThreadContent = ({
           &nbsp; &nbsp;
           <MessageTimestamp>{createdTime}</MessageTimestamp>
           <br />
-          <MessageText>{message}</MessageText>
+          <MessageText dangerouslySetInnerHTML={{ __html: message }} />
         </MessageKitRight>
       </MessageKit>
     </Container>

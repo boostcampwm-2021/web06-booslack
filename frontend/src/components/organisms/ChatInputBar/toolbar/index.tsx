@@ -1,4 +1,8 @@
-import React from 'react';
+import React, { Dispatch, SetStateAction } from 'react';
+import { useParams } from 'react-router-dom';
+import { useRecoilValue } from 'recoil';
+import axios from 'axios';
+import userState from '@state/user';
 import {
   BsTypeBold,
   BsTypeItalic,
@@ -26,9 +30,28 @@ import {
 interface Props {
   message: string;
   focused: boolean;
+  setMessage: Dispatch<SetStateAction<string>>;
 }
 
-const Toolbar = ({ message, focused }: Props): JSX.Element => {
+const postMessage = async (
+  userHasWorkspaceId: string,
+  message: string,
+  channelId: string,
+  setMessage,
+): Promise<any> => {
+  const res = await axios.post('/api/threads', {
+    userHasWorkspaceId,
+    message,
+    channelId,
+  });
+  if (res.status === 200) {
+    setMessage('<p><br/></p>');
+  }
+};
+
+const Toolbar = ({ message, setMessage, focused }: Props): JSX.Element => {
+  const { channelId }: { channelId: string } = useParams();
+  const user = useRecoilValue(userState);
   const sendable = message !== '<p><br></p>' && message.length > 8;
 
   return (
@@ -51,7 +74,14 @@ const Toolbar = ({ message, focused }: Props): JSX.Element => {
         <ToolBarIconButton onClick={() => {}} icon={MdAttachFile} />
         {/* 파일 붙이기는 나중에 인풋 타입으로 바꿔야함  */}
         <ToolBarIconButton
-          onClick={() => {}}
+          onClick={() => {
+            postMessage(
+              user.userHasWorkspaceId,
+              message,
+              channelId,
+              setMessage,
+            );
+          }}
           icon={MdSend}
           className={sendable ? 'sendButtonActive' : 'sendButtonDisable'}
         />
