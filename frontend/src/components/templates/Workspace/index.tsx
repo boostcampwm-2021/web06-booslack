@@ -2,6 +2,7 @@ import React, { Suspense, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { useQueryClient } from 'react-query';
 import WorkspaceHeader from '@organisms/WorkspaceHeader';
 import WorkspaceSidebar from '@organisms/WorkspaceSidebar';
 import CreateChannelModal from '@organisms/CreateChannelModal';
@@ -31,6 +32,8 @@ const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
   const { workspaceId }: { workspaceId: string } = useParams();
   const [user, setUser] = useRecoilState(userState);
 
+  const queryClient = useQueryClient();
+
   useEffect(() => {
     const getUserHasWorkspace = async () => {
       const res = await axios.get(
@@ -50,16 +53,19 @@ const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
     getUserHasWorkspace();
   }, [workspaceId]);
 
+  useEffect(() => {
+    if (!user.socket) return;
+
+    user.socket.on('threads', () => {
+      queryClient.invalidateQueries(['threads'], {
+        refetchActive: true,
+      });
+    });
+  }, [user.socket, queryClient]);
+
   return (
     <>
       <Suspense fallback={<p>Loading...</p>}>
-        <button
-          style={{ width: 100, heigth: 100 }}
-          onClick={() => {
-            console.log('client send chat');
-            user.socket.emit('chat', 'chat chat chat');
-          }}
-        />
         <WorkspaceHeader />
         <RowDiv>
           <WorkspaceSidebar />

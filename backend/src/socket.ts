@@ -15,8 +15,8 @@ const initializeSocket = (httpServer: http.Server) => {
   io.of(/^\/workspace:\d+$/).on('connection', (socket) => {
     const namespace = socket.nsp;
 
-    socket.on('chat', (data) => {
-      namespace.emit('chat', data);
+    socket.on('threads', (data) => {
+      namespace.emit('threads', data);
     });
   });
 };
