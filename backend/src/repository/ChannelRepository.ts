@@ -14,37 +14,29 @@ export default class ChannelRepository extends Repository<Channel> {
     like: string,
     LIMIT: number = pageLimitCount,
   ) {
-    const likeQuery = (): string => (like ? `name like '%${like}%' and` : '');
+    const likeQuery = (): string => (like ? `where name like '%${like}%'` : '');
 
     // FULL OUTER JOIN booslack.user_has_workspace_channel as user_has_workspace
 
     const rawQuery = this.query(`
-    with tmp as (
-      select 
-      channel.id,
-      channel.name,
-      channel.description,
-      channel.private,
-      joinTable.userId,
-      joinTable.channelId
+    
+    select *, COUNT(name) OVER() AS full_count
+    from (select *
       from booslack.channel channel
-      RIGHT JOIN (
-        select channelId, user_has_workspace.userId 
-        from booslack.user_has_workspace_channel user_has_workspace_channel
-        INNER JOIN booslack.user_has_workspace as user_has_workspace
-        ON user_has_workspace_channel.userHasWorkspaceId = user_has_workspace.id
-        AND user_has_workspace.workspaceId = ${workspaceId}
-        ) as joinTable
-      ON booslack.channel.id = joinTable.channelId
-    )
-    SELECT tmp.name, tmp.id, tmp.description, tmp.private, COUNT(name) OVER() AS full_count
-    from tmp
-    where ${likeQuery()} ((tmp.private = 0)
-    OR (tmp.userId = ${userId} AND tmp.private = 1))
-    GROUP BY tmp.name, tmp.id, tmp.description, tmp.private
-    ORDER BY name ${sortOption === 'rAlpha' ? 'DESC' : ''}
-    LIMIT ${LIMIT}
-    OFFSET ${OFFSET * pageLimitCount};
+    where (workspaceId = ${workspaceId} and 
+    (private=0 or (private=1 and   
+    channel.id = ANY (
+      select channelId from booslack.user_has_workspace_channel
+      where booslack.user_has_workspace_channel.userHasWorkspaceId = (
+        select id from booslack.user_has_workspace
+        where booslack.user_has_workspace.userId = ${userId}
+        and booslack.user_has_workspace.workspaceId = ${workspaceId})))
+      ))) tmp
+      ${likeQuery()}
+      GROUP BY tmp.name, tmp.id, tmp.description, tmp.private
+      ORDER BY name ${sortOption === 'rAlpha' ? 'DESC' : ''}
+      LIMIT ${LIMIT}
+      OFFSET ${OFFSET * pageLimitCount};
     `);
 
     return rawQuery;
