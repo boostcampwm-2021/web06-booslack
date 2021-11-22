@@ -100,8 +100,8 @@ export const StyledModal = styled(Modal)`
 `;
 
 export const StyledButton = styled(LabeledDefaultButton)`
-  min-width: 100px;
-  min-height: 30px;
+  width: 100px;
+  height: 30px;
 
   background-color: #5c8dcf;
   ${bouncing}

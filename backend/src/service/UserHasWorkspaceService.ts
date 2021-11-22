@@ -48,3 +48,28 @@ export async function updateUserHasWorkspace(req: Request, res: Response) {
     return res.status(BAD_REQUEST).json(e);
   }
 }
+
+export async function deleteUserHasWorkspace(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const user = req.session.passport?.user;
+    const userId = user ? user[0].id : user;
+    if (!userId || !id) {
+      throw BAD_REQUEST;
+    }
+
+    const workspace = await getCustomRepository(UserHasWorkspaceRepository).findOneOrFail({
+      where: [{ userId, workspaceId: id }],
+    });
+
+    await getCustomRepository(UserHasWorkspaceRepository).remove(workspace);
+    return res.status(OK).end();
+  } catch (e) {
+    console.log(e);
+
+    return res.status(BAD_REQUEST).json(e);
+  }
+}

@@ -4,6 +4,7 @@ import { preferenceModalState } from '@state/modal';
 import PreferenceMenuContent from './PreferenceMenuContent';
 import AboutUs from './AboutUs/AboutUs';
 import ThemeSelect from './ThemeSelect/ThemeSelect';
+import WorkspaceOut from './WorkspaceOut/WorkspaceOut';
 import {
   Container,
   StyledTitleLabel,
@@ -19,8 +20,10 @@ const selectedContent = ({ isClicked }: { isClicked: number }): JSX.Element => {
       return <AboutUs />;
     case 2:
       return <ThemeSelect />;
+    case 3:
+      return <WorkspaceOut />;
     default:
-      return <></>;
+      return <WorkspaceOut />;
   }
 };
 
