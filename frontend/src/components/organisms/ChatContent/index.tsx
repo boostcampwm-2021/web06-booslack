@@ -22,11 +22,11 @@ const ChatContent = ({ inputBar }: Props): JSX.Element => {
         {threads.map((thread) => (
           <ThreadContent
             key={thread.id}
-            nickname={thread.userHasWorkspace.nickname}
-            message={thread.message}
-            createdTime={thread.createdAt}
-            threadId={thread.id}
-            userHasWorkspaceId={thread.userHasWorkspaceId}
+            nickname={thread?.userHasWorkspace?.nickname || '탈퇴한 유저'}
+            message={thread?.message}
+            createdTime={thread?.createdAt}
+            threadId={thread?.id}
+            userHasWorkspaceId={thread?.userHasWorkspaceId}
           />
         ))}
       </Container>
