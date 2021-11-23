@@ -73,11 +73,13 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
 
   return (
     <>
-      <WorkspaceHeader />
-      <RowDiv>
-        <WorkspaceSidebar />
-        {children}
-      </RowDiv>
+      <Suspense fallback={<p>Loading...</p>}>
+        <WorkspaceHeader />
+        <RowDiv>
+          <WorkspaceSidebar />
+          {children}
+        </RowDiv>
+      </Suspense>
       {channelCreateModal && <CreateChannelModal />}
       {channelInfoModal && <ChannelInfoModal />}
       {sidebarChannelModal && <SidebarChannelInfoModal />}
