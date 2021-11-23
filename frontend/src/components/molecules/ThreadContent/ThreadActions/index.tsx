@@ -23,6 +23,7 @@ interface Props {
   userHasWorkspaceId: string;
   threads: string[];
   setThreads: () => void;
+  setUpdateState: (arg: boolean) => void;
 }
 
 const deleteMessage = async (threadId, threads, setThreads) => {
@@ -39,6 +40,7 @@ const ThreadActions = ({
   userHasWorkspaceId,
   threads,
   setThreads,
+  setUpdateState,
 }: Props): JSX.Element => {
   const ButtonRef = useRef(null);
   const [modalState, setModalState] = useState(false);
@@ -77,7 +79,13 @@ const ThreadActions = ({
         <MenuSeparatorHr />
       </MenuSeparator>
       <MenuItem>
-        <MenuItemButton text="메시지 편집" onClick={() => {}} />
+        <MenuItemButton
+          text="메시지 편집"
+          onClick={() => {
+            setUpdateState(true);
+            setModalState(false);
+          }}
+        />
       </MenuItem>
       <MenuItem>
         <MenuItemButton

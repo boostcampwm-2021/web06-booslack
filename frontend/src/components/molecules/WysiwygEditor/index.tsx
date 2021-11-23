@@ -14,6 +14,7 @@ interface Props {
   setFocused: (focused: boolean) => void;
   messageClear: boolean;
   setMessageClear: (messageClear: boolean) => void;
+  defaultMessage?: string;
 }
 
 const WysiwygEditor = ({
@@ -21,6 +22,7 @@ const WysiwygEditor = ({
   setFocused,
   messageClear,
   setMessageClear,
+  defaultMessage,
 }: Props): JSX.Element => {
   const [isEmojiOpen, setIsEmojiOpen] = useState(false);
   const [isMentionOpen, setIsMentionOpen] = useState(false);
@@ -92,11 +94,8 @@ const WysiwygEditor = ({
         onFocus={handleOnfocus}
         onBlur={handleOnBlur}
         ref={editor}
-      >
-        <p>
-          <br />
-        </p>
-      </MessageInputArea>
+        dangerouslySetInnerHTML={{ __html: defaultMessage }}
+      />
       <EmojiPopup
         input={input}
         isOpen={isEmojiOpen}
@@ -113,6 +112,10 @@ const WysiwygEditor = ({
       />
     </Container>
   );
+};
+
+WysiwygEditor.defaultProps = {
+  defaultMessage: '<p><br /></p>',
 };
 
 export default WysiwygEditor;

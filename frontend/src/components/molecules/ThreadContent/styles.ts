@@ -1,11 +1,15 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+interface Props {
+  updateState?: boolean;
+}
+
+export const Container = styled.div<Props>`
   width: 100%;
   position: relative;
 
   :hover {
-    background: #f8f8f8;
+    background: ${(props) => !props.updateState && '#f8f8f8'};
   }
 `;
 

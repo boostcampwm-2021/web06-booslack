@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import ImageButton from '@atoms/ImageButton';
+import ChatInputBarForUpdate from '@organisms/ChatInputBarForUpdate';
 import defaultPerson from '@global/image/default_account.png';
 import ThreadActions from './ThreadActions';
 import {
@@ -31,16 +32,43 @@ const ThreadContent = ({
   threads,
   setThreads,
 }: Props): JSX.Element => {
+  const [updateState, setUpdateState] = useState(false);
   const [hoverState, setHoverState] = useState(false);
   const handleHoverIn = () => {
-    setHoverState(true);
+    if (!updateState) {
+      setHoverState(true);
+    }
   };
   const handleHoverOut = () => {
-    setHoverState(false);
+    if (!updateState) {
+      setHoverState(false);
+    }
   };
 
+  const ordinaryMessage = (
+    <>
+      <MessageSender>{nickname}</MessageSender>
+      &nbsp; &nbsp;
+      <MessageTimestamp>{createdTime}</MessageTimestamp>
+      <br />
+      <MessageText dangerouslySetInnerHTML={{ __html: message }} />
+    </>
+  );
+
+  const updateMessage = (
+    <ChatInputBarForUpdate
+      threadId={threadId}
+      defaultMessage={message}
+      setUpdateState={setUpdateState}
+    />
+  );
+
   return (
-    <Container onMouseEnter={handleHoverIn} onMouseLeave={handleHoverOut}>
+    <Container
+      onMouseEnter={handleHoverIn}
+      onMouseLeave={handleHoverOut}
+      updateState={updateState}
+    >
       <MessageKit>
         <MessageKitLeft>
           <ImageButton
@@ -51,19 +79,16 @@ const ThreadContent = ({
           />
         </MessageKitLeft>
         <MessageKitRight>
-          <MessageSender>{nickname}</MessageSender>
-          &nbsp; &nbsp;
-          <MessageTimestamp>{createdTime}</MessageTimestamp>
-          <br />
-          <MessageText dangerouslySetInnerHTML={{ __html: message }} />
+          {updateState ? updateMessage : ordinaryMessage}
         </MessageKitRight>
       </MessageKit>
-      {hoverState && (
+      {hoverState && !updateState && (
         <ThreadActions
           threadId={threadId}
           userHasWorkspaceId={userHasWorkspaceId}
           threads={threads}
           setThreads={setThreads}
+          setUpdateState={setUpdateState}
         />
       )}
     </Container>
