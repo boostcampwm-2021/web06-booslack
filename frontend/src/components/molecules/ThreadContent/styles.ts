@@ -1,7 +1,16 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+interface Props {
+  updateState?: boolean;
+}
+
+export const Container = styled.div<Props>`
   width: 100%;
+  position: relative;
+
+  :hover {
+    background: ${(props) => !props.updateState && '#f8f8f8'};
+  }
 `;
 
 export const MessageKit = styled.div`

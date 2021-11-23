@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import EmojiPopup from '@molecules/EmojiPopup';
 import MentionPopup from '@molecules/MentionPopup';
 import {
@@ -10,15 +10,19 @@ import {
 import { Container, MessageInputArea } from './styles';
 
 interface Props {
-  message: string;
   setMessage: (message: string) => void;
   setFocused: (focused: boolean) => void;
+  messageClear: boolean;
+  setMessageClear: (messageClear: boolean) => void;
+  defaultMessage?: string;
 }
 
 const WysiwygEditor = ({
-  message,
   setMessage,
   setFocused,
+  messageClear,
+  setMessageClear,
+  defaultMessage,
 }: Props): JSX.Element => {
   const [isEmojiOpen, setIsEmojiOpen] = useState(false);
   const [isMentionOpen, setIsMentionOpen] = useState(false);
@@ -40,6 +44,15 @@ const WysiwygEditor = ({
   const handleOnBlur = () => {
     setFocused(false);
   };
+
+  const editor = useRef();
+  useEffect(() => {
+    if (editor.current && messageClear) {
+      editor.current.innerHTML = '<p><br></p>';
+      setMessageClear(false);
+      setMessage('');
+    }
+  }, [messageClear]);
 
   return (
     <Container>
@@ -80,8 +93,9 @@ const WysiwygEditor = ({
         suppressContentEditableWarning="true"
         onFocus={handleOnfocus}
         onBlur={handleOnBlur}
-        dangerouslySetInnerHTML={{ __html: message }}
-      ></MessageInputArea>
+        ref={editor}
+        dangerouslySetInnerHTML={{ __html: defaultMessage }}
+      />
       <EmojiPopup
         input={input}
         isOpen={isEmojiOpen}
@@ -98,6 +112,10 @@ const WysiwygEditor = ({
       />
     </Container>
   );
+};
+
+WysiwygEditor.defaultProps = {
+  defaultMessage: '<p><br /></p>',
 };
 
 export default WysiwygEditor;

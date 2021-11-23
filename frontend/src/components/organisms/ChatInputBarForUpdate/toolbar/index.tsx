@@ -1,8 +1,5 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
 import axios from 'axios';
-import userState from '@state/user';
 import {
   BsTypeBold,
   BsTypeItalic,
@@ -15,11 +12,9 @@ import {
 import {
   MdFormatListNumbered,
   MdFormatListBulleted,
-  MdAttachFile,
   MdSend,
 } from 'react-icons/md';
 import { BiCodeBlock } from 'react-icons/bi';
-import { VscMention } from 'react-icons/vsc';
 import {
   Container,
   ToolbarMiddle,
@@ -28,30 +23,31 @@ import {
 } from './styles';
 
 interface Props {
+  threadId: string;
   message: string;
   focused: boolean;
-  setMessageClear: Dispatch<SetStateAction<boolean>>;
+  setUpdateState: Dispatch<SetStateAction<boolean>>;
 }
 
-const postMessage = async (
-  userHasWorkspaceId: string,
+const updateMessage = async (
+  threadId: string,
   message: string,
-  channelId: string,
-  setMessageClear: Dispatch<SetStateAction<boolean>>,
+  setUpdateState: Dispatch<SetStateAction<boolean>>,
 ): Promise<any> => {
-  const res = await axios.post('/api/threads', {
-    userHasWorkspaceId,
+  const res = await axios.put(`/api/threads/${threadId}`, {
     message,
-    channelId,
   });
   if (res.status === 200) {
-    setMessageClear(true);
+    setUpdateState(false);
   }
 };
 
-const Toolbar = ({ message, setMessageClear, focused }: Props): JSX.Element => {
-  const { channelId }: { channelId: string } = useParams();
-  const user = useRecoilValue(userState);
+const Toolbar = ({
+  threadId,
+  message,
+  focused,
+  setUpdateState,
+}: Props): JSX.Element => {
   const sendable = message !== '<p><br></p>' && message.length > 8;
 
   return (
@@ -69,18 +65,11 @@ const Toolbar = ({ message, setMessageClear, focused }: Props): JSX.Element => {
         <ToolBarIconButton onClick={() => {}} icon={BiCodeBlock} />
       </ToolbarMiddle>
       <ToolbarSuffix>
-        <ToolBarIconButton onClick={() => {}} icon={VscMention} />
         <ToolBarIconButton onClick={() => {}} icon={BsEmojiSmile} />
-        <ToolBarIconButton onClick={() => {}} icon={MdAttachFile} />
         {/* 파일 붙이기는 나중에 인풋 타입으로 바꿔야함  */}
         <ToolBarIconButton
           onClick={() => {
-            postMessage(
-              user.userHasWorkspaceId,
-              message,
-              channelId,
-              setMessageClear,
-            );
+            updateMessage(threadId, message, setUpdateState);
           }}
           icon={MdSend}
           className={sendable ? 'sendButtonActive' : 'sendButtonDisable'}

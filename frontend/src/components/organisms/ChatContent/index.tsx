@@ -1,9 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import { useRecoilValue } from 'recoil';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import ThreadContent from '@molecules/ThreadContent';
-import userState from '@state/user';
 import { Container } from './styles';
 
 interface Props {
@@ -12,7 +10,6 @@ interface Props {
 
 const ChatContent = ({ inputBar }: Props): JSX.Element => {
   const [threads, setThreads] = useState([]);
-  const user = useRecoilValue(userState);
   const { channelId }: { channelId: string } = useParams();
 
   useEffect(() => {
@@ -32,6 +29,10 @@ const ChatContent = ({ inputBar }: Props): JSX.Element => {
             nickname={thread.userHasWorkspace.nickname}
             message={thread.message}
             createdTime={thread.createdAt}
+            threadId={thread.id}
+            userHasWorkspaceId={thread.userHasWorkspaceId}
+            threads={threads}
+            setThreads={setThreads}
           />
         ))}
       </Container>
