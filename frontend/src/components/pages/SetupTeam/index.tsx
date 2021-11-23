@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useResetRecoilState } from 'recoil';
 import SetupTeamQuestions from '@organisms/SetupTeamQuestions';
-import CodeModal from '@organisms/CodeModal';
+import CodeModal from '@molecules/CodeModal';
 import EmptyWorkspaceTemplate from '@templates/EmptyWorkspace';
 import { codeModalState } from '@state/modal';
 

@@ -45,8 +45,24 @@ export async function getAllUserWorkspaces(req: Request, res: Response) {
 
 export async function getOneWorkspace(req: Request, res: Response) {
   const { id } = req.params;
+
   try {
-    const workspace = await getCustomRepository(WorkspaceRepository).findOne(id);
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const user = req.session.passport?.user;
+    const userId = user ? user[0].id : user;
+    if (!userId) {
+      throw BAD_REQUEST;
+    }
+
+    await getCustomRepository(UserHasWorkspaceRepository).findOneOrFail({
+      where: [{ workspaceId: id, userId }],
+    });
+
+    const workspace = await getCustomRepository(WorkspaceRepository).findOneOrFail({
+      where: [{ id }],
+    });
+
     return res.status(OK).json({ workspace });
   } catch (e) {
     return res.status(BAD_REQUEST).json(e);

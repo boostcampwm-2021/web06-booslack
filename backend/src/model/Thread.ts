@@ -17,7 +17,7 @@ import Reaction from './Reaction';
 @Entity()
 class Thread {
   @PrimaryGeneratedColumn()
-  id!: number
+  id!: number;
 
   @Column()
   message!: string;
@@ -32,10 +32,10 @@ class Thread {
   userHasWorkspaceId!: number;
 
   @CreateDateColumn({ type: 'timestamp' })
-  createdAt!: Date
+  createdAt!: Date;
 
   @UpdateDateColumn({ type: 'timestamp', nullable: true })
-  updatedAt!: Date
+  updatedAt!: Date;
 
   @OneToMany(() => Reply, (reply) => reply.thread)
   replys!: Reply[];
@@ -52,7 +52,9 @@ class Thread {
   @ManyToOne(() => Dm, (dm) => dm.threads)
   dm!: Dm;
 
-  @ManyToOne(() => UserHasWorkspace, (userHasWorkspace) => userHasWorkspace.threads)
+  @ManyToOne(() => UserHasWorkspace, (userHasWorkspace) => userHasWorkspace.threads, {
+    onDelete: 'SET NULL',
+  })
   userHasWorkspace!: UserHasWorkspace;
 }
 

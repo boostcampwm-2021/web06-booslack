@@ -3,7 +3,7 @@ import { useSetRecoilState } from 'recoil';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
 
-import CodeModal from '@organisms/CodeModal';
+import CodeModal from '@molecules/CodeModal';
 import CodeTemplate from '@templates/Code';
 import SubmitCodeForm from '@organisms/SubmitCodeForm';
 import { checkInputValues } from '@global/util';

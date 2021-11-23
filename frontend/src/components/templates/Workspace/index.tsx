@@ -12,13 +12,16 @@ import ChannelDescriptionModal from '@organisms/ChannelDescriptionModal';
 import SidebarChannelInfoModal from '@organisms/SidebarChannelInfoModal';
 import ChannelTopicModal from '@organisms/ChannelTopicModal';
 import { initializeSocket } from '@hook/useSocket';
+import PreferenceModal from '@organisms/PreferenceModal';
 import {
   channelCreateModalState,
   channelDescriptionModalState,
   channelInfoModalState,
   channelTopicModalState,
+  preferenceModalState,
   sidebarChannelInfoModalState,
 } from '@state/modal';
+import { useWorkspaceQuery } from '@hook/useWorkspace';
 import userState from '@state/user';
 import { RowDiv } from './styles';
 
@@ -32,9 +35,11 @@ const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
   const channelDescriptionModal = useRecoilValue(channelDescriptionModalState);
   const channelTopicModal = useRecoilValue(channelTopicModalState);
   const sidebarChannelModal = useRecoilValue(sidebarChannelInfoModalState);
+  const preferenceModal = useRecoilValue(preferenceModalState);
 
   const { workspaceId }: { workspaceId: string } = useParams();
   const [user, setUser] = useRecoilState(userState);
+  useWorkspaceQuery(workspaceId);
 
   const queryClient = useQueryClient();
 
@@ -77,6 +82,7 @@ const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
       {sidebarChannelModal && <SidebarChannelInfoModal />}
       {channelDescriptionModal && <ChannelDescriptionModal />}
       {channelTopicModal && <ChannelTopicModal />}
+      {preferenceModal && <PreferenceModal />}
     </>
   );
 };

@@ -9,6 +9,8 @@ interface Props {
 const Container = styled.button<Props>`
   width: ${({ width }) => width}px;
   height: ${({ height }) => height}px;
+  border: 0;
+  background-color: inherit;
   background-image: url(${({ image }) => image});
   background-refeat: no-repeat;
   background-size: cover;

@@ -2,6 +2,7 @@ const PREFIX = '/api';
 
 const CHANNEL = 'channels';
 const WORKSPACE = 'workspaces';
+const userHasWorkSpace = 'userHasWorkspaces';
 
 export const API = {
   get: {
@@ -10,6 +11,7 @@ export const API = {
     },
     workspace: {
       user: `${PREFIX}/${WORKSPACE}/user`,
+      getCode: `${PREFIX}/${WORKSPACE}/code`,
     },
   },
 
@@ -17,6 +19,12 @@ export const API = {
     workspace: {
       addOne: `${PREFIX}/${WORKSPACE}`,
       code: `${PREFIX}/${WORKSPACE}/code`,
+    },
+  },
+
+  delete: {
+    userHasWorkspace: {
+      id: `${PREFIX}/${userHasWorkSpace}`,
     },
   },
 } as const;

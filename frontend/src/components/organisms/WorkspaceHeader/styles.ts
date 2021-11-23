@@ -38,6 +38,9 @@ export const StyledInput = styled(Input)`
   }
 `;
 
-export const StyledNoOverlayModal = styled(NoOverlayModal)``;
+export const StyledNoOverlayModal = styled(NoOverlayModal)`
+  width: 200px;
+  height: 250px;
+`;
 
 export default Container;

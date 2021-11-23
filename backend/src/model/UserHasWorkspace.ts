@@ -15,7 +15,7 @@ import Reaction from './Reaction';
 @Entity()
 class UserHasWorkspace {
   @PrimaryGeneratedColumn()
-  id!: number
+  id!: number;
 
   @Column({ nullable: true })
   nickname!: string;
@@ -36,7 +36,7 @@ class UserHasWorkspace {
   fileId!: number;
 
   @CreateDateColumn({ type: 'timestamp' })
-  createdAt!: Date
+  createdAt!: Date;
 
   @OneToMany(() => Reply, (reply) => reply.userHasWorkspace)
   replys!: Reply[];
