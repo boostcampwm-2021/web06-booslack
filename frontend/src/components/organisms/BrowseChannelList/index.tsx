@@ -29,7 +29,6 @@ const { width: ListWidth, height: ListHeight } = BrowserChannelListSize;
 const BrowseChannelList = (): JSX.Element => {
   const sortOption = useRecoilValue<SortOption>(browseChannelSortOption);
   const [dbLikedOption, setLikedOption] = useState<string>('');
-
   const { workspaceId }: { workspaceId: string } = useParams();
 
   async function getWorkspaceLists(page: number) {
@@ -44,7 +43,7 @@ const BrowseChannelList = (): JSX.Element => {
     return res.data;
   }
 
-  const { page, setPage, isFetching, data, error } = usePagination(
+  const { page, setPage, isLoading, isFetching, data, error } = usePagination(
     [sortOption, dbLikedOption],
     getWorkspaceLists,
     { staleTime: 'Infinity' },
@@ -105,7 +104,7 @@ const BrowseChannelList = (): JSX.Element => {
       </CenterAlignedDiv>
       <ChannelListBackground>
         <ScrollBox width={ListWidth}>
-          <AsyncBranch data={data} loading={isFetching} error={error}>
+          <AsyncBranch data={data} loading={isLoading} error={error}>
             <GetListByGET />
           </AsyncBranch>
           <SelectbrowseChannelPage

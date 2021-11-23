@@ -34,11 +34,10 @@ export async function getAllChannels(req: Request, res: Response) {
     );
 
     const count = channels ? channels[0]?.full_count : 0;
-    const hasMore = count < parseInt(offsetStart as string, 10) + pageLimitCount;
+    const hasMore = count > (parseInt(offsetStart as string, 10) + 1) * pageLimitCount;
 
     return res.status(OK).json({ count, channels, hasMore });
   } catch (error) {
-    console.log(error);
     return res.status(BAD_REQUEST).end();
   }
 }

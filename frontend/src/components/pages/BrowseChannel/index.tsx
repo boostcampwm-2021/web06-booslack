@@ -5,16 +5,11 @@ import WorkspaceTemplate from '@templates/Workspace';
 import { browseCursor } from '@state/Channel';
 
 const BrowseChannel = (): JSX.Element => {
-  const Content: JSX.Element = <BrowseContent />;
-
-  const resetCursor = useResetRecoilState(browseCursor);
-  useEffect(() => {
-    return () => {
-      resetCursor();
-    };
-  }, []);
-
-  return <WorkspaceTemplate Content={Content} />;
+  return (
+    <WorkspaceTemplate>
+      <BrowseContent />
+    </WorkspaceTemplate>
+  );
 };
 
 export default BrowseChannel;

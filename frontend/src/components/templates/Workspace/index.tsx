@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { ReactNode, Suspense, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -26,10 +26,10 @@ import userState from '@state/user';
 import { RowDiv } from './styles';
 
 interface Props {
-  Content: JSX.Element;
+  children: ReactNode;
 }
 
-const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
+const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
   const channelCreateModal = useRecoilValue(channelCreateModalState);
   const channelInfoModal = useRecoilValue(channelInfoModalState);
   const channelDescriptionModal = useRecoilValue(channelDescriptionModalState);
@@ -62,6 +62,7 @@ const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
 
     const socket = io(`/workspace:${workspaceId}`);
     getUserHasWorkspace(socket);
+
     return () => {
       socket.close();
     };
@@ -71,13 +72,11 @@ const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
 
   return (
     <>
-      <Suspense fallback={<p>Loading...</p>}>
-        <WorkspaceHeader />
-        <RowDiv>
-          <WorkspaceSidebar />
-          {Content}
-        </RowDiv>
-      </Suspense>
+      <WorkspaceHeader />
+      <RowDiv>
+        <WorkspaceSidebar />
+        {children}
+      </RowDiv>
       {channelCreateModal && <CreateChannelModal />}
       {channelInfoModal && <ChannelInfoModal />}
       {sidebarChannelModal && <SidebarChannelInfoModal />}
