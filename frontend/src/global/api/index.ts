@@ -23,6 +23,10 @@ export const API = {
     },
   },
 
+  update: {
+    userHasWorkspace: `${PREFIX}/${userHasWorkSpace}`,
+  },
+
   delete: {
     userHasWorkspace: {
       id: `${PREFIX}/${userHasWorkSpace}`,

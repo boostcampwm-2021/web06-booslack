@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { ChangeEvent } from 'react';
 
 interface Props {
   name: string;
-  isChecked?: boolean;
-  onChange?: () => void;
+  value: number;
+  isChecked?: number;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
   className?: string;
 }
 
@@ -11,15 +12,16 @@ const RadioButton = ({
   name,
   isChecked,
   onChange,
+  value,
   className,
 }: Props): JSX.Element => {
   return (
     <>
       <input
         type="radio"
-        value={name}
+        value={value}
         name={name}
-        checked={isChecked}
+        checked={value === isChecked}
         className={className}
         onChange={onChange}
       />
