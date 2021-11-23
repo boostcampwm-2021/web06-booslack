@@ -2,7 +2,7 @@ import React, { useMemo, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import Label from '@atoms/Label';
-import { joinChannel } from '@global/api/channel';
+import { joinChannel, leaveChannel } from '@global/api/channel';
 import { Channel } from '@global/type';
 import userState from '@state/user';
 import { useChannelListQuery } from '@hook/useChannels';
@@ -83,7 +83,17 @@ const ChannelList = ({
           </>
         )}
         {isHover && !isJoined && (
-          <StyledButton onClick={navigateToChannel} text="나가기" />
+          <StyledButton
+            onClick={async (e: React.MouseEvent<HTMLButtonElement>) => {
+              e.stopPropagation();
+              try {
+                await leaveChannel(channelId, workspaceId, user.socket);
+              } catch (error) {
+                history.push('/error');
+              }
+            }}
+            text="나가기"
+          />
         )}
       </MarginedDiv>
     </SpaceBetweenDiv>

@@ -1,5 +1,6 @@
 const PREFIX = '/api';
 
+const USER = 'users';
 const CHANNEL = 'channels';
 const WORKSPACE = 'workspaces';
 const userHasWorkSpace = 'userHasWorkspaces';
@@ -25,6 +26,9 @@ export const API = {
   delete: {
     userHasWorkspace: {
       id: `${PREFIX}/${userHasWorkSpace}`,
+    },
+    user: {
+      channel: `${PREFIX}/${USER}`,
     },
   },
 } as const;
