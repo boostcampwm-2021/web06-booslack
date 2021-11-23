@@ -3,6 +3,7 @@ import { useRecoilState, useRecoilValue } from 'recoil';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useQueryClient } from 'react-query';
+import { io } from 'socket.io-client';
 import WorkspaceHeader from '@organisms/WorkspaceHeader';
 import WorkspaceSidebar from '@organisms/WorkspaceSidebar';
 import CreateChannelModal from '@organisms/CreateChannelModal';
@@ -38,46 +39,29 @@ const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    const getUserHasWorkspace = async () => {
+    const getUserHasWorkspace = async (socket) => {
       const res = await axios.get(
         `/api/userHasWorkspaces?userId=${user.id}&workspaceId=${workspaceId}`,
       );
       const { id, nickname, description, theme } = res.data.userHasWorkspace;
-
       setUser((prevState) => ({
         ...prevState,
         userHasWorkspaceId: id,
         nickname,
         description,
         theme,
-        socket: initializeSocket(workspaceId),
+        socket,
       }));
     };
-    getUserHasWorkspace();
+
+    const socket = io(`/workspace:${workspaceId}`);
+    getUserHasWorkspace(socket);
+    return () => {
+      socket.close();
+    };
   }, [workspaceId]);
 
-  useEffect(() => {
-    if (!user.socket) return;
-
-    user.socket.on('threads', (channelId) => {
-      queryClient.invalidateQueries(['threads', channelId], {
-        // 옵션 없이도 왜 refetch??
-        refetchActive: true,
-      });
-    });
-
-    user.socket.on('channels', (workspaceId) => {
-      queryClient.invalidateQueries(['channels', workspaceId], {
-        refetchActive: true,
-      });
-    });
-
-    user.socket.on('channel', (channelId) => {
-      queryClient.invalidateQueries(['channel', channelId], {
-        refetchActive: true,
-      });
-    });
-  }, [user.socket, queryClient]);
+  initializeSocket(user.socket, queryClient);
 
   return (
     <>
