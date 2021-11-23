@@ -7,9 +7,22 @@ export const Container = styled.div`
   background: #ffffff;
 `;
 
+export const DropAlertContainer = styled.div`
+  width: inherit;
+  height: inherit;
+  padding: 8px 10px;
+  position: absolute;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 40px;
+  font-weight: 600;
+`;
+
 export const NotificationBar = styled.div`
   height: 24px;
-  padding: 0px 12px;
+  padding: 0 12px;
   display: flex;
   align-items: center;
 `;

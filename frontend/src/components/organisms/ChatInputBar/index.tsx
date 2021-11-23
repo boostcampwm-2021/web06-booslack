@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import WysiwygEditor from '@molecules/WysiwygEditor';
+import { useDropzone } from 'react-dropzone';
+import { FiDownload } from 'react-icons/fi';
 import Toolbar from './toolbar';
 import FileStatusBar from './FileStatusBar';
 import {
@@ -7,6 +9,7 @@ import {
   WysiwygContainer,
   NotificationBar,
   WysiwygColumn,
+  DropAlertContainer,
 } from './styles';
 
 const ChatInputBar = (): JSX.Element => {
@@ -15,8 +18,7 @@ const ChatInputBar = (): JSX.Element => {
   const [messageClear, setMessageClear] = useState(false);
   const [selectedFile, setSelectedFile] = useState([]);
   const [selectedFileUrl, setSelectedFileUrl] = useState([]);
-  const handleFileUpload = (event) => {
-    const uploadList = event.target.files;
+  function UploadTargetFiles(uploadList) {
     const afterUploadListUrl = [...selectedFileUrl];
     for (let i = 0; i < uploadList.length; i += 1) {
       selectedFile.push(uploadList[i]);
@@ -24,9 +26,25 @@ const ChatInputBar = (): JSX.Element => {
       afterUploadListUrl.push(url);
     }
     setSelectedFileUrl(afterUploadListUrl);
+  }
+  const handleFileUpload = (event) => {
+    event.stopPropagation();
+    UploadTargetFiles(event.target.files);
   };
+  const onDrop = useCallback((acceptedFiles) => {
+    UploadTargetFiles(acceptedFiles);
+  }, []);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   return (
-    <Container>
+    <Container {...getRootProps()}>
+      {isDragActive ? (
+        <DropAlertContainer>
+          <span>Drop the files here</span>
+          <FiDownload size={40} />
+        </DropAlertContainer>
+      ) : (
+        <></>
+      )}
       <div onChange={handleFileUpload}>
         <WysiwygContainer>
           <WysiwygEditor
