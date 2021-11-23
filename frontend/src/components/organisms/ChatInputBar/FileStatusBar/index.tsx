@@ -17,13 +17,19 @@ const FileStatusBar = ({
 }: Props): JSX.Element => {
   return (
     <>
-      {selectedFileUrl.map((url) => (
-        <>
-          <FileStatusColumn>
-            <FileStatusElement url={url} />
+      {selectedFileUrl.map((url, index) => {
+        return (
+          <FileStatusColumn key={index}>
+            <FileStatusElement
+              url={url}
+              selectedFile={selectedFile}
+              selectedFileUrl={selectedFileUrl}
+              setSelectedFile={setSelectedFile}
+              setSelectedFileUrl={setSelectedFileUrl}
+            />
           </FileStatusColumn>
-        </>
-      ))}
+        );
+      })}
     </>
   );
 };

@@ -18,3 +18,7 @@ export const FileStatusElementButton = styled.div`
   color: white;
   font-size: 5px;
 `;
+
+export const FileStatusElementContainer = styled.div`
+  padding-right: 8px;
+`;
