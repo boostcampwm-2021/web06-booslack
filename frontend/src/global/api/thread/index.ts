@@ -27,3 +27,21 @@ export const deleteMessage = async (
     socket.emit('threads', channelId);
   }
 };
+
+export const postMessage = async (
+  userHasWorkspaceId: string,
+  channelId: string,
+  message: string,
+  socket,
+  setMessageClear: Dispatch<SetStateAction<boolean>>,
+): Promise<any> => {
+  const res = await axios.post('/api/threads', {
+    userHasWorkspaceId,
+    message,
+    channelId,
+  });
+  if (res.status === 200) {
+    setMessageClear(true);
+    socket.emit('threads', channelId);
+  }
+};

@@ -1,8 +1,8 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import axios from 'axios';
 import userState from '@state/user';
+import { postMessage } from '@global/api/thread';
 import {
   BsTypeBold,
   BsTypeItalic,
@@ -33,24 +33,6 @@ interface Props {
   setMessageClear: Dispatch<SetStateAction<boolean>>;
 }
 
-const postMessage = async (
-  userHasWorkspaceId: string,
-  message: string,
-  channelId: string,
-  setMessageClear: Dispatch<SetStateAction<boolean>>,
-  socket,
-): Promise<any> => {
-  const res = await axios.post('/api/threads', {
-    userHasWorkspaceId,
-    message,
-    channelId,
-  });
-  if (res.status === 200) {
-    setMessageClear(true);
-    socket.emit('threads', channelId);
-  }
-};
-
 const Toolbar = ({ message, setMessageClear, focused }: Props): JSX.Element => {
   const { channelId }: { channelId: string } = useParams();
   const user = useRecoilValue(userState);
@@ -79,10 +61,10 @@ const Toolbar = ({ message, setMessageClear, focused }: Props): JSX.Element => {
           onClick={() => {
             postMessage(
               user.userHasWorkspaceId,
-              message,
               channelId,
-              setMessageClear,
+              message,
               user.socket,
+              setMessageClear,
             );
           }}
           icon={MdSend}
