@@ -1,12 +1,10 @@
 import React from 'react';
 import { useResetRecoilState } from 'recoil';
 import { useParams, useHistory } from 'react-router-dom';
-import axios from 'axios';
 
-import API from '@global/api';
 import { useWorkspaceQuery } from '@hook/useWorkspace';
 import { preferenceModalState } from '@state/modal';
-
+import { deleteUserFromWorkspace } from '@global/api/workspace';
 import { AlignCenterDiv, StyledLabel } from './styles';
 import { StyledButton, RowSpaceAroundDiv } from '../styles';
 
@@ -30,9 +28,7 @@ const WorkspaceOut = (): JSX.Element => {
           onClick={async () => {
             try {
               if (workspaceId) {
-                await axios.delete(
-                  `${API.delete.userHasWorkspace.id}/${workspaceId}`,
-                );
+                await deleteUserFromWorkspace(workspaceId);
                 history.push({ pathname: '/workspacelist' });
               }
             } catch (error) {
