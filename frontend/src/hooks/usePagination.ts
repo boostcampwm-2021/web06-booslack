@@ -1,10 +1,8 @@
 import { AxiosResponse } from 'axios';
 import { SetStateAction, Dispatch, useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import { useRecoilValue } from 'recoil';
 import { useQuery, useQueryClient } from 'react-query';
 import userState from '@state/user';
-import { io } from 'socket.io-client';
-import { useParams } from 'react-router';
 
 interface IusePagenation {
   page: number;
@@ -53,7 +51,6 @@ const usePagination = (
   useEffect(() => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    console.log(data);
     if (data?.hasMore) {
       queryClient.prefetchQuery(['pagination', ...key, page + 1], () => {
         return axiosFunction(page + 1);

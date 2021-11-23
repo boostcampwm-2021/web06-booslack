@@ -87,16 +87,18 @@ export const MiddleDiv = styled.div`
 `;
 
 export const StyledModal = styled(Modal)`
-  width: 60vw;
+  width: 50vw;
   min-width: 580px;
   height: 40vh;
   min-height: 480px;
 
-  border-radius: 16px;
-  background-color: #fff;
-
-  border: 1px solid black;
-  box-shadow: 0 0 0 1px rgb(29 28 29 / 13%), 0 4px 12px 0 rgb(0 0 0 / 12%);
+  background: #fff;
+  line-height: 1;
+  margin-left: 8px;
+  padding: 2px;
+  border-radius: 0.375em;
+  border: unset;
+  box-shadow: 0 0 0 1px #1d1c1d, 0 1px 3px 0 #000000;
 `;
 
 export const StyledButton = styled(LabeledDefaultButton)`

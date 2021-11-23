@@ -6,8 +6,6 @@ export const Container = styled.div`
   display: flex;
   justify-content: space-between;
   min-height: 48.99px;
-  
-  justify-content: space-between;
   align-items: center;
   }
   background-color: #fff;

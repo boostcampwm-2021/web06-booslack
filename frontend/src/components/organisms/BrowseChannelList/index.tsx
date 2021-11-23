@@ -5,7 +5,6 @@ import axios from 'axios';
 
 import Label from '@atoms/Label';
 import AsyncBranch from '@molecules/AsyncBranch';
-import BrowseChannelHeader from '@molecules/BrowseChannelHeader';
 import ChannelList from '@molecules/ChannelList';
 import SearchBar from '@molecules/SearchBar';
 import SelectbrowseChannelPage from '@molecules/SelectbrowseChannelPage';
@@ -22,6 +21,7 @@ import {
   ChannelListBackground,
   MarginBottomDiv,
   CenterAlignedDiv,
+  StyledBrowseChannelHeader,
 } from './styles';
 
 const { width: ListWidth, height: ListHeight } = BrowserChannelListSize;
@@ -43,7 +43,7 @@ const BrowseChannelList = (): JSX.Element => {
     return res.data;
   }
 
-  const { page, setPage, isLoading, isFetching, data, error } = usePagination(
+  const { page, setPage, isLoading, data, error } = usePagination(
     [sortOption, dbLikedOption],
     getWorkspaceLists,
     { staleTime: 'Infinity' },
@@ -96,7 +96,7 @@ const BrowseChannelList = (): JSX.Element => {
       />
       <MarginBottomDiv />
       <CenterAlignedDiv>
-        <BrowseChannelHeader
+        <StyledBrowseChannelHeader
           width={ListWidth}
           title={Title}
           rightButton={RightButton}

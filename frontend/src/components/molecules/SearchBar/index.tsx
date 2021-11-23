@@ -1,7 +1,7 @@
 import React from 'react';
-import ViewportInput from '@atoms/ViewPortInput';
+
 import { BrowserChannelListSize } from '@enum/index';
-import { Container } from './styles';
+import { Container, StyledViewportInput } from './styles';
 
 interface Props {
   width: number;
@@ -20,7 +20,7 @@ const SearchBar = ({
 }: Props): JSX.Element => {
   return (
     <Container>
-      <ViewportInput
+      <StyledViewportInput
         inputName="ChannelSearchBar"
         onSubmit={onSubmit}
         width={width || ListWidth}

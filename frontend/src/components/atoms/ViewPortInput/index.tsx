@@ -11,6 +11,7 @@ interface Props {
   placeholder: string;
   type?: string;
   customRef?: React.RefObject<HTMLInputElement>;
+  className?: string;
 }
 
 const ViewportInput = ({
@@ -22,6 +23,7 @@ const ViewportInput = ({
   type,
   placeholder,
   customRef,
+  className,
 }: Props): JSX.Element => {
   return (
     <form onSubmit={onSubmit}>
@@ -34,6 +36,7 @@ const ViewportInput = ({
         placeholder={placeholder}
         type={type}
         onChange={onChange}
+        className={className}
       />
     </form>
   );
@@ -47,6 +50,7 @@ ViewportInput.defaultProps = {
   height: '',
   type: 'text',
   customRef: undefined,
+  className: '',
 };
 
 export default ViewportInput;
