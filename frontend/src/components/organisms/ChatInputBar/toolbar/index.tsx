@@ -38,7 +38,6 @@ const postMessage = async (
   message: string,
   channelId: string,
   setMessageClear: Dispatch<SetStateAction<boolean>>,
-  setMessage,
   socket,
 ): Promise<any> => {
   const res = await axios.post('/api/threads', {
@@ -48,8 +47,7 @@ const postMessage = async (
   });
   if (res.status === 200) {
     setMessageClear(true);
-    socket.emit('threads', message);
-    setMessage('<p><br/></p>');
+    socket.emit('threads', channelId);
   }
 };
 
@@ -84,7 +82,6 @@ const Toolbar = ({ message, setMessageClear, focused }: Props): JSX.Element => {
               message,
               channelId,
               setMessageClear,
-              setMessage,
               user.socket,
             );
           }}

@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import axios from 'axios';
 import useRefLocate from '@hook/useRefLocate';
+import { useParams } from 'react-router-dom';
 import userState from '@state/user';
 import { BsEmojiSmile, BsBookmark } from 'react-icons/bs';
 import { BiMessageRoundedDetail, BiDotsVerticalRounded } from 'react-icons/bi';
@@ -21,32 +22,26 @@ import {
 interface Props {
   threadId: string;
   userHasWorkspaceId: string;
-  threads: string[];
-  setThreads: () => void;
   setUpdateState: (arg: boolean) => void;
 }
 
-const deleteMessage = async (threadId, threads, setThreads) => {
+const deleteMessage = async (threadId, channelId, socket) => {
   const res = await axios.delete(`/api/threads/${threadId}`);
   if (res.status === 200) {
-    setThreads(
-      threads.filter((currentThread) => currentThread.id !== threadId),
-    );
+    socket.emit('threads', channelId);
   }
 };
 
 const ThreadActions = ({
   threadId,
   userHasWorkspaceId,
-  threads,
-  setThreads,
   setUpdateState,
 }: Props): JSX.Element => {
   const ButtonRef = useRef(null);
   const [modalState, setModalState] = useState(false);
 
   const [xWidth, yHeight] = useRefLocate(ButtonRef, 50);
-
+  const { channelId }: { channelId: string } = useParams();
   const user = useRecoilValue(userState);
 
   const myMessageActionMenus = (
@@ -92,7 +87,7 @@ const ThreadActions = ({
           text="메시지 삭제"
           color="#e01e5a"
           onClick={() => {
-            deleteMessage(threadId, threads, setThreads);
+            deleteMessage(threadId, channelId, user.socket);
           }}
         />
       </MenuItem>

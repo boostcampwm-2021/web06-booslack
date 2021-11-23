@@ -11,7 +11,7 @@ interface Props {
 const ChatContent = ({ inputBar }: Props): JSX.Element => {
   const { channelId }: { channelId: string } = useParams();
 
-  const { isLoading, isError, data } = useThreadListQuery(channelId);
+  const { isLoading, isError, data: threads } = useThreadListQuery(channelId);
 
   if (isLoading) return <div>Loading</div>;
   if (isError) return <div>Error</div>;
@@ -19,7 +19,7 @@ const ChatContent = ({ inputBar }: Props): JSX.Element => {
   return (
     <>
       <Container>
-        {data.map((thread) => (
+        {threads.map((thread) => (
           <ThreadContent
             key={thread.id}
             nickname={thread.userHasWorkspace.nickname}
@@ -27,8 +27,6 @@ const ChatContent = ({ inputBar }: Props): JSX.Element => {
             createdTime={thread.createdAt}
             threadId={thread.id}
             userHasWorkspaceId={thread.userHasWorkspaceId}
-            threads={threads}
-            setThreads={setThreads}
           />
         ))}
       </Container>

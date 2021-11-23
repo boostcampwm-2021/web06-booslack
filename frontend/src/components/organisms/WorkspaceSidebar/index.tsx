@@ -56,7 +56,6 @@ const WorkspaceSidebar = (): JSX.Element => {
       </NavLink>
 
       {data.map((channel) => {
-        console.log(channel);
         return (
           <NavLink
             key={channel.id}
