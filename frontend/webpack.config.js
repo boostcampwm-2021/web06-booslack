@@ -24,6 +24,10 @@ module.exports = {
         target: 'https://github.com/login/oauth/authorize',
         changeOrigin: true,
       },
+      '/socket.io': {
+        target: process.env.REACT_APP_FRONTEND_URL || 'http://localhost:8081',
+        ws: true,
+      },
     },
     hot: true,
     open: true,

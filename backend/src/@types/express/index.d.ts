@@ -20,6 +20,7 @@ declare module 'express' {
       code: string;
       theme: string;
       fileId: string;
+      topic: string;
 
       userId: string;
       channelId: string;

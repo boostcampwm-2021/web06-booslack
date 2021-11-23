@@ -364,7 +364,6 @@ export const keydownHandle = (
   setIsMentionOpen,
 ): void => {
   const selection = document.getSelection();
-  console.log(1);
   if (e.code === 'Space') {
     const selection = document.getSelection();
     createList(selection, e);

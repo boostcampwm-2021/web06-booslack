@@ -11,6 +11,7 @@
   },
   "license": "MIT",
   "dependencies": {
+    "@testing-library/react": "^12.1.2",
     "axios": "^0.24.0",
     "core-js": "^3.19.0",
     "dotenv": "^10.0.0",
@@ -22,8 +23,8 @@
     "react-query": "^3.32.3",
     "react-router-dom": "5.2.0",
     "react-spinners": "^0.11.0",
-    "@testing-library/react": "^12.1.2",
     "recoil": "^0.4.1",
+    "socket.io-client": "^4.4.0",
     "styled-components": "^5.3.3",
     "styled-tools": "^1.7.2",
     "unicode-emoji": "^2.3.0"

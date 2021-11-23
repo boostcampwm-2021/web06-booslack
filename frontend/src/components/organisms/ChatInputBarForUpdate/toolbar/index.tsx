@@ -1,5 +1,8 @@
 import React, { Dispatch, SetStateAction } from 'react';
-import axios from 'axios';
+import { useRecoilValue } from 'recoil';
+import { useParams } from 'react-router-dom';
+import userState from '@state/user';
+import { updateMessage } from '@global/api/thread';
 import {
   BsTypeBold,
   BsTypeItalic,
@@ -29,25 +32,14 @@ interface Props {
   setUpdateState: Dispatch<SetStateAction<boolean>>;
 }
 
-const updateMessage = async (
-  threadId: string,
-  message: string,
-  setUpdateState: Dispatch<SetStateAction<boolean>>,
-): Promise<any> => {
-  const res = await axios.put(`/api/threads/${threadId}`, {
-    message,
-  });
-  if (res.status === 200) {
-    setUpdateState(false);
-  }
-};
-
 const Toolbar = ({
   threadId,
   message,
   focused,
   setUpdateState,
 }: Props): JSX.Element => {
+  const { channelId }: { channelId: string } = useParams();
+  const user = useRecoilValue(userState);
   const sendable = message !== '<p><br></p>' && message.length > 8;
 
   return (
@@ -69,7 +61,13 @@ const Toolbar = ({
         {/* 파일 붙이기는 나중에 인풋 타입으로 바꿔야함  */}
         <ToolBarIconButton
           onClick={() => {
-            updateMessage(threadId, message, setUpdateState);
+            updateMessage(
+              threadId,
+              channelId,
+              message,
+              user.socket,
+              setUpdateState,
+            );
           }}
           icon={MdSend}
           className={sendable ? 'sendButtonActive' : 'sendButtonDisable'}

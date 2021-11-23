@@ -19,8 +19,6 @@ interface Props {
   createdTime: string;
   threadId: string;
   userHasWorkspaceId: string;
-  threads: string[];
-  setThreads: () => void;
 }
 
 const ThreadContent = ({
@@ -29,8 +27,6 @@ const ThreadContent = ({
   createdTime,
   threadId,
   userHasWorkspaceId,
-  threads,
-  setThreads,
 }: Props): JSX.Element => {
   const [updateState, setUpdateState] = useState(false);
   const [hoverState, setHoverState] = useState(false);
@@ -86,8 +82,6 @@ const ThreadContent = ({
         <ThreadActions
           threadId={threadId}
           userHasWorkspaceId={userHasWorkspaceId}
-          threads={threads}
-          setThreads={setThreads}
           setUpdateState={setUpdateState}
         />
       )}

@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useParams } from 'react-router-dom';
-import { channelDescriptionModalState } from '@state/modal';
+import { channelTopicModalState } from '@state/modal';
 import useInputs from '@hook/useInputs';
 import { useChannelQuery } from '@hook/useChannels';
 import { updateChannel } from '@global/api/channel';
@@ -16,7 +16,7 @@ import {
   StyledModal,
 } from './styles';
 
-const ChannelDescriptionModal = (): JSX.Element => {
+const ChannelTopicModal = (): JSX.Element => {
   const { channelId }: { channelId: string } = useParams();
 
   const { isLoading, isError, data } = useChannelQuery(channelId);
@@ -25,13 +25,13 @@ const ChannelDescriptionModal = (): JSX.Element => {
   if (isError) return <div>Error</div>;
 
   const user = useRecoilValue(userState);
-  const [isOpen, setIsOpen] = useRecoilState(channelDescriptionModalState);
-  const [{ description }, onChange, clear] = useInputs({
-    description: data.description,
+  const [isOpen, setIsOpen] = useRecoilState(channelTopicModalState);
+  const [{ topic }, onChange, clear] = useInputs({
+    topic: data.topic,
   });
 
-  const updateChannelDescription = async () => {
-    data.description = description;
+  const updateChannelTopic = async () => {
+    data.topic = topic;
     updateChannel(data, user.socket);
     clear();
     setIsOpen(false);
@@ -40,20 +40,20 @@ const ChannelDescriptionModal = (): JSX.Element => {
   return (
     <StyledModal isOpen={isOpen} onClose={() => setIsOpen(false)} zIndex={200}>
       <Container>
-        <StyledLabel text="Edit description" />
+        <StyledLabel text="Edit topic" />
         <StyledInput
           placeholder="Describe your team"
           onChange={onChange}
-          name="description"
-          value={description}
+          name="topic"
+          value={topic}
         />
         <ButtonContainer>
           <CancelButton text="Cancel" onClick={() => setIsOpen(false)} />
-          <SaveButton text="Save" onClick={updateChannelDescription} />
+          <SaveButton text="Save" onClick={updateChannelTopic} />
         </ButtonContainer>
       </Container>
     </StyledModal>
   );
 };
 
-export default ChannelDescriptionModal;
+export default ChannelTopicModal;

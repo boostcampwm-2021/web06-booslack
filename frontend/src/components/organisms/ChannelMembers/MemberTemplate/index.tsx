@@ -3,18 +3,14 @@ import MemberElement from '../MemberElement';
 import { Container, GreyContainer, StyledLabel } from '../styles';
 import { NoResultLabel } from './styles';
 
-const channelId = 1;
-
 interface Props {
   matches: any[];
   index: number;
 }
 
 const MemberTemplate = ({ matches, index }: Props): JSX.Element => {
-  const usersInChannel = matches.filter((user) => user.channelId === channelId);
-  const usersNotInChannel = matches.filter(
-    (user) => user.channelId !== channelId,
-  );
+  const usersInChannel = matches.filter((user) => user.inChannel === '1');
+  const usersNotInChannel = matches.filter((user) => user.inChannel === '0');
 
   return (
     <Container>
@@ -24,8 +20,7 @@ const MemberTemplate = ({ matches, index }: Props): JSX.Element => {
           {usersInChannel.map((user, idx) => (
             <div key={user.id}>
               <MemberElement
-                nickname={user.name}
-                email={user.profile}
+                nickname={user.nickname}
                 selected={index === idx}
               />
             </div>
@@ -40,8 +35,7 @@ const MemberTemplate = ({ matches, index }: Props): JSX.Element => {
           {usersNotInChannel.map((user, idx) => (
             <div key={user.id}>
               <MemberElement
-                nickname={user.name}
-                email={user.profile}
+                nickname={user.nickname}
                 selected={index === idx + usersInChannel.length}
               />
             </div>

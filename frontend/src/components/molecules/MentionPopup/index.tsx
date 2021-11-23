@@ -1,6 +1,7 @@
 import Autocomplete from '@atoms/Autocomplete';
 import axios from 'axios';
 import React, { Dispatch, useEffect, useState } from 'react';
+import { useParams } from 'react-router-dom';
 import MentionPopupTemplate from './MentionPopupTemplate';
 import { StyledPopup } from './styles';
 
@@ -20,12 +21,16 @@ const MentionPopup = ({
   close,
 }: Props): JSX.Element => {
   const [users, setUsers] = useState([]);
+  const { workspaceId, channelId }: { workspaceId: string; channelId: string } =
+    useParams();
 
+  // refactor to react-query
+  // rules of hooks?
   useEffect(() => {
     const getUsers = async () => {
       const { data } = await axios({
         method: 'GET',
-        url: `/api/users/workspaces?workspaceId=${1}`, // workspaceId that this channel belongs to
+        url: `/api/users/workspaces?workspaceId=${workspaceId}&channelId=${channelId}`, // workspaceId that this channel belongs to
         baseURL: '/',
       });
       setUsers(data.users);

@@ -22,7 +22,7 @@ const ChatInputBackGround = ({ channelName }: Props): JSX.Element => {
         <LabeledButton
           onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
             e.stopPropagation();
-            joinChannel(user.id, channelId, workspaceId);
+            joinChannel(user.id, channelId, workspaceId, user.socket);
           }}
           text="채널 참여"
         />
