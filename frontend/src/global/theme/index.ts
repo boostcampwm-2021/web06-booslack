@@ -34,9 +34,31 @@ export const yellowTheme: Itheme = {
   focusedMenu: '#FFEB84',
 };
 
+export const mintChocoTheme: Itheme = {
+  backgroundColor: '#534538',
+  bigHeaderColor: '#42362B',
+  smallHeaderColor: '#D99E10',
+  titleText: '#fff',
+  smallText: '#8e7f70',
+  searchBar: '#42362B',
+  focusedMenu: '#5CB09D',
+};
+
+export const royalBlueTheme: Itheme = {
+  backgroundColor: '#3B4F83',
+  bigHeaderColor: '#001A5E',
+  smallHeaderColor: '#7D89AC',
+  titleText: '#77C6E5',
+  smallText: '#F8F8FA',
+  searchBar: '#3B4F83',
+  focusedMenu: '#001A5E',
+};
+
 export const THEME = {
   defaultTheme,
   yellowTheme,
+  royalBlueTheme,
+  mintChocoTheme,
 };
 
 export const getThemeByIndex = (index: number): Itheme => {
@@ -46,9 +68,9 @@ export const getThemeByIndex = (index: number): Itheme => {
     case 1:
       return yellowTheme;
     case 2:
-      return yellowTheme;
+      return mintChocoTheme;
     case 3:
-      return yellowTheme;
+      return royalBlueTheme;
     default:
       return defaultTheme;
   }

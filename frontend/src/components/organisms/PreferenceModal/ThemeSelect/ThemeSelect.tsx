@@ -1,20 +1,21 @@
 import React, { ChangeEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import axios from 'axios';
 
 import RadioButton from '@atoms/RadioButton';
 import userState from '@state/user';
-import themeState from '@state/Theme';
 import API from '@global/api';
-import { getThemeByIndex, Itheme } from '@global/theme';
 import violetImage from '@global/image/violet.png';
 import yellowImage from '@global/image/yellow.png';
+import mintImage from '@global/image/mintChoco.png';
+import blueImage from '@global/image/blue.png';
+import { preferenceModalState } from '@state/modal';
 import { StyledBigImageBox, AlignCenterDiv } from './styles';
 import { StyledLabel, RowSpaceAroundDiv, StyledButton } from '../styles';
 
-const textList = ['violet', 'flower', 'mintChoco', 'rose'];
-const imageList = [violetImage, yellowImage, '', ''];
+const textList = ['violet', 'flower', 'mintChoco', 'royalBlue'];
+const imageList = [violetImage, yellowImage, mintImage, blueImage];
 
 const ShowExampleImageBox = ({
   image,
@@ -34,7 +35,7 @@ const ShowExampleImageBox = ({
 };
 
 const ThemeSelect = (): JSX.Element => {
-  const [clientTheme, setclientTheme] = useRecoilState<Itheme>(themeState);
+  const closeModal = useSetRecoilState(preferenceModalState);
   const [user, setUser] = useRecoilState(userState);
   const { theme } = user;
 
@@ -43,6 +44,10 @@ const ThemeSelect = (): JSX.Element => {
 
   const ChangeThemeValue = (e: ChangeEvent<HTMLInputElement>) => {
     setTheme(parseInt(e.target.value, 10));
+    setUser({ ...user, theme: parseInt(e.target.value, 10) });
+    axios.put(`${API.update.userHasWorkspace}/${workspaceId}`, {
+      theme: currentTheme,
+    });
   };
 
   return (
@@ -74,7 +79,7 @@ const ThemeSelect = (): JSX.Element => {
         />
         <RadioButton
           isChecked={currentTheme}
-          name="rose"
+          name="royalBlue"
           value={3}
           onChange={ChangeThemeValue}
         />
@@ -83,14 +88,7 @@ const ThemeSelect = (): JSX.Element => {
         <StyledButton
           text="확인"
           onClick={() => {
-            axios
-              .put(`${API.update.userHasWorkspace}/${workspaceId}`, {
-                theme: currentTheme,
-              })
-              .then(() => {
-                setUser({ ...user, theme: currentTheme });
-                setclientTheme(getThemeByIndex(currentTheme));
-              });
+            closeModal(false);
           }}
         />
       </RowSpaceAroundDiv>
