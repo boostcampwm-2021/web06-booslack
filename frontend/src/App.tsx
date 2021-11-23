@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { RecoilRoot, useRecoilValue, useSetRecoilState } from 'recoil';
+import { RecoilRoot, useRecoilState, useSetRecoilState } from 'recoil';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
@@ -15,7 +15,7 @@ import NotLogout from '@pages/NotLogout';
 import GetError from '@pages/GetError';
 import Loading from '@pages/Loading';
 import themeState from '@state/Theme';
-import { Itheme } from '@global/theme';
+import { getThemeByIndex, Itheme } from '@global/theme';
 import InvitedCode from '@pages/InvitedCode';
 import GeneratedCode from '@pages/GeneratedCode';
 import Login from '@pages/Login';
@@ -28,9 +28,9 @@ import GlobalStyle from './global/globalstyle';
 const queryClient = new QueryClient();
 
 const ThemeContainer = (): JSX.Element => {
-  const currentTheme = useRecoilValue<Itheme>(themeState);
+  const [currentTheme, setTheme] = useRecoilState<Itheme>(themeState);
   const [isLoading, setIsLoading] = useState(true);
-  const setUserState = useSetRecoilState(userState);
+  const [user, setUserState] = useRecoilState(userState);
 
   useEffect(() => {
     const getLoginStatus = async () => {
@@ -40,6 +40,12 @@ const ThemeContainer = (): JSX.Element => {
     };
     getLoginStatus();
   }, []);
+
+  useEffect(() => {
+    if (user?.theme) {
+      setTheme(getThemeByIndex(user?.theme));
+    }
+  }, [user]);
 
   return isLoading ? (
     <div>loading</div>

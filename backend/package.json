@@ -31,6 +31,7 @@
   },
   "dependencies": {
     "aws-sdk": "^2.1033.0",
+    "axios": "^0.24.0",
     "child_process": "^1.0.2",
     "command-line-args": "^5.2.0",
     "cookie-parser": "^1.4.5",

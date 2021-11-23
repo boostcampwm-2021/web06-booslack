@@ -1,5 +1,5 @@
 import React, { ReactNode, Suspense, useEffect } from 'react';
-import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilState, useRecoilValue } from 'recoil';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useQueryClient } from 'react-query';
@@ -22,9 +22,7 @@ import {
   sidebarChannelInfoModalState,
 } from '@state/modal';
 import userState from '@state/user';
-import themeState from '@state/Theme';
 import { useWorkspaceQuery } from '@hook/useWorkspace';
-import { getThemeByIndex, Itheme } from '@global/theme';
 import { RowDiv } from './styles';
 
 interface Props {
@@ -38,7 +36,6 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
   const channelTopicModal = useRecoilValue(channelTopicModalState);
   const sidebarChannelModal = useRecoilValue(sidebarChannelInfoModalState);
   const preferenceModal = useRecoilValue(preferenceModalState);
-  const setClientTheme = useSetRecoilState<Itheme>(themeState);
 
   const { workspaceId, channelId }: { workspaceId: string; channelId: string } =
     useParams();
@@ -46,10 +43,6 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
   useWorkspaceQuery(workspaceId);
 
   const queryClient = useQueryClient();
-
-  useEffect(() => {
-    setClientTheme(getThemeByIndex(user.theme));
-  }, [user?.theme]);
 
   useEffect(() => {
     const getUserHasWorkspace = async (socket) => {

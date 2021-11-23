@@ -32,7 +32,7 @@ export async function updateOneUser(req: Request, res: Response) {
   const { id } = req.params;
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const { account, email, isLocal, password } = req.body;
+  const { account, email, isLocal, password, theme } = req.body;
   try {
     if (Object.keys(req.body).length === 0) throw new Error('no user data in body');
     const userById = await getCustomRepository(UserRepository).findOneOrFail(id);
@@ -40,6 +40,9 @@ export async function updateOneUser(req: Request, res: Response) {
     userById.email = email || userById.email;
     userById.local = isLocal || userById.local;
     userById.password = password || userById.password;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    userById.theme = theme || userById.theme;
     const users = await getCustomRepository(UserRepository).save(userById);
     return res.status(OK).json({ users });
   } catch (e) {

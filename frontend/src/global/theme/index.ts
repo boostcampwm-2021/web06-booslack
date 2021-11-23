@@ -63,13 +63,13 @@ export const THEME = {
 
 export const getThemeByIndex = (index: number): Itheme => {
   switch (index) {
-    case 0:
-      return defaultTheme;
     case 1:
-      return yellowTheme;
+      return defaultTheme;
     case 2:
-      return mintChocoTheme;
+      return yellowTheme;
     case 3:
+      return mintChocoTheme;
+    case 4:
       return royalBlueTheme;
     default:
       return defaultTheme;
