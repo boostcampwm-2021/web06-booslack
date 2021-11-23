@@ -15,6 +15,7 @@ const ormconfig: ConnectionOptions = {
   synchronize: true,
   logging: false,
   entities: [entitiyPath],
+  extra: { charset: 'utf8mb4_unicode_ci' },
 };
 
 export default ormconfig;
