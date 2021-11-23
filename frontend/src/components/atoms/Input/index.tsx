@@ -19,6 +19,7 @@ const Input = ({
   value,
   onClick,
   type,
+  checked,
   width,
   height,
   placeholder,
@@ -30,6 +31,7 @@ const Input = ({
       height={height}
       placeholder={placeholder}
       onChange={onChange}
+      checked={checked}
       name={name}
       value={value}
       className={className}
