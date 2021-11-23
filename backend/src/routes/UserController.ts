@@ -7,6 +7,7 @@ import {
   deleteOneUser,
   addUserToWorkspace,
   getAllUsersWithChannelInfo,
+  deleteUserFromChannel,
 } from '../service/UserService';
 
 const userRouter = Router();
@@ -19,5 +20,5 @@ userRouter.get('/:id', getOneUser);
 userRouter.post('/', addOneUser);
 userRouter.put('/:id', updateOneUser);
 userRouter.delete('/:id', deleteOneUser);
-
+userRouter.delete('/:workspaceId/:channelId', deleteUserFromChannel);
 export default userRouter;
