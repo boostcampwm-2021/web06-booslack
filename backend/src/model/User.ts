@@ -4,7 +4,7 @@ import UserHasWorkspace from './UserHasWorkspace';
 @Entity()
 class User {
   @PrimaryGeneratedColumn()
-  id!: number
+  id!: number;
 
   @Column()
   account!: string;
@@ -18,16 +18,13 @@ class User {
   @Column({ type: 'tinyint' })
   local!: number;
 
-  @Column({ nullable: true })
+  @Column('int', { default: 1 })
   theme!: number;
 
   @CreateDateColumn({ type: 'timestamp' })
-  createdAt!: Date
+  createdAt!: Date;
 
-  @OneToMany(
-    () => UserHasWorkspace,
-    (userHasWorkspace) => userHasWorkspace.user,
-  )
+  @OneToMany(() => UserHasWorkspace, (userHasWorkspace) => userHasWorkspace.user)
   userHasWorkspaces!: UserHasWorkspace[];
 }
 

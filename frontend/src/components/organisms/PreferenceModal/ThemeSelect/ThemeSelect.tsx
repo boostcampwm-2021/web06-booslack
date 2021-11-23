@@ -10,6 +10,7 @@ import violetImage from '@global/image/violet.png';
 import yellowImage from '@global/image/yellow.png';
 import mintImage from '@global/image/mintChoco.png';
 import blueImage from '@global/image/blue.png';
+import { getIndexByTheme } from '@global/theme';
 import { preferenceModalState } from '@state/modal';
 import { StyledBigImageBox, AlignCenterDiv } from './styles';
 import { StyledLabel, RowSpaceAroundDiv, StyledButton } from '../styles';
@@ -39,7 +40,7 @@ const ThemeSelect = (): JSX.Element => {
   const [user, setUser] = useRecoilState(userState);
   const { theme } = user;
 
-  const [currentTheme, setTheme] = useState(theme ?? 1);
+  const [currentTheme, setTheme] = useState(theme ?? getIndexByTheme(1));
   const { workspaceId }: { workspaceId: string } = useParams();
 
   const ChangeThemeValue = (e: ChangeEvent<HTMLInputElement>) => {

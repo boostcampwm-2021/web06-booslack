@@ -1,3 +1,5 @@
+import lodash from 'lodash';
+
 export interface Itheme {
   backgroundColor: string;
   bigHeaderColor: string;
@@ -74,6 +76,14 @@ export const getThemeByIndex = (index: number): Itheme => {
     default:
       return defaultTheme;
   }
+};
+
+export const getIndexByTheme = (theme: Itheme): number => {
+  if (lodash.isEqual(defaultTheme, theme)) return 1;
+  if (lodash.isEqual(yellowTheme, theme)) return 2;
+  if (lodash.isEqual(mintChocoTheme, theme)) return 3;
+  if (lodash.isEqual(royalBlueTheme, theme)) return 4;
+  return 1;
 };
 
 export default THEME;
