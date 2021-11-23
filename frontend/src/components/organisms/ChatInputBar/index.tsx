@@ -1,7 +1,13 @@
 import React, { useState } from 'react';
 import WysiwygEditor from '@molecules/WysiwygEditor';
 import Toolbar from './toolbar';
-import { Container, WysiwygContainer, NotificationBar } from './styles';
+import FileStatusBar from './FileStatusBar';
+import {
+  Container,
+  WysiwygContainer,
+  NotificationBar,
+  WysiwygColumn,
+} from './styles';
 
 const ChatInputBar = (): JSX.Element => {
   const [message, setMessage] = useState('');
@@ -30,16 +36,24 @@ const ChatInputBar = (): JSX.Element => {
             messageClear={messageClear}
             setMessageClear={setMessageClear}
           />
-          <Toolbar
-            message={message}
-            setMessage={setMessage}
-            setMessageClear={setMessageClear}
-            focused={focused}
+        </WysiwygContainer>
+        <WysiwygColumn>
+          <FileStatusBar
             selectedFile={selectedFile}
             setSelectedFile={setSelectedFile}
+            selectedFileUrl={selectedFileUrl}
             setSelectedFileUrl={setSelectedFileUrl}
           />
-        </WysiwygContainer>
+        </WysiwygColumn>
+        <Toolbar
+          message={message}
+          setMessage={setMessage}
+          focused={focused}
+          setMessageClear={setMessageClear}
+          selectedFile={selectedFile}
+          setSelectedFile={setSelectedFile}
+          setSelectedFileUrl={setSelectedFileUrl}
+        />
         <NotificationBar />
       </div>
     </Container>
