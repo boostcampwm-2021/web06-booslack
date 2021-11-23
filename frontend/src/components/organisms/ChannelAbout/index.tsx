@@ -1,20 +1,27 @@
 import React from 'react';
-import { useSetRecoilState } from 'recoil';
-import { useParams } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useHistory, useParams } from 'react-router-dom';
 import { useChannelQuery } from '@hook/useChannels';
 import {
   channelDescriptionModalState,
+  channelInfoModalState,
   channelTopicModalState,
 } from '@state/modal';
+import userState from '@state/user';
+import { leaveChannel } from '@global/api/channel';
 import AboutElement from './AboutElement';
 import { BackgroundContainer, Container } from './styles';
 
 const ChannelAbout = (): JSX.Element => {
-  const { channelId }: { channelId: string } = useParams();
+  const { workspaceId, channelId }: { workspaceId: string; channelId: string } =
+    useParams();
+  const history = useHistory();
 
   const setChannelDescriptionModalIsOpen = useSetRecoilState(
     channelDescriptionModalState,
   );
+  const user = useRecoilValue(userState);
+  const setIsOpen = useSetRecoilState(channelInfoModalState);
   const setChannelTopicModalIsOpen = useSetRecoilState(channelTopicModalState);
 
   const { isLoading, isError, data } = useChannelQuery(channelId);
@@ -42,7 +49,14 @@ const ChannelAbout = (): JSX.Element => {
           red
           title="Leave channel"
           description=""
-          onClick={() => console.log('leave channel')}
+          onClick={async () => {
+            try {
+              await leaveChannel(channelId, workspaceId, user.socket);
+              setIsOpen(false);
+            } catch (error) {
+              history.push('error');
+            }
+          }}
         />
       </Container>
     </BackgroundContainer>

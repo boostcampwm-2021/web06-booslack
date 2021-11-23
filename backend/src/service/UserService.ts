@@ -89,7 +89,7 @@ export async function deleteUserFromChannel(req: Request, res: Response) {
     });
 
     const entityManager = getManager();
-    const someQuery = await entityManager.query(`
+    await entityManager.query(`
       DELETE from booslack.user_has_workspace_channel
       where booslack.user_has_workspace_channel.userhasWorkspaceId = '${userhasWorkspace.id}'
       and booslack.user_has_workspace_channel.channelId = '${channelId}';    
@@ -97,8 +97,7 @@ export async function deleteUserFromChannel(req: Request, res: Response) {
 
     return res.status(OK).end();
   } catch (e) {
-    console.log(e);
-    return res.status(BAD_REQUEST).json(e);
+    return res.status(BAD_REQUEST).end();
   }
 }
 

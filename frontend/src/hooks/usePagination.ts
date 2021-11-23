@@ -32,9 +32,7 @@ const usePagination = (
     if (!socket) return;
 
     socket.on('channels', () => {
-      queryClient.invalidateQueries(queryKey, {
-        refetchActive: true,
-      });
+      queryClient.invalidateQueries(queryKey, { refetchActive: true });
     });
   }, [user, queryClient, page]);
 

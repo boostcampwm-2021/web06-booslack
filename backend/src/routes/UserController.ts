@@ -20,5 +20,6 @@ userRouter.get('/:id', getOneUser);
 userRouter.post('/', addOneUser);
 userRouter.put('/:id', updateOneUser);
 userRouter.delete('/:id', deleteOneUser);
+// eslint-disable-next-line @typescript-eslint/no-unsafe-argument
 userRouter.delete('/:workspaceId/:channelId', deleteUserFromChannel);
 export default userRouter;
