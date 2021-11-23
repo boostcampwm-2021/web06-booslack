@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import { hoverChangeColor } from '@global/mixin';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
+import Label from '@atoms/Label';
 
 interface Props {
   width?: string;
@@ -18,7 +19,7 @@ export const Container = styled.div<Props>`
 
 export const TextSet = styled.div`
   color: blue;
-  & > span {
+  & > span:not(:first-child) {
     margin: 1vh 1vw 0 1vw;
   }
 `;
@@ -47,6 +48,14 @@ export const MarginedDiv = styled.div`
   & > button {
     margin-right: 1vw;
   }
+`;
+
+export const StyledLabel = styled(Label)`
+  font-weight: bold;
+`;
+
+export const StyledJoinedNoticeLabel = styled(Label)`
+  color: #007a5a;
 `;
 
 export const StyledButton = styled(LabeledDefaultButton)<{

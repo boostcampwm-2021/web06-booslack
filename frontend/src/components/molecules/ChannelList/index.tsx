@@ -8,6 +8,8 @@ import userState from '@state/user';
 import { useChannelListQuery } from '@hook/useChannels';
 import {
   Container,
+  StyledLabel,
+  StyledJoinedNoticeLabel,
   TextSet,
   SpaceBetweenDiv,
   MarginedDiv,
@@ -16,6 +18,7 @@ import {
 
 interface Props {
   channelId: number;
+  channelType: string;
   firstLabelContent?: string;
   secondLabelContent?: string;
   content?: string;
@@ -23,6 +26,7 @@ interface Props {
 
 const ChannelList = ({
   channelId,
+  channelType,
   firstLabelContent,
   secondLabelContent,
   content,
@@ -60,9 +64,13 @@ const ChannelList = ({
       onClick={navigateToChannel}
     >
       <Container>
-        <div>{firstLabelContent || 'channel name'}</div>
+        <div>
+          {channelType}
+          <StyledLabel text={` ${firstLabelContent}` || ' channel name'} />
+        </div>
 
         <TextSet>
+          {!isJoined && <StyledJoinedNoticeLabel text="✔ 참여함" />}
           <Label color="grey" text={secondLabelContent || ''} />
           <Label color="grey" text={content} />
         </TextSet>

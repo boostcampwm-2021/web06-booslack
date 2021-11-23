@@ -70,7 +70,8 @@ const BrowseChannelList = (): JSX.Element => {
           return (
             <ChannelList
               channelId={id}
-              firstLabelContent={`${CHANNELTYPE[isPrivate]} ${id} ${name}`}
+              channelType={`${CHANNELTYPE[isPrivate]}`}
+              firstLabelContent={`${id} ${name}`}
               secondLabelContent={description}
               key={`BrowseChannelList${id}`}
             />
