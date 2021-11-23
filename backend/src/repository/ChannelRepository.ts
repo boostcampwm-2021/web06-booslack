@@ -1,3 +1,4 @@
+/* eslint-disable arrow-body-style */
 import { EntityRepository, Repository } from 'typeorm';
 import { pageLimitCount } from '@enum';
 import Channel from '../model/Channel';
@@ -12,28 +13,58 @@ export default class ChannelRepository extends Repository<Channel> {
     OFFSET: number,
     sortOption: SortOption,
     like: string,
+    showPrivate: boolean,
+    showPublic: boolean,
+    showMine: boolean,
     LIMIT: number = pageLimitCount,
   ) {
+    if (!showPrivate && !showPublic) return null;
+
     const likeQuery = (): string => (like ? `where name like '%${like}%'` : '');
 
-    // FULL OUTER JOIN booslack.user_has_workspace_channel as user_has_workspace
+    const privateQuery = (): string => {
+      return showPrivate && showMine
+        ? `
+      select *
+        from booslack.channel channel
+      where private= 1 and channel.id = ANY (
+        select channelId
+          from booslack.user_has_workspace_channel
+        where booslack.user_has_workspace_channel.userHasWorkspaceId = (
+        select id 
+          from booslack.user_has_workspace
+        where booslack.user_has_workspace.userId = ${userId}
+        and booslack.user_has_workspace.workspaceId = ${workspaceId}))`
+        : '';
+    };
+
+    const publicQuery = (): string => {
+      return showPublic && showMine
+        ? `
+      select *
+        from booslack.channel channel
+          where workspaceId = ${workspaceId} and private = 0`
+        : '';
+    };
+
+    const notMineQuery = (): string => {
+      return showMine
+        ? ''
+        : `
+        
+      `;
+    };
+
+    const unionQuery = showPublic && showPrivate && showMine ? 'UNION ALL' : '';
 
     const rawQuery = this.query(`
     
     select tmp.name, tmp.id, tmp.description, tmp.private, COUNT(name) OVER() AS full_count
-    from (select *
-      from booslack.channel channel
-    where workspaceId = ${workspaceId} and private = 0
-    UNION ALL
-    select *
-      from booslack.channel channel
-    where private= 1 and channel.id = ANY (
-      select channelId
-        from booslack.user_has_workspace_channel
-      where booslack.user_has_workspace_channel.userHasWorkspaceId = (
-        select id from booslack.user_has_workspace
-        where booslack.user_has_workspace.userId = ${userId}
-        and booslack.user_has_workspace.workspaceId = ${workspaceId}))
+    from (
+    ${privateQuery()} 
+    ${unionQuery}
+    ${publicQuery()}
+    ${notMineQuery()}
         ) tmp
       ${likeQuery()}
       GROUP BY tmp.name, tmp.id, tmp.description, tmp.private
