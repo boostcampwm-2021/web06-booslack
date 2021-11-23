@@ -23,15 +23,18 @@ export default class ChannelRepository extends Repository<Channel> {
     select tmp.name, tmp.id, tmp.description, tmp.private, COUNT(name) OVER() AS full_count
     from (select *
       from booslack.channel channel
-    where (workspaceId = ${workspaceId} and 
-    (private=0 or (private=1 and   
-    channel.id = ANY (
-      select channelId from booslack.user_has_workspace_channel
+    where workspaceId = ${workspaceId} and private = 0
+    UNION ALL
+    select *
+      from booslack.channel channel
+    where private= 1 and channel.id = ANY (
+      select channelId
+        from booslack.user_has_workspace_channel
       where booslack.user_has_workspace_channel.userHasWorkspaceId = (
         select id from booslack.user_has_workspace
         where booslack.user_has_workspace.userId = ${userId}
-        and booslack.user_has_workspace.workspaceId = ${workspaceId})))
-      ))) tmp
+        and booslack.user_has_workspace.workspaceId = ${workspaceId}))
+        ) tmp
       ${likeQuery()}
       GROUP BY tmp.name, tmp.id, tmp.description, tmp.private
       ORDER BY name ${sortOption === 'rAlpha' ? 'DESC' : ''}
