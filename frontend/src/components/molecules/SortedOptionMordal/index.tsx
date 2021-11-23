@@ -1,4 +1,4 @@
-import React, { RefObject } from 'react';
+import React, { ChangeEvent, RefObject } from 'react';
 import { RecoilState, useRecoilState, useSetRecoilState } from 'recoil';
 import Input from '@atoms/Input';
 import DivLists from '@atoms/DivLists';
@@ -27,7 +27,7 @@ const SortedOptionMordal = ({
     SortedOptionMordalState,
   );
 
-  const toggle = (e) => {
+  const toggle = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
     setCheckedItems(
       checkedItems.map((ele, index) => {

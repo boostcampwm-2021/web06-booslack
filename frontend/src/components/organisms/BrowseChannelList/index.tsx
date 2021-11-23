@@ -14,7 +14,7 @@ import usePagination from '@hook/usePagination';
 import API from '@global/api';
 import { SortOption } from '@global/type';
 import { browseChannelSortOption } from '@state/Channel';
-
+import { SortedOptionMordalState } from '@state/modal';
 import {
   Container,
   ScrollBox,
@@ -28,6 +28,8 @@ const { width: ListWidth, height: ListHeight } = BrowserChannelListSize;
 
 const BrowseChannelList = (): JSX.Element => {
   const sortOption = useRecoilValue<SortOption>(browseChannelSortOption);
+  const checkedItems = useRecoilValue(SortedOptionMordalState);
+
   const [dbLikedOption, setLikedOption] = useState<string>('');
   const { workspaceId }: { workspaceId: string } = useParams();
 
@@ -38,13 +40,16 @@ const BrowseChannelList = (): JSX.Element => {
         sortOption,
         workspaceId,
         like: dbLikedOption,
+        showPrivate: checkedItems[0],
+        showPublic: checkedItems[1],
+        showMine: checkedItems[2],
       },
     });
     return res.data;
   }
 
   const { page, setPage, isLoading, data, error } = usePagination(
-    [sortOption, dbLikedOption],
+    [sortOption, dbLikedOption, ...checkedItems],
     getWorkspaceLists,
     { staleTime: 'Infinity' },
   );
