@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import axios from 'axios';
@@ -45,10 +45,15 @@ const ThemeSelect = (): JSX.Element => {
   const ChangeThemeValue = (e: ChangeEvent<HTMLInputElement>) => {
     setTheme(parseInt(e.target.value, 10));
     setUser({ ...user, theme: parseInt(e.target.value, 10) });
-    axios.put(`${API.update.userHasWorkspace}/${workspaceId}`, {
-      theme: currentTheme,
-    });
   };
+
+  useEffect(() => {
+    return () => {
+      axios.put(`${API.update.userHasWorkspace}/${workspaceId}`, {
+        theme: currentTheme,
+      });
+    };
+  });
 
   return (
     <>
@@ -86,8 +91,11 @@ const ThemeSelect = (): JSX.Element => {
       </RowSpaceAroundDiv>
       <RowSpaceAroundDiv>
         <StyledButton
-          text="확인"
+          text="저장"
           onClick={() => {
+            axios.put(`${API.update.userHasWorkspace}/${workspaceId}`, {
+              theme: currentTheme,
+            });
             closeModal(false);
           }}
         />
