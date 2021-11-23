@@ -1,9 +1,9 @@
 import React, { useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
-import axios from 'axios';
-import useRefLocate from '@hook/useRefLocate';
 import { useParams } from 'react-router-dom';
+import useRefLocate from '@hook/useRefLocate';
 import userState from '@state/user';
+import { deleteMessage } from '@global/api/thread';
 import { BsEmojiSmile, BsBookmark } from 'react-icons/bs';
 import { BiMessageRoundedDetail, BiDotsVerticalRounded } from 'react-icons/bi';
 import { RiShareForwardLine } from 'react-icons/ri';
@@ -24,13 +24,6 @@ interface Props {
   userHasWorkspaceId: string;
   setUpdateState: (arg: boolean) => void;
 }
-
-const deleteMessage = async (threadId, channelId, socket) => {
-  const res = await axios.delete(`/api/threads/${threadId}`);
-  if (res.status === 200) {
-    socket.emit('threads', channelId);
-  }
-};
 
 const ThreadActions = ({
   threadId,

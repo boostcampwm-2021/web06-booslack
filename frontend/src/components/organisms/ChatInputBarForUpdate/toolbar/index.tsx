@@ -1,8 +1,8 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { useRecoilValue } from 'recoil';
-import axios from 'axios';
 import { useParams } from 'react-router-dom';
 import userState from '@state/user';
+import { updateMessage } from '@global/api/thread';
 import {
   BsTypeBold,
   BsTypeItalic,
@@ -31,22 +31,6 @@ interface Props {
   focused: boolean;
   setUpdateState: Dispatch<SetStateAction<boolean>>;
 }
-
-const updateMessage = async (
-  threadId: string,
-  message: string,
-  setUpdateState: Dispatch<SetStateAction<boolean>>,
-  channelId: string,
-  socket,
-): Promise<any> => {
-  const res = await axios.put(`/api/threads/${threadId}`, {
-    message,
-  });
-  if (res.status === 200) {
-    setUpdateState(false);
-    socket.emit('threads', channelId);
-  }
-};
 
 const Toolbar = ({
   threadId,
@@ -79,10 +63,10 @@ const Toolbar = ({
           onClick={() => {
             updateMessage(
               threadId,
-              message,
-              setUpdateState,
               channelId,
+              message,
               user.socket,
+              setUpdateState,
             );
           }}
           icon={MdSend}
