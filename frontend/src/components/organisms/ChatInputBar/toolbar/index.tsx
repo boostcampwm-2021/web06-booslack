@@ -1,6 +1,7 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
+import axios from 'axios';
 import userState from '@state/user';
 import { postMessage } from '@global/api/thread';
 import {
@@ -25,19 +26,66 @@ import {
   ToolbarMiddle,
   ToolbarSuffix,
   ToolBarIconButton,
+  FileInput,
+  FileLabel,
 } from './styles';
 
 interface Props {
   message: string;
   focused: boolean;
+  setMessage: Dispatch<SetStateAction<string>>;
   setMessageClear: Dispatch<SetStateAction<boolean>>;
+  selectedFile: any;
+  setSelectedFile: Dispatch<SetStateAction<any>>;
+  setSelectedFileUrl: Dispatch<SetStateAction<any>>;
 }
 
-const Toolbar = ({ message, setMessageClear, focused }: Props): JSX.Element => {
+const postFiles = async (
+  channelId: string,
+  selectedFile: any,
+  setSelectedFile,
+  setSelectedFileUrl,
+) => {
+  let fileUrl = '/api/files/upload';
+  const formDatas = new FormData();
+  const selectedFileLength = selectedFile.length;
+  if (selectedFileLength > 1) fileUrl = '/api/files/uploads';
+  if (selectedFileLength === 0) return;
+  // eslint-disable-next-line array-callback-return
+  selectedFile.map((fileElement) => {
+    formDatas.append('file', fileElement);
+  });
+  const config = {
+    headers: { 'content-type': 'multipart/form-data' },
+  };
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const response = axios
+    .post(fileUrl, formDatas, config)
+    .then(() => {
+      setSelectedFile([]);
+      setSelectedFileUrl([]);
+    })
+    .catch((err) => {
+      return <div>{err}</div>;
+    });
+  if (response.status === 200) {
+    setSelectedFile([]);
+  }
+};
+
+const Toolbar = ({
+  message,
+  setMessageClear,
+  setMessage,
+  focused,
+  selectedFile,
+  setSelectedFile,
+  setSelectedFileUrl,
+}: Props): JSX.Element => {
   const { channelId }: { channelId: string } = useParams();
   const user = useRecoilValue(userState);
   const sendable = message !== '<p><br></p>' && message.length > 8;
-
   return (
     <Container>
       <ToolbarMiddle focused={focused}>
@@ -55,8 +103,15 @@ const Toolbar = ({ message, setMessageClear, focused }: Props): JSX.Element => {
       <ToolbarSuffix>
         <ToolBarIconButton onClick={() => {}} icon={VscMention} />
         <ToolBarIconButton onClick={() => {}} icon={BsEmojiSmile} />
-        <ToolBarIconButton onClick={() => {}} icon={MdAttachFile} />
-        {/* 파일 붙이기는 나중에 인풋 타입으로 바꿔야함  */}
+        <FileLabel htmlFor="choosefile">
+          <MdAttachFile />
+        </FileLabel>
+        <FileInput
+          type="file"
+          id="choosefile"
+          multiple="multiple"
+          accept={'image/*'}
+        />
         <ToolBarIconButton
           onClick={() => {
             postMessage(
@@ -65,6 +120,12 @@ const Toolbar = ({ message, setMessageClear, focused }: Props): JSX.Element => {
               message,
               user.socket,
               setMessageClear,
+            );
+            postFiles(
+              channelId,
+              selectedFile,
+              setSelectedFile,
+              setSelectedFileUrl,
             );
           }}
           icon={MdSend}

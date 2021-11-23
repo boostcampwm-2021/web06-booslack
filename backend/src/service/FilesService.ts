@@ -79,8 +79,8 @@ export async function uploadFile(req: Request, res: Response) {
       url: fileUrl,
       extension: req.file?.fieldname,
     };
-    const file = await getCustomRepository(FileRepository).save(fileByUpload);
-    res.status(202).json(file);
+    const fileBySave = await getCustomRepository(FileRepository).save(fileByUpload);
+    res.status(202).json(fileBySave);
   } catch (e) {
     res.status(500);
   }
@@ -90,10 +90,10 @@ export function uploadFiles(req: Request, res: Response) {
   try {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
-    const files: Array<File> = req.file;
+    const Files: Array<File> = req.files;
     const fileList: Array<File> = [];
     // eslint-disable-next-line array-callback-return
-    files.map(async (element: File) => {
+    Files.map(async (element: File) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       const { originalname, location, fieldname } = element;
