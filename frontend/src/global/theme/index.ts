@@ -13,6 +13,7 @@ export interface Itheme {
     https://chrome.google.com/webstore/detail/colorzilla/bhlhnicpbhignbdhedgjhgdocnmhomnp?hl=ko
     추천
 */
+
 export const defaultTheme: Itheme = {
   backgroundColor: '#3F0E40',
   bigHeaderColor: '#350D36',
@@ -36,6 +37,21 @@ export const yellowTheme: Itheme = {
 export const THEME = {
   defaultTheme,
   yellowTheme,
+};
+
+export const getThemeByIndex = (index: number): Itheme => {
+  switch (index) {
+    case 0:
+      return defaultTheme;
+    case 1:
+      return yellowTheme;
+    case 2:
+      return yellowTheme;
+    case 3:
+      return yellowTheme;
+    default:
+      return defaultTheme;
+  }
 };
 
 export default THEME;
