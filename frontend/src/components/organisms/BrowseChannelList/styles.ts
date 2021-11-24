@@ -1,6 +1,6 @@
-import { RoundScrollBar } from '@global/mixin';
-import BrowseChannelHeader from '@molecules/BrowseChannelHeader';
 import styled from 'styled-components';
+import { scrollIfHover } from '@global/mixin';
+import BrowseChannelHeader from '@molecules/BrowseChannelHeader';
 
 interface Props {
   width?: number;
@@ -42,9 +42,7 @@ export const ChannelListBackground = styled.div<Props>`
   flex-direction: column;
   align-items: center;
 
-  ${RoundScrollBar}
-  overflow: scroll;
-  overflow-x: hidden;
+  ${scrollIfHover}
 `;
 
 export const MarginedDiv = styled.div`

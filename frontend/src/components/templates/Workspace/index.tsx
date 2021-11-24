@@ -11,8 +11,9 @@ import ChannelInfoModal from '@organisms/ChannelInfoModal';
 import ChannelDescriptionModal from '@organisms/ChannelDescriptionModal';
 import SidebarChannelInfoModal from '@organisms/SidebarChannelInfoModal';
 import ChannelTopicModal from '@organisms/ChannelTopicModal';
-import { initializeSocket } from '@hook/useSocket';
+import ReplyBar from '@organisms/ReplyBar';
 import PreferenceModal from '@organisms/PreferenceModal';
+import { initializeSocket } from '@hook/useSocket';
 import {
   channelCreateModalState,
   channelDescriptionModalState,
@@ -78,6 +79,7 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
         <RowDiv>
           <WorkspaceSidebar />
           {children}
+          <ReplyBar />
         </RowDiv>
       </Suspense>
       {channelCreateModal && <CreateChannelModal />}

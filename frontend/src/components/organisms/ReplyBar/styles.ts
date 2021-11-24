@@ -1,13 +1,11 @@
 import styled from 'styled-components';
-import { theme } from 'styled-tools';
-import { defaultTheme } from '@global/theme';
 import { scrollIfHover } from '@global/mixin';
 
-export const Container = styled.div`
-  width: 18vw;
-  min-width: 18vw;
+const Container = styled.div<{ widthVW: number; isOpened: boolean }>`
+  display: ${({ isOpened }) => (isOpened ? 'flex' : 'none')};
+  width: ${({ widthVW }) => widthVW}vw;
   height: 100vh;
-  background-color: ${theme('backgroundColor', defaultTheme.backgroundColor)};
+  background-color: red;
 
   ${scrollIfHover}
 `;
