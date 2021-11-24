@@ -50,8 +50,6 @@ const ReplyBar = (): JSX.Element => {
   const [{ isOpened, threadId, channelName }, setReplyToggle] =
     useRecoilState(replyToggleState);
 
-  console.log(threadId);
-
   return (
     <Container widthVW={SIZEVW} isOpened={isOpened}>
       <ReplyHeader
