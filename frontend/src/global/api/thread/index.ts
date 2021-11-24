@@ -77,6 +77,8 @@ export const postMessageAndFiles = async (
   selectedFile.map((fileElement) => {
     formDatas.append('file', fileElement);
   });
+  setSelectedFile([]);
+  setSelectedFileUrl([]);
   const config = {
     headers: { 'content-type': 'multipart/form-data' },
   };
@@ -84,8 +86,6 @@ export const postMessageAndFiles = async (
     .post(fileUrl, formDatas, config)
     // eslint-disable-next-line @typescript-eslint/no-shadow
     .then((response) => {
-      setSelectedFile([]);
-      setSelectedFileUrl([]);
       const fileList: Array<number> = response.data.files;
       // eslint-disable-next-line array-callback-return
       fileList.map(async (fileId) => {
@@ -93,8 +93,6 @@ export const postMessageAndFiles = async (
       });
     })
     .catch((err) => {
-      setSelectedFile([]);
-      setSelectedFileUrl([]);
       throw new Error('No files Error');
     });
 };
