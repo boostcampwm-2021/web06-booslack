@@ -1,5 +1,11 @@
 import { Router } from 'express';
-import { addThread, deleteThread, getAllThreadsByChannelId, getThread, updateThread } from '../service/ThreadService';
+import {
+  addThread,
+  deleteThread,
+  getAllThreadsByChannelId,
+  getThread,
+  updateThread,
+} from '../service/ThreadService';
 
 const threadRouter = Router();
 
