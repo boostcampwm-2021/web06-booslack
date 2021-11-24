@@ -15,6 +15,7 @@ export async function getUserHasWorkspace(req: Request, res: Response) {
 
     if (!userHasWorkspace) {
       throw new Error(
+        // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
         `userHasWorkspace with user ${userId} and workspace ${workspaceId} does not exist`,
       );
     }
@@ -36,8 +37,8 @@ export async function updateUserHasWorkspace(req: Request, res: Response) {
 
     userHasWorkspaceById.nickname = nickname || userHasWorkspaceById.nickname;
     userHasWorkspaceById.description = description || userHasWorkspaceById.description;
-    userHasWorkspaceById.theme = theme || userHasWorkspaceById.theme;
-    userHasWorkspaceById.fileId = fileId || userHasWorkspaceById.fileId;
+    userHasWorkspaceById.theme = Number(theme) || userHasWorkspaceById.theme;
+    userHasWorkspaceById.fileId = Number(fileId) || userHasWorkspaceById.fileId;
 
     const userHasWorkspace = await getCustomRepository(UserHasWorkspaceRepository).save(
       userHasWorkspaceById,

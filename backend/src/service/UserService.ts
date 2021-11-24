@@ -1,10 +1,11 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response } from 'express';
-import { getCustomRepository } from 'typeorm';
+import { DeepPartial, getCustomRepository } from 'typeorm';
 import UserRepository from '../repository/UserRepository';
 import WorkspaceRepository from '../repository/WorkspaceRepository';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
 import UserHasWorkspace from '../model/UserHasWorkspace';
+import User from '../model/User';
 
 const { BAD_REQUEST, OK } = StatusCodes;
 
@@ -47,7 +48,9 @@ export async function updateOneUser(req: Request, res: Response) {
 }
 
 export async function addOneUser(req: Request, res: Response) {
-  const user = req.body;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const user: DeepPartial<User> = req.body;
   try {
     if (Object.keys(user).length === 0) throw new Error('no user data in body');
     const users = await getCustomRepository(UserRepository).save(user);

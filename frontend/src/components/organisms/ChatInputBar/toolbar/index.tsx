@@ -2,7 +2,7 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import userState from '@state/user';
-import { postMessage } from '@global/api/thread';
+import { postMessageAndFiles } from '@global/api/thread';
 import {
   BsTypeBold,
   BsTypeItalic,
@@ -25,19 +25,32 @@ import {
   ToolbarMiddle,
   ToolbarSuffix,
   ToolBarIconButton,
+  FileInput,
+  FileLabel,
 } from './styles';
 
 interface Props {
   message: string;
   focused: boolean;
+  setMessage: Dispatch<SetStateAction<string>>;
   setMessageClear: Dispatch<SetStateAction<boolean>>;
+  selectedFile: any;
+  setSelectedFile: Dispatch<SetStateAction<any>>;
+  setSelectedFileUrl: Dispatch<SetStateAction<any>>;
 }
 
-const Toolbar = ({ message, setMessageClear, focused }: Props): JSX.Element => {
+const Toolbar = ({
+  message,
+  setMessageClear,
+  setMessage,
+  focused,
+  selectedFile,
+  setSelectedFile,
+  setSelectedFileUrl,
+}: Props): JSX.Element => {
   const { channelId }: { channelId: string } = useParams();
   const user = useRecoilValue(userState);
   const sendable = message !== '<p><br></p>' && message.length > 8;
-
   return (
     <Container>
       <ToolbarMiddle focused={focused}>
@@ -55,16 +68,27 @@ const Toolbar = ({ message, setMessageClear, focused }: Props): JSX.Element => {
       <ToolbarSuffix>
         <ToolBarIconButton onClick={() => {}} icon={VscMention} />
         <ToolBarIconButton onClick={() => {}} icon={BsEmojiSmile} />
-        <ToolBarIconButton onClick={() => {}} icon={MdAttachFile} />
-        {/* 파일 붙이기는 나중에 인풋 타입으로 바꿔야함  */}
+        <FileLabel htmlFor="choosefile">
+          <MdAttachFile />
+        </FileLabel>
+        <FileInput
+          type="file"
+          id="choosefile"
+          multiple="multiple"
+          accept={'image/*'}
+        />
         <ToolBarIconButton
           onClick={() => {
-            postMessage(
+            postMessageAndFiles(
               user.userHasWorkspaceId,
               channelId,
               message,
               user.socket,
               setMessageClear,
+              setMessage,
+              selectedFile,
+              setSelectedFile,
+              setSelectedFileUrl,
             );
           }}
           icon={MdSend}

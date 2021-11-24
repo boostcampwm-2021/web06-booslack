@@ -65,4 +65,21 @@ export const ToolBarIconButton = styled(IconButton)`
   }
 `;
 
+export const FileInput = styled.input`
+  display: none;
+`;
+
+export const FileLabel = styled.label`
+  background: transparent;
+  color: #1d1c1d;
+  opacity: 0.7;
+  border-radius: 2px;
+  flex: 0 0 32px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 32px;
+  width: 32px;
+`;
+
 export default Container;

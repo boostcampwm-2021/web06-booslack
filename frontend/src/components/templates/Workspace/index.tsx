@@ -37,7 +37,8 @@ const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
   const sidebarChannelModal = useRecoilValue(sidebarChannelInfoModalState);
   const preferenceModal = useRecoilValue(preferenceModalState);
 
-  const { workspaceId }: { workspaceId: string } = useParams();
+  const { workspaceId, channelId }: { workspaceId: string; channelId: string } =
+    useParams();
   const [user, setUser] = useRecoilState(userState);
   useWorkspaceQuery(workspaceId);
 
