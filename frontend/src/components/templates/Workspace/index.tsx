@@ -22,6 +22,7 @@ import {
   preferenceModalState,
   sidebarChannelInfoModalState,
 } from '@state/modal';
+import { replyToggleState } from '@state/workspace';
 import userState from '@state/user';
 import { useWorkspaceQuery } from '@hook/useWorkspace';
 import { RowDiv } from './styles';
@@ -37,6 +38,7 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
   const channelTopicModal = useRecoilValue(channelTopicModalState);
   const sidebarChannelModal = useRecoilValue(sidebarChannelInfoModalState);
   const preferenceModal = useRecoilValue(preferenceModalState);
+  const isOpenedReply = useRecoilValue(replyToggleState);
 
   const { workspaceId, channelId }: { workspaceId: string; channelId: string } =
     useParams();
@@ -79,7 +81,7 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
         <RowDiv>
           <WorkspaceSidebar />
           {children}
-          <ReplyBar />
+          {isOpenedReply && <ReplyBar />}
         </RowDiv>
       </Suspense>
       {channelCreateModal && <CreateChannelModal />}

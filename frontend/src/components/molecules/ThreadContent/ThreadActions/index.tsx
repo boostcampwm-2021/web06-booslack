@@ -1,9 +1,10 @@
 import React, { useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useParams } from 'react-router-dom';
 import EmojiModal from '@organisms/EmojiModal';
 import useRefLocate from '@hook/useRefLocate';
 import userState from '@state/user';
+import { replyToggleState } from '@state/workspace';
 import { deleteMessage } from '@global/api/thread';
 import { postReaction } from '@global/api/reaction';
 import { BsEmojiSmile, BsBookmark } from 'react-icons/bs';
@@ -55,6 +56,7 @@ const ThreadActions = ({
 
   const { channelId }: { channelId: string } = useParams();
   const user = useRecoilValue(userState);
+  const replyToggle = useSetRecoilState(replyToggleState);
 
   const [isEmojiOpen, setIsEmojiOpen] = useState(false);
 

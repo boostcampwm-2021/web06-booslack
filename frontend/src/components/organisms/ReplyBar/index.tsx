@@ -1,8 +1,7 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { useMemo } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { useParams } from 'react-router-dom';
-import ImageButton from '@atoms/ImageButton';
 import Label from '@atoms/Label';
 import { replyToggleState, replyWorkspaceState } from '@state/workspace';
 import { useChannelQuery } from '@hook/useChannels';
@@ -14,7 +13,11 @@ import Container, {
   XImageButton,
 } from './styles';
 
-const ReplyHeader = (): JSX.Element => {
+interface HeaderProps {
+  onClickX: () => void;
+}
+
+const ReplyHeader = ({ onClickX }: HeaderProps): JSX.Element => {
   const LeftSizeLabel = () => useMemo(() => <StyledLabel text="쓰레드" />, []);
 
   const { channelId }: { channelId: string } = useParams();
@@ -37,18 +40,18 @@ const ReplyHeader = (): JSX.Element => {
         </div>
       }
       content={<></>}
-      rightButton={<XImageButton image={xMarkImage} />}
+      rightButton={<XImageButton onClick={onClickX} image={xMarkImage} />}
     />
   );
 };
 
 const ReplyBar = (): JSX.Element => {
   const SIZEVW = useRecoilValue(replyWorkspaceState);
-  const isOpened = useRecoilValue(replyToggleState);
+  const [isOpened, setOpened] = useRecoilState(replyToggleState);
 
   return (
     <Container widthVW={SIZEVW} isOpened={isOpened}>
-      <ReplyHeader />
+      <ReplyHeader onClickX={() => setOpened(false)} />
     </Container>
   );
 };
