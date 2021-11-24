@@ -21,6 +21,7 @@ const FileStatusElement = ({
   setSelectedFileUrl,
 }: Props): JSX.Element => {
   const [flag, setFlag] = useState(true);
+
   const handleDeleteElement = () => {
     const index = selectedFileUrl.indexOf(url);
     selectedFile.splice(index, 1);
@@ -29,19 +30,19 @@ const FileStatusElement = ({
     setSelectedFileUrl(selectedFileUrl);
     setFlag(false);
   };
-  if (flag) {
-    return (
-      <FileStatusElementContainer>
-        <FileStatusElementImg image={url} />
-        <FileStatusElementButton
-          onClick={() => {
-            handleDeleteElement();
-          }}
-        />
-      </FileStatusElementContainer>
-    );
-  }
-  return <></>;
+
+  return flag ? (
+    <FileStatusElementContainer>
+      <FileStatusElementImg image={url} />
+      <FileStatusElementButton
+        onClick={() => {
+          handleDeleteElement();
+        }}
+      />
+    </FileStatusElementContainer>
+  ) : (
+    <></>
+  );
 };
 
 export default FileStatusElement;

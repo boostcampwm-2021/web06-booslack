@@ -63,6 +63,10 @@ export const postMessageAndFiles = async (
     message,
     channelId,
   });
+  if (res.status === 200) {
+    setMessageClear(true);
+    socket.emit('threads', channelId);
+  }
   const threadId: number = res.data.thread.id || null;
   let fileUrl = '/api/files/upload';
   const formDatas = new FormData();
@@ -91,8 +95,4 @@ export const postMessageAndFiles = async (
     .catch((err) => {
       throw new Error('No files Error');
     });
-  if (res.status === 200) {
-    setMessageClear(true);
-    socket.emit('threads', channelId);
-  }
 };

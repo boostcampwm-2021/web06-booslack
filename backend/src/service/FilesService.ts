@@ -82,7 +82,7 @@ export async function uploadFile(req: Request, res: Response) {
     const fileBySave = await getCustomRepository(FileRepository).save(fileByUpload);
     res.status(202).json({ files: [fileBySave.id] });
   } catch (e) {
-    res.status(500);
+    res.status(BAD_REQUEST).json(e);
   }
 }
 
@@ -109,6 +109,6 @@ export function uploadFiles(req: Request, res: Response) {
       }
     });
   } catch (e) {
-    res.status(500);
+    res.status(BAD_REQUEST).json(e);
   }
 }
