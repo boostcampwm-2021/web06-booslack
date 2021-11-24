@@ -42,7 +42,6 @@ export async function getAllChannels(req: Request, res: Response) {
 
     return res.status(OK).json({ count, channels, hasMore });
   } catch (error) {
-    console.log(error);
     return res.status(BAD_REQUEST).end();
   }
 }
