@@ -31,10 +31,16 @@ const ThreadActions = ({
   userHasWorkspaceId,
   setUpdateState,
 }: Props): JSX.Element => {
-  const ButtonRef = useRef(null);
+  const dotsVerticalButtonRef = useRef(null);
+  const emojiButtonRef = useRef(null);
   const [modalState, setModalState] = useState(false);
 
-  const [xWidth, yHeight] = useRefLocate(ButtonRef, 50);
+  const [dotsVerticalXWidth, dotsVerticalYHeight] = useRefLocate(
+    dotsVerticalButtonRef,
+    50,
+  );
+  const [emojiXWidth, emojiYHeight] = useRefLocate(emojiButtonRef, 50);
+
   const { channelId }: { channelId: string } = useParams();
   const user = useRecoilValue(userState);
 
@@ -123,6 +129,7 @@ const ThreadActions = ({
     <Container>
       <ThreadActionsGroup>
         <ActionButton
+          customRef={emojiButtonRef}
           width={20}
           height={20}
           onClick={() => {
@@ -149,7 +156,7 @@ const ThreadActions = ({
           icon={BsBookmark}
         />
         <ActionButton
-          customRef={ButtonRef}
+          customRef={dotsVerticalButtonRef}
           width={20}
           height={20}
           onClick={() => setModalState(true)}
@@ -157,17 +164,23 @@ const ThreadActions = ({
         />
       </ThreadActionsGroup>
       <ActionsMenu
-        xWidth={xWidth - 250}
-        yHeight={yHeight}
+        xWidth={dotsVerticalXWidth - 250}
+        yHeight={dotsVerticalYHeight}
         isOpened={modalState}
         onClose={() => setModalState(false)}
-        customRef={ButtonRef}
+        customRef={dotsVerticalButtonRef}
       >
         {userHasWorkspaceId === user.userHasWorkspaceId
           ? myMessageActionMenus
           : otherMessageActionMenus}
       </ActionsMenu>
-      <EmojiModal isOpen={isEmojiOpen} close={() => setIsEmojiOpen(false)} />
+      <EmojiModal
+        customRef={emojiButtonRef}
+        xWidth={emojiXWidth - 250}
+        yHeight={emojiYHeight}
+        isOpen={isEmojiOpen}
+        close={() => setIsEmojiOpen(false)}
+      />
     </Container>
   );
 };
