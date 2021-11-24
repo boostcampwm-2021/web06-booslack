@@ -1,6 +1,5 @@
 import React from 'react';
-import axios, { AxiosResponse } from 'axios';
-import { METHOD } from '@global/type';
+import { AxiosResponse } from 'axios';
 
 interface Option {
   reverse?: boolean | undefined;
@@ -66,33 +65,6 @@ export const checkInputValues = (inputTag: HTMLInputElement): string => {
 
 export const copyText = (text: string): void => {
   navigator.clipboard.writeText(text);
-};
-
-export const axiosWithFile = async (
-  path: string,
-  json: unknown,
-  files: File[],
-  method: METHOD = 'GET',
-): Promise<unknown | null> => {
-  const formData = new FormData();
-  files?.map((file: File) => file && formData.append('images', file));
-
-  formData.append(
-    'key',
-    new Blob([JSON.stringify(json)], { type: 'application/json' }),
-  );
-
-  try {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    return await axios({
-      method,
-      url: path,
-      data: formData,
-    });
-  } catch (error) {
-    return null;
-  }
 };
 
 export const getCode = async (

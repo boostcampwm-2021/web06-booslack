@@ -60,3 +60,13 @@ transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
   box-shadow: rgba(30, 22, 54, 0.7) 0 0px 0px 40px inset;
 }
 `;
+
+export const scrollIfHover = css`
+  overflow-x: hidden;
+  overflow-y: hidden;
+  &:hover {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    ${RoundScrollBar}
+  }
+`;

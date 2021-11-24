@@ -1,5 +1,7 @@
 import React, { useState } from 'react';
+import { useSetRecoilState } from 'recoil';
 import ImageButton from '@atoms/ImageButton';
+import { replyToggleState } from '@state/workspace';
 import ChatInputBarForUpdate from '@organisms/ChatInputBarForUpdate';
 import ReactionBar from '@organisms/ReactionBar';
 import defaultPerson from '@global/image/default_account.png';
@@ -36,6 +38,7 @@ const ThreadContent = ({
 }: Props): JSX.Element => {
   const [updateState, setUpdateState] = useState(false);
   const [hoverState, setHoverState] = useState(false);
+  const replyToggle = useSetRecoilState(replyToggleState);
   const handleHoverIn = () => {
     if (!updateState) {
       setHoverState(true);
@@ -56,7 +59,10 @@ const ThreadContent = ({
       <MessageText dangerouslySetInnerHTML={{ __html: message }} />
       {reactionList.length > 0 && <ReactionBar reactionList={reactionList} />}
       {replyList.length > 0 && (
-        <ReplyButton text={`${replyList.length}개의 댓글`} />
+        <ReplyButton
+          onClick={() => replyToggle(true)}
+          text={`${replyList.length}개의 댓글`}
+        />
       )}
     </>
   );
