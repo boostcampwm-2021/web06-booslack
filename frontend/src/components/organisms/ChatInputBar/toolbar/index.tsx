@@ -1,9 +1,8 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
-import axios from 'axios';
 import userState from '@state/user';
-import { postMessage } from '@global/api/thread';
+import { postMessageAndFiles } from '@global/api/thread';
 import {
   BsTypeBold,
   BsTypeItalic,
@@ -40,53 +39,6 @@ interface Props {
   setSelectedFileUrl: Dispatch<SetStateAction<any>>;
 }
 
-const postMessageAndFiles = async (
-  userHasWorkspaceId: string,
-  message: string,
-  channelId: string,
-  setMessage,
-  selectedFile: any,
-  setSelectedFile,
-  setSelectedFileUrl,
-): Promise<any> => {
-  if (message === '<p><br/></p>' && selectedFile.length === 0) return;
-  const res = await axios.post('/api/threads', {
-    userHasWorkspaceId,
-    message,
-    channelId,
-  });
-  if (res.status === 200) {
-    setMessage('<p><br/></p>');
-  }
-  const threadId: number = res.data.thread.id || null;
-  let fileUrl = '/api/files/upload';
-  const formDatas = new FormData();
-  const selectedFileLength = selectedFile.length;
-  if (selectedFileLength > 1) fileUrl = '/api/files/uploads';
-  if (selectedFileLength === 0) return;
-  // eslint-disable-next-line array-callback-return
-  selectedFile.map((fileElement) => {
-    formDatas.append('file', fileElement);
-  });
-  const config = {
-    headers: { 'content-type': 'multipart/form-data' },
-  };
-  axios
-    .post(fileUrl, formDatas, config)
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    .then((response) => {
-      setSelectedFile([]);
-      setSelectedFileUrl([]);
-      const fileList: Array<number> = response.data.files;
-      // eslint-disable-next-line array-callback-return
-      fileList.map(async (fileId) => {
-        await axios.put(`/api/files/${fileId}`, { threadId });
-      });
-    })
-    .catch((err) => {
-      return <div>{err}</div>;
-    });
-};
 const Toolbar = ({
   message,
   setMessageClear,
@@ -129,8 +81,10 @@ const Toolbar = ({
           onClick={() => {
             postMessageAndFiles(
               user.userHasWorkspaceId,
-              message,
               channelId,
+              message,
+              user.socket,
+              setMessageClear,
               setMessage,
               selectedFile,
               setSelectedFile,

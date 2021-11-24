@@ -5,6 +5,7 @@ import ThreadRepository from '../repository/ThreadRepository';
 import ChannelRepository from '../repository/ChannelRepository';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
 import Thread from '../model/Thread';
+import FileRepository from '../repository/FileRepository';
 
 const { BAD_REQUEST, OK } = StatusCodes;
 
@@ -88,10 +89,9 @@ export async function addThread(req: Request, res: Response) {
 export async function deleteThread(req: Request, res: Response) {
   try {
     const { id } = req.params;
-
     const thread = await getRepository(Thread).findOneOrFail(id);
-    await getRepository(Thread).remove(thread);
-
+    await getCustomRepository(FileRepository).delete({ threadId: Number(thread.id) });
+    await getCustomRepository(ThreadRepository).remove(thread);
     return res.status(OK).end();
   } catch (e) {
     return res.status(BAD_REQUEST).json(e);

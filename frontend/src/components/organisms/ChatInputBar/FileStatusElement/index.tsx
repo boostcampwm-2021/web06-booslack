@@ -32,7 +32,7 @@ const FileStatusElement = ({
   if (flag) {
     return (
       <FileStatusElementContainer>
-        <FileStatusElementImg src={url} />
+        <FileStatusElementImg image={url} />
         <FileStatusElementButton
           onClick={() => {
             handleDeleteElement();

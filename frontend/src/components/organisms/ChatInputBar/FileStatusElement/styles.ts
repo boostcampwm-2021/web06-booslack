@@ -1,6 +1,7 @@
 import styled from 'styled-components';
+import ImageBox from '@atoms/ImageBox';
 
-export const FileStatusElementImg = styled.img`
+export const FileStatusElementImg = styled(ImageBox)`
   width: 50px;
   height: 50px;
   border-radius: 10px;
