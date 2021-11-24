@@ -80,7 +80,7 @@ export async function uploadFile(req: Request, res: Response) {
       extension: req.file?.fieldname,
     };
     const fileBySave = await getCustomRepository(FileRepository).save(fileByUpload);
-    res.status(202).json(fileBySave);
+    res.status(202).json({ files: [fileBySave.id] });
   } catch (e) {
     res.status(500);
   }
@@ -91,7 +91,7 @@ export function uploadFiles(req: Request, res: Response) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const Files: Array<File> = req.files;
-    const fileList: Array<File> = [];
+    const fileList: Array<number> = [];
     // eslint-disable-next-line array-callback-return
     Files.map(async (element: File) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -103,9 +103,11 @@ export function uploadFiles(req: Request, res: Response) {
         extension: fieldname,
       };
       const file = await getCustomRepository(FileRepository).save(fileByUpload);
-      fileList.push(file);
+      fileList.push(file.id);
+      if (Files.length === fileList.length) {
+        res.status(202).json({ files: fileList });
+      }
     });
-    res.status(202).json(fileList);
   } catch (e) {
     res.status(500);
   }

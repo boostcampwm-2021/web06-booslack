@@ -40,12 +40,25 @@ interface Props {
   setSelectedFileUrl: Dispatch<SetStateAction<any>>;
 }
 
-const postFiles = async (
+const postMessageAndFiles = async (
+  userHasWorkspaceId: string,
+  message: string,
   channelId: string,
+  setMessage,
   selectedFile: any,
   setSelectedFile,
   setSelectedFileUrl,
-) => {
+): Promise<any> => {
+  if (message === '<p><br/></p>' && selectedFile.length === 0) return;
+  const res = await axios.post('/api/threads', {
+    userHasWorkspaceId,
+    message,
+    channelId,
+  });
+  if (res.status === 200) {
+    setMessage('<p><br/></p>');
+  }
+  const threadId: number = res.data.thread.id || null;
   let fileUrl = '/api/files/upload';
   const formDatas = new FormData();
   const selectedFileLength = selectedFile.length;
@@ -58,22 +71,22 @@ const postFiles = async (
   const config = {
     headers: { 'content-type': 'multipart/form-data' },
   };
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  const response = axios
+  axios
     .post(fileUrl, formDatas, config)
-    .then(() => {
+    // eslint-disable-next-line @typescript-eslint/no-shadow
+    .then((response) => {
       setSelectedFile([]);
       setSelectedFileUrl([]);
+      const fileList: Array<number> = response.data.files;
+      // eslint-disable-next-line array-callback-return
+      fileList.map(async (fileId) => {
+        await axios.put(`/api/files/${fileId}`, { threadId });
+      });
     })
     .catch((err) => {
       return <div>{err}</div>;
     });
-  if (response.status === 200) {
-    setSelectedFile([]);
-  }
 };
-
 const Toolbar = ({
   message,
   setMessageClear,
@@ -114,15 +127,11 @@ const Toolbar = ({
         />
         <ToolBarIconButton
           onClick={() => {
-            postMessage(
+            postMessageAndFiles(
               user.userHasWorkspaceId,
-              channelId,
               message,
-              user.socket,
-              setMessageClear,
-            );
-            postFiles(
               channelId,
+              setMessage,
               selectedFile,
               setSelectedFile,
               setSelectedFileUrl,
