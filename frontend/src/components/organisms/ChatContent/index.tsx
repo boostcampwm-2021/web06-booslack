@@ -27,6 +27,7 @@ const ChatContent = ({ inputBar }: Props): JSX.Element => {
             createdTime={thread?.createdAt}
             threadId={thread?.id}
             userHasWorkspaceId={thread?.userHasWorkspaceId}
+            replyList={thread.replys}
           />
         ))}
       </Container>

@@ -13,13 +13,6 @@ export async function getAllThreadsByChannelId(req: Request, res: Response) {
   try {
     const { channelId } = req.query;
 
-    /*
-    const threads = await getCustomRepository(ThreadRepository).find({
-      where: [{ channelId }],
-      relations: ['userHasWorkspace'],
-    });
-    */
-
     const threads = await getCustomRepository(ThreadRepository)
       .createQueryBuilder('thread')
       .leftJoin('thread.userHasWorkspace', 'userHasWorkSpace')

@@ -11,6 +11,7 @@ import {
   MessageSender,
   MessageTimestamp,
   MessageText,
+  ReplyButton,
 } from './styles';
 
 interface Props {
@@ -19,6 +20,7 @@ interface Props {
   createdTime: string;
   threadId: string;
   userHasWorkspaceId: string;
+  replyList: unknown[];
 }
 
 const ThreadContent = ({
@@ -27,6 +29,7 @@ const ThreadContent = ({
   createdTime,
   threadId,
   userHasWorkspaceId,
+  replyList,
 }: Props): JSX.Element => {
   const [updateState, setUpdateState] = useState(false);
   const [hoverState, setHoverState] = useState(false);
@@ -48,6 +51,7 @@ const ThreadContent = ({
       <MessageTimestamp>{createdTime}</MessageTimestamp>
       <br />
       <MessageText dangerouslySetInnerHTML={{ __html: message }} />
+      <ReplyButton text={`${replyList.length}개의 댓글`} />
     </>
   );
 
