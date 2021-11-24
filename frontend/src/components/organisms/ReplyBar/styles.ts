@@ -2,6 +2,7 @@ import styled from 'styled-components';
 import { scrollIfHover } from '@global/mixin';
 import BrowseChannelHeader from '@molecules/BrowseChannelHeader';
 import Label from '@atoms/Label';
+import ImageButton from '@atoms/ImageButton';
 
 const Container = styled.div<{ widthVW: number; isOpened: boolean }>`
   display: ${({ isOpened }) => (isOpened ? 'flex' : 'none')};
@@ -27,11 +28,10 @@ export const MarginDiv = styled.div`
   margin-top: 20vh;
 `;
 
-export const Xdiv = styled.div`
-  width: 30px;
-  height: 30px;
-  &:before {
-    content: '\E278';
+export const XImageButton = styled(ImageButton)`
+  border-radius: 6px;
+  &:hover {
+    background-color: #f8f8f8;
   }
 `;
 

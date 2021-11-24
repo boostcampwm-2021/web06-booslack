@@ -2,18 +2,17 @@
 import React, { useMemo } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useParams } from 'react-router-dom';
-
+import ImageButton from '@atoms/ImageButton';
 import Label from '@atoms/Label';
 import { replyToggleState, replyWorkspaceState } from '@state/workspace';
 import { useChannelQuery } from '@hook/useChannels';
 import { CHANNELTYPE } from '@enum/index';
-import xMarkImage from '@global/image/xMark.png';
+import xMarkImage from '@global/image/xMark.svg';
 import Container, {
   StyledBrowseChannelHeader,
   StyledLabel,
-  Xdiv,
+  XImageButton,
 } from './styles';
-import ImageButton from '@atoms/ImageButton';
 
 const ReplyHeader = (): JSX.Element => {
   const LeftSizeLabel = () => useMemo(() => <StyledLabel text="쓰레드" />, []);
@@ -38,7 +37,7 @@ const ReplyHeader = (): JSX.Element => {
         </div>
       }
       content={<></>}
-      rightButton={<Xdiv />}
+      rightButton={<XImageButton image={xMarkImage} />}
     />
   );
 };
