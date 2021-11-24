@@ -93,6 +93,8 @@ export const postMessageAndFiles = async (
       });
     })
     .catch((err) => {
+      setSelectedFile([]);
+      setSelectedFileUrl([]);
       throw new Error('No files Error');
     });
 };
