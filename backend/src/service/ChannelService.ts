@@ -11,7 +11,8 @@ const { BAD_REQUEST, CREATED, OK } = StatusCodes;
 
 export async function getAllChannels(req: Request, res: Response) {
   try {
-    const { offsetStart, sortOption, like, workspaceId } = req.query;
+    const { offsetStart, sortOption, like, workspaceId, showPrivate, showPublic, showMine } =
+      req.query;
 
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
@@ -31,10 +32,13 @@ export async function getAllChannels(req: Request, res: Response) {
       offsetStart as unknown as number,
       sortOption as unknown as SortOption,
       like as string,
+      showPrivate === 'true',
+      showPublic === 'true',
+      showMine === 'true',
     );
 
     const count = channels ? channels[0]?.full_count : 0;
-    const hasMore = count < parseInt(offsetStart as string, 10) + pageLimitCount;
+    const hasMore = count > (parseInt(offsetStart as string, 10) + 1) * pageLimitCount;
 
     return res.status(OK).json({ count, channels, hasMore });
   } catch (error) {

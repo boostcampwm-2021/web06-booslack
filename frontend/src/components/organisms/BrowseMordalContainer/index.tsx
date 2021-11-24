@@ -7,8 +7,6 @@ import Container from './styles';
 
 const BrowseMordalContainer = (): JSX.Element => {
   const [isOpenedSortedModal, setSortedModal] = useState<boolean>(false);
-  const [isOpenedFillterModal, setFillterModal] = useState<boolean>(false);
-
   const locationRef = useRef();
 
   return (
@@ -30,7 +28,7 @@ const BrowseMordalContainer = (): JSX.Element => {
       />
       <LabeledDefaultButton
         onClick={() => {
-          setFillterModal(!isOpenedFillterModal);
+          setSortedModal(!isOpenedSortedModal);
         }}
         text="@ 필터"
       />

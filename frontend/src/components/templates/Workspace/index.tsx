@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { ReactNode, Suspense, useEffect } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -21,15 +21,15 @@ import {
   preferenceModalState,
   sidebarChannelInfoModalState,
 } from '@state/modal';
-import { useWorkspaceQuery } from '@hook/useWorkspace';
 import userState from '@state/user';
+import { useWorkspaceQuery } from '@hook/useWorkspace';
 import { RowDiv } from './styles';
 
 interface Props {
-  Content: JSX.Element;
+  children: ReactNode;
 }
 
-const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
+const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
   const channelCreateModal = useRecoilValue(channelCreateModalState);
   const channelInfoModal = useRecoilValue(channelInfoModalState);
   const channelDescriptionModal = useRecoilValue(channelDescriptionModalState);
@@ -50,6 +50,7 @@ const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
         `/api/userHasWorkspaces?userId=${user.id}&workspaceId=${workspaceId}`,
       );
       const { id, nickname, description, theme } = res.data.userHasWorkspace;
+
       setUser((prevState) => ({
         ...prevState,
         userHasWorkspaceId: id,
@@ -62,6 +63,7 @@ const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
 
     const socket = io(`/workspace:${workspaceId}`);
     getUserHasWorkspace(socket);
+
     return () => {
       socket.close();
     };
@@ -75,7 +77,7 @@ const WorkspaceTemplate = ({ Content }: Props): JSX.Element => {
         <WorkspaceHeader />
         <RowDiv>
           <WorkspaceSidebar />
-          {Content}
+          {children}
         </RowDiv>
       </Suspense>
       {channelCreateModal && <CreateChannelModal />}

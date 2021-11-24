@@ -1,6 +1,8 @@
 import { AxiosResponse } from 'axios';
 import { SetStateAction, Dispatch, useEffect, useState } from 'react';
+import { useRecoilValue } from 'recoil';
 import { useQuery, useQueryClient } from 'react-query';
+import userState from '@state/user';
 
 interface IusePagenation {
   page: number;
@@ -14,18 +16,31 @@ interface IusePagenation {
 
 // eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const usePagination = (
-  key: (number | string)[],
+  key: (number | string | boolean)[],
   axiosFunction: <T, D>(page: number) => Promise<AxiosResponse<T, D>>,
   option = null,
 ): IusePagenation => {
   const queryClient = useQueryClient();
+  const user = useRecoilValue(userState);
   const [page, setPage] = useState<number>(0);
 
+  const queryKey = ['pagination', ...key, page];
+
+  useEffect(() => {
+    const { socket } = user;
+
+    if (!socket) return;
+
+    socket.on('channels', () => {
+      queryClient.invalidateQueries(queryKey, { refetchActive: true });
+    });
+  }, [user, queryClient, page]);
+
   const { isLoading, data, error, isFetching, isPreviousData } = useQuery(
-    ['pagination', ...key, page],
+    queryKey,
     () => axiosFunction(page),
     {
-      keepPreviousData: true,
+      keepPreviousData: false,
       refetchOnWindowFocus: false,
       ...option,
     },
@@ -35,11 +50,11 @@ const usePagination = (
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     if (data?.hasMore) {
-      queryClient.prefetchQuery([...key, page + 1], () => {
-        axiosFunction(page + 1);
+      queryClient.prefetchQuery(['pagination', ...key, page + 1], () => {
+        return axiosFunction(page + 1);
       });
     }
-  }, [page, queryClient]);
+  }, [data, page, queryClient]);
 
   return {
     page,

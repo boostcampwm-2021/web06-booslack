@@ -2,15 +2,23 @@ import React, { useMemo, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 import { useRecoilValue } from 'recoil';
 import Label from '@atoms/Label';
-import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
-import { joinChannel } from '@global/api/channel';
+import { joinChannel, leaveChannel } from '@global/api/channel';
 import { Channel } from '@global/type';
 import userState from '@state/user';
 import { useChannelListQuery } from '@hook/useChannels';
-import { Container, TextSet, SpaceBetweenDiv, MarginedDiv } from './styles';
+import {
+  Container,
+  StyledLabel,
+  StyledJoinedNoticeLabel,
+  TextSet,
+  SpaceBetweenDiv,
+  MarginedDiv,
+  StyledButton,
+} from './styles';
 
 interface Props {
   channelId: number;
+  channelType: string;
   firstLabelContent?: string;
   secondLabelContent?: string;
   content?: string;
@@ -18,6 +26,7 @@ interface Props {
 
 const ChannelList = ({
   channelId,
+  channelType,
   firstLabelContent,
   secondLabelContent,
   content,
@@ -55,9 +64,13 @@ const ChannelList = ({
       onClick={navigateToChannel}
     >
       <Container>
-        <div>{firstLabelContent || 'channel name'}</div>
+        <div>
+          {channelType}
+          <StyledLabel text={` ${firstLabelContent}` || ' channel name'} />
+        </div>
 
         <TextSet>
+          {!isJoined && <StyledJoinedNoticeLabel text="✔ 참여함" />}
           <Label color="grey" text={secondLabelContent || ''} />
           <Label color="grey" text={content} />
         </TextSet>
@@ -65,8 +78,8 @@ const ChannelList = ({
       <MarginedDiv>
         {isHover && isJoined && (
           <>
-            <LabeledDefaultButton onClick={navigateToChannel} text="view" />
-            <LabeledDefaultButton
+            <StyledButton onClick={navigateToChannel} text="view" />
+            <StyledButton
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                 e.stopPropagation();
                 joinChannel(user.id, channelId, workspaceId, user.socket);
@@ -78,7 +91,17 @@ const ChannelList = ({
           </>
         )}
         {isHover && !isJoined && (
-          <LabeledDefaultButton onClick={navigateToChannel} text="나가기" />
+          <StyledButton
+            onClick={async (e: React.MouseEvent<HTMLButtonElement>) => {
+              e.stopPropagation();
+              try {
+                await leaveChannel(channelId, workspaceId, user.socket);
+              } catch (error) {
+                history.push('/error');
+              }
+            }}
+            text="나가기"
+          />
         )}
       </MarginedDiv>
     </SpaceBetweenDiv>

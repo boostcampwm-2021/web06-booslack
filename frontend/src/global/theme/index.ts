@@ -1,3 +1,5 @@
+import lodash from 'lodash';
+
 export interface Itheme {
   backgroundColor: string;
   bigHeaderColor: string;
@@ -13,6 +15,7 @@ export interface Itheme {
     https://chrome.google.com/webstore/detail/colorzilla/bhlhnicpbhignbdhedgjhgdocnmhomnp?hl=ko
     추천
 */
+
 export const defaultTheme: Itheme = {
   backgroundColor: '#3F0E40',
   bigHeaderColor: '#350D36',
@@ -33,9 +36,54 @@ export const yellowTheme: Itheme = {
   focusedMenu: '#FFEB84',
 };
 
+export const mintChocoTheme: Itheme = {
+  backgroundColor: '#534538',
+  bigHeaderColor: '#42362B',
+  smallHeaderColor: '#D99E10',
+  titleText: '#fff',
+  smallText: '#8e7f70',
+  searchBar: '#42362B',
+  focusedMenu: '#5CB09D',
+};
+
+export const royalBlueTheme: Itheme = {
+  backgroundColor: '#3B4F83',
+  bigHeaderColor: '#001A5E',
+  smallHeaderColor: '#7D89AC',
+  titleText: '#77C6E5',
+  smallText: '#F8F8FA',
+  searchBar: '#3B4F83',
+  focusedMenu: '#001A5E',
+};
+
 export const THEME = {
   defaultTheme,
   yellowTheme,
+  royalBlueTheme,
+  mintChocoTheme,
+};
+
+export const getThemeByIndex = (index: number): Itheme => {
+  switch (index) {
+    case 1:
+      return defaultTheme;
+    case 2:
+      return yellowTheme;
+    case 3:
+      return mintChocoTheme;
+    case 4:
+      return royalBlueTheme;
+    default:
+      return defaultTheme;
+  }
+};
+
+export const getIndexByTheme = (theme: Itheme): number => {
+  if (lodash.isEqual(defaultTheme, theme)) return 1;
+  if (lodash.isEqual(yellowTheme, theme)) return 2;
+  if (lodash.isEqual(mintChocoTheme, theme)) return 3;
+  if (lodash.isEqual(royalBlueTheme, theme)) return 4;
+  return 1;
 };
 
 export default THEME;

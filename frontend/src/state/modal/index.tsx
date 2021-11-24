@@ -42,3 +42,8 @@ export const codeModalState = atom({
     text: undefined,
   },
 });
+
+export const SortedOptionMordalState = atom({
+  key: 'sortedOptionMordal',
+  default: [true, true, true],
+});

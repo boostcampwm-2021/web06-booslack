@@ -8,7 +8,7 @@ import {
 const userHasWorkspaceRouter = Router();
 
 userHasWorkspaceRouter.get('/', getUserHasWorkspace);
-userHasWorkspaceRouter.put('/:id', updateUserHasWorkspace);
+userHasWorkspaceRouter.put('/:workspaceId', updateUserHasWorkspace);
 userHasWorkspaceRouter.delete('/:id', deleteUserHasWorkspace);
 
 export default userHasWorkspaceRouter;

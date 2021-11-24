@@ -23,7 +23,7 @@ class UserHasWorkspace {
   @Column({ nullable: true })
   description!: string;
 
-  @Column({ nullable: true })
+  @Column('int', { default: 1 })
   theme!: number;
 
   @Column({ nullable: true })

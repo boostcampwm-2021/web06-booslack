@@ -1,6 +1,6 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response } from 'express';
-import { DeepPartial, getCustomRepository } from 'typeorm';
+import { DeepPartial, getCustomRepository, getManager } from 'typeorm';
 import UserRepository from '../repository/UserRepository';
 import WorkspaceRepository from '../repository/WorkspaceRepository';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
@@ -32,7 +32,7 @@ export async function updateOneUser(req: Request, res: Response) {
   const { id } = req.params;
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
-  const { account, email, isLocal, password } = req.body;
+  const { account, email, isLocal, password, theme } = req.body;
   try {
     if (Object.keys(req.body).length === 0) throw new Error('no user data in body');
     const userById = await getCustomRepository(UserRepository).findOneOrFail(id);
@@ -40,6 +40,9 @@ export async function updateOneUser(req: Request, res: Response) {
     userById.email = email || userById.email;
     userById.local = isLocal || userById.local;
     userById.password = password || userById.password;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    userById.theme = theme || userById.theme;
     const users = await getCustomRepository(UserRepository).save(userById);
     return res.status(OK).json({ users });
   } catch (e) {
@@ -53,6 +56,8 @@ export async function addOneUser(req: Request, res: Response) {
   const user: DeepPartial<User> = req.body;
   try {
     if (Object.keys(user).length === 0) throw new Error('no user data in body');
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const users = await getCustomRepository(UserRepository).save(user);
     return res.status(OK).json({ users });
   } catch (e) {
@@ -68,6 +73,36 @@ export async function deleteOneUser(req: Request, res: Response) {
     return res.status(OK).end();
   } catch (e) {
     return res.status(BAD_REQUEST).json(e);
+  }
+}
+
+export async function deleteUserFromChannel(req: Request, res: Response) {
+  try {
+    const { workspaceId, channelId } = req.params;
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const user = req.session.passport?.user;
+    const userId = user ? user[0].id : user;
+
+    if (!userId) {
+      throw BAD_REQUEST;
+    }
+
+    const userhasWorkspace = await getCustomRepository(UserHasWorkspaceRepository).findOneOrFail({
+      where: [{ workspaceId, userId }],
+    });
+
+    const entityManager = getManager();
+    await entityManager.query(`
+      DELETE from booslack.user_has_workspace_channel
+      where booslack.user_has_workspace_channel.userhasWorkspaceId = '${userhasWorkspace.id}'
+      and booslack.user_has_workspace_channel.channelId = '${channelId}';    
+    `);
+
+    return res.status(OK).end();
+  } catch (e) {
+    return res.status(BAD_REQUEST).end();
   }
 }
 

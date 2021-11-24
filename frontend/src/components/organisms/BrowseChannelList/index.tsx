@@ -5,7 +5,6 @@ import axios from 'axios';
 
 import Label from '@atoms/Label';
 import AsyncBranch from '@molecules/AsyncBranch';
-import BrowseChannelHeader from '@molecules/BrowseChannelHeader';
 import ChannelList from '@molecules/ChannelList';
 import SearchBar from '@molecules/SearchBar';
 import SelectbrowseChannelPage from '@molecules/SelectbrowseChannelPage';
@@ -15,21 +14,23 @@ import usePagination from '@hook/usePagination';
 import API from '@global/api';
 import { SortOption } from '@global/type';
 import { browseChannelSortOption } from '@state/Channel';
-
+import { SortedOptionMordalState } from '@state/modal';
 import {
   Container,
   ScrollBox,
   ChannelListBackground,
   MarginBottomDiv,
   CenterAlignedDiv,
+  StyledBrowseChannelHeader,
 } from './styles';
 
 const { width: ListWidth, height: ListHeight } = BrowserChannelListSize;
 
 const BrowseChannelList = (): JSX.Element => {
   const sortOption = useRecoilValue<SortOption>(browseChannelSortOption);
-  const [dbLikedOption, setLikedOption] = useState<string>('');
+  const checkedItems = useRecoilValue(SortedOptionMordalState);
 
+  const [dbLikedOption, setLikedOption] = useState<string>('');
   const { workspaceId }: { workspaceId: string } = useParams();
 
   async function getWorkspaceLists(page: number) {
@@ -39,13 +40,16 @@ const BrowseChannelList = (): JSX.Element => {
         sortOption,
         workspaceId,
         like: dbLikedOption,
+        showPrivate: checkedItems[0],
+        showPublic: checkedItems[1],
+        showMine: checkedItems[2],
       },
     });
     return res.data;
   }
 
-  const { page, setPage, isFetching, data, error } = usePagination(
-    [sortOption, dbLikedOption],
+  const { page, setPage, isLoading, data, error } = usePagination(
+    [sortOption, dbLikedOption, ...checkedItems],
     getWorkspaceLists,
     { staleTime: 'Infinity' },
   );
@@ -71,7 +75,8 @@ const BrowseChannelList = (): JSX.Element => {
           return (
             <ChannelList
               channelId={id}
-              firstLabelContent={`${CHANNELTYPE[isPrivate]} ${id} ${name}`}
+              channelType={`${CHANNELTYPE[isPrivate]}`}
+              firstLabelContent={`${id} ${name}`}
               secondLabelContent={description}
               key={`BrowseChannelList${id}`}
             />
@@ -97,7 +102,7 @@ const BrowseChannelList = (): JSX.Element => {
       />
       <MarginBottomDiv />
       <CenterAlignedDiv>
-        <BrowseChannelHeader
+        <StyledBrowseChannelHeader
           width={ListWidth}
           title={Title}
           rightButton={RightButton}
@@ -105,7 +110,7 @@ const BrowseChannelList = (): JSX.Element => {
       </CenterAlignedDiv>
       <ChannelListBackground>
         <ScrollBox width={ListWidth}>
-          <AsyncBranch data={data} loading={isFetching} error={error}>
+          <AsyncBranch data={data} loading={isLoading} error={error}>
             <GetListByGET />
           </AsyncBranch>
           <SelectbrowseChannelPage

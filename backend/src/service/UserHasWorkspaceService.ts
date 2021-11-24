@@ -1,6 +1,7 @@
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
 import { getCustomRepository } from 'typeorm';
+import axios from 'axios';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
 
 const { BAD_REQUEST, OK } = StatusCodes;
@@ -28,12 +29,25 @@ export async function getUserHasWorkspace(req: Request, res: Response) {
 
 export async function updateUserHasWorkspace(req: Request, res: Response) {
   try {
-    const { userHasWorkspaceId } = req.params;
+    const { workspaceId } = req.params;
     const { nickname, description, theme, fileId } = req.body;
+
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    const user = req.session.passport?.user;
+    const userId = user ? user[0].id : user;
+
+    if (!userId) {
+      throw BAD_REQUEST;
+    }
+
+    const userHasWorkspaceId = await getCustomRepository(UserHasWorkspaceRepository).findOneOrFail({
+      where: [{ userId, workspaceId }],
+    });
 
     const userHasWorkspaceById = await getCustomRepository(
       UserHasWorkspaceRepository,
-    ).findOneOrFail(userHasWorkspaceId);
+    ).findOneOrFail(userHasWorkspaceId.id);
 
     userHasWorkspaceById.nickname = nickname || userHasWorkspaceById.nickname;
     userHasWorkspaceById.description = description || userHasWorkspaceById.description;
@@ -43,6 +57,11 @@ export async function updateUserHasWorkspace(req: Request, res: Response) {
     const userHasWorkspace = await getCustomRepository(UserHasWorkspaceRepository).save(
       userHasWorkspaceById,
     );
+
+    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
+    axios.put(`http://${process.env.HOST}:${process.env.PORT}/api/users/${userId}`, {
+      theme: userHasWorkspaceById.theme,
+    });
 
     return res.status(OK).json({ userHasWorkspace });
   } catch (e) {

@@ -1,16 +1,10 @@
-import { ButtonSize } from '@enum/index';
 import { RoundScrollBar } from '@global/mixin';
+import BrowseChannelHeader from '@molecules/BrowseChannelHeader';
 import styled from 'styled-components';
 
 interface Props {
   width?: number;
 }
-const {
-  width: ButtonWidth,
-  height: ButtonHeight,
-  color: ButtonColor,
-  backgroundColor: ButtonBackground,
-} = ButtonSize;
 
 export const Container = styled.div<Props>`
   display: flex;
@@ -58,6 +52,11 @@ export const MarginedDiv = styled.div`
   & > button {
     margin: 0 5px 0 5px;
   }
+`;
+
+export const StyledBrowseChannelHeader = styled(BrowseChannelHeader)`
+  --saf-0: rgba(var(--sk_foreground_low, 29, 28, 29), 0.13);
+  border-bottom 1px solid rgba(0, 0, 0, 0.12);
 `;
 
 export default Container;

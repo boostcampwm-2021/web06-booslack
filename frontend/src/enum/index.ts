@@ -1,4 +1,4 @@
-export const pageLimitCount = 2;
+export const pageLimitCount = 10;
 
 export const StatusCodes = {
   BADREQUEST: 400,

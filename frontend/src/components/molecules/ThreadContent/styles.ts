@@ -1,3 +1,4 @@
+import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import styled from 'styled-components';
 
 interface Props {
@@ -44,11 +45,24 @@ export const MessageTimestamp = styled.a`
   text-decoration: none;
 `;
 
+export const ReplyButton = styled(LabeledDefaultButton)`
+  background-color: transparent;
+  height: 10px;
+
+  font-size: 10px;
+  font-weight: 700;
+  border: 0;
+  flex-shrink: 0;
+  color: rgba(var(--sk_highlight, 18, 100, 163), 1);
+  text-decoration: none;
+`;
+
 export const MessageText = styled.div`
   max-width: none;
   margin-bottom: 4px;
   word-wrap: break-word;
   width: 100%;
+  height: 20px;
 
   .c-member_slug--link {
     background: rgba(var(--sk_highlight_accent, 29, 155, 209), 0.1);
