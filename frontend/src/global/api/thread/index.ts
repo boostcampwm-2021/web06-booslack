@@ -67,6 +67,7 @@ export const postMessageAndFiles = async (
     setMessageClear(true);
     socket.emit('threads', channelId);
   }
+
   const threadId: number = res.data.thread.id || null;
   let fileUrl = '/api/files/upload';
   const formDatas = new FormData();
@@ -82,6 +83,7 @@ export const postMessageAndFiles = async (
   const config = {
     headers: { 'content-type': 'multipart/form-data' },
   };
+
   axios
     .post(fileUrl, formDatas, config)
     // eslint-disable-next-line @typescript-eslint/no-shadow

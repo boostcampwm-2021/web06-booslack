@@ -31,9 +31,12 @@ const ChatInputBar = (): JSX.Element => {
     event.stopPropagation();
     UploadTargetFiles(event.target.files);
   };
-  const onDrop = useCallback((acceptedFiles) => {
-    UploadTargetFiles(acceptedFiles);
-  }, []);
+  const onDrop = useCallback(
+    (acceptedFiles) => {
+      UploadTargetFiles(acceptedFiles);
+    },
+    [selectedFile],
+  );
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   return (
     <Container {...getRootProps()}>
