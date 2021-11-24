@@ -27,6 +27,7 @@
     "@entities": "dist/entities",
     "@shared": "dist/shared",
     "@server": "dist/Server",
+    "@service": "dist/service",
     "@enum": "dist/enum/index.js"
   },
   "dependencies": {

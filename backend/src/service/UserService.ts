@@ -56,6 +56,8 @@ export async function addOneUser(req: Request, res: Response) {
   const user: DeepPartial<User> = req.body;
   try {
     if (Object.keys(user).length === 0) throw new Error('no user data in body');
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     const users = await getCustomRepository(UserRepository).save(user);
     return res.status(OK).json({ users });
   } catch (e) {
