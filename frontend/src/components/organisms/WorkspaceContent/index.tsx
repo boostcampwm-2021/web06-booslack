@@ -6,11 +6,13 @@ import ChatInputBar from '@organisms/ChatInputBar';
 import ChatContent from '@organisms/ChatContent';
 import ChannelJoinFooter from '@organisms/ChannelJoinFooter';
 import userState from '@state/user';
+import { mainWorkspaceModalState } from '@state/workspace';
 import { useChannelListQuery, useChannelQuery } from '@hook/useChannels';
 import { Container } from './style';
 
 const WorkspaceContent = (): JSX.Element => {
   const user = useRecoilValue(userState);
+  const WIDTHSIZE = useRecoilValue(mainWorkspaceModalState);
   const { workspaceId, channelId }: { workspaceId: string; channelId: string } =
     useParams();
 
@@ -33,7 +35,7 @@ const WorkspaceContent = (): JSX.Element => {
   );
 
   return (
-    <Container>
+    <Container WIDTHVW={WIDTHSIZE}>
       <ChatHeader />
       <ChatContent inputBar={InputBar} />
     </Container>

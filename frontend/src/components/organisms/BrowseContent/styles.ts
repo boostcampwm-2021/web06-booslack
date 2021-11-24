@@ -2,11 +2,11 @@ import BrowseChannelHeader from '@molecules/BrowseChannelHeader';
 import LabeledButton from '@atoms/LabeledButton';
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const Container = styled.div<{ widthVW: number }>`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 82vw;
+  width: ${({ widthVW }) => widthVW}vw;
   height: 95vh;
 `;
 

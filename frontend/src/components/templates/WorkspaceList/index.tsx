@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
-import themeState from '@state/Theme';
+import themeState from '@state/theme';
 import { Itheme, yellowTheme } from '@global/theme';
 import { logout } from '@global/util/auth';
 import {

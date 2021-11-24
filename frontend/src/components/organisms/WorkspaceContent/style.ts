@@ -1,10 +1,10 @@
 import styled from 'styled-components';
 
-export const Container = styled.div`
+export const Container = styled.div<{ WIDTHVW: number }>`
   display: flex;
-  flex-direction: column;
-  width: 82vw;
+  width: ${({ WIDTHVW }) => WIDTHVW}vw;
   height: 95vh;
+  flex-direction: column;
 `;
 
 export const MarginedDiv = styled.div`
