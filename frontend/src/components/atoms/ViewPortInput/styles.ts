@@ -6,8 +6,18 @@ interface Props {
 }
 
 const Container = styled.input<Props>`
-  width: ${({ width }) => width}vw;
-  height: ${({ height }) => height}vh;
+  width: ${({ width }) => {
+    if (width) return `${width}vw`;
+    return '100%';
+  }};
+  height: ${({ height }) => {
+    if (height) return `${height}vh`;
+    return 'inherit';
+  }};
+`;
+
+export const Form = styled.form`
+  width: 100%;
 `;
 
 export default Container;

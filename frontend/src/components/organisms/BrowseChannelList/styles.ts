@@ -11,7 +11,7 @@ export const Container = styled.div<Props>`
 
   width: ${({ width }) => {
     if (width) return `${width}vw`;
-    return 'inherit';
+    return '95%';
   }};
   flex-direction: column;
 `;
@@ -29,11 +29,13 @@ export const MarginBottomDiv = styled.div<{ margin?: number }>`
 
 export const CenterAlignedDiv = styled.div`
   display: flex;
+  width: 100%;
   justify-content: space-around;
 `;
 
 export const ChannelListBackground = styled.div<Props>`
   height: 80vh;
+  width: 100%;
   max-height: inherit;
 
   display: flex;
