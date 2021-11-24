@@ -2,33 +2,44 @@ import { atom, selector } from 'recoil';
 
 const PAGEVW = 100;
 const SIDEBARSIZE = 18;
-const CONTENTSIZE = 82;
+const OPENEDSIZE = 82;
+const CONTENTSIZE = 62;
 
 export const sizestate = atom<number>({
   key: 'sizeState',
   default: CONTENTSIZE,
 });
 
-export const replyToggleState = atom<boolean>({
+export interface IreplyToggle {
+  isOpened: boolean;
+  threadId: undefined | number | string;
+  channelName: undefined | string[];
+}
+
+export const replyToggleState = atom<IreplyToggle>({
   key: 'replyToggleState',
-  default: false,
+  default: {
+    isOpened: false,
+    threadId: undefined,
+    channelName: undefined,
+  },
 });
 
 export const mainWorkspaceSizeState = selector<number>({
   key: 'mainWorkspaceSizeState',
   get: ({ get }) => {
-    const isOpened = get(replyToggleState);
-    const size = get(sizestate);
+    const { isOpened } = get(replyToggleState);
+    const CLOSEDSIZE = get(sizestate);
 
-    if (isOpened) return 62;
-    return size;
+    if (isOpened) return CLOSEDSIZE;
+    return OPENEDSIZE;
   },
 });
 
 export const replyWorkspaceState = selector<number>({
   key: 'replyWorkspaceSizeState',
   get: ({ get }) => {
-    const isOpened = get(replyToggleState);
+    const { isOpened } = get(replyToggleState);
 
     if (!isOpened) return 0;
 

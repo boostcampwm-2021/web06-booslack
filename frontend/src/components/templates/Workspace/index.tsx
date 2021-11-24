@@ -38,7 +38,7 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
   const channelTopicModal = useRecoilValue(channelTopicModalState);
   const sidebarChannelModal = useRecoilValue(sidebarChannelInfoModalState);
   const preferenceModal = useRecoilValue(preferenceModalState);
-  const isOpenedReply = useRecoilValue(replyToggleState);
+  const { isOpened } = useRecoilValue(replyToggleState);
 
   const { workspaceId, channelId }: { workspaceId: string; channelId: string } =
     useParams();
@@ -81,7 +81,7 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
         <RowDiv>
           <WorkspaceSidebar />
           {children}
-          {isOpenedReply && <ReplyBar />}
+          {isOpened && <ReplyBar />}
         </RowDiv>
       </Suspense>
       {channelCreateModal && <CreateChannelModal />}

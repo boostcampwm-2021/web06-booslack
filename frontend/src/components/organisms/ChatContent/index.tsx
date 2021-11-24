@@ -6,9 +6,10 @@ import { Container } from './styles';
 
 interface Props {
   inputBar: JSX.Element;
+  channelName: string[];
 }
 
-const ChatContent = ({ inputBar }: Props): JSX.Element => {
+const ChatContent = ({ inputBar, channelName }: Props): JSX.Element => {
   const { channelId }: { channelId: string } = useParams();
 
   const { isLoading, isError, data: threads } = useThreadListQuery(channelId);
@@ -26,6 +27,7 @@ const ChatContent = ({ inputBar }: Props): JSX.Element => {
             message={thread?.message}
             createdTime={thread?.createdAt}
             threadId={thread?.id}
+            channelName={channelName}
             userHasWorkspaceId={thread?.userHasWorkspaceId}
             replyList={thread.replys}
             reactionList={thread.reactions}

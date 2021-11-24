@@ -34,10 +34,14 @@ const WorkspaceContent = (): JSX.Element => {
     <ChannelJoinFooter channelName={channelQuery.data.name} />
   );
 
+  const { name: nameOfChannel, private: isPrivate } = channelQuery.data;
+
+  const channelName = [isPrivate, nameOfChannel];
+
   return (
     <Container WIDTHVW={WIDTHSIZE}>
       <ChatHeader />
-      <ChatContent inputBar={InputBar} />
+      <ChatContent inputBar={InputBar} channelName={channelName} />
     </Container>
   );
 };

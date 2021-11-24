@@ -24,6 +24,7 @@ import {
 
 interface Props {
   threadId: string;
+  channelName: string[];
   userHasWorkspaceId: string;
   setUpdateState: (arg: boolean) => void;
 }
@@ -41,6 +42,7 @@ const onEmojiSet = (user, threadId, channelId) => {
 
 const ThreadActions = ({
   threadId,
+  channelName,
   userHasWorkspaceId,
   setUpdateState,
 }: Props): JSX.Element => {
@@ -154,7 +156,7 @@ const ThreadActions = ({
         <ActionButton onClick={() => {}} icon={BsBookmark} />
         <ActionButton
           customRef={dotsVerticalButtonRef}
-          onClick={() => setModalState(true)}
+          onClick={() => replyToggle({ isOpened: true, threadId, channelName })}
           icon={BiDotsVerticalRounded}
         />
       </ThreadActionsGroup>

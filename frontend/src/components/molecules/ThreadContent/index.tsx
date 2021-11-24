@@ -23,6 +23,7 @@ interface Props {
   createdTime: string;
   threadId: string;
   userHasWorkspaceId: string;
+  channelName: string[];
   replyList: unknown[];
   reactionList: unknown[];
 }
@@ -35,6 +36,7 @@ const ThreadContent = ({
   userHasWorkspaceId,
   replyList,
   reactionList,
+  channelName,
 }: Props): JSX.Element => {
   const [updateState, setUpdateState] = useState(false);
   const [hoverState, setHoverState] = useState(false);
@@ -60,7 +62,7 @@ const ThreadContent = ({
       {reactionList.length > 0 && <ReactionBar reactionList={reactionList} />}
       {replyList.length > 0 && (
         <ReplyButton
-          onClick={() => replyToggle(true)}
+        onClick={() => replyToggle({ isOpened: true, threadId, channelName })}
           text={`${replyList.length}개의 댓글`}
         />
       )}
@@ -97,6 +99,7 @@ const ThreadContent = ({
       {hoverState && !updateState && (
         <ThreadActions
           threadId={threadId}
+          channelName={channelName}
           userHasWorkspaceId={userHasWorkspaceId}
           setUpdateState={setUpdateState}
         />

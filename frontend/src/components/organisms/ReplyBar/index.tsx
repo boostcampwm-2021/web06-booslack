@@ -1,3 +1,5 @@
+/* eslint-disable operator-linebreak */
+/* eslint-disable implicit-arrow-linebreak */
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { useMemo } from 'react';
 import { useRecoilValue, useRecoilState } from 'recoil';
@@ -14,19 +16,14 @@ import Container, {
 } from './styles';
 
 interface HeaderProps {
+  channelName: string[];
   onClickX: () => void;
 }
 
-const ReplyHeader = ({ onClickX }: HeaderProps): JSX.Element => {
+const ReplyHeader = ({ channelName, onClickX }: HeaderProps): JSX.Element => {
   const LeftSizeLabel = () => useMemo(() => <StyledLabel text="쓰레드" />, []);
 
-  const { channelId }: { channelId: string } = useParams();
-  const { isError, data } = useChannelQuery(channelId);
-
-  if (isError) return <div>Error</div>;
-
-  const channelName = data?.name?.substr(0, 10);
-  const channelType = CHANNELTYPE[data?.private];
+  const channelType = CHANNELTYPE[channelName[0]];
 
   return (
     <StyledBrowseChannelHeader
@@ -36,7 +33,7 @@ const ReplyHeader = ({ onClickX }: HeaderProps): JSX.Element => {
           <span> </span>
           <Label color="grey" text={channelType} />
           <span> </span>
-          <Label color="grey" text={channelName} />
+          <Label color="grey" text={channelName[1]} />
         </div>
       }
       content={<></>}
@@ -47,11 +44,24 @@ const ReplyHeader = ({ onClickX }: HeaderProps): JSX.Element => {
 
 const ReplyBar = (): JSX.Element => {
   const SIZEVW = useRecoilValue(replyWorkspaceState);
-  const [isOpened, setOpened] = useRecoilState(replyToggleState);
+  const [{ isOpened, threadId, channelName }, setReplyToggle] =
+    useRecoilState(replyToggleState);
+
+  console.log(threadId);
 
   return (
     <Container widthVW={SIZEVW} isOpened={isOpened}>
-      <ReplyHeader onClickX={() => setOpened(false)} />
+      <ReplyHeader
+        channelName={channelName}
+        onClickX={() =>
+          setReplyToggle({
+            isOpened: false,
+            threadId: undefined,
+            channelName: undefined,
+          })
+        }
+      />
+      {threadId}
     </Container>
   );
 };
