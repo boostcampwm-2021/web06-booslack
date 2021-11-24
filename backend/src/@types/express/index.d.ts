@@ -21,11 +21,14 @@ declare module 'express' {
       theme: string;
       fileId: string;
       topic: string;
+      emoji: string;
 
       userId: string;
       channelId: string;
       workspaceId: string;
       userHasWorkspaceId: string;
+      threadId: string;
+      reactionId: string;
     };
   }
 }

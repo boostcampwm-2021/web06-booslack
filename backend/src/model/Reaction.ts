@@ -1,27 +1,18 @@
-import {
-  Column,
-  ManyToOne,
-  Entity,
-  UpdateDateColumn,
-  OneToOne,
-  PrimaryGeneratedColumn,
-  CreateDateColumn,
-} from 'typeorm';
+import { Column, ManyToOne, Entity, PrimaryGeneratedColumn, CreateDateColumn } from 'typeorm';
 import Thread from './Thread';
 import Reply from './Reply';
-import Emotion from './Emotion';
 import UserHasWorkspace from './UserHasWorkspace';
 
 @Entity()
 class Reaction {
   @PrimaryGeneratedColumn()
-  id!: number
+  id!: number;
 
   @Column({ nullable: true })
   threadId!: number;
 
   @Column({ nullable: true })
-  emotionId!: number;
+  emoji!: string;
 
   @Column({ nullable: true })
   userHasWorkspaceId!: number;
@@ -30,13 +21,7 @@ class Reaction {
   replyId!: number;
 
   @CreateDateColumn({ type: 'timestamp' })
-  createdAt!: Date
-
-  @UpdateDateColumn({ type: 'timestamp', nullable: true })
-  updatedAt!: Date
-
-  @OneToOne(() => Emotion, (emotion) => emotion.reaction)
-  emotion!: Emotion
+  createdAt!: Date;
 
   @ManyToOne(() => Thread, (thread) => thread.reactions)
   thread!: Thread;
