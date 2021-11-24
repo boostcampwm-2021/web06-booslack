@@ -26,6 +26,7 @@ interface Props {
   channelName: string[];
   replyList: unknown[];
   reactionList: unknown[];
+  isReply?: boolean;
 }
 
 const ThreadContent = ({
@@ -37,6 +38,7 @@ const ThreadContent = ({
   replyList,
   reactionList,
   channelName,
+  isReply,
 }: Props): JSX.Element => {
   const [updateState, setUpdateState] = useState(false);
   const [hoverState, setHoverState] = useState(false);
@@ -60,7 +62,7 @@ const ThreadContent = ({
       <br />
       <MessageText dangerouslySetInnerHTML={{ __html: message }} />
       {reactionList.length > 0 && <ReactionBar reactionList={reactionList} />}
-      {replyList.length > 0 && (
+      {!isReply && replyList.length > 0 && (
         <ReplyButton
         onClick={() => replyToggle({ isOpened: true, threadId, channelName })}
           text={`${replyList.length}개의 댓글`}
@@ -106,6 +108,12 @@ const ThreadContent = ({
       )}
     </Container>
   );
+};
+
+ThreadContent.defaultProps = {
+  channelName: undefined,
+  replyList: undefined,
+  isReply: false,
 };
 
 export default ThreadContent;

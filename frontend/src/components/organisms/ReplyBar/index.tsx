@@ -5,6 +5,7 @@ import React, { useMemo } from 'react';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { useParams } from 'react-router-dom';
 import Label from '@atoms/Label';
+import ReplyContent from '@organisms/ReplyContent';
 import { replyToggleState, replyWorkspaceState } from '@state/workspace';
 import { useChannelQuery } from '@hook/useChannels';
 import { CHANNELTYPE } from '@enum/index';
@@ -22,6 +23,8 @@ interface HeaderProps {
 
 const ReplyHeader = ({ channelName, onClickX }: HeaderProps): JSX.Element => {
   const LeftSizeLabel = () => useMemo(() => <StyledLabel text="쓰레드" />, []);
+  const XmarkImage = () =>
+    useMemo(() => <XImageButton image={xMarkImage} onClick={onClickX} />, []);
 
   const channelType = CHANNELTYPE[channelName[0]];
 
@@ -37,7 +40,7 @@ const ReplyHeader = ({ channelName, onClickX }: HeaderProps): JSX.Element => {
         </div>
       }
       content={<></>}
-      rightButton={<XImageButton onClick={onClickX} image={xMarkImage} />}
+      rightButton={<XmarkImage />}
     />
   );
 };
@@ -61,7 +64,7 @@ const ReplyBar = (): JSX.Element => {
           })
         }
       />
-      {threadId}
+      <ReplyContent threadId={threadId} />
     </Container>
   );
 };
