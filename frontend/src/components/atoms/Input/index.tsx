@@ -11,6 +11,7 @@ interface Props<T> {
   type?: string;
   placeholder: string;
   className?: T;
+  onInput?: (e) => void;
 }
 
 const Input = ({
@@ -24,6 +25,7 @@ const Input = ({
   height,
   placeholder,
   className,
+  onInput,
 }: Props): JSX.Element => {
   return (
     <Container
@@ -36,6 +38,7 @@ const Input = ({
       value={value}
       className={className}
       type={type}
+      onInput={onInput}
     />
   );
 };

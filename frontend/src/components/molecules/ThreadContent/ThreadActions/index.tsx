@@ -1,6 +1,7 @@
 import React, { useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useParams } from 'react-router-dom';
+import EmojiModal from '@organisms/EmojiModal';
 import useRefLocate from '@hook/useRefLocate';
 import userState from '@state/user';
 import { deleteMessage } from '@global/api/thread';
@@ -36,6 +37,8 @@ const ThreadActions = ({
   const [xWidth, yHeight] = useRefLocate(ButtonRef, 50);
   const { channelId }: { channelId: string } = useParams();
   const user = useRecoilValue(userState);
+
+  const [isEmojiOpen, setIsEmojiOpen] = useState(false);
 
   const myMessageActionMenus = (
     <MenuItems>
@@ -122,7 +125,9 @@ const ThreadActions = ({
         <ActionButton
           width={20}
           height={20}
-          onClick={() => {}}
+          onClick={() => {
+            setIsEmojiOpen(true);
+          }}
           icon={BsEmojiSmile}
         />
         <ActionButton
@@ -162,6 +167,7 @@ const ThreadActions = ({
           ? myMessageActionMenus
           : otherMessageActionMenus}
       </ActionsMenu>
+      <EmojiModal isOpen={isEmojiOpen} close={() => setIsEmojiOpen(false)} />
     </Container>
   );
 };
