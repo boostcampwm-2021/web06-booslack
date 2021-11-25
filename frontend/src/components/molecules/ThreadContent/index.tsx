@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ImageButton from '@atoms/ImageButton';
 import ChatInputBarForUpdate from '@organisms/ChatInputBarForUpdate';
+import ReactionBar from '@organisms/ReactionBar';
 import defaultPerson from '@global/image/default_account.png';
 import ThreadActions from './ThreadActions';
 import {
@@ -21,6 +22,7 @@ interface Props {
   threadId: string;
   userHasWorkspaceId: string;
   replyList: unknown[];
+  reactionList: unknown[];
 }
 
 const ThreadContent = ({
@@ -30,6 +32,7 @@ const ThreadContent = ({
   threadId,
   userHasWorkspaceId,
   replyList,
+  reactionList,
 }: Props): JSX.Element => {
   const [updateState, setUpdateState] = useState(false);
   const [hoverState, setHoverState] = useState(false);
@@ -51,7 +54,10 @@ const ThreadContent = ({
       <MessageTimestamp>{createdTime}</MessageTimestamp>
       <br />
       <MessageText dangerouslySetInnerHTML={{ __html: message }} />
-      <ReplyButton text={`${replyList.length}개의 댓글`} />
+      {reactionList.length > 0 && <ReactionBar reactionList={reactionList} />}
+      {replyList.length > 0 && (
+        <ReplyButton text={`${replyList.length}개의 댓글`} />
+      )}
     </>
   );
 

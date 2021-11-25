@@ -130,35 +130,16 @@ const ThreadActions = ({
       <ThreadActionsGroup>
         <ActionButton
           customRef={emojiButtonRef}
-          width={20}
-          height={20}
           onClick={() => {
             setIsEmojiOpen(true);
           }}
           icon={BsEmojiSmile}
         />
-        <ActionButton
-          width={20}
-          height={20}
-          onClick={() => {}}
-          icon={BiMessageRoundedDetail}
-        />
-        <ActionButton
-          width={20}
-          height={20}
-          onClick={() => {}}
-          icon={RiShareForwardLine}
-        />
-        <ActionButton
-          width={20}
-          height={20}
-          onClick={() => {}}
-          icon={BsBookmark}
-        />
+        <ActionButton onClick={() => {}} icon={BiMessageRoundedDetail} />
+        <ActionButton onClick={() => {}} icon={RiShareForwardLine} />
+        <ActionButton onClick={() => {}} icon={BsBookmark} />
         <ActionButton
           customRef={dotsVerticalButtonRef}
-          width={20}
-          height={20}
           onClick={() => setModalState(true)}
           icon={BiDotsVerticalRounded}
         />

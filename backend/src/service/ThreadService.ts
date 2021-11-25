@@ -15,8 +15,11 @@ export async function getAllThreadsByChannelId(req: Request, res: Response) {
 
     const threads = await getCustomRepository(ThreadRepository)
       .createQueryBuilder('thread')
-      .leftJoin('thread.userHasWorkspace', 'userHasWorkSpace')
+      .leftJoinAndSelect('thread.userHasWorkspace', 'userHasWorkSpace')
       .leftJoinAndSelect('thread.replys', 'reply')
+      .leftJoinAndSelect('thread.reactions', 'reaction')
+      .select(['thread.id', 'thread.message', 'thread.userHasWorkspaceId', 'reply', 'reaction'])
+      .addSelect('userHasWorkSpace.nickname')
       .where('thread.channelId = :channelId', { channelId })
       .getMany();
 

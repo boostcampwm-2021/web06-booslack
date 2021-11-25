@@ -4,40 +4,43 @@ import Container from './styles';
 
 interface Props<T> {
   onClick: () => void;
-  width?: number;
-  height?: number;
   icon: IconType;
   className?: T;
   customRef?: undefined | RefObject<HTMLButtonElement>;
+  fontSize?: number;
+  width?: number;
+  height?: number;
 }
 
 const IconButton = ({
   onClick,
-  width,
-  height,
   icon,
   className,
   customRef,
+  fontSize,
+  width,
+  height,
 }: Props<typeof className>): JSX.Element => {
   const Icon = icon;
   return (
     <Container
-      width={width}
-      height={height}
       onClick={onClick}
       className={className}
       ref={customRef}
+      width={width}
+      height={height}
     >
-      <Icon />
+      <Icon size={fontSize} />
     </Container>
   );
 };
 
 IconButton.defaultProps = {
   className: {},
+  customRef: undefined,
+  fontSize: 16,
   width: 30,
   height: 30,
-  customRef: undefined,
 };
 
 export default IconButton;
