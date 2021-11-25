@@ -1,11 +1,6 @@
 import styled from 'styled-components';
 
-interface Props {
-  width: number;
-  height: number;
-}
-
-const Container = styled.button<Props>`
+const Container = styled.button`
   background: transparent;
   border: 0px solid;
 `;

@@ -10,6 +10,7 @@ import {
   NotificationBar,
   WysiwygColumn,
   DropAlertContainer,
+  DragAndDropContainer,
 } from './styles';
 
 const ChatInputBar = (): JSX.Element => {
@@ -49,7 +50,7 @@ const ChatInputBar = (): JSX.Element => {
       ) : (
         <></>
       )}
-      <div onChange={handleFileUpload}>
+      <DragAndDropContainer onChange={handleFileUpload}>
         <WysiwygContainer>
           <WysiwygEditor
             message={message}
@@ -76,8 +77,8 @@ const ChatInputBar = (): JSX.Element => {
           setSelectedFile={setSelectedFile}
           setSelectedFileUrl={setSelectedFileUrl}
         />
-        <NotificationBar />
-      </div>
+      </DragAndDropContainer>
+      <NotificationBar />
     </Container>
   );
 };

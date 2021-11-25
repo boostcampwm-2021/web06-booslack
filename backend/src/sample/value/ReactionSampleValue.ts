@@ -1,9 +1,8 @@
 const ReactionSampleValue = [
-  { threadId: 1, emotionId: 1, userHasWorkspaceId: 1 },
-  { threadId: 1, emotionId: 2, userHasWorkspaceId: 1 },
-  { threadId: 1, emotionId: 3, userHasWorkspaceId: 1 },
-  { threadId: 1, emotionId: 4, userHasWorkspaceId: 1 },
-  { threadId: 1, emotionId: 5, userHasWorkspaceId: 1 },
+  { threadId: 1, userHasWorkspaceId: 1, emoji: '💖' },
+  { threadId: 1, userHasWorkspaceId: 40, emoji: '💖' },
+  { threadId: 10, userHasWorkspaceId: 1, emoji: '🥳' },
+  { threadId: 10, userHasWorkspaceId: 40, emoji: '🥳' },
 ];
 
 export default ReactionSampleValue;

@@ -51,6 +51,7 @@ LabeledButton.defaultProps = {
   backgroundColor: undefined,
   customRef: undefined,
   disabled: false,
+  type: 'button',
 };
 
 export default LabeledButton;
