@@ -172,7 +172,9 @@ const ThreadActions = ({
             icon={BiMessageRoundedDetail}
           />
         )}
-        <ActionButton onClick={() => {}} icon={RiShareForwardLine} />
+        {!isReply && (
+          <ActionButton onClick={() => {}} icon={RiShareForwardLine} />
+        )}
         <ActionButton onClick={() => {}} icon={BsBookmark} />
         <ActionButton
           customRef={dotsVerticalButtonRef}
