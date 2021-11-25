@@ -7,6 +7,7 @@ export interface Workspace {
   id: number;
   profile?: string;
   name: string;
+  fileId: number | null;
 }
 
 export interface Channel {

@@ -89,7 +89,10 @@ const Toolbar = ({
               selectedFile,
               setSelectedFile,
               setSelectedFileUrl,
-            );
+            ).then(() => {
+              setSelectedFile([]);
+              setSelectedFileUrl([]);
+            });
           }}
           icon={MdSend}
           className={sendable ? 'sendButtonActive' : 'sendButtonDisable'}

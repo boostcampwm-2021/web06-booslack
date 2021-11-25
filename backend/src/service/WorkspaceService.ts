@@ -115,13 +115,13 @@ export async function addOneWorkspace(req: Request, res: Response) {
       throw BAD_REQUEST;
     }
 
-    const { name, description } = req.body;
+    const { name, description, fileId } = req.body;
 
     if (!name || !description) {
       throw BAD_REQUEST;
     }
 
-    const workspace = { name, code: generateUniqSerial() };
+    const workspace = { name, code: generateUniqSerial(), fileId };
 
     // eslint-disable-next-line no-constant-condition
     while (true) {
