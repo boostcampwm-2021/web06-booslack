@@ -5,6 +5,7 @@ import EmojiModal from '@organisms/EmojiModal';
 import useRefLocate from '@hook/useRefLocate';
 import userState from '@state/user';
 import { deleteMessage } from '@global/api/thread';
+import { postReaction } from '@global/api/reaction';
 import { BsEmojiSmile, BsBookmark } from 'react-icons/bs';
 import { BiMessageRoundedDetail, BiDotsVerticalRounded } from 'react-icons/bi';
 import { RiShareForwardLine } from 'react-icons/ri';
@@ -25,6 +26,17 @@ interface Props {
   userHasWorkspaceId: string;
   setUpdateState: (arg: boolean) => void;
 }
+
+const onEmojiSet = (user, threadId, channelId) => {
+  return (emoji) =>
+    postReaction(
+      user.userHasWorkspaceId,
+      channelId,
+      emoji,
+      threadId,
+      user.socket,
+    );
+};
 
 const ThreadActions = ({
   threadId,
@@ -161,6 +173,7 @@ const ThreadActions = ({
         yHeight={emojiYHeight}
         isOpen={isEmojiOpen}
         close={() => setIsEmojiOpen(false)}
+        onEmojiSet={onEmojiSet(user, threadId, channelId)}
       />
     </Container>
   );

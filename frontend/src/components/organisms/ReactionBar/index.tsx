@@ -12,15 +12,20 @@ interface Props {
   reactionList: unknown[];
 }
 
-const handleEmojiClick = (reaction, user, channelId) => {
-  const temp = reaction.list.find((eachReaction) => {
+const checkUserReacted = (reaction, user) => {
+  const reacted = reaction.list.find((eachReaction) => {
     if (eachReaction.userHasWorkspaceId === user.userHasWorkspaceId) {
       return true;
     }
     return false;
   });
-  temp
-    ? deleteReaction(temp.id, channelId, user.socket)
+  return reacted;
+};
+
+const handleEmojiClick = (reaction, user, channelId) => {
+  const reacted = checkUserReacted(reaction, user);
+  reacted
+    ? deleteReaction(reacted.id, channelId, user.socket)
     : postReaction(
         user.userHasWorkspaceId,
         channelId,
@@ -30,9 +35,21 @@ const handleEmojiClick = (reaction, user, channelId) => {
       );
 };
 
+const onEmojiSet = (user, threadId, channelId) => {
+  return (emoji) =>
+    postReaction(
+      user.userHasWorkspaceId,
+      channelId,
+      emoji,
+      threadId,
+      user.socket,
+    );
+};
+
 const ReactionBar = ({ reactionList }: Props): JSX.Element => {
   const user = useRecoilValue(userState);
   const { channelId }: { channelId: string } = useParams();
+  const currentThreadId = reactionList[0].threadId;
 
   const emojiButtonRef = useRef(null);
   const [emojiXWidth, emojiYHeight] = useRefLocate(emojiButtonRef, 50);
@@ -52,6 +69,7 @@ const ReactionBar = ({ reactionList }: Props): JSX.Element => {
     <Container>
       {reactions.map((reaction) => (
         <StyledLabeledButton
+          className={checkUserReacted(reaction, user) && 'reacted'}
           key={reaction.emoji}
           onClick={() => {
             handleEmojiClick(reaction, user, channelId);
@@ -73,6 +91,7 @@ const ReactionBar = ({ reactionList }: Props): JSX.Element => {
         yHeight={emojiYHeight}
         isOpen={isEmojiOpen}
         close={() => setIsEmojiOpen(false)}
+        onEmojiSet={onEmojiSet(user, currentThreadId, channelId)}
       />
     </Container>
   );

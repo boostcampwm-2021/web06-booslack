@@ -10,6 +10,7 @@ interface Props {
   customRef: RefObject<HTMLElement>;
   xWidth: number;
   yHeight: number;
+  onEmojiSet: (emoji: string) => void;
 }
 
 const emos = unicodeEmoji.getEmojis();
@@ -20,6 +21,7 @@ const EmojiModal = ({
   customRef,
   isOpen,
   close,
+  onEmojiSet,
 }: Props): JSX.Element => {
   const [emojis, setEmojis] = useState([]);
   const [input, setInput] = useState('');
@@ -31,6 +33,7 @@ const EmojiModal = ({
 
   useEffect(() => {
     if (value) {
+      onEmojiSet(value.emoji);
       close();
     }
   }, [value]);

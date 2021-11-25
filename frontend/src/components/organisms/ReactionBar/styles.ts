@@ -44,4 +44,10 @@ export const StyledLabeledButton = styled(LabeledButton)`
     box-shadow: inset 0 0 0 1px var(--saf-0);
     background: rgba(var(--sk_primary_background, 255, 255, 255), 1);
   }
+
+  &.reacted {
+    --saf-0: rgba(var(--sk_highlight_accent, 29, 155, 209), 1);
+    box-shadow: inset 0 0 0 1px var(--saf-0);
+    background: rgba(29, 155, 209, 0.1);
+  }
 `;
