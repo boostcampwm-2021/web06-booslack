@@ -15,7 +15,7 @@ interface Props {
 const ChatContent = ({ inputBar, channelName }: Props): JSX.Element => {
   const { channelId }: { channelId: string } = useParams();
 
-  const [shouldScrollDown, setIsShouldScrollDown] = useRecoilState(
+  const [shouldScrollDown, setShouldScrollDown] = useRecoilState(
     shouldScrollDownState,
   );
 
@@ -34,6 +34,7 @@ const ChatContent = ({ inputBar, channelName }: Props): JSX.Element => {
   useEffect(() => {
     if (shouldScrollDown) {
       bottomRef.current?.scrollIntoView({ block: 'end' });
+      setShouldScrollDown(false);
     }
 
     if (!threads || !hasPreviousPage) return undefined;
@@ -56,7 +57,7 @@ const ChatContent = ({ inputBar, channelName }: Props): JSX.Element => {
   useEffect(() => {
     if (isLoading) return;
     bottomRef.current?.scrollIntoView({ block: 'end' });
-  }, [isLoading, shouldScrollDown]);
+  }, [isLoading]);
 
   if (isLoading) return <div>Loading</div>;
   if (isError) return <div>Error</div>;
