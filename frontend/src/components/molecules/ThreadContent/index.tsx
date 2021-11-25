@@ -56,7 +56,7 @@ const ThreadContent = ({
       setHoverState(false);
     }
   };
-  // console.log(replyList);
+
   const ordinaryMessage = (
     <>
       <MessageSender>{nickname}</MessageSender>

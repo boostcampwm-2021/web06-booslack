@@ -65,7 +65,6 @@ export const postMessageAndFiles = async (
     channelId,
   });
   if (res.status === 200) {
-    console.log(res.data.thread.userHasWorkspaceId);
     setMessageClear(true);
     socket.emit('threads', channelId);
     if (res.data.thread.userHasWorkspaceId === userHasWorkspaceId) {
