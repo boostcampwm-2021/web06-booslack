@@ -34,9 +34,9 @@ interface Props {
   focused: boolean;
   setMessage: Dispatch<SetStateAction<string>>;
   setMessageClear: Dispatch<SetStateAction<boolean>>;
-  selectedFile: any;
-  setSelectedFile: Dispatch<SetStateAction<any>>;
-  setSelectedFileUrl: Dispatch<SetStateAction<any>>;
+  selectedFile: [];
+  setSelectedFile: Dispatch<SetStateAction<[]>>;
+  setSelectedFileUrl: Dispatch<SetStateAction<[]>>;
 }
 
 const Toolbar = ({
@@ -50,24 +50,43 @@ const Toolbar = ({
 }: Props): JSX.Element => {
   const { channelId }: { channelId: string } = useParams();
   const user = useRecoilValue(userState);
-  const sendable = message !== '<p><br></p>' && message.length > 8;
+  const sendable =
+    (message !== '<p><br></p>' && message.trim().length > 8) ||
+    selectedFile.length > 0;
+  const toolbarMiddleButtonList = [
+    BsTypeBold,
+    BsTypeItalic,
+    BsTypeStrikethrough,
+    BsCodeSlash,
+    BsLink45Deg,
+    MdFormatListNumbered,
+    MdFormatListBulleted,
+    BsBlockquoteLeft,
+    BiCodeBlock,
+  ];
   return (
-    <Container>
+    <Container className={focused && 'toolbar--active'}>
       <ToolbarMiddle focused={focused}>
-        <ToolBarIconButton onClick={() => {}} icon={BsTypeBold} />
-        <ToolBarIconButton onClick={() => {}} icon={BsTypeItalic} />
-        <ToolBarIconButton onClick={() => {}} icon={BsTypeStrikethrough} />
-        <ToolBarIconButton onClick={() => {}} icon={BsCodeSlash} />
-        <ToolBarIconButton onClick={() => {}} icon={BsLink45Deg} />
-        <ToolBarIconButton onClick={() => {}} icon={BsLink45Deg} />
-        <ToolBarIconButton onClick={() => {}} icon={MdFormatListNumbered} />
-        <ToolBarIconButton onClick={() => {}} icon={MdFormatListBulleted} />
-        <ToolBarIconButton onClick={() => {}} icon={BsBlockquoteLeft} />
-        <ToolBarIconButton onClick={() => {}} icon={BiCodeBlock} />
+        {toolbarMiddleButtonList.map((icon) => (
+          <ToolBarIconButton
+            key={icon.name}
+            onClick={() => {}}
+            icon={icon}
+            className={focused && 'active'}
+          />
+        ))}
       </ToolbarMiddle>
       <ToolbarSuffix>
-        <ToolBarIconButton onClick={() => {}} icon={VscMention} />
-        <ToolBarIconButton onClick={() => {}} icon={BsEmojiSmile} />
+        <ToolBarIconButton
+          onClick={() => {}}
+          icon={VscMention}
+          className="active"
+        />
+        <ToolBarIconButton
+          onClick={() => {}}
+          icon={BsEmojiSmile}
+          className="active"
+        />
         <FileLabel htmlFor="choosefile">
           <MdAttachFile />
         </FileLabel>
@@ -78,25 +97,25 @@ const Toolbar = ({
           accept={'image/*'}
         />
         <ToolBarIconButton
-          onClick={() => {
-            postMessageAndFiles(
-              user.userHasWorkspaceId,
-              channelId,
-              message,
-              user.socket,
-              setMessageClear,
-              setMessage,
-              selectedFile,
-              setSelectedFile,
-              setSelectedFileUrl,
-            ).then(() => {
+          onClick={async () => {
+            if (sendable) {
+              await postMessageAndFiles(
+                user.userHasWorkspaceId,
+                channelId,
+                message,
+                user.socket,
+                setMessageClear,
+                setMessage,
+                selectedFile,
+                setSelectedFile,
+                setSelectedFileUrl,
+              );
               setSelectedFile([]);
               setSelectedFileUrl([]);
-            });
+            }
           }}
           icon={MdSend}
-          className={sendable ? 'sendButtonActive' : 'sendButtonDisable'}
-          disabled={!sendable}
+          className={sendable && 'sendButtonActive'}
         />
       </ToolbarSuffix>
     </Container>

@@ -364,13 +364,12 @@ export const keydownHandle = (
   setIsMentionOpen,
 ): void => {
   const selection = document.getSelection();
+
   if (e.code === 'Space') {
-    const selection = document.getSelection();
     createList(selection, e);
   }
 
   if (e.code === 'Backspace') {
-    const selection = document.getSelection();
     const currentNode = selection.focusNode;
 
     if (
@@ -420,7 +419,6 @@ export const keydownHandle = (
   }
 
   if (e.code === 'Backquote') {
-    const selection = document.getSelection();
     const currentNode = selection.focusNode;
     if (
       currentNode.nodeName === '#text' &&
@@ -443,13 +441,11 @@ export const makeEmoji = (value) => {
     }
   }
 
-  const img = document.createElement('img');
-  img.alt = value.emoji;
-  img.className = 'emoji';
+  const emoji = document.createTextNode(value.emoji);
 
   range.deleteContents();
-  range.insertNode(img);
-  selection.collapse(img.nextSibling, 0);
+  range.insertNode(emoji);
+  selection.collapse(emoji.nextSibling, 0);
 };
 
 export const makeMention = (value) => {

@@ -12,6 +12,11 @@ export const Container = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+
+  &.toolbar--active {
+    border-top: 1px solid #9e9e9e;
+    background-color: rgba(var(--sk_primary_background, 181, 181, 181), 0.3);
+  }
 `;
 
 export const ToolbarMiddle = styled.div<{ focused: boolean }>`
@@ -54,7 +59,7 @@ export const ToolBarIconButton = styled(IconButton)`
   justify-content: center;
   position: relative;
 
-  cursor: pointer;
+  cursor: auto;
 
   margin: 0;
   padding: 0;
@@ -62,6 +67,10 @@ export const ToolBarIconButton = styled(IconButton)`
 
   :not(:last-child) {
     margin-right: 1px;
+  }
+
+  &.active {
+    cursor: pointer;
   }
 `;
 
@@ -80,6 +89,7 @@ export const FileLabel = styled.label`
   align-items: center;
   height: 32px;
   width: 32px;
+  cursor: pointer;
 `;
 
 export default Container;

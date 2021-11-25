@@ -18,7 +18,14 @@ export async function getAllThreadsByChannelId(req: Request, res: Response) {
       .leftJoinAndSelect('thread.userHasWorkspace', 'userHasWorkSpace')
       .leftJoinAndSelect('thread.replys', 'reply')
       .leftJoinAndSelect('thread.reactions', 'reaction')
-      .select(['thread.id', 'thread.message', 'thread.userHasWorkspaceId', 'reply', 'reaction'])
+      .select([
+        'thread.id',
+        'thread.message',
+        'thread.userHasWorkspaceId',
+        'thread.createdAt',
+        'reply',
+        'reaction',
+      ])
       .addSelect('userHasWorkSpace.nickname')
       .where('thread.channelId = :channelId', { channelId })
       .getMany();
