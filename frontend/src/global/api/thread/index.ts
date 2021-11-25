@@ -14,6 +14,7 @@ export const updateMessage = async (
   if (res.status === 200) {
     setUpdateState(false);
     socket.emit('threads', channelId);
+    socket.emit('thread', threadId);
   }
 };
 
@@ -25,6 +26,7 @@ export const deleteMessage = async (
   const res = await axios.delete(`/api/threads/${threadId}`);
   if (res.status === 200) {
     socket.emit('threads', channelId);
+    socket.emit('thread', threadId);
   }
 };
 

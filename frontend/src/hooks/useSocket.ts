@@ -4,6 +4,12 @@ export const initializeSocket = (socket, queryClient) => {
   useEffect(() => {
     if (!socket) return;
 
+    socket.on('thread', (_threadId) => {
+      queryClient.invalidateQueries(['thread', _threadId], {
+        refetchActive: true,
+      });
+    });
+
     socket.on('threads', (_channelId) => {
       queryClient.invalidateQueries(['threads', _channelId], {
         refetchActive: true,

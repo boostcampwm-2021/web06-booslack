@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
 import ThreadContent from '@molecules/ThreadContent';
-import { useThreadListQuery } from '@hook/useThreads';
+import { useThreadQuery, useThreadListQuery } from '@hook/useThreads';
 import { IThread } from '@global/type';
 
 import {
@@ -21,7 +21,19 @@ interface Props {
 const ReplyContent = ({ thread, threadId }: Props): JSX.Element => {
   const { channelId }: { channelId: string } = useParams();
 
-  const { isLoading, isError, data: threads } = useThreadListQuery(channelId);
+  const {
+    isLoading,
+    isError,
+    data: replyThreads,
+  } = useThreadListQuery(channelId);
+
+  const {
+    isLoading: isReplyLoding,
+    isError: isReplyError,
+    data: replyThread,
+  } = useThreadQuery(threadId as string);
+
+  console.log(replyThread);
 
   if (isLoading) return <div>Loading</div>;
   if (isError) return <div>Error</div>;
@@ -29,25 +41,22 @@ const ReplyContent = ({ thread, threadId }: Props): JSX.Element => {
   return (
     <>
       <Container>
-        <StyledThreadContent
-          key={`focusedThread${thread.id}`}
-          thread={thread}
-          isReply
-        />
+        {isReplyLoding && !isReplyError && (
+          <StyledThreadContent thread={thread} isReply />
+        )}
+        {!isReplyLoding && !isReplyError && (
+          <StyledThreadContent thread={replyThread} isReply />
+        )}
         <RowDiv>
-          {threads ? (
+          {replyThreads ? (
             <>
-              <AbsoluteLabel text={`${threads?.length}개의 답글`} />
+              <AbsoluteLabel text={`${replyThreads?.length}개의 답글`} />
               <GreyLine />
             </>
           ) : null}
         </RowDiv>
-        {threads.map((replyThread: IThread) => (
-          <ThreadContent
-            key={`thread${replyThread.id}`}
-            thread={replyThread}
-            isReply
-          />
+        {replyThreads.map((reply: IThread) => (
+          <ThreadContent key={`thread${reply.id}`} thread={reply} isReply />
         ))}
         input bar here
         <MarginDiv />
