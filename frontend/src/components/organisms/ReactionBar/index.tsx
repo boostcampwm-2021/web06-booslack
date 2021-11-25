@@ -1,25 +1,38 @@
 import React, { useRef, useState } from 'react';
 import { useRecoilValue } from 'recoil';
+import { useParams } from 'react-router-dom';
 import { BsEmojiSmileUpsideDown } from 'react-icons/bs';
 import EmojiModal from '@organisms/EmojiModal';
 import useRefLocate from '@hook/useRefLocate';
 import userState from '@state/user';
+import { deleteReaction, postReaction } from '@global/api/reaction';
 import { Container, ReactionAddButton, StyledLabeledButton } from './styles';
 
 interface Props {
   reactionList: unknown[];
 }
 
-const handleEmojiClick = (reaction, user) => {
-  const temp = reaction.list.find(
-    (eachReaction) =>
-      eachReaction.userHasWorksapceId === user.userHasWorksapceId,
-  );
-  temp ? '있으면 삭제요청' : '없으면 추가 요청';
+const handleEmojiClick = (reaction, user, channelId) => {
+  const temp = reaction.list.find((eachReaction) => {
+    if (eachReaction.userHasWorkspaceId === user.userHasWorkspaceId) {
+      return true;
+    }
+    return false;
+  });
+  temp
+    ? deleteReaction(temp.id, channelId, user.socket)
+    : postReaction(
+        user.userHasWorkspaceId,
+        channelId,
+        reaction.emoji,
+        reaction.list[0].threadId,
+        user.socket,
+      );
 };
 
 const ReactionBar = ({ reactionList }: Props): JSX.Element => {
   const user = useRecoilValue(userState);
+  const { channelId }: { channelId: string } = useParams();
 
   const emojiButtonRef = useRef(null);
   const [emojiXWidth, emojiYHeight] = useRefLocate(emojiButtonRef, 50);
@@ -41,7 +54,7 @@ const ReactionBar = ({ reactionList }: Props): JSX.Element => {
         <StyledLabeledButton
           key={reaction.emoji}
           onClick={() => {
-            handleEmojiClick(reaction, user);
+            handleEmojiClick(reaction, user, channelId);
           }}
           text={`${reaction.emoji}  ${reaction.list.length}`}
         />
