@@ -69,17 +69,32 @@ const SetupTeamQuestions = (): JSX.Element => {
     setFileId(fileList[0]);
   };
 
+  const OnClickImage = async () => {
+    try {
+      if (selectedFile) {
+        await PostImage();
+      } else {
+        setFileId(1);
+      }
+    } catch (e) {
+      setFileId(0);
+    }
+  };
+
   const askImage = (
     <Container>
       <StyledLabel text="3/3" />
       <StyledLabel text="초기 워크스페이스 사진을 설정합니다." />
       <StyledLabel text="초기 워크스페이스의 프로필이 될 이미지 파일을 넣어주세요." />
+      <StyledLabel text="프로필 사진으론 jpg, png만 가능합니다." />
       <StyledLabel
         text={`파일 정보 : ${
           selectedFile || '제출하지 않으면 기본 이미지로 설정됩니다.'
         }`}
       />
+      {/* eslint-disable-next-line react/jsx-props-no-spreading */}
       <DropZoneContainer {...getRootProps()}>
+        {/* eslint-disable-next-line react/jsx-props-no-spreading */}
         <input {...InputProps} type="file" />
         {isDragActive ? (
           <span>Drop the Image here...</span>
@@ -88,16 +103,7 @@ const SetupTeamQuestions = (): JSX.Element => {
         )}
       </DropZoneContainer>
 
-      <StyledLabeledDefaultButton
-        text="다음"
-        onClick={async () => {
-          if (selectedFile) {
-            await PostImage();
-          } else {
-            setFileId(1);
-          }
-        }}
-      />
+      <StyledLabeledDefaultButton text="다음" onClick={OnClickImage} />
     </Container>
   );
 
