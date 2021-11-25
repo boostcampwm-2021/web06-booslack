@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { useQuery } from 'react-query';
+import { useInfiniteQuery, useQuery } from 'react-query';
 
 const CACHETIME = 10000;
 
@@ -22,6 +22,21 @@ export const useThreadQuery = (threadId: string) => {
       cacheTime: CACHETIME,
       staleTime: CACHETIME,
       refetchOnWindowFocus: false,
+    },
+  );
+};
+
+export const usePartialThreadListQuery = (channelId: string) => {
+  return useInfiniteQuery(
+    ['threads', channelId],
+    async ({ pageParam = 100000 }) => {
+      const res = await axios.get(
+        `/api/threads?channelId=${channelId}&cursor=${pageParam}`,
+      );
+      return res.data.threads;
+    },
+    {
+      getPreviousPageParam: (firstPage) => firstPage[0]?.id ?? false,
     },
   );
 };

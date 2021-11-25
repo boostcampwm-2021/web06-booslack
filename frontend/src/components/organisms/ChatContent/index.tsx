@@ -1,8 +1,12 @@
 import React, { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import ThreadContent from '@molecules/ThreadContent';
+<<<<<<< HEAD
 import { useThreadListQuery } from '@hook/useThreads';
 import { IThread } from '@global/type';
+=======
+import { usePartialThreadListQuery } from '@hook/useThreads';
+>>>>>>> feat: 쓰레드 목록 무한스크롤
 import { Container } from './styles';
 
 interface Props {
@@ -12,37 +16,52 @@ interface Props {
 
 const ChatContent = ({ inputBar, channelName }: Props): JSX.Element => {
   const { channelId }: { channelId: string } = useParams();
-  const topRef = useRef(null);
-  const bottomRef = useRef(null);
 
-  const { isLoading, isError, data: threads } = useThreadListQuery(channelId);
+  const bottomRef = useRef(null);
+  const currentRef = useRef(null);
+  const previousRef = useRef(null);
+
+  const {
+    isLoading,
+    isError,
+    fetchPreviousPage,
+    hasPreviousPage,
+    data: threads,
+  } = usePartialThreadListQuery(channelId);
 
   useEffect(() => {
-    if (!threads) return;
-
+    if (!threads || !hasPreviousPage) return undefined;
     const observer = new IntersectionObserver((entries) =>
       entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          // fetch
+        if (entry.isIntersecting && hasPreviousPage) {
+          previousRef.current = currentRef.current.firstChild;
+          fetchPreviousPage();
         }
       }),
     );
-    observer.observe(topRef.current);
-  }, [threads]);
 
-  // on every new message
+    observer.observe(currentRef.current.firstChild);
+    return () => {
+      observer.unobserve(previousRef.current);
+      previousRef.current?.scrollIntoView({ block: 'nearest' });
+    };
+  }, [threads, hasPreviousPage]);
+
+  // scroll to bottom when
+  //    threads are first loaded
+  //    current user sends a new message
   useEffect(() => {
-    if (!threads) return;
+    if (isLoading) return;
     bottomRef.current?.scrollIntoView({ block: 'end' });
-  }, [threads]);
+  }, [isLoading]);
 
   if (isLoading) return <div>Loading</div>;
   if (isError) return <div>Error</div>;
 
   return (
     <>
-      <Container>
-        {threads.map((thread: IThread) => (
+      <Container ref={currentRef}>
+        {threads.pages.flat().map((thread: IThread) => (
           <ThreadContent
             key={thread.id}
             thread={thread}

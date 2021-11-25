@@ -35,6 +35,25 @@ export async function getAllThreadsByChannelId(req: Request, res: Response) {
   }
 }
 
+export async function getPartialThreadsByChannelId(req: Request, res: Response) {
+  try {
+    const { channelId, cursor } = req.query;
+
+    const threadsDesc = await getRepository(Thread)
+      .createQueryBuilder('thread')
+      .leftJoinAndSelect('thread.userHasWorkspace', 'userHasWorkspace')
+      .where('thread.channelId = :id AND thread.id < :cursor', { id: channelId, cursor })
+      .orderBy('thread.id', 'DESC')
+      .limit(20)
+      .getMany();
+
+    const threads = threadsDesc.reverse();
+    return res.status(OK).json({ threads });
+  } catch (e) {
+    return res.status(BAD_REQUEST).json(e);
+  }
+}
+
 export async function getThread(req: Request, res: Response) {
   try {
     const { id } = req.params;
