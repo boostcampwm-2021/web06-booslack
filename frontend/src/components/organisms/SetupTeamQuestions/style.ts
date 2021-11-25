@@ -39,4 +39,16 @@ export const StyledButton = styled(LabeledDefaultButton)`
   ${ThemeButton}
 `;
 
+export const DropZoneContainer = styled.div`
+  width: 350px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 10px;
+  border: 1px solid #868686;
+  margin: 10px 10px 20px 10px;
+  padding: 20px;
+`;
+
 export default Container;

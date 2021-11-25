@@ -1,19 +1,37 @@
-import React, { useState } from 'react';
+import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSetRecoilState } from 'recoil';
 import axios from 'axios';
 import QuestionForm from '@molecules/QuestionForm';
 import { codeModalState } from '@state/modal';
-import { submitInput, axiosWithFile, changeFile, getCode } from '@global/util';
+import { submitInput, getCode } from '@global/util';
 import API from '@global/api';
-import Container, { StyledLabel, StyledButton } from './style';
+import { useDropzone } from 'react-dropzone';
+import { StyledLabeledDefaultButton } from '@molecules/QuestionForm/styles';
+import Container, {
+  StyledLabel,
+  StyledButton,
+  DropZoneContainer,
+} from './style';
 
 const SetupTeamQuestions = (): JSX.Element => {
   const history = useHistory();
   const setModalState = useSetRecoilState(codeModalState);
   const [name, setName] = useState<string>('');
   const [description, setDescription] = useState<string>('');
-  const [selectedFile, setSelectedFile] = useState(null);
+  const [selectedFile, setSelectedFile] = useState<string>();
+  const [file, setFile] = useState<File>();
+  const [fileId, setFileId] = useState<number>(0);
+  const onDrop = useCallback((acceptedFile) => {
+    setFile(acceptedFile);
+    setSelectedFile(acceptedFile[0].path);
+  }, []);
+  const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
+  const InputProps = {
+    ...getInputProps(),
+    multiple: false,
+    accept: 'image/gif, image/jpg, image/jpeg, image.png',
+  };
 
   const askName = (
     <QuestionForm
@@ -37,25 +55,55 @@ const SetupTeamQuestions = (): JSX.Element => {
     />
   );
 
-  /* to-do
-  const askFile = (
-    <QuestionForm
-      count="3/3"
-      key="askFile"
-      type="file"
-      title="초기 워크스페이스 사진을 설정합니다."
-      content="초기 워크스페이스의 프로필이 될 이미지 파일을 넣어주세요."
-      onSubmit={(e) => setSelectedFile(changeFile(e))}
-      onSet={({ files }: { files: File }) => setSelectedFile(files[0])}
-    />
+  const config = {
+    headers: {
+      'content-type': 'multipart/form-data',
+    },
+  };
+
+  const PostImage = async () => {
+    const formData = new FormData();
+    formData.append('file', file[0]);
+    const response = await axios.post('/api/files/upload', formData, config);
+    const fileList: Array<number> = response.data.files;
+    setFileId(fileList[0]);
+  };
+
+  const askImage = (
+    <Container>
+      <StyledLabel text="3/3" />
+      <StyledLabel text="초기 워크스페이스 사진을 설정합니다." />
+      <StyledLabel text="초기 워크스페이스의 프로필이 될 이미지 파일을 넣어주세요." />
+      <StyledLabel
+        text={`파일 정보 : ${
+          selectedFile || '제출하지 않으면 기본 이미지로 설정됩니다.'
+        }`}
+      />
+      <DropZoneContainer {...getRootProps()}>
+        <input {...InputProps} type="file" />
+        {isDragActive ? (
+          <span>Drop the Image here...</span>
+        ) : (
+          <span>Drop the Image file or click to select files</span>
+        )}
+      </DropZoneContainer>
+
+      <StyledLabeledDefaultButton
+        text="다음"
+        onClick={async () => {
+          if (selectedFile) {
+            await PostImage();
+          } else {
+            setFileId(1);
+          }
+        }}
+      />
+    </Container>
   );
-  */
 
   if (!name) return askName;
   if (!description) return askChannel;
-  /*
-  if (!selectedfile) return askFile;
-  */
+  if (fileId === 0) return askImage;
 
   const postAxiostest = async () => {
     return axios({
@@ -64,8 +112,19 @@ const SetupTeamQuestions = (): JSX.Element => {
       data: {
         name,
         description,
+        fileId,
       },
     });
+  };
+
+  const PostWorkspace = async () => {
+    const code = await getCode(postAxiostest, setModalState);
+    if (code) {
+      history.push({
+        pathname: '/generatecode',
+        state: { data: { code, nextPage: 'workspacelist' } },
+      });
+    }
   };
 
   return (
@@ -74,18 +133,12 @@ const SetupTeamQuestions = (): JSX.Element => {
 
       <StyledLabel text={`workspace Name : ${name}`} />
       <StyledLabel text={`workspace description : ${description}`} />
-      <StyledLabel text={`파일 정보 : ${selectedFile} (skip)`} />
+      <StyledLabel text={`파일 정보 : ${selectedFile || '제출하지 않음.'}`} />
 
       <StyledButton
         text="제출"
         onClick={async () => {
-          const code = await getCode(postAxiostest, setModalState);
-          if (code) {
-            history.push({
-              pathname: '/generatecode',
-              state: { data: { code, nextPage: 'workspacelist' } },
-            });
-          }
+          await PostWorkspace();
         }}
       />
     </Container>
