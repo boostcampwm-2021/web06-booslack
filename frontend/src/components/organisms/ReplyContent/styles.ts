@@ -29,7 +29,7 @@ export const RowDiv = styled.div`
   flex-direction: row;
   position: relative;
 
-  margin: 20px 0 20px 0;
+  margin: 2px 0 10px 0;
 `;
 
 export const GreyLine = styled.div`

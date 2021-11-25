@@ -4,6 +4,7 @@
 import React, { useMemo } from 'react';
 import { useRecoilValue, useRecoilState } from 'recoil';
 import { useParams } from 'react-router-dom';
+
 import Label from '@atoms/Label';
 import ReplyContent from '@organisms/ReplyContent';
 import { replyToggleState, replyWorkspaceState } from '@state/workspace';
@@ -14,6 +15,7 @@ import Container, {
   StyledBrowseChannelHeader,
   StyledLabel,
   XImageButton,
+  StyledThreadContent,
 } from './styles';
 
 interface HeaderProps {
@@ -63,6 +65,11 @@ const ReplyBar = (): JSX.Element => {
             channelName: undefined,
           })
         }
+      />
+      <StyledThreadContent
+        key={`focusedThread${thread.id}`}
+        thread={thread}
+        isReply
       />
       <ReplyContent threadId={threadId} />
     </Container>

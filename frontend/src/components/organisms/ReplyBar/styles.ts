@@ -1,8 +1,8 @@
-import styled from 'styled-components';
-import BrowseChannelHeader from '@molecules/BrowseChannelHeader';
 import Label from '@atoms/Label';
 import ImageButton from '@atoms/ImageButton';
-
+import ThreadContent from '@molecules/ThreadContent';
+import BrowseChannelHeader from '@molecules/BrowseChannelHeader';
+import styled from 'styled-components';
 const Container = styled.div<{ widthVW: number; isOpened: boolean }>`
   display: ${({ isOpened }) => (isOpened ? 'flex' : 'none')};
   flex-direction: column;
@@ -19,12 +19,12 @@ export const StyledBrowseChannelHeader = styled(BrowseChannelHeader)`
   box-shadow: 0 0 0 1px var(--saf-0), 0 4px 12px 0 rgba(0, 0, 0, 0.12);
 `;
 
-export const StyledLabel = styled(Label)`
-  font-weight: bold;
+export const StyledThreadContent = styled(ThreadContent)`
+  margin-top: 25px;
 `;
 
-export const MarginDiv = styled.div`
-  margin-top: 20vh;
+export const StyledLabel = styled(Label)`
+  font-weight: bold;
 `;
 
 export const XImageButton = styled(ImageButton)`

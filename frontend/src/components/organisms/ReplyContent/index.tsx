@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams } from 'react-router-dom';
 import ThreadContent from '@molecules/ThreadContent';
 import { useThreadListQuery } from '@hook/useThreads';
+import { IThread } from '@global/type';
 import { Container, RowDiv, AbsoluteLabel, GreyLine } from './styles';
 
 interface Props {
@@ -27,7 +28,7 @@ const ReplyContent = ({ threadId }: Props): JSX.Element => {
             </>
           ) : null}
         </RowDiv>
-        {threads.map((thread) => (
+        {threads.map((thread: IThread) => (
           <ThreadContent key={`thread${thread.id}`} thread={thread} isReply />
         ))}
       </Container>

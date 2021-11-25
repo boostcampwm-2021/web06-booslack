@@ -22,12 +22,14 @@ interface Props {
   thread: IThread;
   channelName?: string[];
   isReply?: boolean;
+  className?: string;
 }
 
 const ThreadContent = ({
   thread,
   channelName,
   isReply,
+  className,
 }: Props): JSX.Element => {
   const {
     userHasWorkspace,
@@ -82,6 +84,7 @@ const ThreadContent = ({
 
   return (
     <Container
+      className={className}
       onMouseEnter={handleHoverIn}
       onMouseLeave={handleHoverOut}
       updateState={updateState}
@@ -115,6 +118,7 @@ const ThreadContent = ({
 ThreadContent.defaultProps = {
   channelName: undefined,
   isReply: false,
+  className: '',
 };
 
 export default ThreadContent;
