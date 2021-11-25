@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Label from '@atoms/Label';
+import ThreadContent from '@molecules/ThreadContent';
 import { scrollIfHover } from '@global/mixin';
 
 interface Props {
@@ -30,6 +31,10 @@ export const RowDiv = styled.div`
   position: relative;
 
   margin: 2px 0 10px 0;
+`;
+
+export const StyledThreadContent = styled(ThreadContent)`
+  margin-top: 25px;
 `;
 
 export const GreyLine = styled.div`

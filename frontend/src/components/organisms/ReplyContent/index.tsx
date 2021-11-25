@@ -3,13 +3,21 @@ import { useParams } from 'react-router-dom';
 import ThreadContent from '@molecules/ThreadContent';
 import { useThreadListQuery } from '@hook/useThreads';
 import { IThread } from '@global/type';
-import { Container, RowDiv, AbsoluteLabel, GreyLine } from './styles';
+
+import {
+  StyledThreadContent,
+  Container,
+  RowDiv,
+  AbsoluteLabel,
+  GreyLine,
+} from './styles';
 
 interface Props {
+  thread: IThread;
   threadId: string | number;
 }
 
-const ReplyContent = ({ threadId }: Props): JSX.Element => {
+const ReplyContent = ({ thread, threadId }: Props): JSX.Element => {
   const { channelId }: { channelId: string } = useParams();
 
   const { isLoading, isError, data: threads } = useThreadListQuery(channelId);
@@ -20,6 +28,11 @@ const ReplyContent = ({ threadId }: Props): JSX.Element => {
   return (
     <>
       <Container>
+        <StyledThreadContent
+          key={`focusedThread${thread.id}`}
+          thread={thread}
+          isReply
+        />
         <RowDiv>
           {threads ? (
             <>
@@ -28,8 +41,12 @@ const ReplyContent = ({ threadId }: Props): JSX.Element => {
             </>
           ) : null}
         </RowDiv>
-        {threads.map((thread: IThread) => (
-          <ThreadContent key={`thread${thread.id}`} thread={thread} isReply />
+        {threads.map((replyThread: IThread) => (
+          <ThreadContent
+            key={`thread${replyThread.id}`}
+            thread={replyThread}
+            isReply
+          />
         ))}
       </Container>
     </>

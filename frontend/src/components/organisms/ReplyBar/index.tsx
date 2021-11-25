@@ -15,7 +15,6 @@ import Container, {
   StyledBrowseChannelHeader,
   StyledLabel,
   XImageButton,
-  StyledThreadContent,
 } from './styles';
 
 interface HeaderProps {
@@ -66,12 +65,7 @@ const ReplyBar = (): JSX.Element => {
           })
         }
       />
-      <StyledThreadContent
-        key={`focusedThread${thread.id}`}
-        thread={thread}
-        isReply
-      />
-      <ReplyContent threadId={threadId} />
+      <ReplyContent thread={thread} threadId={threadId} />
     </Container>
   );
 };
