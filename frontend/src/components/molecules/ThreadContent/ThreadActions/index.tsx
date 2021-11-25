@@ -1,11 +1,13 @@
 import React, { useRef, useState } from 'react';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { useParams } from 'react-router-dom';
 import EmojiModal from '@organisms/EmojiModal';
 import useRefLocate from '@hook/useRefLocate';
 import userState from '@state/user';
+import { replyToggleState } from '@state/workspace';
 import { deleteMessage } from '@global/api/thread';
 import { postReaction } from '@global/api/reaction';
+import { IThread } from '@global/type';
 import { BsEmojiSmile, BsBookmark } from 'react-icons/bs';
 import { BiMessageRoundedDetail, BiDotsVerticalRounded } from 'react-icons/bi';
 import { RiShareForwardLine } from 'react-icons/ri';
@@ -22,7 +24,10 @@ import {
 } from './styles';
 
 interface Props {
+  thread: IThread;
   threadId: string;
+  channelName: string[];
+  isReply: boolean;
   userHasWorkspaceId: string;
   setUpdateState: (arg: boolean) => void;
 }
@@ -39,7 +44,10 @@ const onEmojiSet = (user, threadId, channelId) => {
 };
 
 const ThreadActions = ({
+  thread,
   threadId,
+  isReply,
+  channelName,
   userHasWorkspaceId,
   setUpdateState,
 }: Props): JSX.Element => {
@@ -55,6 +63,7 @@ const ThreadActions = ({
 
   const { channelId }: { channelId: string } = useParams();
   const user = useRecoilValue(userState);
+  const [replyToggle, setReplyToggle] = useRecoilState(replyToggleState);
 
   const [isEmojiOpen, setIsEmojiOpen] = useState(false);
 
@@ -101,6 +110,13 @@ const ThreadActions = ({
           text="메시지 삭제"
           color="#e01e5a"
           onClick={() => {
+            if (replyToggle.thread?.id === threadId) {
+              setReplyToggle({
+                isOpened: false,
+                thread: undefined,
+                channelName: undefined,
+              });
+            }
             deleteMessage(threadId, channelId, user.socket);
           }}
         />
@@ -147,12 +163,16 @@ const ThreadActions = ({
           }}
           icon={BsEmojiSmile}
         />
-        <ActionButton onClick={() => {}} icon={BiMessageRoundedDetail} />
+        {!isReply && (
+          <ActionButton onClick={() => {}} icon={BiMessageRoundedDetail} />
+        )}
         <ActionButton onClick={() => {}} icon={RiShareForwardLine} />
-        <ActionButton onClick={() => {}} icon={BsBookmark} />
+        {!isReply && <ActionButton onClick={() => {}} icon={BsBookmark} />}
         <ActionButton
           customRef={dotsVerticalButtonRef}
-          onClick={() => setModalState(true)}
+          onClick={() => {
+            setReplyToggle({ isOpened: true, thread, channelName });
+          }}
           icon={BiDotsVerticalRounded}
         />
       </ThreadActionsGroup>

@@ -10,18 +10,17 @@ export const Container = styled.div<Props>`
   display: flex;
   width: ${({ width }) => {
     if (width) return `${width}vw`;
-    return 'inherit';
+    return '100%';
   }};
   height: ${({ height }) => {
     if (height) return `${height}vh`;
     return 'inherit';
   }};
-  justify-content: center;
-  align-items: center;
 `;
 
 export const StyledViewportInput = styled(ViewportInput)`
-  align-items: center;
+  display: flex;
+  width: 100%;
   background-color: rgba(var(--sk_primary_background, 255, 255, 255), 1);
   --saf-0: rgba(var(--sk_primary_foreground, 29, 28, 29), 0.3);
   border: 1px solid var(--saf-0);

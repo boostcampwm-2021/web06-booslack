@@ -4,7 +4,7 @@ import { RecoilRoot, useRecoilValue } from 'recoil';
 import { BrowserRouter } from 'react-router-dom';
 import { QueryClient, QueryClientProvider } from 'react-query';
 
-import themeState from '@state/Theme';
+import themeState from '@state/theme';
 import { Itheme } from '@global/theme';
 import { ThemeProvider } from 'styled-components';
 

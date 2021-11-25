@@ -1,4 +1,4 @@
-import { RoundScrollBar } from '@global/mixin';
+import { scrollIfHover } from '@global/mixin';
 import styled from 'styled-components';
 
 interface Props {
@@ -10,9 +10,7 @@ export const Container = styled.div<Props>`
   height: inherit;
   min-height: 40vh;
   width: ${(props) => props.width ?? 'inherit'};
-  ${RoundScrollBar}
-  overflow-y: scroll;
-  overflow-x: hidden;
+  ${scrollIfHover}
 `;
 
 export default Container;

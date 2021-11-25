@@ -11,8 +11,9 @@ import ChannelInfoModal from '@organisms/ChannelInfoModal';
 import ChannelDescriptionModal from '@organisms/ChannelDescriptionModal';
 import SidebarChannelInfoModal from '@organisms/SidebarChannelInfoModal';
 import ChannelTopicModal from '@organisms/ChannelTopicModal';
-import { initializeSocket } from '@hook/useSocket';
+import ReplyBar from '@organisms/ReplyBar';
 import PreferenceModal from '@organisms/PreferenceModal';
+import { initializeSocket } from '@hook/useSocket';
 import {
   channelCreateModalState,
   channelDescriptionModalState,
@@ -21,6 +22,7 @@ import {
   preferenceModalState,
   sidebarChannelInfoModalState,
 } from '@state/modal';
+import { replyToggleState } from '@state/workspace';
 import userState from '@state/user';
 import { useWorkspaceQuery } from '@hook/useWorkspace';
 import { RowDiv } from './styles';
@@ -36,6 +38,7 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
   const channelTopicModal = useRecoilValue(channelTopicModalState);
   const sidebarChannelModal = useRecoilValue(sidebarChannelInfoModalState);
   const preferenceModal = useRecoilValue(preferenceModalState);
+  const { isOpened } = useRecoilValue(replyToggleState);
 
   const { workspaceId, channelId }: { workspaceId: string; channelId: string } =
     useParams();
@@ -78,6 +81,7 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
         <RowDiv>
           <WorkspaceSidebar />
           {children}
+          {isOpened && <ReplyBar />}
         </RowDiv>
       </Suspense>
       {channelCreateModal && <CreateChannelModal />}

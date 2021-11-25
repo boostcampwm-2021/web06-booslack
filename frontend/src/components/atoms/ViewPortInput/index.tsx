@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import React from 'react';
-import Container from './styles';
+import Container, { Form } from './styles';
 
 interface Props {
   inputName?: string;
@@ -26,7 +26,7 @@ const ViewportInput = ({
   className,
 }: Props): JSX.Element => {
   return (
-    <form onSubmit={onSubmit}>
+    <Form onSubmit={onSubmit}>
       <Container
         // @ts-ignore
         ref={customRef}
@@ -38,7 +38,7 @@ const ViewportInput = ({
         onChange={onChange}
         className={className}
       />
-    </form>
+    </Form>
   );
 };
 
@@ -46,8 +46,8 @@ ViewportInput.defaultProps = {
   inputName: '',
   onSubmit: () => {},
   onChange: () => {},
-  width: '',
-  height: '',
+  width: undefined,
+  height: undefined,
   type: 'text',
   customRef: undefined,
   className: '',

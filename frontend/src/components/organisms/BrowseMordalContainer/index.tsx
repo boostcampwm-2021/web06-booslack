@@ -1,11 +1,15 @@
+import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import SortedOptionMordal from '@molecules/SortedOptionMordal';
 import { browseChannelSortOption } from '@state/Channel';
-import React, { useRef, useState } from 'react';
 
 import Container from './styles';
 
-const BrowseMordalContainer = (): JSX.Element => {
+interface Props {
+  setPage: Dispatch<SetStateAction<number>>;
+}
+
+const BrowseMordalContainer = ({ setPage }: Props): JSX.Element => {
   const [isOpenedSortedModal, setSortedModal] = useState<boolean>(false);
   const locationRef = useRef();
 
@@ -15,6 +19,7 @@ const BrowseMordalContainer = (): JSX.Element => {
         onClose={() => {
           setSortedModal(false);
         }}
+        setPage={setPage}
         isSortOpened={isOpenedSortedModal}
         usingAtom={browseChannelSortOption}
         customRef={locationRef}

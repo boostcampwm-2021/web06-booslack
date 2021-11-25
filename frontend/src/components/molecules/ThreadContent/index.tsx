@@ -1,8 +1,11 @@
 import React, { useState } from 'react';
+import { useSetRecoilState } from 'recoil';
 import ImageButton from '@atoms/ImageButton';
+import { replyToggleState } from '@state/workspace';
 import ChatInputBarForUpdate from '@organisms/ChatInputBarForUpdate';
 import ReactionBar from '@organisms/ReactionBar';
 import defaultPerson from '@global/image/default_account.png';
+import { IThread } from '@global/type';
 import ThreadActions from './ThreadActions';
 import {
   Container,
@@ -16,26 +19,33 @@ import {
 } from './styles';
 
 interface Props {
-  nickname: string;
-  message: string;
-  createdTime: string;
-  threadId: string;
-  userHasWorkspaceId: string;
-  replyList: unknown[];
-  reactionList: unknown[];
+  thread: IThread;
+  channelName?: string[];
+  isReply?: boolean;
+  className?: string;
 }
 
 const ThreadContent = ({
-  nickname,
-  message,
-  createdTime,
-  threadId,
-  userHasWorkspaceId,
-  replyList,
-  reactionList,
+  thread,
+  channelName,
+  isReply,
+  className,
 }: Props): JSX.Element => {
+  const {
+    userHasWorkspace,
+    message,
+    createdAt: createdTime,
+    id: threadId,
+    userHasWorkspaceId,
+    replys: replyList,
+    reactions: reactionList
+  } = thread;
+
+  const nickname = userHasWorkspace?.nickname || '탈퇴한 유저';
+
   const [updateState, setUpdateState] = useState(false);
   const [hoverState, setHoverState] = useState(false);
+  const replyToggle = useSetRecoilState(replyToggleState);
   const handleHoverIn = () => {
     if (!updateState) {
       setHoverState(true);
@@ -55,8 +65,11 @@ const ThreadContent = ({
       <br />
       <MessageText dangerouslySetInnerHTML={{ __html: message }} />
       {reactionList.length > 0 && <ReactionBar reactionList={reactionList} />}
-      {replyList.length > 0 && (
-        <ReplyButton text={`${replyList.length}개의 댓글`} />
+      {!isReply && replyList.length > 0 && (
+        <ReplyButton
+          onClick={() => replyToggle({ isOpened: true, thread, channelName })}
+          text={`${replyList?.length}개의 댓글`}
+        />
       )}
     </>
   );
@@ -71,6 +84,7 @@ const ThreadContent = ({
 
   return (
     <Container
+      className={className}
       onMouseEnter={handleHoverIn}
       onMouseLeave={handleHoverOut}
       updateState={updateState}
@@ -90,13 +104,22 @@ const ThreadContent = ({
       </MessageKit>
       {hoverState && !updateState && (
         <ThreadActions
+          thread={thread}
+          isReply={isReply}
           threadId={threadId}
+          channelName={channelName}
           userHasWorkspaceId={userHasWorkspaceId}
           setUpdateState={setUpdateState}
         />
       )}
     </Container>
   );
+};
+
+ThreadContent.defaultProps = {
+  channelName: undefined,
+  isReply: false,
+  className: '',
 };
 
 export default ThreadContent;

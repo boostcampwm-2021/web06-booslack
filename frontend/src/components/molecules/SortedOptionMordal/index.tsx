@@ -1,4 +1,4 @@
-import React, { ChangeEvent, RefObject } from 'react';
+import React, { ChangeEvent, Dispatch, RefObject, SetStateAction } from 'react';
 import { RecoilState, useRecoilState, useSetRecoilState } from 'recoil';
 import Input from '@atoms/Input';
 import DivLists from '@atoms/DivLists';
@@ -12,12 +12,14 @@ interface Props<T> {
   isSortOpened: boolean;
   usingAtom: RecoilState<T>;
   onClose: () => void;
+  setPage: Dispatch<SetStateAction<number>>;
   customRef: RefObject<HTMLElement>;
 }
 
 const SortedOptionMordal = ({
   isSortOpened,
   usingAtom,
+  setPage,
   onClose,
   customRef,
 }: Props<SortOption>): JSX.Element => {
@@ -29,12 +31,13 @@ const SortedOptionMordal = ({
 
   const toggle = (e: ChangeEvent<HTMLInputElement>) => {
     const { value, checked } = e.target;
-    setCheckedItems(
-      checkedItems.map((ele, index) => {
-        if (parseInt(value, 10) === index) return checked;
-        return ele;
-      }),
-    );
+    const ToggledMap = checkedItems.map((ele, index) => {
+      if (parseInt(value, 10) === index) return checked;
+      return ele;
+    });
+
+    setPage(0);
+    setCheckedItems(ToggledMap);
   };
 
   return (

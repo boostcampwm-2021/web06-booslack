@@ -4,13 +4,13 @@ import { BrowserChannelListSize } from '@enum/index';
 import { Container, StyledViewportInput } from './styles';
 
 interface Props {
-  width: number;
-  height: number;
+  width?: number;
+  height?: number;
   placeholder: undefined | string;
   onSubmit: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
-const { width: ListWidth, height: ListHeight } = BrowserChannelListSize;
+const { height: ListHeight } = BrowserChannelListSize;
 
 const SearchBar = ({
   width,
@@ -23,12 +23,17 @@ const SearchBar = ({
       <StyledViewportInput
         inputName="ChannelSearchBar"
         onSubmit={onSubmit}
-        width={width || ListWidth}
+        width={width}
         height={height || ListHeight}
         placeholder={placeholder || '검색어를 입력하세요'}
       />
     </Container>
   );
+};
+
+SearchBar.defaultProps = {
+  width: undefined,
+  height: undefined,
 };
 
 export default SearchBar;

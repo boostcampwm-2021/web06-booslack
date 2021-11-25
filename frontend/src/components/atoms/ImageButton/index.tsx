@@ -1,8 +1,9 @@
 import React, { RefObject } from 'react';
+import { SetterOrUpdater } from 'recoil';
 import Container from './styles';
 
 interface Props {
-  onClick: () => void;
+  onClick: () => void | SetterOrUpdater<boolean>;
   width?: number;
   height?: number;
   image: string;

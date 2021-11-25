@@ -24,7 +24,7 @@ import {
   StyledBrowseChannelHeader,
 } from './styles';
 
-const { width: ListWidth, height: ListHeight } = BrowserChannelListSize;
+const { height: ListHeight } = BrowserChannelListSize;
 
 const BrowseChannelList = (): JSX.Element => {
   const sortOption = useRecoilValue<SortOption>(browseChannelSortOption);
@@ -90,26 +90,21 @@ const BrowseChannelList = (): JSX.Element => {
     <Label color="grey" text={`channel ${channelCount}개`} />
   );
 
-  const RightButton = <BrowseMordalContainer />;
+  const RightButton = <BrowseMordalContainer setPage={setPage} />;
 
   return (
-    <Container width={ListWidth}>
+    <Container>
       <SearchBar
-        width={ListWidth}
         height={ListHeight}
         onSubmit={SubmitInput}
         placeholder="검색어를 입력하세요."
       />
       <MarginBottomDiv />
       <CenterAlignedDiv>
-        <StyledBrowseChannelHeader
-          width={ListWidth}
-          title={Title}
-          rightButton={RightButton}
-        />
+        <StyledBrowseChannelHeader title={Title} rightButton={RightButton} />
       </CenterAlignedDiv>
       <ChannelListBackground>
-        <ScrollBox width={ListWidth}>
+        <ScrollBox>
           <AsyncBranch data={data} loading={isLoading} error={error}>
             <GetListByGET />
           </AsyncBranch>

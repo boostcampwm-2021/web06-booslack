@@ -25,3 +25,13 @@ export interface User {
   type: UserType;
   password: string;
 }
+
+export interface IThread {
+  userHasWorkspace: { nickname: string };
+  message: string;
+  createdAt: string;
+  id: string;
+  userHasWorkspaceId: string;
+  replys: unknown[];
+  reactions: unknown[];
+}

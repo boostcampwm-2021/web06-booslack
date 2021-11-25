@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { theme } from 'styled-tools';
 import { defaultTheme } from '@global/theme';
-import { RoundScrollBar } from '@global/mixin';
+import { scrollIfHover } from '@global/mixin';
 
 export const Container = styled.div`
   width: 18vw;
@@ -9,13 +9,7 @@ export const Container = styled.div`
   height: 100vh;
   background-color: ${theme('backgroundColor', defaultTheme.backgroundColor)};
 
-  overflow-x: hidden;
-  overflow-y: hidden;
-  &:hover {
-    overflow-x: hidden;
-    overflow-y: scroll;
-    ${RoundScrollBar}
-  }
+  ${scrollIfHover}
 `;
 
 export const MarginDiv = styled.div`

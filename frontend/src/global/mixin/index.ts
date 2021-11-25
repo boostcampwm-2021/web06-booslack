@@ -5,7 +5,7 @@ import { defaultTheme } from '@global/theme';
 // eslint-disable-next-line import/prefer-default-export
 export const RoundScrollBar = css`
   &::-webkit-scrollbar {
-    width: 8px;
+    width: 6px;
   }
   &::-webkit-scrollbar-thumb {
     background-color: rgba(0, 0, 0, 0.4);
@@ -59,4 +59,14 @@ transition: all 200ms cubic-bezier(0.390, 0.500, 0.150, 1.360);
   color: rgba(255, 255, 255, 0.85);
   box-shadow: rgba(30, 22, 54, 0.7) 0 0px 0px 40px inset;
 }
+`;
+
+export const scrollIfHover = css`
+  overflow-x: hidden;
+  overflow-y: hidden;
+  &:hover {
+    overflow-x: hidden;
+    overflow-y: scroll;
+    ${RoundScrollBar}
+  }
 `;

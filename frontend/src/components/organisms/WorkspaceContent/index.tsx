@@ -6,11 +6,13 @@ import ChatInputBar from '@organisms/ChatInputBar';
 import ChatContent from '@organisms/ChatContent';
 import ChannelJoinFooter from '@organisms/ChannelJoinFooter';
 import userState from '@state/user';
+import { mainWorkspaceSizeState } from '@state/workspace';
 import { useChannelListQuery, useChannelQuery } from '@hook/useChannels';
 import { Container } from './style';
 
 const WorkspaceContent = (): JSX.Element => {
   const user = useRecoilValue(userState);
+  const WIDTHSIZE = useRecoilValue(mainWorkspaceSizeState);
   const { workspaceId, channelId }: { workspaceId: string; channelId: string } =
     useParams();
 
@@ -32,10 +34,14 @@ const WorkspaceContent = (): JSX.Element => {
     <ChannelJoinFooter channelName={channelQuery.data.name} />
   );
 
+  const { name: nameOfChannel, private: isPrivate } = channelQuery.data;
+
+  const channelName = [isPrivate, nameOfChannel];
+
   return (
-    <Container>
+    <Container WIDTHVW={WIDTHSIZE}>
       <ChatHeader />
-      <ChatContent inputBar={InputBar} />
+      <ChatContent inputBar={InputBar} channelName={channelName} />
     </Container>
   );
 };
