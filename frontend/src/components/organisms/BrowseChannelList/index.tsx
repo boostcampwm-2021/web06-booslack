@@ -90,7 +90,7 @@ const BrowseChannelList = (): JSX.Element => {
     <Label color="grey" text={`channel ${channelCount}개`} />
   );
 
-  const RightButton = <BrowseMordalContainer />;
+  const RightButton = <BrowseMordalContainer setPage={setPage} />;
 
   return (
     <Container>
