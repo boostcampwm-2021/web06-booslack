@@ -5,6 +5,7 @@ import { replyToggleState } from '@state/workspace';
 import ChatInputBarForUpdate from '@organisms/ChatInputBarForUpdate';
 import ReactionBar from '@organisms/ReactionBar';
 import defaultPerson from '@global/image/default_account.png';
+import { IThread } from '@global/type';
 import ThreadActions from './ThreadActions';
 import {
   Container,
@@ -18,28 +19,28 @@ import {
 } from './styles';
 
 interface Props {
-  nickname: string;
-  message: string;
-  createdTime: string;
-  threadId: string;
-  userHasWorkspaceId: string;
-  channelName: string[];
-  replyList: unknown[];
-  reactionList: unknown[];
+  thread: IThread;
+  channelName?: string[];
   isReply?: boolean;
 }
 
 const ThreadContent = ({
-  nickname,
-  message,
-  createdTime,
-  threadId,
-  userHasWorkspaceId,
-  replyList,
-  reactionList,
+  thread,
   channelName,
   isReply,
 }: Props): JSX.Element => {
+  const {
+    userHasWorkspace,
+    message,
+    createdAt: createdTime,
+    id: threadId,
+    userHasWorkspaceId,
+    replys: replyList,
+    reactions: reactionList
+  } = thread;
+
+  const nickname = userHasWorkspace?.nickname || '탈퇴한 유저';
+
   const [updateState, setUpdateState] = useState(false);
   const [hoverState, setHoverState] = useState(false);
   const replyToggle = useSetRecoilState(replyToggleState);
@@ -64,8 +65,8 @@ const ThreadContent = ({
       {reactionList.length > 0 && <ReactionBar reactionList={reactionList} />}
       {!isReply && replyList.length > 0 && (
         <ReplyButton
-        onClick={() => replyToggle({ isOpened: true, threadId, channelName })}
-          text={`${replyList.length}개의 댓글`}
+          onClick={() => replyToggle({ isOpened: true, thread, channelName })}
+          text={`${replyList?.length}개의 댓글`}
         />
       )}
     </>
@@ -100,6 +101,7 @@ const ThreadContent = ({
       </MessageKit>
       {hoverState && !updateState && (
         <ThreadActions
+          thread={thread}
           threadId={threadId}
           channelName={channelName}
           userHasWorkspaceId={userHasWorkspaceId}
@@ -112,7 +114,6 @@ const ThreadContent = ({
 
 ThreadContent.defaultProps = {
   channelName: undefined,
-  replyList: undefined,
   isReply: false,
 };
 

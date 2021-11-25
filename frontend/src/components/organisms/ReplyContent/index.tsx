@@ -28,15 +28,7 @@ const ReplyContent = ({ threadId }: Props): JSX.Element => {
           ) : null}
         </RowDiv>
         {threads.map((thread) => (
-          <ThreadContent
-            key={thread.id}
-            nickname={thread?.userHasWorkspace?.nickname || '탈퇴한 유저'}
-            message={thread?.message}
-            createdTime={thread?.createdAt}
-            threadId={thread?.id}
-            userHasWorkspaceId={thread?.userHasWorkspaceId}
-            isReply
-          />
+          <ThreadContent key={`thread${thread.id}`} thread={thread} isReply />
         ))}
       </Container>
     </>

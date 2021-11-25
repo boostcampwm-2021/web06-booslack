@@ -7,6 +7,7 @@ import userState from '@state/user';
 import { replyToggleState } from '@state/workspace';
 import { deleteMessage } from '@global/api/thread';
 import { postReaction } from '@global/api/reaction';
+import { IThread } from '@global/type';
 import { BsEmojiSmile, BsBookmark } from 'react-icons/bs';
 import { BiMessageRoundedDetail, BiDotsVerticalRounded } from 'react-icons/bi';
 import { RiShareForwardLine } from 'react-icons/ri';
@@ -23,6 +24,7 @@ import {
 } from './styles';
 
 interface Props {
+  thread: IThread;
   threadId: string;
   channelName: string[];
   userHasWorkspaceId: string;
@@ -41,6 +43,7 @@ const onEmojiSet = (user, threadId, channelId) => {
 };
 
 const ThreadActions = ({
+  thread,
   threadId,
   channelName,
   userHasWorkspaceId,
@@ -156,7 +159,7 @@ const ThreadActions = ({
         <ActionButton onClick={() => {}} icon={BsBookmark} />
         <ActionButton
           customRef={dotsVerticalButtonRef}
-          onClick={() => replyToggle({ isOpened: true, threadId, channelName })}
+          onClick={() => replyToggle({ isOpened: true, thread, channelName })}
           icon={BiDotsVerticalRounded}
         />
       </ThreadActionsGroup>
