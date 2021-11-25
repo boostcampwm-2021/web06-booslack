@@ -38,7 +38,7 @@ const ThreadContent = ({
     id: threadId,
     userHasWorkspaceId,
     replys: replyList,
-    reactions: reactionList
+    reactions: reactionList,
   } = thread;
 
   const nickname = userHasWorkspace?.nickname || '탈퇴한 유저';

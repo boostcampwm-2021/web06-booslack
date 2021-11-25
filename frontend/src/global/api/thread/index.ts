@@ -56,6 +56,7 @@ export const postMessageAndFiles = async (
   selectedFile: any,
   setSelectedFile,
   setSelectedFileUrl,
+  setShouldScrollDown,
 ): Promise<any> => {
   if (message === '<p><br/></p>' && selectedFile.length === 0) return;
   const res = await axios.post('/api/threads', {
@@ -66,6 +67,9 @@ export const postMessageAndFiles = async (
   if (res.status === 200) {
     setMessageClear(true);
     socket.emit('threads', channelId);
+    if (res.data.thread.userHasWorkspaceId === userHasWorkspaceId) {
+      setShouldScrollDown(true);
+    }
   }
 
   const threadId: number = res.data.thread.id || null;

@@ -25,7 +25,7 @@ const checkUserReacted = (reaction, user) => {
 const handleEmojiClick = (reaction, user, channelId) => {
   const reacted = checkUserReacted(reaction, user);
   reacted
-    ? deleteReaction(reacted.id, channelId, user.socket)
+    ? deleteReaction(reacted.id, channelId, reacted.threadId, user.socket)
     : postReaction(
         user.userHasWorkspaceId,
         channelId,

@@ -164,14 +164,22 @@ const ThreadActions = ({
           icon={BsEmojiSmile}
         />
         {!isReply && (
-          <ActionButton onClick={() => {}} icon={BiMessageRoundedDetail} />
+          <ActionButton
+            customRef={dotsVerticalButtonRef}
+            onClick={() => {
+              setReplyToggle({ isOpened: true, thread, channelName });
+            }}
+            icon={BiMessageRoundedDetail}
+          />
         )}
-        <ActionButton onClick={() => {}} icon={RiShareForwardLine} />
-        {!isReply && <ActionButton onClick={() => {}} icon={BsBookmark} />}
+        {!isReply && (
+          <ActionButton onClick={() => {}} icon={RiShareForwardLine} />
+        )}
+        <ActionButton onClick={() => {}} icon={BsBookmark} />
         <ActionButton
           customRef={dotsVerticalButtonRef}
           onClick={() => {
-            setReplyToggle({ isOpened: true, thread, channelName });
+            setModalState(true);
           }}
           icon={BiDotsVerticalRounded}
         />

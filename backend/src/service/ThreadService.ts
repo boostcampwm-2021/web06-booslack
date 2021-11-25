@@ -5,6 +5,7 @@ import ThreadRepository from '../repository/ThreadRepository';
 import ChannelRepository from '../repository/ChannelRepository';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
 import Thread from '../model/Thread';
+import Reaction from '../model/Reaction';
 import FileRepository from '../repository/FileRepository';
 
 const { BAD_REQUEST, OK } = StatusCodes;
@@ -29,6 +30,27 @@ export async function getAllThreadsByChannelId(req: Request, res: Response) {
       .addSelect('userHasWorkSpace.nickname')
       .where('thread.channelId = :channelId', { channelId })
       .getMany();
+    return res.status(OK).json({ threads });
+  } catch (e) {
+    return res.status(BAD_REQUEST).json(e);
+  }
+}
+
+export async function getPartialThreadsByChannelId(req: Request, res: Response) {
+  try {
+    const { channelId, cursor } = req.query;
+
+    const threadsDesc = await getRepository(Thread)
+      .createQueryBuilder('thread')
+      .leftJoinAndSelect('thread.userHasWorkspace', 'userHasWorkspace')
+      .leftJoinAndSelect('thread.replys', 'reply')
+      .leftJoinAndSelect('thread.reactions', 'reaction')
+      .where('thread.channelId = :id AND thread.id < :cursor', { id: channelId, cursor })
+      .orderBy('thread.id', 'DESC')
+      .limit(20)
+      .getMany();
+
+    const threads = threadsDesc.reverse();
     return res.status(OK).json({ threads });
   } catch (e) {
     return res.status(BAD_REQUEST).json(e);
@@ -106,6 +128,7 @@ export async function deleteThread(req: Request, res: Response) {
     const { id } = req.params;
     const thread = await getRepository(Thread).findOneOrFail(id);
     await getCustomRepository(FileRepository).delete({ threadId: Number(thread.id) });
+    await getRepository(Reaction).delete({ threadId: Number(thread.id) });
     await getCustomRepository(ThreadRepository).remove(thread);
     return res.status(OK).end();
   } catch (e) {
