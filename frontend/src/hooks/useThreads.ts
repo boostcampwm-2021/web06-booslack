@@ -11,6 +11,6 @@ export const useThreadListQuery = (channelId: string) => {
 export const useThreadQuery = (threadId: string) => {
   return useQuery(['thread', threadId], async () => {
     const res = await axios.get(`/api/threads/${threadId}`);
-    return res.data.thread;
+    return res.data?.thread;
   });
 };

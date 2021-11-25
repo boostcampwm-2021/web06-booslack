@@ -1,5 +1,5 @@
 import React, { useRef, useState } from 'react';
-import { useRecoilValue, useSetRecoilState } from 'recoil';
+import { useRecoilValue, useRecoilState } from 'recoil';
 import { useParams } from 'react-router-dom';
 import EmojiModal from '@organisms/EmojiModal';
 import useRefLocate from '@hook/useRefLocate';
@@ -61,7 +61,7 @@ const ThreadActions = ({
 
   const { channelId }: { channelId: string } = useParams();
   const user = useRecoilValue(userState);
-  const replyToggle = useSetRecoilState(replyToggleState);
+  const [replyToggle, setReplyToggle] = useRecoilState(replyToggleState);
 
   const [isEmojiOpen, setIsEmojiOpen] = useState(false);
 
@@ -108,6 +108,13 @@ const ThreadActions = ({
           text="메시지 삭제"
           color="#e01e5a"
           onClick={() => {
+            if (replyToggle.thread?.id === threadId) {
+              setReplyToggle({
+                isOpened: false,
+                thread: undefined,
+                channelName: undefined,
+              });
+            }
             deleteMessage(threadId, channelId, user.socket);
           }}
         />
@@ -159,7 +166,9 @@ const ThreadActions = ({
         <ActionButton onClick={() => {}} icon={BsBookmark} />
         <ActionButton
           customRef={dotsVerticalButtonRef}
-          onClick={() => replyToggle({ isOpened: true, thread, channelName })}
+          onClick={() => {
+            setReplyToggle({ isOpened: true, thread, channelName });
+          }}
           icon={BiDotsVerticalRounded}
         />
       </ThreadActionsGroup>

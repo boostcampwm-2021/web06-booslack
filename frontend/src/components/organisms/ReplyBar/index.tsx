@@ -50,7 +50,7 @@ const ReplyBar = (): JSX.Element => {
   const SIZEVW = useRecoilValue(replyWorkspaceState);
   const [{ isOpened, thread, channelName }, setReplyToggle] =
     useRecoilState(replyToggleState);
-
+  
   const { id: threadId } = thread;
 
   return (

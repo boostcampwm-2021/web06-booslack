@@ -1,9 +1,10 @@
 import React from 'react';
+import { useSetRecoilState } from 'recoil';
 import { useParams } from 'react-router-dom';
 import ThreadContent from '@molecules/ThreadContent';
+import { replyToggleState } from '@state/workspace';
 import { useThreadQuery, useThreadListQuery } from '@hook/useThreads';
 import { IThread } from '@global/type';
-
 import {
   StyledThreadContent,
   Container,
@@ -32,8 +33,6 @@ const ReplyContent = ({ thread, threadId }: Props): JSX.Element => {
     isError: isReplyError,
     data: replyThread,
   } = useThreadQuery(threadId as string);
-
-  console.log(replyThread);
 
   if (isLoading) return <div>Loading</div>;
   if (isError) return <div>Error</div>;
