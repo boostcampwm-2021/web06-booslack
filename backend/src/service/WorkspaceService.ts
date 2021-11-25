@@ -6,6 +6,7 @@ import { getCustomRepository } from 'typeorm';
 import WorkspaceRepository from '../repository/WorkspaceRepository';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
 import generateUniqSerial from '../shared/simpleuuid';
+import Workspace from '@daos/Workspace';
 
 const { CONFLICT, BAD_REQUEST, CREATED, OK } = StatusCodes;
 
@@ -121,7 +122,10 @@ export async function addOneWorkspace(req: Request, res: Response) {
       throw BAD_REQUEST;
     }
 
-    const workspace = { name, code: generateUniqSerial(), fileId };
+    const workspace = new Workspace();
+    workspace.name = name;
+    workspace.code = generateUniqSerial();
+    workspace.fileId = Number(fileId);
 
     // eslint-disable-next-line no-constant-condition
     while (true) {

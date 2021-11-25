@@ -36,7 +36,7 @@ export async function updateOneFile(req: Request, res: Response) {
     fileById.name = name || fileById.name;
     fileById.url = url || fileById.url;
     fileById.extension = extension || fileById.extension;
-    fileById.threadId = threadId || fileById.threadId;
+    fileById.threadId = Number(threadId) || fileById.threadId;
     fileById.replyId = replyId || fileById.replyId;
     const files = await getCustomRepository(FileRepository).save(fileById);
     return res.status(OK).json({ files });

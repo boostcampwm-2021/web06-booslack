@@ -1,6 +1,6 @@
 import React, { Dispatch, SetStateAction } from 'react';
 import { useParams } from 'react-router-dom';
-import { useRecoilValue } from 'recoil';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import userState from '@state/user';
 import { postMessageAndFiles } from '@global/api/thread';
 import {
@@ -28,6 +28,7 @@ import {
   FileInput,
   FileLabel,
 } from './styles';
+import { shouldScrollDownState } from '@state/thread';
 
 interface Props {
   message: string;
@@ -50,9 +51,12 @@ const Toolbar = ({
 }: Props): JSX.Element => {
   const { channelId }: { channelId: string } = useParams();
   const user = useRecoilValue(userState);
+  const setShouldScrollDown = useSetRecoilState(shouldScrollDownState);
+
   const sendable =
     (message !== '<p><br></p>' && message.trim().length > 8) ||
     selectedFile.length > 0;
+
   const toolbarMiddleButtonList = [
     BsTypeBold,
     BsTypeItalic,
@@ -64,6 +68,7 @@ const Toolbar = ({
     BsBlockquoteLeft,
     BiCodeBlock,
   ];
+
   return (
     <Container className={focused && 'toolbar--active'}>
       <ToolbarMiddle focused={focused}>
@@ -109,6 +114,7 @@ const Toolbar = ({
                 selectedFile,
                 setSelectedFile,
                 setSelectedFileUrl,
+                setShouldScrollDown,
               );
               setSelectedFile([]);
               setSelectedFileUrl([]);

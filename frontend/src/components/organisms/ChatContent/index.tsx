@@ -1,12 +1,10 @@
 import React, { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
 import ThreadContent from '@molecules/ThreadContent';
-<<<<<<< HEAD
-import { useThreadListQuery } from '@hook/useThreads';
-import { IThread } from '@global/type';
-=======
 import { usePartialThreadListQuery } from '@hook/useThreads';
->>>>>>> feat: 쓰레드 목록 무한스크롤
+import { IThread } from '@global/type';
+import { useRecoilState } from 'recoil';
+import { shouldScrollDownState } from '@state/thread';
 import { Container } from './styles';
 
 interface Props {
@@ -16,6 +14,10 @@ interface Props {
 
 const ChatContent = ({ inputBar, channelName }: Props): JSX.Element => {
   const { channelId }: { channelId: string } = useParams();
+
+  const [shouldScrollDown, setIsShouldScrollDown] = useRecoilState(
+    shouldScrollDownState,
+  );
 
   const bottomRef = useRef(null);
   const currentRef = useRef(null);
@@ -30,6 +32,10 @@ const ChatContent = ({ inputBar, channelName }: Props): JSX.Element => {
   } = usePartialThreadListQuery(channelId);
 
   useEffect(() => {
+    if (shouldScrollDown) {
+      bottomRef.current?.scrollIntoView({ block: 'end' });
+    }
+
     if (!threads || !hasPreviousPage) return undefined;
     const observer = new IntersectionObserver((entries) =>
       entries.forEach((entry) => {
@@ -42,18 +48,15 @@ const ChatContent = ({ inputBar, channelName }: Props): JSX.Element => {
 
     observer.observe(currentRef.current.firstChild);
     return () => {
-      observer.unobserve(previousRef.current);
+      observer.disconnect();
       previousRef.current?.scrollIntoView({ block: 'nearest' });
     };
   }, [threads, hasPreviousPage]);
 
-  // scroll to bottom when
-  //    threads are first loaded
-  //    current user sends a new message
   useEffect(() => {
     if (isLoading) return;
     bottomRef.current?.scrollIntoView({ block: 'end' });
-  }, [isLoading]);
+  }, [isLoading, shouldScrollDown]);
 
   if (isLoading) return <div>Loading</div>;
   if (isError) return <div>Error</div>;
