@@ -16,6 +16,7 @@ export default class UserHasWorkspaceRepository extends Repository<UserHasWorksp
       .leftJoinAndSelect('user.workspace', 'workspace')
       .select('workspace.name', 'name')
       .addSelect('user.workspaceId', 'id')
+      .addSelect('workspace.fileId', 'fileId')
       // eslint-disable-next-line max-len
       .leftJoinAndSelect(`( ${subquery.getQuery()} )`, 'jointable', 'user.workspaceId = jointable.id')
       .where('user.userId = :userId', { userId })

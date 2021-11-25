@@ -24,12 +24,15 @@ import {
 
 const WorkSpaceLists = (workspaces: Workspace[]) => {
   const history = useHistory();
-
   return workspaces.map(
-    ({ id, name, count }: Workspace & { count: number }) => {
+    ({ id, name, count, fileId }: Workspace & { count: number }) => {
       return (
         <StyledDiv key={`workspacelist${id}`}>
-          <StyledSelectWorkspace firstLabelContent={name} content={count} />
+          <StyledSelectWorkspace
+            firstLabelContent={name}
+            content={count}
+            fileId={fileId}
+          />
           <StyledLabeledButton
             text="실행"
             onClick={() => {
@@ -64,7 +67,6 @@ const WorkSpaceListContent = (): JSX.Element => {
     hasNextPage,
     isFetchingNextPage,
   } = useInfinityScroll('workspacelists', getWorkspaceLists);
-
   return (
     <Container>
       <StyledHeader title={NameLabel} content={<></>} rightButton={<></>} />
