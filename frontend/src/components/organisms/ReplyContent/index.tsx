@@ -1,9 +1,6 @@
 import React from 'react';
-import { useSetRecoilState } from 'recoil';
-import { useParams } from 'react-router-dom';
 import ThreadContent from '@molecules/ThreadContent';
-import { replyToggleState } from '@state/workspace';
-import { useThreadQuery, useThreadListQuery } from '@hook/useThreads';
+import { useThreadQuery } from '@hook/useThreads';
 import { IThread } from '@global/type';
 import {
   StyledThreadContent,
@@ -20,18 +17,13 @@ interface Props {
 }
 
 const ReplyContent = ({ thread, threadId }: Props): JSX.Element => {
-  const { channelId }: { channelId: string } = useParams();
-
   const {
     isLoading: isReplyLoding,
     isError: isReplyError,
     data,
   } = useThreadQuery(threadId as string);
 
-  console.log(data);
-
   const replyThreads = data?.reply;
-
   if (isReplyError) return <div>error</div>;
 
   return (

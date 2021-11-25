@@ -105,6 +105,7 @@ const ThreadContent = ({
       {hoverState && !updateState && (
         <ThreadActions
           thread={thread}
+          isReply={isReply}
           threadId={threadId}
           channelName={channelName}
           userHasWorkspaceId={userHasWorkspaceId}

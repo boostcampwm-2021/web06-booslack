@@ -27,6 +27,7 @@ interface Props {
   thread: IThread;
   threadId: string;
   channelName: string[];
+  isReply: boolean;
   userHasWorkspaceId: string;
   setUpdateState: (arg: boolean) => void;
 }
@@ -45,6 +46,7 @@ const onEmojiSet = (user, threadId, channelId) => {
 const ThreadActions = ({
   thread,
   threadId,
+  isReply,
   channelName,
   userHasWorkspaceId,
   setUpdateState,
@@ -161,9 +163,11 @@ const ThreadActions = ({
           }}
           icon={BsEmojiSmile}
         />
-        <ActionButton onClick={() => {}} icon={BiMessageRoundedDetail} />
+        {!isReply && (
+          <ActionButton onClick={() => {}} icon={BiMessageRoundedDetail} />
+        )}
         <ActionButton onClick={() => {}} icon={RiShareForwardLine} />
-        <ActionButton onClick={() => {}} icon={BsBookmark} />
+        {!isReply && <ActionButton onClick={() => {}} icon={BsBookmark} />}
         <ActionButton
           customRef={dotsVerticalButtonRef}
           onClick={() => {
