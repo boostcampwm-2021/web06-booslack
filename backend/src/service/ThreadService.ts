@@ -39,7 +39,11 @@ export async function getThread(req: Request, res: Response) {
   try {
     const { id } = req.params;
 
-    const thread = await getRepository(Thread).findOne(id);
+    // 보안이슈
+    const thread = await getRepository(Thread).findOne({
+      relations: ['userHasWorkspace', 'replys', 'reactions'],
+      where: [{ id }],
+    });
 
     return res.status(OK).json({ thread });
   } catch (e) {

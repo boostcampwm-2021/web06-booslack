@@ -23,19 +23,16 @@ const ReplyContent = ({ thread, threadId }: Props): JSX.Element => {
   const { channelId }: { channelId: string } = useParams();
 
   const {
-    isLoading,
-    isError,
-    data: replyThreads,
-  } = useThreadListQuery(channelId);
-
-  const {
     isLoading: isReplyLoding,
     isError: isReplyError,
-    data: replyThread,
+    data,
   } = useThreadQuery(threadId as string);
 
-  if (isLoading) return <div>Loading</div>;
-  if (isError) return <div>Error</div>;
+  console.log(data);
+
+  const replyThreads = data?.reply;
+
+  if (isReplyError) return <div>error</div>;
 
   return (
     <>
@@ -44,17 +41,13 @@ const ReplyContent = ({ thread, threadId }: Props): JSX.Element => {
           <StyledThreadContent thread={thread} isReply />
         )}
         {!isReplyLoding && !isReplyError && (
-          <StyledThreadContent thread={replyThread} isReply />
+          <StyledThreadContent thread={data} isReply />
         )}
         <RowDiv>
-          {replyThreads ? (
-            <>
-              <AbsoluteLabel text={`${replyThreads?.length}개의 답글`} />
-              <GreyLine />
-            </>
-          ) : null}
+          <AbsoluteLabel text={`${replyThreads?.length ?? 0}개의 답글`} />
+          <GreyLine />
         </RowDiv>
-        {replyThreads.map((reply: IThread) => (
+        {replyThreads?.map((reply: IThread) => (
           <ThreadContent key={`thread${reply.id}`} thread={reply} isReply />
         ))}
         input bar here
