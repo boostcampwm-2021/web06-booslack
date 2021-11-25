@@ -2,13 +2,13 @@ import { IThread } from '@global/type';
 import { atom, selector } from 'recoil';
 
 const PAGEVW = 100;
+const OPENSIZE = 82;
 const SIDEBARSIZE = 18;
-const OPENEDSIZE = 82;
-const CONTENTSIZE = 62;
+const CLOSEDSIZE = 61;
 
 export const sizestate = atom<number>({
   key: 'sizeState',
-  default: CONTENTSIZE,
+  default: OPENSIZE,
 });
 
 export interface IreplyToggle {
@@ -30,7 +30,7 @@ export const mainWorkspaceSizeState = selector<number>({
   key: 'mainWorkspaceSizeState',
   get: ({ get }) => {
     const { isOpened } = get(replyToggleState);
-    const CLOSEDSIZE = get(sizestate);
+    const OPENEDSIZE = get(sizestate);
 
     if (isOpened) return CLOSEDSIZE;
     return OPENEDSIZE;

@@ -30,7 +30,7 @@ export const RowDiv = styled.div`
   flex-direction: row;
   position: relative;
 
-  margin: 2px 0 10px 0;
+  margin: 2px 0 25px 0;
 `;
 
 export const StyledThreadContent = styled(ThreadContent)`
@@ -48,6 +48,10 @@ export const GreyLine = styled.div`
   margin-block-end: 0.5em;
 
   margin: 3px 0 3px 6px;
+`;
+
+export const MarginDiv = styled.div`
+  margin-top: 20vh;
 `;
 
 export default Container;

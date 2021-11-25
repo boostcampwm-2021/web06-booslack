@@ -10,6 +10,7 @@ import {
   RowDiv,
   AbsoluteLabel,
   GreyLine,
+  MarginDiv,
 } from './styles';
 
 interface Props {
@@ -48,6 +49,8 @@ const ReplyContent = ({ thread, threadId }: Props): JSX.Element => {
             isReply
           />
         ))}
+        input bar here
+        <MarginDiv />
       </Container>
     </>
   );
