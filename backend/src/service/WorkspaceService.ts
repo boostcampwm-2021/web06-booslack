@@ -6,7 +6,7 @@ import { getCustomRepository } from 'typeorm';
 import WorkspaceRepository from '../repository/WorkspaceRepository';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
 import generateUniqSerial from '../shared/simpleuuid';
-import Workspace from '@daos/Workspace';
+import Workspace from '../model/Workspace';
 
 const { CONFLICT, BAD_REQUEST, CREATED, OK } = StatusCodes;
 
