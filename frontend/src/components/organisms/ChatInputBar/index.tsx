@@ -2,7 +2,7 @@ import React, { useCallback, useState } from 'react';
 import WysiwygEditor from '@molecules/WysiwygEditor';
 import { useDropzone } from 'react-dropzone';
 import { FiDownload } from 'react-icons/fi';
-import Toolbar from './toolbar';
+import Toolbar from './Toolbar';
 import FileStatusBar from './FileStatusBar';
 import {
   Container,
@@ -39,6 +39,7 @@ const ChatInputBar = (): JSX.Element => {
   );
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   return (
+    // eslint-disable-next-line react/jsx-props-no-spreading
     <Container {...getRootProps()}>
       {isDragActive ? (
         <DropAlertContainer>

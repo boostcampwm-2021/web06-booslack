@@ -72,6 +72,7 @@ export const postMessageAndFiles = async (
   let fileUrl = '/api/files/upload';
   const formDatas = new FormData();
   const selectedFileLength = selectedFile.length;
+
   if (selectedFileLength > 1) fileUrl = '/api/files/uploads';
   if (selectedFileLength === 0) return;
   // eslint-disable-next-line array-callback-return
@@ -80,10 +81,10 @@ export const postMessageAndFiles = async (
   });
   setSelectedFile([]);
   setSelectedFileUrl([]);
+
   const config = {
     headers: { 'content-type': 'multipart/form-data' },
   };
-
   axios
     .post(fileUrl, formDatas, config)
     // eslint-disable-next-line @typescript-eslint/no-shadow
