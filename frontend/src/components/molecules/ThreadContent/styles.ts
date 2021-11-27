@@ -18,6 +18,10 @@ export const MessageKit = styled.div`
   line-height: 1.46668;
   padding: 8px 20px;
   display: flex;
+
+  &.updating {
+    background: rgba(242, 199, 68, 0.2);
+  }
 `;
 
 export const MessageKitLeft = styled.div`

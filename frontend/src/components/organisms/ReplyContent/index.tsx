@@ -10,6 +10,7 @@ import {
   GreyLine,
   MarginDiv,
 } from './styles';
+import ChatInputBar from '@organisms/ChatInputBar';
 
 interface Props {
   thread: IThread;
@@ -35,14 +36,16 @@ const ReplyContent = ({ thread, threadId }: Props): JSX.Element => {
         {!isReplyLoding && !isReplyError && (
           <StyledThreadContent thread={data} isReply />
         )}
-        <RowDiv>
-          <AbsoluteLabel text={`${replyThreads?.length ?? 0}개의 답글`} />
-          <GreyLine />
-        </RowDiv>
+        {replyThreads?.length > 0 && (
+          <RowDiv>
+            <AbsoluteLabel text={`${replyThreads?.length0}개의 답글`} />
+            <GreyLine />
+          </RowDiv>
+        )}
         {replyThreads?.map((reply: IThread) => (
           <ThreadContent key={`thread${reply.id}`} thread={reply} isReply />
         ))}
-        input bar here
+        <ChatInputBar />
         <MarginDiv />
       </Container>
     </>

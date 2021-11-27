@@ -89,7 +89,7 @@ const ThreadContent = ({
       onMouseLeave={handleHoverOut}
       updateState={updateState}
     >
-      <MessageKit>
+      <MessageKit className={updateState && 'updating'}>
         <MessageKitLeft>
           <ImageButton
             onClick={() => {}}

@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 
-export const Container = styled.div``;
+export const Container = styled.div`
+  min-width: 309px;
+`;
 
 export const DragAndDropContainer = styled.div`
   border: 1px solid #868686;
