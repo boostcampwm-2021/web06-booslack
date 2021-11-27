@@ -1,6 +1,6 @@
 export type SortOption = 'alpha' | 'rAlpha';
 export type METHOD = 'GET' | 'POST' | 'DELETE' | 'UPDATE';
-export type ChannelType = 'public' | 'private';
+export type ChannelType = '0' | '1';
 export type UserType = 'local' | 'github';
 
 export interface Workspace {
@@ -13,9 +13,12 @@ export interface Workspace {
 export interface Channel {
   id: number;
   name: string;
-  type: ChannelType;
+  private: ChannelType;
   description?: string;
+  topic?: string;
+  workspace: Workspace;
   workspaceId: number;
+  createdAt: string;
 }
 
 export interface User {
@@ -24,6 +27,17 @@ export interface User {
   email: string;
   type: UserType;
   password: string;
+}
+
+export interface UserHasWorkspace {
+  id: number;
+  nickname: string;
+  description: string;
+  theme: number;
+  userId: number;
+  workspaceId: number;
+  fileId?: number;
+  createdAt: string;
 }
 
 export interface IThread {
