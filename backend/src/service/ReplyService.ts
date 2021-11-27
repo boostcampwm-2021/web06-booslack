@@ -68,11 +68,11 @@ export async function addReply(req: Request, res: Response) {
     }
 
     const reply: Reply = new Reply();
-    reply.message = message || reply.message;
-    reply.thread = thread || reply.thread;
-    reply.userHasWorkspace = userHasWorkspace || reply.userHasWorkspace;
-    reply.threadId = Number(threadId) || reply.threadId;
-    reply.userHasWorkspaceId = Number(userHasWorkspaceId) || reply.userHasWorkspaceId;
+    reply.message = message ?? reply.message;
+    reply.thread = thread ?? reply.thread;
+    reply.userHasWorkspace = userHasWorkspace ?? reply.userHasWorkspace;
+    reply.threadId = Number(threadId) ?? reply.threadId;
+    reply.userHasWorkspaceId = Number(userHasWorkspaceId) ?? reply.userHasWorkspaceId;
 
     await getCustomRepository(ReplyRepository).save(reply);
     return res.status(OK).json({ reply });
