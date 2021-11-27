@@ -5,9 +5,12 @@ import {
   addReply,
   updateReply,
   deleteReply,
+  getPartialReplysByThreadId,
 } from '../service/ReplyService';
 
 const replyRouter = Router();
+
+replyRouter.get('/partial', getPartialReplysByThreadId);
 
 replyRouter.get('/', getAllReplys);
 replyRouter.get('/:id', getReply);

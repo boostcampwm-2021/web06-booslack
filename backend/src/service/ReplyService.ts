@@ -92,3 +92,24 @@ export async function deleteReply(req: Request, res: Response) {
     return res.status(BAD_REQUEST).json(e);
   }
 }
+
+export async function getPartialReplysByThreadId(req: Request, res: Response) {
+  try {
+    const { threadId, cursor } = req.query;
+
+    const replysDesc = await getCustomRepository(ReplyRepository)
+      .createQueryBuilder('reply')
+      .leftJoinAndSelect('reply.userHasWorkspace', 'userHasWorkspace')
+      .leftJoinAndSelect('reply.thread', 'thread')
+      .leftJoinAndSelect('reply.reactions', 'reaction')
+      .where('reply.threadId = :id AND reply.id < :cursor', { id: threadId, cursor })
+      .orderBy('reply.id', 'DESC')
+      .limit(20)
+      .getMany();
+
+    const replys = replysDesc.reverse();
+    return res.status(OK).json({ replys });
+  } catch (e) {
+    return res.status(BAD_REQUEST).json(e);
+  }
+}
