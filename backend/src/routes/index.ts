@@ -7,6 +7,7 @@ import threadRouter from './ThreadController';
 import userHasWorkspaceRouter from './UserHasWorkspaceController';
 import FileRouter from './FilesController';
 import reactionRouter from './ReactionController';
+import replyRouter from './ReplyController';
 
 const baseRouter = Router();
 baseRouter.use('/users', userRouter);
@@ -17,5 +18,6 @@ baseRouter.use('/threads', threadRouter);
 baseRouter.use('/login', loginRouter);
 baseRouter.use('/files', FileRouter);
 baseRouter.use('/reactions', reactionRouter);
+baseRouter.use('/replys', replyRouter);
 
 export default baseRouter;

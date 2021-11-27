@@ -92,7 +92,7 @@ export async function updateThread(req: Request, res: Response) {
 
 export async function addThread(req: Request, res: Response) {
   try {
-    const { time, message, channelId, userHasWorkspaceId } = req.body;
+    const { message, channelId, userHasWorkspaceId } = req.body;
 
     const channel = await getCustomRepository(ChannelRepository).findOne({
       where: [{ id: channelId }],
@@ -113,7 +113,6 @@ export async function addThread(req: Request, res: Response) {
     thread.channel = channel;
     thread.channelId = Number(channelId);
     thread.userHasWorkspaceId = Number(userHasWorkspaceId);
-    thread.channel = channel;
     thread.userHasWorkspace = userHasWorkspace;
 
     await getCustomRepository(ThreadRepository).save(thread);
