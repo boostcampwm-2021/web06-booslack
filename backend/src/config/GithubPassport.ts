@@ -29,6 +29,8 @@ function settingGithubPassport() {
             password: '',
           };
           await getCustomRepository(UserRepository).save(newUser);
+          // eslint-disable-next-line @typescript-eslint/no-unsafe-return
+          return cb(null, newUser);
         }
         // eslint-disable-next-line @typescript-eslint/no-unsafe-return
         return cb(null, user);
