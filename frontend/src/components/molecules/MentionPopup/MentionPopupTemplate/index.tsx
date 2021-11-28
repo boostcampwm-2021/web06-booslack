@@ -1,5 +1,6 @@
-import Label from '@atoms/Label';
 import React from 'react';
+import Label from '@atoms/Label';
+import useKeyboardNavigator from '@hook/useKeyboardNavigator';
 import {
   Container,
   PrimaryContent,
@@ -11,10 +12,12 @@ import {
 
 interface Props {
   matches: [];
-  index: number;
+  setValue: React.Dispatch<any>;
 }
 
-const MentionPopupTemplate = ({ matches, index }: Props): JSX.Element => {
+const MentionPopupTemplate = ({ matches, setValue }: Props): JSX.Element => {
+  const index = useKeyboardNavigator(matches, setValue);
+
   return (
     <Container>
       {matches.map((user, idx) => (

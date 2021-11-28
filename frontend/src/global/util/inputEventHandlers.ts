@@ -557,7 +557,7 @@ export const makeMention = (value) => {
 
   const span = document.createElement('span');
   span.className = 'c-member_slug--link';
-  span.innerText = `@${value.name}`;
+  span.innerText = `@${value.nickname}`;
 
   range.deleteContents();
   range.insertNode(span);

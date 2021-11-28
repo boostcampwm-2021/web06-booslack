@@ -1,7 +1,5 @@
-import Autocomplete from '@atoms/Autocomplete';
+import React, { Dispatch, useEffect } from 'react';
 import { useUserListWithChannelInfoQuery } from '@hook/useUsers';
-import axios from 'axios';
-import React, { Dispatch, useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import MentionPopupTemplate from './MentionPopupTemplate';
 import { StyledPopup } from './styles';
@@ -40,12 +38,9 @@ const MentionPopup = ({
 
   return (
     <StyledPopup isOpen={isOpen} onClose={close}>
-      <Autocomplete
-        input={input}
-        filterList={data}
-        filter={(user) => user.nickname.includes(input)}
+      <MentionPopupTemplate
+        matches={data.filter((datum) => datum.nickname.includes(input))}
         setValue={setValue}
-        ResultTemplate={MentionPopupTemplate}
       />
     </StyledPopup>
   );
