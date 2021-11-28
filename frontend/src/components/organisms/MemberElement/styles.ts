@@ -15,6 +15,7 @@ interface Props {
 
 export const Container = styled.div<Props>`
   background-color: ${ifProp({ selected: true }, '#2C639E', 'transparent')};
+  color: ${(props) => (props.selected ? '#ffffff' : '#000000')};
   padding: 1rem;
 `;
 
