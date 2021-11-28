@@ -1,20 +1,19 @@
 import React from 'react';
+import { useSetRecoilState } from 'recoil';
 import { useParams } from 'react-router-dom';
 import useInputs from '@hook/useInputs';
 import { useUserListWithChannelInfoQuery } from '@hook/useUsers';
+import { userProfileModalState } from '@state/modal';
 import Autocomplete from '@atoms/Autocomplete';
 import MemberElement from './MemberElement';
 import MemberTemplate from './MemberTemplate';
 import { Container, ScrollContainer, StyledInput } from './styles';
-import { useSetRecoilState } from 'recoil';
-import { userProfileModalState } from '@state/modal';
 
 const Unfiltered = ({ users }: { users: any[] }): JSX.Element => {
   return (
     <>
-      <MemberElement key={0} nickname="Add people" email="" />
       {users.map((user) => (
-        <MemberElement key={user.id} nickname={user.nickname} />
+        <MemberElement key={user.id} userHasWorkspace={user} />
       ))}
     </>
   );
@@ -59,8 +58,7 @@ const ChannelMembers = (): JSX.Element => {
             ResultTemplate={MemberTemplate}
           />
         ) : (
-          // <Unfiltered users={data} />
-          <div />
+          <Unfiltered users={data} />
         )}
       </ScrollContainer>
     </Container>
