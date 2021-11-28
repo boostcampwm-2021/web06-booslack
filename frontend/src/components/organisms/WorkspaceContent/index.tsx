@@ -8,7 +8,39 @@ import ChannelJoinFooter from '@organisms/ChannelJoinFooter';
 import userState from '@state/user';
 import { mainWorkspaceSizeState } from '@state/workspace';
 import { useChannelListQuery, useChannelQuery } from '@hook/useChannels';
+import { postMessageAndFiles } from '@global/api/thread';
 import { Container } from './style';
+
+const onSendClick = async (
+  sendable,
+  userHasWorkspaceId,
+  channelId,
+  message,
+  socket,
+  setMessageClear,
+  setMessage,
+  selectedFile,
+  setSelectedFile,
+  setSelectedFileUrl,
+  setShouldScrollDown,
+) => {
+  if (sendable) {
+    await postMessageAndFiles(
+      userHasWorkspaceId,
+      channelId,
+      message,
+      socket,
+      setMessageClear,
+      setMessage,
+      selectedFile,
+      setSelectedFile,
+      setSelectedFileUrl,
+      setShouldScrollDown,
+    );
+    setSelectedFile([]);
+    setSelectedFileUrl([]);
+  }
+};
 
 const WorkspaceContent = (): JSX.Element => {
   const user = useRecoilValue(userState);
@@ -29,7 +61,7 @@ const WorkspaceContent = (): JSX.Element => {
   );
 
   const InputBar: JSX.Element = isUserInCurrentChannel ? (
-    <ChatInputBar />
+    <ChatInputBar onSendClick={onSendClick} />
   ) : (
     <ChannelJoinFooter channelName={channelQuery.data.name} />
   );

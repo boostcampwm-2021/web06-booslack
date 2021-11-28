@@ -1,6 +1,8 @@
 import React from 'react';
 import ThreadContent from '@molecules/ThreadContent';
+import ChatInputBar from '@organisms/ChatInputBar';
 import { useThreadQuery } from '@hook/useThreads';
+import { postReplyAndFiles } from '@global/api/reply';
 import { IThread } from '@global/type';
 import {
   StyledThreadContent,
@@ -10,7 +12,6 @@ import {
   GreyLine,
   MarginDiv,
 } from './styles';
-import ChatInputBar from '@organisms/ChatInputBar';
 
 interface Props {
   thread: IThread;
@@ -24,8 +25,41 @@ const ReplyContent = ({ thread, threadId }: Props): JSX.Element => {
     data,
   } = useThreadQuery(threadId as string);
 
+  // reply 에 s 붙여야 되는데 지금은 터짐. 쿼리문을 수정해야함
   const replyThreads = data?.reply;
   if (isReplyError) return <div>error</div>;
+
+  const onSendClick = async (
+    sendable,
+    userHasWorkspaceId,
+    channelId,
+    message,
+    socket,
+    setMessageClear,
+    setMessage,
+    selectedFile,
+    setSelectedFile,
+    setSelectedFileUrl,
+    setShouldScrollDown,
+  ) => {
+    if (sendable) {
+      await postReplyAndFiles(
+        userHasWorkspaceId,
+        threadId,
+        channelId,
+        message,
+        socket,
+        setMessageClear,
+        setMessage,
+        selectedFile,
+        setSelectedFile,
+        setSelectedFileUrl,
+        setShouldScrollDown,
+      );
+      setSelectedFile([]);
+      setSelectedFileUrl([]);
+    }
+  };
 
   return (
     <>
@@ -45,7 +79,7 @@ const ReplyContent = ({ thread, threadId }: Props): JSX.Element => {
         {replyThreads?.map((reply: IThread) => (
           <ThreadContent key={`thread${reply.id}`} thread={reply} isReply />
         ))}
-        <ChatInputBar />
+        <ChatInputBar onSendClick={onSendClick} />
         <MarginDiv />
       </Container>
     </>

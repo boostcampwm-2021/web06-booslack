@@ -13,7 +13,11 @@ import {
   DragAndDropContainer,
 } from './styles';
 
-const ChatInputBar = (): JSX.Element => {
+interface Props {
+  onSendClick;
+}
+
+const ChatInputBar = ({ onSendClick }: Props): JSX.Element => {
   const [message, setMessage] = useState('');
   const [focused, setFocused] = useState(false);
   const [messageClear, setMessageClear] = useState(false);
@@ -76,6 +80,7 @@ const ChatInputBar = (): JSX.Element => {
           selectedFile={selectedFile}
           setSelectedFile={setSelectedFile}
           setSelectedFileUrl={setSelectedFileUrl}
+          onSendClick={onSendClick}
         />
       </DragAndDropContainer>
       <NotificationBar />

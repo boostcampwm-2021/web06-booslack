@@ -64,7 +64,7 @@ const ThreadContent = ({
       <MessageTimestamp>{createdTime}</MessageTimestamp>
       <br />
       <MessageText dangerouslySetInnerHTML={{ __html: message }} />
-      {reactionList.length > 0 && <ReactionBar reactionList={reactionList} />}
+      {reactionList?.length > 0 && <ReactionBar reactionList={reactionList} />}
       {!isReply && replyList.length > 0 && (
         <ReplyButton
           onClick={() => replyToggle({ isOpened: true, thread, channelName })}
