@@ -19,10 +19,7 @@ const MemberTemplate = ({ matches, index }: Props): JSX.Element => {
         <div>
           {usersInChannel.map((user, idx) => (
             <div key={user.id}>
-              <MemberElement
-                nickname={user.nickname}
-                selected={index === idx}
-              />
+              <MemberElement userHasWorkspace={user} selected={index === idx} />
             </div>
           ))}
         </div>
@@ -35,7 +32,7 @@ const MemberTemplate = ({ matches, index }: Props): JSX.Element => {
           {usersNotInChannel.map((user, idx) => (
             <div key={user.id}>
               <MemberElement
-                nickname={user.nickname}
+                userHasWorkspace={user}
                 selected={index === idx + usersInChannel.length}
               />
             </div>

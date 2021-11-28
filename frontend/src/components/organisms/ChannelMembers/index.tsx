@@ -6,6 +6,8 @@ import Autocomplete from '@atoms/Autocomplete';
 import MemberElement from './MemberElement';
 import MemberTemplate from './MemberTemplate';
 import { Container, ScrollContainer, StyledInput } from './styles';
+import { useSetRecoilState } from 'recoil';
+import { userProfileModalState } from '@state/modal';
 
 const Unfiltered = ({ users }: { users: any[] }): JSX.Element => {
   return (
@@ -22,6 +24,7 @@ const ChannelMembers = (): JSX.Element => {
   const { workspaceId, channelId }: { workspaceId: string; channelId: string } =
     useParams();
   const [{ input }, onChange, clear] = useInputs({ input: '' });
+  const setIsUserProfileModalOpen = useSetRecoilState(userProfileModalState);
 
   const { isLoading, isError, data } = useUserListWithChannelInfoQuery(
     workspaceId,
@@ -45,11 +48,19 @@ const ChannelMembers = (): JSX.Element => {
             input={input}
             filter={(user) => user.nickname.includes(input)}
             filterList={data}
-            setValue={() => {}} // open user profile
+            setValue={(e) => {
+              setIsUserProfileModalOpen({
+                isOpen: true,
+                userHasWorkspace: e,
+                x: e.clientX,
+                y: e.clientY,
+              });
+            }}
             ResultTemplate={MemberTemplate}
           />
         ) : (
-          <Unfiltered users={data} />
+          // <Unfiltered users={data} />
+          <div />
         )}
       </ScrollContainer>
     </Container>

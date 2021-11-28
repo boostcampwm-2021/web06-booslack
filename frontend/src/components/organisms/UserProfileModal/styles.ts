@@ -4,11 +4,16 @@ import LabeledButton from '@atoms/LabeledButton';
 import Popup from '@atoms/Popup';
 import styled from 'styled-components';
 
-export const StyledPopup = styled(Popup)`
+interface Props {
+  x?: number;
+  y?: number;
+}
+
+export const StyledPopup = styled(Popup)<Props>`
   position: fixed;
   background-color: white;
-  top: 50px;
-  left: 42vw;
+  top: ${(props) => (props.y ? `${props.y}px` : '50px')};
+  left: ${(props) => (props.x ? `${props.x}px` : '42vw')};
   width: 300px;
   height: 500px;
 

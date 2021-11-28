@@ -16,7 +16,7 @@ interface Props {
 const Popup = ({
   isOpen,
   onClose,
-  zIndex = 100,
+  zIndex = 110,
   children,
   className,
 }: Props): JSX.Element => {

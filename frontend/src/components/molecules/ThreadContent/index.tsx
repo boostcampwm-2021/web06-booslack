@@ -17,6 +17,7 @@ import {
   MessageText,
   ReplyButton,
 } from './styles';
+import { userProfileModalState } from '@state/modal';
 
 interface Props {
   thread: IThread;
@@ -43,6 +44,7 @@ const ThreadContent = ({
 
   const nickname = userHasWorkspace?.nickname || '탈퇴한 유저';
 
+  const setIsUserProfileModalOpen = useSetRecoilState(userProfileModalState);
   const [updateState, setUpdateState] = useState(false);
   const [hoverState, setHoverState] = useState(false);
   const replyToggle = useSetRecoilState(replyToggleState);
@@ -92,7 +94,14 @@ const ThreadContent = ({
       <MessageKit className={updateState && 'updating'}>
         <MessageKitLeft>
           <ImageButton
-            onClick={() => {}}
+            onClick={(e) => {
+              setIsUserProfileModalOpen({
+                isOpen: true,
+                userHasWorkspace,
+                x: e.clientX,
+                y: e.clientY,
+              });
+            }}
             height={36}
             width={36}
             image={defaultPerson}

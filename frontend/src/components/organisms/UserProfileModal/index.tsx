@@ -15,14 +15,18 @@ import {
 } from './styles';
 
 const UserProfileModal = (): JSX.Element => {
-  const [{ isOpen, userHasWorkspace }, setIsOpen] = useRecoilState(
+  const [{ isOpen, userHasWorkspace, x, y }, setIsOpen] = useRecoilState(
     userProfileModalState,
   );
 
   return (
     <StyledPopup
+      x={x ? x + 20 : null}
+      y={y}
       isOpen={isOpen}
-      onClose={() => setIsOpen({ isOpen: false, userHasWorkspace: null })}
+      onClose={() =>
+        setIsOpen({ isOpen: false, userHasWorkspace: null, x: null, y: null })
+      }
     >
       {/* TODO: user profile picture */}
       <StyledImageBox image={mintImage} />

@@ -98,6 +98,8 @@ const SearchModal = ({
             setIsUserProfileModalOpen({
               isOpen: true,
               userHasWorkspace: e,
+              x: null,
+              y: null,
             });
           } else {
             history.push(`/client/${e.workspaceId}/${e.id}`);
