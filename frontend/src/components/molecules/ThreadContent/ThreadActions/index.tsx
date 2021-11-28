@@ -6,6 +6,7 @@ import useRefLocate from '@hook/useRefLocate';
 import userState from '@state/user';
 import { replyToggleState } from '@state/workspace';
 import { deleteMessage } from '@global/api/thread';
+import { updateReply, deleteReply } from '@global/api/reply';
 import { postReaction } from '@global/api/reaction';
 import { IThread } from '@global/type';
 import { BsEmojiSmile, BsBookmark } from 'react-icons/bs';
@@ -67,6 +68,21 @@ const ThreadActions = ({
 
   const [isEmojiOpen, setIsEmojiOpen] = useState(false);
 
+  const removeRequest = () => {
+    if (!thread.threadId) {
+      if (isReply && replyToggle.thread?.id === threadId) {
+        setReplyToggle({
+          isOpened: false,
+          thread: undefined,
+          channelName: undefined,
+        });
+      }
+      deleteMessage(threadId, channelId, user.socket);
+    } else {
+      deleteReply(thread.id, replyToggle?.thread.id, channelId, user.socket);
+    }
+  };
+
   const myMessageActionMenus = (
     <MenuItems>
       <MenuItem>
@@ -109,16 +125,7 @@ const ThreadActions = ({
         <MenuItemButton
           text="메시지 삭제"
           color="#e01e5a"
-          onClick={() => {
-            if (replyToggle.thread?.id === threadId) {
-              setReplyToggle({
-                isOpened: false,
-                thread: undefined,
-                channelName: undefined,
-              });
-            }
-            deleteMessage(threadId, channelId, user.socket);
-          }}
+          onClick={removeRequest}
         />
       </MenuItem>
     </MenuItems>

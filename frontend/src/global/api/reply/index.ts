@@ -3,6 +3,7 @@ import axios from 'axios';
 
 export const updateReply = async (
   replyId: string,
+  threadId: string,
   channelId: string,
   message: string,
   socket,
@@ -19,12 +20,13 @@ export const updateReply = async (
 
 export const deleteReply = async (
   replyId: string,
+  threadId: string,
   channelId: string,
   socket,
 ): Promise<any> => {
   const res = await axios.delete(`/api/replys/${replyId}`);
   if (res.status === 200) {
-    socket.emit('threads', channelId, replyId);
+    socket.emit('threads', channelId, threadId);
   }
 };
 
