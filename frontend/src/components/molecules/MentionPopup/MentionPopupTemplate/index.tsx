@@ -9,8 +9,6 @@ import {
   UserElement,
 } from './styles';
 
-const channelId = 1;
-
 interface Props {
   matches: [];
   index: number;
@@ -23,11 +21,11 @@ const MentionPopupTemplate = ({ matches, index }: Props): JSX.Element => {
         <UserContainer key={user.id} selected={idx === index}>
           <UserElement>
             <PrimaryContent>
-              <StyledBoldLabel text={user.name} />
-              <Label text={user.id} />
+              <StyledBoldLabel text={`file ${user.fileId} `} />
+              <Label text={user.nickname} />
             </PrimaryContent>
             <SecondaryContent>
-              {user.channelId !== channelId && <Label text="Not in channel" />}
+              {user.inChannel === '0' && <Label text="Not in channel" />}
             </SecondaryContent>
           </UserElement>
         </UserContainer>
