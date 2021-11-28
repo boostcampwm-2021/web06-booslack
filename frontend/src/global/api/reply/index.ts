@@ -41,9 +41,10 @@ export const postReply = async (
     message,
     threadId,
   });
+
   if (res.status === 200) {
     setMessageClear(true);
-    socket.emit('threads', channelId);
+    socket.emit('threads', channelId, threadId);
   }
 };
 
@@ -68,7 +69,7 @@ export const postReplyAndFiles = async (
   });
   if (res.status === 200) {
     setMessageClear(true);
-    socket.emit('threads', channelId);
+    socket.emit('threads', channelId, threadId);
     if (res.data.reply.userHasWorkspaceId === userHasWorkspaceId) {
       setShouldScrollDown(true);
     }

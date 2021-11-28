@@ -12,6 +12,10 @@ export const initializeSocket = (socket, queryClient) => {
       queryClient.invalidateQueries(['thread', _threadId], {
         refetchActive: true,
       });
+
+      queryClient.invalidateQueries(['replys', _threadId], {
+        refetchActive: true,
+      });
     });
 
     socket.on('channels', (_workspaceId) => {
