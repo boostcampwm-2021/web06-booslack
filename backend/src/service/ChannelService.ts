@@ -9,6 +9,22 @@ import WorkspaceRepository from '../repository/WorkspaceRepository';
 
 const { BAD_REQUEST, CREATED, OK } = StatusCodes;
 
+// literally all channels workspace
+export async function getChannels(req: Request, res: Response) {
+  try {
+    const { workspaceId } = req.query;
+
+    const channels = await getCustomRepository(ChannelRepository).find({
+      where: [{ workspaceId }],
+      relations: ['workspace'],
+    });
+
+    return res.status(OK).json({ channels });
+  } catch (error) {
+    return res.status(BAD_REQUEST).end();
+  }
+}
+
 export async function getAllChannels(req: Request, res: Response) {
   try {
     const { offsetStart, sortOption, like, workspaceId, showPrivate, showPublic, showMine } =
