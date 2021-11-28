@@ -2,13 +2,16 @@ import { UserHasWorkspace, Channel } from '@global/type';
 import React from 'react';
 import MemberElement from '@organisms/MemberElement';
 import ChannelElement from './ChannelElement';
+import useKeyboardNavigator from '@hook/useKeyboardNavigator';
 
 interface Props {
   matches: Array<UserHasWorkspace | Channel>;
-  index: number;
+  setValue: React.Dispatch<any>;
 }
 
-const SearchResultTemplate = ({ matches, index }: Props): JSX.Element => {
+const SearchResultTemplate = ({ matches, setValue }: Props): JSX.Element => {
+  const index = useKeyboardNavigator(matches, setValue);
+
   return (
     <div>
       {matches.map((match, idx) => {

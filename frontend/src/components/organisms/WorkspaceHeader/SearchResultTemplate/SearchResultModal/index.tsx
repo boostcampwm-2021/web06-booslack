@@ -3,7 +3,6 @@ import { useSetRecoilState } from 'recoil';
 import { useParams, useHistory } from 'react-router-dom';
 import { BsSearch } from 'react-icons/bs';
 import { MdClose } from 'react-icons/md';
-import Autocomplete from '@atoms/Autocomplete';
 import { useChannelsQuery } from '@hook/useChannels';
 import { useUsersQuery } from '@hook/useUsers';
 import { useWorkspaceQuery } from '@hook/useWorkspace';
@@ -66,6 +65,22 @@ const SearchModal = ({
     return <div>Error</div>;
   }
 
+  const setValue = (e) => {
+    // if user
+    if (e.nickname) {
+      setIsUserProfileModalOpen({
+        isOpen: true,
+        userHasWorkspace: e,
+        x: null,
+        y: null,
+      });
+    } else {
+      history.push(`/client/${e.workspaceId}/${e.id}`);
+    }
+    clear();
+    close();
+  };
+
   return (
     <StyledSearchModal
       xWidth={xWidth}
@@ -86,28 +101,12 @@ const SearchModal = ({
         {input !== '' && <StyledLabeledButton text="Clear" onClick={clear} />}
         <StyledIconButton icon={MdClose} onClick={close} />
       </Container>
-      <Autocomplete
-        input={input}
-        filter={(result) =>
-          result.name?.includes(input) || result.nickname?.includes(input)
-        }
-        filterList={[...channelListQuery.data, ...userListQuery.data]}
-        setValue={(e) => {
-          // if user
-          if (e.nickname) {
-            setIsUserProfileModalOpen({
-              isOpen: true,
-              userHasWorkspace: e,
-              x: null,
-              y: null,
-            });
-          } else {
-            history.push(`/client/${e.workspaceId}/${e.id}`);
-          }
-          clear();
-          close();
-        }}
-        ResultTemplate={SearchResultTemplate}
+      <SearchResultTemplate
+        matches={[...channelListQuery.data, ...userListQuery.data].filter(
+          (datum) =>
+            datum.name?.includes(input) || datum.nickname?.includes(input),
+        )}
+        setValue={setValue}
       />
     </StyledSearchModal>
   );
