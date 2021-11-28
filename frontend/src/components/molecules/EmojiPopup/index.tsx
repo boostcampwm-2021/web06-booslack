@@ -1,5 +1,4 @@
-import Autocomplete from '@atoms/Autocomplete';
-import React, { Dispatch, useEffect, useState } from 'react';
+import React, { Dispatch, useEffect } from 'react';
 import * as unicodeEmoji from 'unicode-emoji';
 import EmojiPopupTemplate from './EmojiPopupTemplate';
 import { StyledPopup } from './styles';
@@ -12,7 +11,7 @@ interface Props {
   close: () => void;
 }
 
-const emos = unicodeEmoji.getEmojis();
+const emojis = unicodeEmoji.getEmojis();
 
 const EmojiPopup = ({
   input,
@@ -21,12 +20,6 @@ const EmojiPopup = ({
   setValue,
   close,
 }: Props): JSX.Element => {
-  const [emojis, setEmojis] = useState([]);
-
-  useEffect(() => {
-    setEmojis(emos);
-  }, []);
-
   useEffect(() => {
     if (value) {
       close();
@@ -35,15 +28,10 @@ const EmojiPopup = ({
 
   return (
     <StyledPopup isOpen={isOpen} onClose={close}>
-      {isOpen && (
-        <Autocomplete
-          input={input}
-          filterList={emojis}
-          filter={(emoji) => emoji.description.includes(input)}
-          setValue={setValue}
-          ResultTemplate={EmojiPopupTemplate}
-        />
-      )}
+      <EmojiPopupTemplate
+        matches={emojis.filter((emoji) => emoji.description.includes(input))}
+        setValue={setValue}
+      />
     </StyledPopup>
   );
 };
