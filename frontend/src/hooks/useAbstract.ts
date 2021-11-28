@@ -1,6 +1,6 @@
 import axios from 'axios';
 import { useQuery } from 'react-query';
-
+import { PREFIX } from '@global/api';
 export const CACHETIME = 10000;
 
 export const useAbstractQuery = (
@@ -12,7 +12,7 @@ export const useAbstractQuery = (
   return useQuery(
     [name, id],
     async () => {
-      const res = await axios.get(`/api/${realPath}/${id}`);
+      const res = await axios.get(`${PREFIX}/${realPath}/${id}`);
       return res?.data[name];
     },
     {
@@ -35,7 +35,7 @@ export const useAbstractQueryList = (
   return useQuery(
     [name, id],
     async () => {
-      const res = await axios.get(`/api/${realPath}`, {
+      const res = await axios.get(`${PREFIX}/${realPath}`, {
         params: { ...params },
       });
       return res?.data[name];

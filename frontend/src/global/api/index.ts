@@ -1,4 +1,4 @@
-const PREFIX = '/api';
+export const PREFIX = '/api';
 
 const USER = 'users';
 const CHANNEL = 'channels';
