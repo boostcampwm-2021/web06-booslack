@@ -1,40 +1,38 @@
 import styled from 'styled-components';
 import { theme } from 'styled-tools';
-import Input from '@atoms/Input';
 import NoOverlayModal from '@molecules/NoOverlayModal';
 import { defaultTheme } from '@global/theme';
+import LabeledButton from '@atoms/LabeledButton';
+import ImageButton from '@atoms/ImageButton';
+import IconButton from '@atoms/IconButton';
 
 export const Container = styled.div`
   display: flex;
-
   width: 100vw;
-  height: 58px;
-  min-height: 58px;
-
+  height: 38px;
   padding: 1vh 20px 1vh 20px;
 
   background-color: ${theme('bigHeaderColor', defaultTheme.bigHeaderColor)};
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   flex-direction: row;
 
   border-bottom: 50px soild #fff;
 `;
 
-export const StyledInput = styled(Input)`
+export const StyledLabeledButton = styled(LabeledButton)`
   width: 40vw;
   min-width: 400px;
-  height: 50px;
+  height: 24px;
   border-radius: 6px;
+  font-size: 15px;
 
   color: ${theme('titleText', defaultTheme.titleText)};
   background-color: ${theme('searchBar', defaultTheme.searchBar)};
 
-  &::placeholder {
-    color: ${theme('titleText', defaultTheme.titleText)};
-  }
-  &:focus {
-    border: 1px solid ${theme('searchBar', defaultTheme.searchBar)};
+  text-align: center;
+  &:hover {
+    cursor: pointer;
   }
 `;
 
@@ -47,6 +45,21 @@ export const StyledNoOverlayModal = styled(NoOverlayModal)`
   background-color: rgba(var(--sk_foreground_min_solid, 248, 248, 248), 1);
   border-radius: 6px;
   padding: 0.1px 0;
+`;
+
+export const StyledImageButton = styled(ImageButton)`
+  position: absolute;
+  right: 12px;
+`;
+
+export const StyledIconButton = styled(IconButton)`
+  display: inline-flex;
+  align-items: center;
+  margin-left: 12px;
+  margin-right: 12px;
+  height: 24px;
+  color: ${theme('titleText', defaultTheme.titleText)};
+  font-size: 15px;
 `;
 
 export default Container;

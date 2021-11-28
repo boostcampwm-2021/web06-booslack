@@ -12,3 +12,12 @@ export const useUserListWithChannelInfoQuery = (
     return res.data.users;
   });
 };
+
+export const useUsersQuery = (workspaceId: string) => {
+  return useQuery(['users', 'all', workspaceId], async () => {
+    const res = await axios.get(
+      `/api/userHasWorkspaces/all?workspaceId=${workspaceId}`,
+    );
+    return res.data.userHasWorkspaces;
+  });
+};
