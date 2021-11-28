@@ -4,6 +4,8 @@ import ChatInputBar from '@organisms/ChatInputBar';
 import { useThreadQuery } from '@hook/useThreads';
 import { postReplyAndFiles } from '@global/api/reply';
 import { IThread } from '@global/type';
+import { useReplyListQuery } from '@hook/useReplys';
+
 import {
   StyledThreadContent,
   Container,
@@ -25,8 +27,15 @@ const ReplyContent = ({ thread, threadId }: Props): JSX.Element => {
     data,
   } = useThreadQuery(threadId as string);
 
+  const {
+    isLoading,
+    isError,
+    data: replyThreads,
+  } = useReplyListQuery(threadId as string);
+
+  console.log(data);
+
   // reply 에 s 붙여야 되는데 지금은 터짐. 쿼리문을 수정해야함
-  const replyThreads = data?.reply;
   if (isReplyError) return <div>error</div>;
 
   const onSendClick = async (

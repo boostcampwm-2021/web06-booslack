@@ -1,7 +1,6 @@
 import axios from 'axios';
 import { useInfiniteQuery, useQuery } from 'react-query';
-
-const CACHETIME = 10000;
+import { useAbstractQuery } from '@hook/useAbstract';
 
 export const useThreadListQuery = (channelId: string) => {
   return useQuery(['threads', channelId], async () => {
@@ -11,19 +10,7 @@ export const useThreadListQuery = (channelId: string) => {
 };
 
 export const useThreadQuery = (threadId: string) => {
-  return useQuery(
-    ['thread', threadId],
-    async () => {
-      const res = await axios.get(`/api/threads/${threadId}`);
-      return res.data?.thread;
-    },
-    {
-      keepPreviousData: true,
-      cacheTime: CACHETIME,
-      staleTime: CACHETIME,
-      refetchOnWindowFocus: false,
-    },
-  );
+  return useAbstractQuery('thread', threadId);
 };
 
 export const usePartialThreadListQuery = (channelId: string) => {
