@@ -32,12 +32,19 @@ describe('workspacelist page render test', () => {
         };
       });
 
-    mockedAxios.get.mockResolvedValue({ data: { workspaces } });
+    mockedAxios.get.mockResolvedValue({
+      data: {
+        files: {
+          url: '',
+        },
+        workspaces,
+      },
+    });
 
     expect(mockedAxios.get).not.toHaveBeenCalled();
 
     const initializeState = ({ set }) => {
-      set(userState, { account: 'loda', id: 1 });
+      set(userState, { account: 'loda', id: 1, theme: 1 });
     };
 
     render(
