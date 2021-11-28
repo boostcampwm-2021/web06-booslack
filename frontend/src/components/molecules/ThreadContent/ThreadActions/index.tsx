@@ -70,7 +70,7 @@ const ThreadActions = ({
 
   const removeRequest = () => {
     if (!thread.threadId) {
-      if (isReply && replyToggle.thread?.id === threadId) {
+      if (replyToggle.thread?.id === threadId) {
         setReplyToggle({
           isOpened: false,
           thread: undefined,

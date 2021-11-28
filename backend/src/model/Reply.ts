@@ -15,7 +15,7 @@ import File from './File';
 @Entity()
 class Reply {
   @PrimaryGeneratedColumn()
-  id!: number
+  id!: number;
 
   @Column()
   message!: string;
@@ -27,10 +27,10 @@ class Reply {
   userHasWorkspaceId!: number;
 
   @CreateDateColumn({ type: 'timestamp' })
-  createdAt!: Date
+  createdAt!: Date;
 
   @UpdateDateColumn({ type: 'timestamp', nullable: true })
-  updatedAt!: Date
+  updatedAt!: Date;
 
   @OneToMany(() => Reaction, (reaction) => reaction.reply)
   reactions!: Reaction[];
@@ -38,7 +38,7 @@ class Reply {
   @OneToMany(() => File, (file) => file.reply)
   files!: File[];
 
-  @ManyToOne(() => Thread, (thread) => thread.replys)
+  @ManyToOne(() => Thread, (thread) => thread.replys, { onDelete: 'CASCADE' })
   thread!: Thread;
 
   @ManyToOne(() => UserHasWorkspace, (userHasWorkspace) => userHasWorkspace.replys)
