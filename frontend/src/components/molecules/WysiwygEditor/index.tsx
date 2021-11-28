@@ -1,6 +1,16 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  Dispatch,
+  SetStateAction,
+} from 'react';
+import { useParams } from 'react-router-dom';
+import { useRecoilValue, useSetRecoilState } from 'recoil';
 import EmojiPopup from '@molecules/EmojiPopup';
 import MentionPopup from '@molecules/MentionPopup';
+import { shouldScrollDownState } from '@state/thread';
+import userState from '@state/user';
 import {
   keydownHandle,
   inputHandle,
@@ -10,24 +20,38 @@ import {
 import { Container, MessageInputArea } from './styles';
 
 interface Props {
+  message: string;
   setMessage: (message: string) => void;
   setFocused: (focused: boolean) => void;
   messageClear: boolean;
   setMessageClear: (messageClear: boolean) => void;
   defaultMessage?: string;
+  selectedFile: [];
+  setSelectedFile: Dispatch<SetStateAction<[]>>;
+  setSelectedFileUrl: Dispatch<SetStateAction<[]>>;
+  onSendClick;
 }
 
 const WysiwygEditor = ({
+  message,
   setMessage,
   setFocused,
   messageClear,
   setMessageClear,
   defaultMessage,
+  selectedFile,
+  setSelectedFile,
+  setSelectedFileUrl,
+  onSendClick,
 }: Props): JSX.Element => {
   const [isEmojiOpen, setIsEmojiOpen] = useState(false);
   const [isMentionOpen, setIsMentionOpen] = useState(false);
   const [input, setInput] = useState('');
   const [value, setValue] = useState(undefined);
+
+  const { channelId }: { channelId: string } = useParams();
+  const user = useRecoilValue(userState);
+  const setShouldScrollDown = useSetRecoilState(shouldScrollDownState);
 
   useEffect(() => {
     if (!value) return;
@@ -54,6 +78,10 @@ const WysiwygEditor = ({
     }
   }, [messageClear]);
 
+  const sendable =
+    (message !== '<p><br></p>' && message.trim().length > 8) ||
+    selectedFile?.length > 0;
+
   return (
     <Container>
       <MessageInputArea
@@ -74,6 +102,17 @@ const WysiwygEditor = ({
             setIsEmojiOpen,
             isMentionOpen,
             setIsMentionOpen,
+            onSendClick,
+            sendable,
+            user,
+            channelId,
+            message,
+            setMessageClear,
+            setMessage,
+            selectedFile,
+            setSelectedFile,
+            setSelectedFileUrl,
+            setShouldScrollDown,
           )
         }
         onInput={(e) =>

@@ -104,24 +104,6 @@ const Toolbar = ({
           accept={'image/*'}
         />
         <ToolBarIconButton
-          // onClick={async () => {
-          //   if (sendable) {
-          //     await postMessageAndFiles(
-          //       user.userHasWorkspaceId,
-          //       channelId,
-          //       message,
-          //       user.socket,
-          //       setMessageClear,
-          //       setMessage,
-          //       selectedFile,
-          //       setSelectedFile,
-          //       setSelectedFileUrl,
-          //       setShouldScrollDown,
-          //     );
-          //     setSelectedFile([]);
-          //     setSelectedFileUrl([]);
-          //   }
-          // }}
           onClick={() =>
             onSendClick(
               sendable,
