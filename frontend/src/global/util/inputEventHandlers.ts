@@ -335,6 +335,14 @@ export const inputHandle = (
 
       fontState = false;
     }
+
+    if (selection.focusNode.attributes[0].nodeValue === 'input-bar') {
+      const childParagraph = document.createElement('p');
+      childParagraph.innerHTML = '<br>';
+      selection.focusNode.appendChild(childParagraph);
+    }
+
+    console.log(1);
   }
 
   const s = document.getSelection();
@@ -364,6 +372,70 @@ export const keydownHandle = (
   setIsMentionOpen,
 ): void => {
   const selection = document.getSelection();
+
+  if (e.code === 'Enter') {
+    if (e.shiftKey === true) {
+      // 현재 cursor 위치에 블락태그를 시작하고 끝내버리면 됨.
+      const currentNode = selection.focusNode;
+      const parent = currentNode.parentElement;
+      const currentOffset = selection.focusOffset;
+
+      let parentTag;
+      let tempParent = parent;
+      while (parentTag === undefined) {
+        if (
+          tempParent.nodeName === 'P' ||
+          tempParent.nodeName === 'LI' ||
+          tempParent.nodeName === 'DIV' ||
+          tempParent.nodeName === 'BLOCKQUOTE'
+        ) {
+          parentTag = tempParent.nodeName.toLowerCase();
+        } else {
+          tempParent = tempParent.parentElement;
+        }
+      }
+
+      const lineBreakElement = document.createElement(parentTag);
+      if (parentTag === 'div') {
+        lineBreakElement.classList.add('ql-code-block');
+      }
+
+      const nextText =
+        currentOffset < currentNode.length
+          ? currentNode.data.substring(currentOffset, currentNode.length)
+          : undefined;
+      currentNode.data = currentNode.data.substring(0, currentOffset);
+
+      if (nextText !== undefined) {
+        let addNode = document.createTextNode(nextText);
+        if (
+          parent.nodeName === 'B' ||
+          parent.nodeName === 'EM' ||
+          parent.nodeName === 'S' ||
+          parent.nodeName === 'CODE'
+        ) {
+          const temp = document.createElement(parent.nodeName.toLowerCase());
+          temp.appendChild(addNode);
+          addNode = temp;
+        }
+        lineBreakElement.appendChild(addNode);
+      }
+
+      let tempNode = currentNode.nextSibling;
+      while (tempNode !== null) {
+        lineBreakElement.appendChild(tempNode);
+        tempNode = tempNode.nextSibling;
+      }
+      if (lineBreakElement.innerHTML === '') {
+        lineBreakElement.innerHTML = '<br>';
+      }
+      parent.insertAdjacentElement('afterend', lineBreakElement);
+      selection.collapse(lineBreakElement, 0);
+    } else {
+      // 엔터만 눌릴시 post 이벤트 발생시키면 됨./
+    }
+    e.preventDefault();
+  }
 
   if (e.code === 'Space') {
     createList(selection, e);

@@ -38,7 +38,7 @@ const IconButton = ({
 IconButton.defaultProps = {
   className: {},
   customRef: undefined,
-  fontSize: 22,
+  fontSize: 18,
   width: 30,
   height: 30,
 };
