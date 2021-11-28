@@ -1,7 +1,7 @@
-import { UserHasWorkspace } from '@global/type';
-import { userProfileModalState } from '@state/modal';
 import React from 'react';
 import { useSetRecoilState } from 'recoil';
+import { UserHasWorkspace } from '@global/type';
+import { userProfileModalState } from '@state/modal';
 import { BackgroundContainer, Container, StyledLabel } from './styles';
 
 interface Props {
@@ -25,7 +25,7 @@ const MemberElement = ({ userHasWorkspace, selected }: Props): JSX.Element => {
           })
         }
       >
-        {/* <StyledLabel text={`file ${userHasWorkspace.fileId}`} /> */}
+        <StyledLabel text={`file ${userHasWorkspace.fileId}`} />
         <StyledLabel text={userHasWorkspace.nickname} />
         {userHasWorkspace.description && (
           <StyledLabel text={userHasWorkspace.description} />
