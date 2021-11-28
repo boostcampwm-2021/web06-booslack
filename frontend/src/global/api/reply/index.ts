@@ -14,7 +14,7 @@ export const updateReply = async (
   });
   if (res.status === 200) {
     setUpdateState(false);
-    socket.emit('threads', channelId, replyId);
+    socket.emit('threads', channelId, threadId);
   }
 };
 

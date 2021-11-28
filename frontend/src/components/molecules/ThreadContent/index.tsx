@@ -81,6 +81,7 @@ const ThreadContent = ({
       threadId={threadId}
       defaultMessage={message}
       setUpdateState={setUpdateState}
+      isReply={isReply}
     />
   );
 

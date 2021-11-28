@@ -6,7 +6,7 @@ import useRefLocate from '@hook/useRefLocate';
 import userState from '@state/user';
 import { replyToggleState } from '@state/workspace';
 import { deleteMessage } from '@global/api/thread';
-import { updateReply, deleteReply } from '@global/api/reply';
+import { deleteReply } from '@global/api/reply';
 import { postReaction } from '@global/api/reaction';
 import { IThread } from '@global/type';
 import { BsEmojiSmile, BsBookmark } from 'react-icons/bs';
