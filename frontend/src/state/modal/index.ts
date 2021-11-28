@@ -53,5 +53,7 @@ export const userProfileModalState = atom({
   default: {
     isOpen: false,
     userHasWorkspace: null,
+    x: null,
+    y: null,
   },
 });
