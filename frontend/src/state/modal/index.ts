@@ -47,3 +47,11 @@ export const SortedOptionMordalState = atom({
   key: 'sortedOptionMordal',
   default: [true, true, true],
 });
+
+export const userProfileModalState = atom({
+  key: 'userProfile',
+  default: {
+    isOpen: false,
+    userHasWorkspace: null,
+  },
+});

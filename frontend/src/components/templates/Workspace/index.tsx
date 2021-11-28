@@ -13,6 +13,7 @@ import SidebarChannelInfoModal from '@organisms/SidebarChannelInfoModal';
 import ChannelTopicModal from '@organisms/ChannelTopicModal';
 import ReplyBar from '@organisms/ReplyBar';
 import PreferenceModal from '@organisms/PreferenceModal';
+import UserProfileModal from '@organisms/UserProfileModal';
 import { initializeSocket } from '@hook/useSocket';
 import {
   channelCreateModalState,
@@ -21,6 +22,7 @@ import {
   channelTopicModalState,
   preferenceModalState,
   sidebarChannelInfoModalState,
+  userProfileModalState,
 } from '@state/modal';
 import { replyToggleState } from '@state/workspace';
 import userState from '@state/user';
@@ -38,6 +40,8 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
   const channelTopicModal = useRecoilValue(channelTopicModalState);
   const sidebarChannelModal = useRecoilValue(sidebarChannelInfoModalState);
   const preferenceModal = useRecoilValue(preferenceModalState);
+  const userProfileModal = useRecoilValue(userProfileModalState);
+
   const { isOpened } = useRecoilValue(replyToggleState);
 
   const { workspaceId, channelId }: { workspaceId: string; channelId: string } =
@@ -90,6 +94,7 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
       {channelDescriptionModal && <ChannelDescriptionModal />}
       {channelTopicModal && <ChannelTopicModal />}
       {preferenceModal && <PreferenceModal />}
+      {userProfileModal.isOpen && <UserProfileModal />}
     </>
   );
 };

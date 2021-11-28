@@ -1,11 +1,13 @@
 import React, { useEffect, useRef } from 'react';
-import Autocomplete from '@atoms/Autocomplete';
+import { useSetRecoilState } from 'recoil';
 import { useParams, useHistory } from 'react-router-dom';
+import { BsSearch } from 'react-icons/bs';
+import { MdClose } from 'react-icons/md';
+import Autocomplete from '@atoms/Autocomplete';
 import { useChannelsQuery } from '@hook/useChannels';
 import { useUsersQuery } from '@hook/useUsers';
 import { useWorkspaceQuery } from '@hook/useWorkspace';
-import { BsSearch } from 'react-icons/bs';
-import { MdClose } from 'react-icons/md';
+import { userProfileModalState } from '@state/modal';
 import SearchResultTemplate from '..';
 import {
   StyledSearchModal,
@@ -27,6 +29,7 @@ const SearchModal = ({
 }) => {
   const history = useHistory();
   const ref = useRef(null);
+  const setIsUserProfileModalOpen = useSetRecoilState(userProfileModalState);
 
   const { workspaceId }: { workspaceId: string } = useParams();
 
@@ -92,10 +95,11 @@ const SearchModal = ({
         setValue={(e) => {
           // if user
           if (e.nickname) {
-            // open user profile
-          }
-          // else if channel, navigate to channel
-          else {
+            setIsUserProfileModalOpen({
+              isOpen: true,
+              userHasWorkspace: e,
+            });
+          } else {
             history.push(`/client/${e.workspaceId}/${e.id}`);
           }
           clear();
