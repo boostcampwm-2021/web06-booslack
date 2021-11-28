@@ -1,5 +1,5 @@
 import React from 'react';
-import MemberElement from '../MemberElement';
+import MemberElement from '@organisms/MemberElement';
 import { Container, GreyContainer, StyledLabel } from '../styles';
 import { NoResultLabel } from './styles';
 

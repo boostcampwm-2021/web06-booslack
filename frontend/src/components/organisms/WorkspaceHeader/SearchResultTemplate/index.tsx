@@ -1,7 +1,7 @@
 import { UserHasWorkspace, Channel } from '@global/type';
 import React from 'react';
+import MemberElement from '@organisms/MemberElement';
 import ChannelElement from './ChannelElement';
-import MemberElement from './MemberElement';
 
 interface Props {
   matches: Array<UserHasWorkspace | Channel>;

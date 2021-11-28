@@ -5,7 +5,7 @@ import useInputs from '@hook/useInputs';
 import { useUserListWithChannelInfoQuery } from '@hook/useUsers';
 import { userProfileModalState } from '@state/modal';
 import Autocomplete from '@atoms/Autocomplete';
-import MemberElement from './MemberElement';
+import MemberElement from '@organisms/MemberElement';
 import MemberTemplate from './MemberTemplate';
 import { Container, ScrollContainer, StyledInput } from './styles';
 
