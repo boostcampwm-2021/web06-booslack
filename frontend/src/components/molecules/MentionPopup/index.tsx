@@ -1,6 +1,6 @@
 import React, { Dispatch, useEffect } from 'react';
-import { useUserListWithChannelInfoQuery } from '@hook/useUsers';
 import { useParams } from 'react-router-dom';
+import { useUserListWithChannelInfoQuery } from '@hook/useUsers';
 import MentionPopupTemplate from './MentionPopupTemplate';
 import { StyledPopup } from './styles';
 
