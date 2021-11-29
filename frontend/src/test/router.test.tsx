@@ -64,6 +64,7 @@ describe('router test />', () => {
     expect(getByText(/booslack/i)).toBeInTheDocument();
   });
 
+  /*
   it('router test for /app', () => {
     const history = createMemoryHistory();
     history.push('/signup');
@@ -79,4 +80,5 @@ describe('router test />', () => {
     );
     expect(getByText(/booslack/i)).toBeInTheDocument();
   });
+  */
 });
