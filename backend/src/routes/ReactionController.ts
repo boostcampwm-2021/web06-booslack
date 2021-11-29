@@ -4,12 +4,14 @@ import {
   addReplyReaction,
   deleteReactionById,
   deleteReactionByInfo,
+  deleteReplyReaction,
 } from '../service/ReactionService';
 
 const channelRouter = Router();
 
 channelRouter.post('/', addReaction);
 channelRouter.post('/reply', addReplyReaction);
+channelRouter.delete('/reply', deleteReplyReaction);
 channelRouter.delete('/:id', deleteReactionById);
 channelRouter.delete('/', deleteReactionByInfo);
 

@@ -8,6 +8,7 @@ import userState from '@state/user';
 import { replyToggleState } from '@state/workspace';
 import {
   deleteReaction,
+  deleteReplyReaction,
   postReaction,
   postReplyReaction,
 } from '@global/api/reaction';
@@ -31,10 +32,18 @@ const checkUserReacted = (reaction, user) => {
 const handleEmojiClick = (isReply, reaction, user, channelId, replyToggle) => {
   const reacted = checkUserReacted(reaction, user);
   if (reacted) {
-    deleteReaction(reacted.id, channelId, reacted.threadId, user.socket);
+    if (isReply) {
+      deleteReplyReaction(
+        reacted.id,
+        channelId,
+        replyToggle?.thread.id,
+        reacted.replyId,
+        user.socket,
+      );
+    } else {
+      deleteReaction(reacted.id, channelId, reacted.threadId, user.socket);
+    }
   } else if (isReply) {
-    console.log(reaction.list);
-
     postReplyReaction(
       user.userHasWorkspaceId,
       channelId,

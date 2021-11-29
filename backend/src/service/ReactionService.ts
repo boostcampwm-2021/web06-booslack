@@ -69,6 +69,21 @@ export async function addReplyReaction(req: Request, res: Response) {
     await getCustomRepository(ReactionRepository).save(reaction);
     return res.status(OK).json({ reaction });
   } catch (e) {
+    return res.status(BAD_REQUEST).json(e);
+  }
+}
+
+export async function deleteReplyReaction(req: Request, res: Response) {
+  try {
+    const { replyId, reactionId } = req.query;
+
+    const reaction = await getCustomRepository(ReactionRepository).findOneOrFail({
+      where: [{ replyId, id: reactionId }],
+    });
+    await getCustomRepository(ReactionRepository).remove(reaction);
+
+    return res.status(OK).end();
+  } catch (e) {
     console.log(e);
     return res.status(BAD_REQUEST).json(e);
   }

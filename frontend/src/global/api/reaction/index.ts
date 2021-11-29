@@ -30,6 +30,24 @@ export const postReaction = async (
   }
 };
 
+export const deleteReplyReaction = async (
+  reactionId: string,
+  channelId: string,
+  threadId: string,
+  replyId: string,
+  socket: Socket,
+): Promise<any> => {
+  const res = await axios.delete('/api/reactions/reply', {
+    params: {
+      replyId,
+      reactionId,
+    },
+  });
+  if (res.status === 200) {
+    socket.emit('threads', channelId, threadId);
+  }
+};
+
 export const postReplyReaction = async (
   userHasWorkspaceId: string,
   channelId: string,
