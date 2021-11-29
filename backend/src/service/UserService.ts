@@ -28,6 +28,18 @@ export async function getOneUser(req: Request, res: Response) {
   }
 }
 
+export async function findOneUser(req: Request, res: Response) {
+  const { username, password } = req.query;
+  try {
+    const user = await getCustomRepository(UserRepository).findOne({
+      where: { account: username, password },
+    });
+    return res.status(OK).json((user) ?? { message: 'error' });
+  } catch (e) {
+    return res.status(BAD_REQUEST).json(e);
+  }
+}
+
 export async function updateOneUser(req: Request, res: Response) {
   const { id } = req.params;
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
