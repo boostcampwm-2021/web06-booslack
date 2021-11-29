@@ -8,7 +8,6 @@ interface Props {
 export const Container = styled.div<Props>`
   position: relative;
   height: inherit;
-  min-height: 40vh;
   width: ${(props) => props.width ?? 'inherit'};
   ${scrollIfHover}
 `;

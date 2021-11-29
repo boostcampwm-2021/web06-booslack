@@ -336,13 +336,14 @@ export const inputHandle = (
       fontState = false;
     }
 
-    if (selection.focusNode.attributes[0].nodeValue === 'input-bar') {
+    if (
+      selection.focusNode.attributes &&
+      selection.focusNode.attributes[0].nodeValue === 'input-bar'
+    ) {
       const childParagraph = document.createElement('p');
       childParagraph.innerHTML = '<br>';
       selection.focusNode.appendChild(childParagraph);
     }
-
-    console.log(1);
   }
 
   const s = document.getSelection();
@@ -370,12 +371,22 @@ export const keydownHandle = (
   setIsEmojiOpen,
   isMentionOpen,
   setIsMentionOpen,
+  onSendClick,
+  sendable,
+  user,
+  channelId,
+  message,
+  setMessageClear,
+  setMessage,
+  selectedFile,
+  setSelectedFile,
+  setSelectedFileUrl,
+  setShouldScrollDown,
 ): void => {
   const selection = document.getSelection();
 
-  if (e.code === 'Enter') {
+  if (e.code === 'Enter' && !isEmojiOpen && !isMentionOpen) {
     if (e.shiftKey === true) {
-      // 현재 cursor 위치에 블락태그를 시작하고 끝내버리면 됨.
       const currentNode = selection.focusNode;
       const parent = currentNode.parentElement;
       const currentOffset = selection.focusOffset;
@@ -432,7 +443,19 @@ export const keydownHandle = (
       parent.insertAdjacentElement('afterend', lineBreakElement);
       selection.collapse(lineBreakElement, 0);
     } else {
-      // 엔터만 눌릴시 post 이벤트 발생시키면 됨./
+      onSendClick(
+        sendable,
+        user.userHasWorkspaceId,
+        channelId,
+        message,
+        user.socket,
+        setMessageClear,
+        setMessage,
+        selectedFile,
+        setSelectedFile,
+        setSelectedFileUrl,
+        setShouldScrollDown,
+      );
     }
     e.preventDefault();
   }

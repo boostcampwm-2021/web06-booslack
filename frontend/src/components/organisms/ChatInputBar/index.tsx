@@ -62,6 +62,10 @@ const ChatInputBar = ({ onSendClick }: Props): JSX.Element => {
             setFocused={setFocused}
             messageClear={messageClear}
             setMessageClear={setMessageClear}
+            selectedFile={selectedFile}
+            setSelectedFile={setSelectedFile}
+            setSelectedFileUrl={setSelectedFileUrl}
+            onSendClick={onSendClick}
           />
         </WysiwygContainer>
         <WysiwygColumn>

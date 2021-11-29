@@ -13,14 +13,18 @@ export const MessageInputArea = styled.div`
   box-sizing: border-box;
   cursor: text;
   line-height: 1.42;
-  height: 100%;
-  width: 100%;
   outline: none;
-  overflow-y: auto;
   tab-size: 4;
   text-align: left;
   white-space: pre-wrap;
   word-wrap: break-word;
+
+  height: 100%;
+  width: 100%;
+  font-size: 15px;
+
+  max-height: 40vh;
+  overflow-y: auto;
 
   :before {
     color: rgba(0, 0, 0, 0.6);
@@ -29,10 +33,6 @@ export const MessageInputArea = styled.div`
     pointer-events: none;
     position: absolute;
   }
-
-  max-height: calc(60vh - 80px);
-
-  font-size: 15px;
 
   .c-member_slug--link {
     background: rgba(var(--sk_highlight_accent, 29, 155, 209), 0.1);
