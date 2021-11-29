@@ -1,6 +1,5 @@
-import lodash from 'lodash';
-
 export interface Itheme {
+  index: number;
   backgroundColor: string;
   bigHeaderColor: string;
   smallHeaderColor: string;
@@ -15,38 +14,52 @@ export interface Itheme {
     https://chrome.google.com/webstore/detail/colorzilla/bhlhnicpbhignbdhedgjhgdocnmhomnp?hl=ko
     추천
 */
+function setIndexClosure() {
+  let index = 1;
+
+  return () => {
+    // eslint-disable-next-line no-plusplus
+    return index++;
+  };
+}
+
+const setIndex = setIndexClosure();
 
 export const defaultTheme: Itheme = {
+  index: setIndex(),
   backgroundColor: '#3F0E40',
   bigHeaderColor: '#350D36',
   smallHeaderColor: '#ecdeec',
   titleText: '#fff',
   smallText: '#BDABBC',
-  searchBar: '#644565',
+  searchBar: '#D99E10',
   focusedMenu: '#1164A3',
 };
 
 export const yellowTheme: Itheme = {
+  index: setIndex(),
   backgroundColor: '#FFF8D4',
   bigHeaderColor: '#D99E10',
   smallHeaderColor: '#D99E10',
   titleText: '#591035',
   smallText: '#935D51',
-  searchBar: '#D99E10',
+  searchBar: '#A3810F',
   focusedMenu: '#FFEB84',
 };
 
 export const mintChocoTheme: Itheme = {
+  index: setIndex(),
   backgroundColor: '#534538',
   bigHeaderColor: '#42362B',
   smallHeaderColor: '#D99E10',
   titleText: '#fff',
   smallText: '#8e7f70',
-  searchBar: '#42362B',
+  searchBar: '#6E655C',
   focusedMenu: '#5CB09D',
 };
 
 export const royalBlueTheme: Itheme = {
+  index: setIndex(),
   backgroundColor: '#3B4F83',
   bigHeaderColor: '#001A5E',
   smallHeaderColor: '#7D89AC',
@@ -79,10 +92,10 @@ export const getThemeByIndex = (index: number): Itheme => {
 };
 
 export const getIndexByTheme = (theme: Itheme): number => {
-  if (lodash.isEqual(defaultTheme, theme)) return 1;
-  if (lodash.isEqual(yellowTheme, theme)) return 2;
-  if (lodash.isEqual(mintChocoTheme, theme)) return 3;
-  if (lodash.isEqual(royalBlueTheme, theme)) return 4;
+  if (defaultTheme.index === theme?.index) return 1;
+  if (yellowTheme.index === theme?.index) return 2;
+  if (mintChocoTheme.index === theme?.index) return 3;
+  if (royalBlueTheme.index === theme?.index) return 4;
   return 1;
 };
 
