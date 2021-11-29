@@ -1,5 +1,5 @@
-import useKeyboardNavigator from '@hook/useKeyboardNavigator';
 import React from 'react';
+import useKeyboardNavigator from '@hook/useKeyboardNavigator';
 import {
   Container,
   PrimaryContent,

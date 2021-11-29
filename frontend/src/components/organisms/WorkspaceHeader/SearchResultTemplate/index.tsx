@@ -1,8 +1,8 @@
 import { UserHasWorkspace, Channel } from '@global/type';
 import React from 'react';
+import useKeyboardNavigator from '@hook/useKeyboardNavigator';
 import MemberElement from '@organisms/MemberElement';
 import ChannelElement from './ChannelElement';
-import useKeyboardNavigator from '@hook/useKeyboardNavigator';
 
 interface Props {
   matches: Array<UserHasWorkspace | Channel>;

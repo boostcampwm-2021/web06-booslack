@@ -2,7 +2,6 @@ import styled from 'styled-components';
 import { theme } from 'styled-tools';
 import NoOverlayModal from '@molecules/NoOverlayModal';
 import { defaultTheme } from '@global/theme';
-import LabeledButton from '@atoms/LabeledButton';
 import ImageButton from '@atoms/ImageButton';
 import IconButton from '@atoms/IconButton';
 
@@ -20,7 +19,7 @@ export const Container = styled.div`
   border-bottom: 50px soild #fff;
 `;
 
-export const StyledLabeledButton = styled(LabeledButton)`
+export const StyledDiv = styled.div`
   width: 40vw;
   min-width: 400px;
   height: 24px;

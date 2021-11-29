@@ -8,11 +8,11 @@ import { BsSearch } from 'react-icons/bs';
 import WorkspaceHeaderMenuList from './WorkspaceHeaderMenuList';
 import SearchModal from './SearchResultTemplate/SearchResultModal';
 import {
-  StyledLabeledButton,
   Container,
   StyledNoOverlayModal,
   StyledImageButton,
   StyledIconButton,
+  StyledDiv,
 } from './styles';
 
 const WorkspaceHeader = (): JSX.Element => {
@@ -47,17 +47,13 @@ const WorkspaceHeader = (): JSX.Element => {
 
   return (
     <Container>
-      <StyledLabeledButton
-        text={
-          <StyledIconButton icon={BsSearch}>
-            {`Search${
-              input === '' ? ` ${workspaceQuery.data?.name}` : `: ${input}`
-            }`}
-          </StyledIconButton>
-        }
-        onClick={() => setSearchModal(true)}
-        customRef={SearchModalRef}
-      />
+      <StyledDiv onClick={() => setSearchModal(true)} ref={SearchModalRef}>
+        <StyledIconButton icon={BsSearch}>
+          {`Search${
+            input === '' ? ` ${workspaceQuery.data?.name}` : `: ${input}`
+          }`}
+        </StyledIconButton>
+      </StyledDiv>
       {searchModal && (
         <SearchModal
           xWidth={x}
