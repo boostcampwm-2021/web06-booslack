@@ -11,7 +11,12 @@ const { BAD_REQUEST, OK } = StatusCodes;
 
 export async function getAllReplys(req: Request, res: Response) {
   try {
-    const replys = await getCustomRepository(ReplyRepository).find();
+    const { threadId } = req.query;
+
+    const replys = await getCustomRepository(ReplyRepository).find({
+      relations: ['userHasWorkspace', 'reactions'],
+      where: [{ threadId }],
+    });
     return res.status(OK).json({ replys });
   } catch (e) {
     return res.status(BAD_REQUEST).json(e);
@@ -21,6 +26,7 @@ export async function getAllReplys(req: Request, res: Response) {
 export async function getReply(req: Request, res: Response) {
   try {
     const { id } = req.params;
+
     const reply = await getCustomRepository(ReplyRepository).findOne({
       relations: ['userHasWorkspace', 'thread', 'reactions'],
       where: [{ id }],

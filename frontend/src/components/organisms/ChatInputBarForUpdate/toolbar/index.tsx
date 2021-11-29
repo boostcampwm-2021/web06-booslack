@@ -2,7 +2,9 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useParams } from 'react-router-dom';
 import userState from '@state/user';
+import { replyToggleState } from '@state/workspace';
 import { updateMessage } from '@global/api/thread';
+import { updateReply } from '@global/api/reply';
 import {
   BsTypeBold,
   BsTypeItalic,
@@ -30,6 +32,7 @@ interface Props {
   message: string;
   focused: boolean;
   setUpdateState: Dispatch<SetStateAction<boolean>>;
+  isReply: boolean;
 }
 
 const Toolbar = ({
@@ -37,10 +40,27 @@ const Toolbar = ({
   message,
   focused,
   setUpdateState,
+  isReply,
 }: Props): JSX.Element => {
   const { channelId }: { channelId: string } = useParams();
+  const toggleState = useRecoilValue(replyToggleState);
   const user = useRecoilValue(userState);
   const sendable = message !== '<p><br></p>' && message.length > 8;
+
+  const updateRequest = () => {
+    if (isReply) {
+      updateReply(
+        threadId,
+        toggleState?.thread.id,
+        channelId,
+        message,
+        user.socket,
+        setUpdateState,
+      );
+    } else {
+      updateMessage(threadId, channelId, message, user.socket, setUpdateState);
+    }
+  };
 
   return (
     <Container>
@@ -60,15 +80,7 @@ const Toolbar = ({
         <ToolBarIconButton onClick={() => {}} icon={BsEmojiSmile} />
         {/* 파일 붙이기는 나중에 인풋 타입으로 바꿔야함  */}
         <ToolBarIconButton
-          onClick={() => {
-            updateMessage(
-              threadId,
-              channelId,
-              message,
-              user.socket,
-              setUpdateState,
-            );
-          }}
+          onClick={updateRequest}
           icon={MdSend}
           className={sendable ? 'sendButtonActive' : 'sendButtonDisable'}
           disabled={!sendable}

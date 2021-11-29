@@ -6,12 +6,14 @@ import { Container, WysiwygContainer, NotificationBar } from './styles';
 interface Props {
   defaultMessage: string;
   threadId: string;
+  isReply: boolean;
   setUpdateState: Dispatch<SetStateAction<boolean>>;
 }
 
 const ChatInputBarForUpdate = ({
   defaultMessage,
   threadId,
+  isReply,
   setUpdateState,
 }: Props): JSX.Element => {
   const [message, setMessage] = useState('');
@@ -33,6 +35,7 @@ const ChatInputBarForUpdate = ({
           message={message}
           focused={focused}
           setUpdateState={setUpdateState}
+          isReply={isReply}
         />
       </WysiwygContainer>
       <NotificationBar />

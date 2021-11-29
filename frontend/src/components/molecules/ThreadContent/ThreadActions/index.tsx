@@ -6,7 +6,8 @@ import useRefLocate from '@hook/useRefLocate';
 import userState from '@state/user';
 import { replyToggleState } from '@state/workspace';
 import { deleteMessage } from '@global/api/thread';
-import { postReaction } from '@global/api/reaction';
+import { deleteReply } from '@global/api/reply';
+import { postReaction, postReplyReaction } from '@global/api/reaction';
 import { IThread } from '@global/type';
 import { BsEmojiSmile, BsBookmark } from 'react-icons/bs';
 import { BiMessageRoundedDetail, BiDotsVerticalRounded } from 'react-icons/bi';
@@ -32,15 +33,27 @@ interface Props {
   setUpdateState: (arg: boolean) => void;
 }
 
-const onEmojiSet = (user, threadId, channelId) => {
-  return (emoji) =>
-    postReaction(
-      user.userHasWorkspaceId,
-      channelId,
-      emoji,
-      threadId,
-      user.socket,
-    );
+const onEmojiSet = (isReply, user, replyId, threadId, channelId) => {
+  return (emoji) => {
+    if (isReply) {
+      postReplyReaction(
+        user.userHasWorkspaceId,
+        channelId,
+        emoji,
+        replyId,
+        threadId,
+        user.socket,
+      );
+    } else {
+      postReaction(
+        user.userHasWorkspaceId,
+        channelId,
+        emoji,
+        threadId,
+        user.socket,
+      );
+    }
+  };
 };
 
 const ThreadActions = ({
@@ -66,6 +79,21 @@ const ThreadActions = ({
   const [replyToggle, setReplyToggle] = useRecoilState(replyToggleState);
 
   const [isEmojiOpen, setIsEmojiOpen] = useState(false);
+
+  const removeRequest = () => {
+    if (!thread.threadId) {
+      if (replyToggle.thread?.id === threadId) {
+        setReplyToggle({
+          isOpened: false,
+          thread: undefined,
+          channelName: undefined,
+        });
+      }
+      deleteMessage(threadId, channelId, user.socket);
+    } else {
+      deleteReply(thread.id, replyToggle?.thread.id, channelId, user.socket);
+    }
+  };
 
   const myMessageActionMenus = (
     <MenuItems>
@@ -109,16 +137,7 @@ const ThreadActions = ({
         <MenuItemButton
           text="메시지 삭제"
           color="#e01e5a"
-          onClick={() => {
-            if (replyToggle.thread?.id === threadId) {
-              setReplyToggle({
-                isOpened: false,
-                thread: undefined,
-                channelName: undefined,
-              });
-            }
-            deleteMessage(threadId, channelId, user.socket);
-          }}
+          onClick={removeRequest}
         />
       </MenuItem>
     </MenuItems>
@@ -201,7 +220,13 @@ const ThreadActions = ({
         yHeight={emojiYHeight}
         isOpen={isEmojiOpen}
         close={() => setIsEmojiOpen(false)}
-        onEmojiSet={onEmojiSet(user, threadId, channelId)}
+        onEmojiSet={onEmojiSet(
+          isReply,
+          user,
+          threadId,
+          replyToggle.thread?.id,
+          channelId,
+        )}
       />
     </Container>
   );

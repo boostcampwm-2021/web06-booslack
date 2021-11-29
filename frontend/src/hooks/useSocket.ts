@@ -1,6 +1,8 @@
 import { useEffect } from 'react';
+import { QueryClient } from 'react-query';
+import { Socket } from 'socket.io-client';
 
-export const initializeSocket = (socket, queryClient) => {
+export const initializeSocket = (socket: Socket, queryClient: QueryClient) => {
   useEffect(() => {
     if (!socket) return;
 
@@ -10,6 +12,10 @@ export const initializeSocket = (socket, queryClient) => {
       });
 
       queryClient.invalidateQueries(['thread', _threadId], {
+        refetchActive: true,
+      });
+
+      queryClient.invalidateQueries(['replys', _threadId], {
         refetchActive: true,
       });
     });

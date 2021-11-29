@@ -23,13 +23,13 @@ class Reaction {
   @CreateDateColumn({ type: 'timestamp' })
   createdAt!: Date;
 
-  @ManyToOne(() => Thread, (thread) => thread.reactions)
+  @ManyToOne(() => Thread, (thread) => thread.reactions, { onDelete: 'CASCADE' })
   thread!: Thread;
 
   @ManyToOne(() => UserHasWorkspace, (userHasWorkspace) => userHasWorkspace.reactions)
   userHasWorkspace!: UserHasWorkspace;
 
-  @ManyToOne(() => Reply, (reply) => reply.reactions)
+  @ManyToOne(() => Reply, (reply) => reply.reactions, { onDelete: 'CASCADE' })
   reply!: Reply;
 }
 

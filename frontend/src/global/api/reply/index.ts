@@ -3,6 +3,7 @@ import axios from 'axios';
 
 export const updateReply = async (
   replyId: string,
+  threadId: string,
   channelId: string,
   message: string,
   socket,
@@ -13,18 +14,19 @@ export const updateReply = async (
   });
   if (res.status === 200) {
     setUpdateState(false);
-    socket.emit('threads', channelId, replyId);
+    socket.emit('threads', channelId, threadId);
   }
 };
 
 export const deleteReply = async (
   replyId: string,
+  threadId: string,
   channelId: string,
   socket,
 ): Promise<any> => {
   const res = await axios.delete(`/api/replys/${replyId}`);
   if (res.status === 200) {
-    socket.emit('threads', channelId, replyId);
+    socket.emit('threads', channelId, threadId);
   }
 };
 
@@ -41,9 +43,10 @@ export const postReply = async (
     message,
     threadId,
   });
+
   if (res.status === 200) {
     setMessageClear(true);
-    socket.emit('threads', channelId);
+    socket.emit('threads', channelId, threadId);
   }
 };
 
@@ -68,7 +71,7 @@ export const postReplyAndFiles = async (
   });
   if (res.status === 200) {
     setMessageClear(true);
-    socket.emit('threads', channelId);
+    socket.emit('threads', channelId, threadId);
     if (res.data.reply.userHasWorkspaceId === userHasWorkspaceId) {
       setShouldScrollDown(true);
     }

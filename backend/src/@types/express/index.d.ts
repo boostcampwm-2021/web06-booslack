@@ -28,6 +28,7 @@ declare module 'express' {
       workspaceId: string;
       userHasWorkspaceId: string;
       threadId: string;
+      replyId: string;
       reactionId: string;
     };
   }
