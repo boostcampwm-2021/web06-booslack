@@ -142,8 +142,9 @@ export async function addOneWorkspace(req: Request, res: Response) {
 
     const { id: workspaceId } = await getCustomRepository(WorkspaceRepository).save(workspace);
 
-    const userHasWorkSpace = { nickname, userId, workspaceId, description };
+    const userHasWorkSpace = { nickname, userId, workspaceId, description, fileId };
 
+    // @ts-ignore
     await getCustomRepository(UserHasWorkspaceRepository).save(userHasWorkSpace);
 
     return res.status(CREATED).json({
