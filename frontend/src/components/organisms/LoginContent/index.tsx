@@ -49,7 +49,7 @@ const LoginContent = (): JSX.Element => {
       setLoginButtonContext('LOG IN');
     } else {
       setAbleToLogin(true);
-      setLoginButtonContext('인증이 완료되었습니다. 한번 더 클릭해주세요!');
+      setLoginButtonContext('Welcome! 보안을 위해 한번 더 클릭!!!');
     }
   };
   const checkIsUser = async (event) => {

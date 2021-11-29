@@ -26,10 +26,10 @@ export const StyledLabel = styled(Label)`
 `;
 
 export const StyledButton = styled(LabeledDefaultButton)`
-  height: 5vh;
-  width: 10vw;
-  min-width: 200px;
-  min-height: 100px;
+  min-width: 300px;
+  min-height: 200px;
+  height: 60px;
+  width: 100px;
   margin: 1vh 5vw 1vh 5vw;
   ${ThemeButton}
   ${bouncing}
@@ -44,5 +44,5 @@ export const StyledDiv = styled.div`
   flex-direction: row;
   justify-content: center;
 
-  margin-top: 20vh;
+  margin-top: 30px;
 `;

@@ -78,25 +78,27 @@ export async function addUserToWorkspace(req: Request, res: Response) {
     const nickname = user ? user[0].account : user;
 
     const { code }: { code: string } = req.body;
+    const { fileId }: { fileId: number } = req.body;
 
     if (!userId || !code || !nickname) {
       throw BAD_REQUEST;
     }
 
-    const Workspace = await getCustomRepository(WorkspaceRepository).findOneOrFail({
+    const WorkspaceByCode = await getCustomRepository(WorkspaceRepository).findOneOrFail({
       where: [{ code }],
     });
 
-    if (!Workspace?.id) {
+    if (!WorkspaceByCode?.id) {
       throw BAD_REQUEST;
     }
 
-    const userHasWorkSpace = { nickname, userId, workspaceId: Workspace.id };
     const isExist = await getCustomRepository(UserHasWorkspaceRepository).findOne({
-      where: [{ ...userHasWorkSpace }],
+      where: [{ nickname, userId, workspaceId: WorkspaceByCode.id }],
     });
 
     if (isExist) return res.status(CONFLICT).end();
+
+    const userHasWorkSpace = { nickname, userId, workspaceId: WorkspaceByCode.id, fileId };
 
     await getCustomRepository(UserHasWorkspaceRepository).save(userHasWorkSpace);
     return res.status(CREATED).end();
