@@ -29,7 +29,7 @@ class Reaction {
   @ManyToOne(() => UserHasWorkspace, (userHasWorkspace) => userHasWorkspace.reactions)
   userHasWorkspace!: UserHasWorkspace;
 
-  @ManyToOne(() => Reply, (reply) => reply.reactions)
+  @ManyToOne(() => Reply, (reply) => reply.reactions, { onDelete: 'CASCADE' })
   reply!: Reply;
 }
 

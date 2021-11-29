@@ -5,10 +5,16 @@ import { BsEmojiSmileUpsideDown } from 'react-icons/bs';
 import EmojiModal from '@organisms/EmojiModal';
 import useRefLocate from '@hook/useRefLocate';
 import userState from '@state/user';
-import { deleteReaction, postReaction } from '@global/api/reaction';
+import { replyToggleState } from '@state/workspace';
+import {
+  deleteReaction,
+  postReaction,
+  postReplyReaction,
+} from '@global/api/reaction';
 import { Container, ReactionAddButton, StyledLabeledButton } from './styles';
 
 interface Props {
+  isReply: boolean;
   reactionList: unknown[];
 }
 
@@ -22,34 +28,61 @@ const checkUserReacted = (reaction, user) => {
   return reacted;
 };
 
-const handleEmojiClick = (reaction, user, channelId) => {
+const handleEmojiClick = (isReply, reaction, user, channelId, replyToggle) => {
   const reacted = checkUserReacted(reaction, user);
-  reacted
-    ? deleteReaction(reacted.id, channelId, reacted.threadId, user.socket)
-    : postReaction(
-        user.userHasWorkspaceId,
-        channelId,
-        reaction.emoji,
-        reaction.list[0].threadId,
-        user.socket,
-      );
-};
+  if (reacted) {
+    deleteReaction(reacted.id, channelId, reacted.threadId, user.socket);
+  } else if (isReply) {
+    console.log(reaction.list);
 
-const onEmojiSet = (user, threadId, channelId) => {
-  return (emoji) =>
+    postReplyReaction(
+      user.userHasWorkspaceId,
+      channelId,
+      reaction.emoji,
+      reaction.list[0].replyId,
+      replyToggle?.thread.id,
+      user.socket,
+    );
+  } else {
     postReaction(
       user.userHasWorkspaceId,
       channelId,
-      emoji,
-      threadId,
+      reaction.emoji,
+      reaction.list[0].threadId,
       user.socket,
     );
+  }
 };
 
-const ReactionBar = ({ reactionList }: Props): JSX.Element => {
+const onEmojiSet = (isReply, user, replyId, threadId, channelId) => {
+  return (emoji) => {
+    if (isReply) {
+      postReplyReaction(
+        user.userHasWorkspaceId,
+        channelId,
+        emoji,
+        replyId,
+        threadId,
+        user.socket,
+      );
+    } else {
+      postReaction(
+        user.userHasWorkspaceId,
+        channelId,
+        emoji,
+        threadId,
+        user.socket,
+      );
+    }
+  };
+};
+
+const ReactionBar = ({ isReply, reactionList }: Props): JSX.Element => {
   const user = useRecoilValue(userState);
   const { channelId }: { channelId: string } = useParams();
   const currentThreadId = reactionList[0].threadId;
+  const currentReplyId = reactionList[0].replyId;
+  const replyToggle = useRecoilValue(replyToggleState);
 
   const emojiButtonRef = useRef(null);
   const [emojiXWidth, emojiYHeight] = useRefLocate(emojiButtonRef, 50);
@@ -72,7 +105,7 @@ const ReactionBar = ({ reactionList }: Props): JSX.Element => {
           className={checkUserReacted(reaction, user) && 'reacted'}
           key={reaction.emoji}
           onClick={() => {
-            handleEmojiClick(reaction, user, channelId);
+            handleEmojiClick(isReply, reaction, user, channelId, replyToggle);
           }}
           text={`${reaction.emoji}  ${reaction.list.length}`}
         />
@@ -91,7 +124,13 @@ const ReactionBar = ({ reactionList }: Props): JSX.Element => {
         yHeight={emojiYHeight}
         isOpen={isEmojiOpen}
         close={() => setIsEmojiOpen(false)}
-        onEmojiSet={onEmojiSet(user, currentThreadId, channelId)}
+        onEmojiSet={onEmojiSet(
+          isReply,
+          user,
+          isReply ? currentReplyId : currentThreadId,
+          replyToggle.thread?.id,
+          channelId,
+        )}
       />
     </Container>
   );

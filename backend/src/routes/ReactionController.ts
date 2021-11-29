@@ -1,9 +1,15 @@
 import { Router } from 'express';
-import { addReaction, deleteReactionById, deleteReactionByInfo } from '../service/ReactionService';
+import {
+  addReaction,
+  addReplyReaction,
+  deleteReactionById,
+  deleteReactionByInfo,
+} from '../service/ReactionService';
 
 const channelRouter = Router();
 
 channelRouter.post('/', addReaction);
+channelRouter.post('/reply', addReplyReaction);
 channelRouter.delete('/:id', deleteReactionById);
 channelRouter.delete('/', deleteReactionByInfo);
 

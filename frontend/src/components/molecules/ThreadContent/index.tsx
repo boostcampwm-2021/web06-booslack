@@ -4,6 +4,7 @@ import ImageButton from '@atoms/ImageButton';
 import { replyToggleState } from '@state/workspace';
 import ChatInputBarForUpdate from '@organisms/ChatInputBarForUpdate';
 import ReactionBar from '@organisms/ReactionBar';
+import { userProfileModalState } from '@state/modal';
 import defaultPerson from '@global/image/default_account.png';
 import { IThread } from '@global/type';
 import ThreadActions from './ThreadActions';
@@ -17,7 +18,6 @@ import {
   MessageText,
   ReplyButton,
 } from './styles';
-import { userProfileModalState } from '@state/modal';
 
 interface Props {
   thread: IThread;
@@ -66,7 +66,9 @@ const ThreadContent = ({
       <MessageTimestamp>{createdTime}</MessageTimestamp>
       <br />
       <MessageText dangerouslySetInnerHTML={{ __html: message }} />
-      {reactionList?.length > 0 && <ReactionBar reactionList={reactionList} />}
+      {reactionList?.length > 0 && (
+        <ReactionBar isReply={isReply} reactionList={reactionList} />
+      )}
       {!isReply && replyList.length > 0 && (
         <ReplyButton
           onClick={() => replyToggle({ isOpened: true, thread, channelName })}

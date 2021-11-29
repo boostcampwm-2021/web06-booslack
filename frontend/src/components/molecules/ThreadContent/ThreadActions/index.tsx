@@ -7,7 +7,7 @@ import userState from '@state/user';
 import { replyToggleState } from '@state/workspace';
 import { deleteMessage } from '@global/api/thread';
 import { deleteReply } from '@global/api/reply';
-import { postReaction } from '@global/api/reaction';
+import { postReaction, postReplyReaction } from '@global/api/reaction';
 import { IThread } from '@global/type';
 import { BsEmojiSmile, BsBookmark } from 'react-icons/bs';
 import { BiMessageRoundedDetail, BiDotsVerticalRounded } from 'react-icons/bi';
@@ -33,15 +33,27 @@ interface Props {
   setUpdateState: (arg: boolean) => void;
 }
 
-const onEmojiSet = (user, threadId, channelId) => {
-  return (emoji) =>
-    postReaction(
-      user.userHasWorkspaceId,
-      channelId,
-      emoji,
-      threadId,
-      user.socket,
-    );
+const onEmojiSet = (isReply, user, replyId, threadId, channelId) => {
+  return (emoji) => {
+    if (isReply) {
+      postReplyReaction(
+        user.userHasWorkspaceId,
+        channelId,
+        emoji,
+        replyId,
+        threadId,
+        user.socket,
+      );
+    } else {
+      postReaction(
+        user.userHasWorkspaceId,
+        channelId,
+        emoji,
+        threadId,
+        user.socket,
+      );
+    }
+  };
 };
 
 const ThreadActions = ({
@@ -208,7 +220,13 @@ const ThreadActions = ({
         yHeight={emojiYHeight}
         isOpen={isEmojiOpen}
         close={() => setIsEmojiOpen(false)}
-        onEmojiSet={onEmojiSet(user, threadId, channelId)}
+        onEmojiSet={onEmojiSet(
+          isReply,
+          user,
+          threadId,
+          replyToggle.thread?.id,
+          channelId,
+        )}
       />
     </Container>
   );
