@@ -20,6 +20,7 @@ const IconButton = ({
   fontSize,
   width,
   height,
+  children,
 }: Props<typeof className>): JSX.Element => {
   const Icon = icon;
   return (
@@ -31,6 +32,7 @@ const IconButton = ({
       height={height}
     >
       <Icon size={fontSize} />
+      {children}
     </Container>
   );
 };

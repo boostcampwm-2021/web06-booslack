@@ -1,16 +1,20 @@
 import React from 'react';
-import MemberElement from '../MemberElement';
-import { Container, GreyContainer, StyledLabel } from '../styles';
-import { NoResultLabel } from './styles';
+import MemberElement from '@organisms/MemberElement';
+import useKeyboardNavigator from '@hook/useKeyboardNavigator';
+import { NoResultLabel, Container, GreyContainer, StyledLabel } from './styles';
 
 interface Props {
   matches: any[];
-  index: number;
+  setValue: React.Dispatch<any>;
 }
 
-const MemberTemplate = ({ matches, index }: Props): JSX.Element => {
+export const AllMemberTemplate = ({
+  matches,
+  setValue,
+}: Props): JSX.Element => {
   const usersInChannel = matches.filter((user) => user.inChannel === '1');
   const usersNotInChannel = matches.filter((user) => user.inChannel === '0');
+  const index = useKeyboardNavigator(matches, setValue);
 
   return (
     <Container>
@@ -19,10 +23,7 @@ const MemberTemplate = ({ matches, index }: Props): JSX.Element => {
         <div>
           {usersInChannel.map((user, idx) => (
             <div key={user.id}>
-              <MemberElement
-                nickname={user.nickname}
-                selected={index === idx}
-              />
+              <MemberElement userHasWorkspace={user} selected={index === idx} />
             </div>
           ))}
         </div>
@@ -35,7 +36,7 @@ const MemberTemplate = ({ matches, index }: Props): JSX.Element => {
           {usersNotInChannel.map((user, idx) => (
             <div key={user.id}>
               <MemberElement
-                nickname={user.nickname}
+                userHasWorkspace={user}
                 selected={index === idx + usersInChannel.length}
               />
             </div>
@@ -46,4 +47,20 @@ const MemberTemplate = ({ matches, index }: Props): JSX.Element => {
   );
 };
 
-export default MemberTemplate;
+export const ChannelMemberTemplate = ({
+  matches,
+  setValue,
+}: Props): JSX.Element => {
+  const index = useKeyboardNavigator(matches, setValue);
+  return (
+    <Container>
+      {matches.map((user, idx) => (
+        <MemberElement
+          key={user.id}
+          userHasWorkspace={user}
+          selected={index === idx}
+        />
+      ))}
+    </Container>
+  );
+};

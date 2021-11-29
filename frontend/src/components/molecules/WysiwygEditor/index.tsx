@@ -135,20 +135,24 @@ const WysiwygEditor = ({
         ref={editor}
         dangerouslySetInnerHTML={{ __html: defaultMessage }}
       />
-      <EmojiPopup
-        input={input}
-        isOpen={isEmojiOpen}
-        value={value}
-        setValue={setValue}
-        close={() => setIsEmojiOpen(false)}
-      />
-      <MentionPopup
-        input={input}
-        isOpen={isMentionOpen}
-        value={value}
-        setValue={setValue}
-        close={() => setIsMentionOpen(false)}
-      />
+      {isEmojiOpen && (
+        <EmojiPopup
+          input={input}
+          isOpen={isEmojiOpen}
+          value={value}
+          setValue={setValue}
+          close={() => setIsEmojiOpen(false)}
+        />
+      )}
+      {isMentionOpen && (
+        <MentionPopup
+          input={input}
+          isOpen={isMentionOpen}
+          value={value}
+          setValue={setValue}
+          close={() => setIsMentionOpen(false)}
+        />
+      )}
     </Container>
   );
 };

@@ -1,5 +1,6 @@
-import Label from '@atoms/Label';
 import React from 'react';
+import Label from '@atoms/Label';
+import useKeyboardNavigator from '@hook/useKeyboardNavigator';
 import {
   Container,
   PrimaryContent,
@@ -9,25 +10,25 @@ import {
   UserElement,
 } from './styles';
 
-const channelId = 1;
-
 interface Props {
   matches: [];
-  index: number;
+  setValue: React.Dispatch<any>;
 }
 
-const MentionPopupTemplate = ({ matches, index }: Props): JSX.Element => {
+const MentionPopupTemplate = ({ matches, setValue }: Props): JSX.Element => {
+  const index = useKeyboardNavigator(matches, setValue);
+
   return (
     <Container>
       {matches.map((user, idx) => (
         <UserContainer key={user.id} selected={idx === index}>
           <UserElement>
             <PrimaryContent>
-              <StyledBoldLabel text={user.name} />
-              <Label text={user.id} />
+              <StyledBoldLabel text={`file ${user.fileId} `} />
+              <Label text={user.nickname} />
             </PrimaryContent>
             <SecondaryContent>
-              {user.channelId !== channelId && <Label text="Not in channel" />}
+              {user.inChannel === '0' && <Label text="Not in channel" />}
             </SecondaryContent>
           </UserElement>
         </UserContainer>

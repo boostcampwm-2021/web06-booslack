@@ -1,7 +1,6 @@
-import Autocomplete from '@atoms/Autocomplete';
-import axios from 'axios';
-import React, { Dispatch, useEffect, useState } from 'react';
+import React, { Dispatch, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import { useUserListWithChannelInfoQuery } from '@hook/useUsers';
 import MentionPopupTemplate from './MentionPopupTemplate';
 import { StyledPopup } from './styles';
 
@@ -20,42 +19,29 @@ const MentionPopup = ({
   setValue,
   close,
 }: Props): JSX.Element => {
-  const [users, setUsers] = useState([]);
   const { workspaceId, channelId }: { workspaceId: string; channelId: string } =
     useParams();
 
-  // refactor to react-query
-  // rules of hooks?
-  useEffect(() => {
-    const getUsers = async () => {
-      const { data } = await axios({
-        method: 'GET',
-        url: `/api/users/workspaces?workspaceId=${workspaceId}&channelId=${channelId}`, // workspaceId that this channel belongs to
-        baseURL: '/',
-      });
-      setUsers(data.users);
-    };
-    getUsers();
-  }, []);
-
-  // Close when value is selected
   useEffect(() => {
     if (value) {
       close();
     }
   }, [value]);
 
+  const { isLoading, isError, data } = useUserListWithChannelInfoQuery(
+    workspaceId,
+    channelId,
+  );
+
+  if (isLoading) return <div>Loading</div>;
+  if (isError) return <div>Error</div>;
+
   return (
     <StyledPopup isOpen={isOpen} onClose={close}>
-      {isOpen && (
-        <Autocomplete
-          input={input}
-          filterList={users}
-          filter={(user) => user.name.includes(input)}
-          setValue={setValue}
-          ResultTemplate={MentionPopupTemplate}
-        />
-      )}
+      <MentionPopupTemplate
+        matches={data.filter((datum) => datum.nickname.includes(input))}
+        setValue={setValue}
+      />
     </StyledPopup>
   );
 };

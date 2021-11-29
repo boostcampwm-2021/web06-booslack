@@ -51,6 +51,7 @@ const Autocomplete = ({
   useEffect(() => {
     if (selected) {
       setValue(filteredList[index]);
+      setSelected(false);
     }
   }, [selected]);
 

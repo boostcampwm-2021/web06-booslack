@@ -1,5 +1,5 @@
-import Label from '@atoms/Label';
-import React, { useEffect, useRef } from 'react';
+import React from 'react';
+import useKeyboardNavigator from '@hook/useKeyboardNavigator';
 import {
   Container,
   PrimaryContent,
@@ -11,39 +11,16 @@ import {
 
 interface Props {
   matches: [];
-  index: number;
+  setValue: React.Dispatch<any>;
 }
 
-const EmojiPopupTemplate = ({ matches, index }: Props): JSX.Element => {
-  const ref = useRef(null);
-
-  // useEffect(() => {
-  //   ref.current.firstChild.focus();
-  // }, [ref.current]);
+const EmojiPopupTemplate = ({ matches, setValue }: Props): JSX.Element => {
+  const index = useKeyboardNavigator(matches, setValue);
 
   return (
-    <Container ref={ref}>
+    <Container>
       {matches.map((emoji, idx) => (
-        <UserContainer
-          key={idx}
-          selected={idx === index}
-          tabIndex={-1}
-          onKeyDown={(e) => {
-            // if (e.key === 'ArrowUp') {
-            //   if (idx === 0) {
-            //     ref.current.lastChild.focus();
-            //   } else {
-            //     e.currentTarget.previousSibling.focus();
-            //   }
-            // } else if (e.key === 'ArrowDown') {
-            //   if (idx === matches.length - 1) {
-            //     ref.current.firstChild.focus();
-            //   } else {
-            //     e.currentTarget.nextSibling.focus();
-            //   }
-            // }
-          }}
-        >
+        <UserContainer key={idx} selected={idx === index}>
           <UserElement>
             <PrimaryContent>
               <StyledBoldLabel text={emoji.emoji} />

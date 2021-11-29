@@ -6,6 +6,21 @@ import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository
 
 const { BAD_REQUEST, OK } = StatusCodes;
 
+export async function getUserHasWorkspacesByWorkspaceId(req: Request, res: Response) {
+  try {
+    const { workspaceId } = req.query;
+
+    const userHasWorkspaces = await getCustomRepository(UserHasWorkspaceRepository).find({
+      where: [{ workspaceId }],
+    });
+
+    return res.status(OK).json({ userHasWorkspaces });
+  } catch (e) {
+    return res.status(BAD_REQUEST).json(e);
+  }
+}
+
+// should be :id
 export async function getUserHasWorkspace(req: Request, res: Response) {
   try {
     const { userId, workspaceId } = req.query;
