@@ -7,6 +7,7 @@ export const useAbstractQuery = (
   name: string,
   id: string,
   path: undefined | string = undefined,
+  option: typeof Object = undefined,
 ) => {
   const realPath = path || `${name}s`;
   return useQuery(
@@ -20,6 +21,7 @@ export const useAbstractQuery = (
       cacheTime: CACHETIME,
       staleTime: CACHETIME,
       refetchOnWindowFocus: false,
+      ...option,
     },
   );
 };
@@ -29,6 +31,7 @@ export const useAbstractQueryList = (
   id: string,
   params: any,
   path: undefined | string = undefined,
+  option: typeof Object = undefined,
 ) => {
   const realPath = path || `${name}`;
 
@@ -45,6 +48,7 @@ export const useAbstractQueryList = (
       cacheTime: CACHETIME,
       staleTime: CACHETIME,
       refetchOnWindowFocus: false,
+      ...option,
     },
   );
 };
