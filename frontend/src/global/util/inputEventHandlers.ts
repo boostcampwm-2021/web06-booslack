@@ -336,10 +336,7 @@ export const inputHandle = (
       fontState = false;
     }
 
-    if (
-      selection.focusNode.attributes &&
-      selection.focusNode.attributes[0].nodeValue === 'input-bar'
-    ) {
+    if (selection.focusNode.id === 'input-bar') {
       const childParagraph = document.createElement('p');
       childParagraph.innerHTML = '<br>';
       selection.focusNode.appendChild(childParagraph);
