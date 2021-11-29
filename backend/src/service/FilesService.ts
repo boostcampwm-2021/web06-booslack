@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { DeepPartial, getCustomRepository } from 'typeorm';
 import FileRepository from '../repository/FileRepository';
 import File from '../model/File';
+import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
 
 const { BAD_REQUEST, OK } = StatusCodes;
 
@@ -110,5 +111,20 @@ export function uploadFiles(req: Request, res: Response) {
     });
   } catch (e) {
     res.status(BAD_REQUEST).json(e);
+  }
+}
+
+export async function getOneFileByUserHasWorkspaceId(req: Request, res: Response) {
+  const { id } = req.params;
+  try {
+    const userHasWorkspace = await getCustomRepository(UserHasWorkspaceRepository).findOne(id);
+    const fileId = userHasWorkspace?.fileId;
+    if (fileId === null || fileId === 1 || fileId === undefined) {
+      return res.status(OK).json({ message: 'default' });
+    }
+    const files = await getCustomRepository(FileRepository).findOne(userHasWorkspace?.fileId);
+    return res.status(OK).json({ files });
+  } catch (e) {
+    return res.status(BAD_REQUEST).json(e);
   }
 }

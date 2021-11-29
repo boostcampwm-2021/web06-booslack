@@ -8,12 +8,15 @@ import {
   deleteOneFile,
   uploadFile,
   uploadFiles,
+  getOneFileByUserHasWorkspaceId,
 } from '../service/FilesService';
 
 const FileRouter = Router();
 
 FileRouter.post('/upload', Upload.single('file'), uploadFile);
 FileRouter.post('/uploads', Upload.array('file'), uploadFiles);
+
+FileRouter.get('/userhasworkspace/:id', getOneFileByUserHasWorkspaceId);
 
 FileRouter.get('/', getAllFiles);
 FileRouter.get('/:id', getOneFile);
