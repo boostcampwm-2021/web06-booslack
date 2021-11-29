@@ -50,7 +50,7 @@ const WorkspaceHeader = (): JSX.Element => {
       <StyledDiv onClick={() => setSearchModal(true)} ref={SearchModalRef}>
         <StyledIconButton icon={BsSearch}>
           {`Search${
-            input === '' ? ` ${workspaceQuery.data?.name}` : `: ${input}`
+            input === '' ? ` ${workspaceQuery.data?.name ?? ''}` : `: ${input}`
           }`}
         </StyledIconButton>
       </StyledDiv>

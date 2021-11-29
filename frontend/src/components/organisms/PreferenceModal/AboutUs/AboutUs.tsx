@@ -29,7 +29,7 @@ const NameBox = ({
 };
 
 const openFunction = (url: string) => {
-  window.open(url, 'Github Repository', 'location=no,status=no,scrollbars=yes');
+  window.open(url, 'Github Repository');
 };
 
 const AboutUs = (): JSX.Element => {

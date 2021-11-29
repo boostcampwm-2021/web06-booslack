@@ -78,7 +78,6 @@ const Toolbar = ({
       </ToolbarMiddle>
       <ToolbarSuffix>
         <ToolBarIconButton onClick={() => {}} icon={BsEmojiSmile} />
-        {/* 파일 붙이기는 나중에 인풋 타입으로 바꿔야함  */}
         <ToolBarIconButton
           onClick={updateRequest}
           icon={MdSend}

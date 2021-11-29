@@ -9,11 +9,6 @@ export interface Itheme {
   focusedMenu: string;
 }
 
-/*
-    주의점 : 글자 말고 코드로 써주세요.
-    https://chrome.google.com/webstore/detail/colorzilla/bhlhnicpbhignbdhedgjhgdocnmhomnp?hl=ko
-    추천
-*/
 function setIndexClosure() {
   let index = 1;
 
@@ -32,7 +27,7 @@ export const defaultTheme: Itheme = {
   smallHeaderColor: '#ecdeec',
   titleText: '#fff',
   smallText: '#BDABBC',
-  searchBar: '#D99E10',
+  searchBar: '#644565',
   focusedMenu: '#1164A3',
 };
 
