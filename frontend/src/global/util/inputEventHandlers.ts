@@ -385,7 +385,7 @@ export const keydownHandle = (
 ): void => {
   const selection = document.getSelection();
 
-  if (e.code === 'Enter') {
+  if (e.code === 'Enter' && !isEmojiOpen && !isMentionOpen) {
     if (e.shiftKey === true) {
       const currentNode = selection.focusNode;
       const parent = currentNode.parentElement;
