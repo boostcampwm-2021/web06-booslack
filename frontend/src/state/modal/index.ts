@@ -55,3 +55,8 @@ export const userProfileModalState = atom({
     y: null,
   },
 });
+
+export const searchModalState = atom({
+  key: 'searchModal',
+  default: false,
+});
