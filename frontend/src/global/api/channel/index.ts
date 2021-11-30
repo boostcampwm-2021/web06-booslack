@@ -2,20 +2,22 @@ import axios from 'axios';
 import { Socket } from 'socket.io-client';
 import { Channel } from '@global/type';
 import API from '@global/api';
-// refresh required
+
 export const joinChannel = async (
   userId: number | string,
   channelId: number | string,
   workspaceId: string,
   socket: Socket,
 ): Promise<void> => {
-  const res = await axios.post('/api/channels/userToChannel', {
+  const res = await axios.post(API.post.channel.userToChannel, {
     userId,
     channelId,
     workspaceId,
   });
-  socket.emit('channels', workspaceId);
-  return res.data;
+
+  if (res.status === 200) {
+    socket.emit('channels', workspaceId);
+  }
 };
 
 export const leaveChannel = async (
@@ -23,8 +25,13 @@ export const leaveChannel = async (
   workspaceId: string,
   socket: Socket,
 ): Promise<void> => {
-  await axios.delete(`${API.delete.user.channel}/${workspaceId}/${channelId}`);
-  socket.emit('channels', workspaceId);
+  const res = await axios.delete(
+    `${API.delete.user.channel}/${workspaceId}/${channelId}`,
+  );
+
+  if (res.status === 200) {
+    socket.emit('channels', workspaceId);
+  }
 };
 
 export const createChanel = async (
@@ -32,23 +39,27 @@ export const createChanel = async (
   isPrivate: boolean,
   description: string,
   workspaceId: string,
-  socket,
-): Promise<any> => {
-  const res = await axios.post('/api/channels', {
+  socket: Socket,
+): Promise<void> => {
+  const res = await axios.post(API.post.channel.addOne, {
     name,
     private: isPrivate,
     description,
     workspaceId,
   });
-  socket.emit('channels', workspaceId);
-  return res.data;
+
+  if (res.status === 200) {
+    socket.emit('channels', workspaceId);
+  }
 };
 
 export const updateChannel = async (
   data: Channel,
   socket: Socket,
-): Promise<any> => {
-  const res = await axios.put(`/api/channels/${data.id}`, data);
-  socket.emit('channel', data.id);
-  return res.data;
+): Promise<void> => {
+  const res = await axios.put(`${API.put.channel}/${data.id}`, data);
+
+  if (res.status === 200) {
+    socket.emit('channel', data.id);
+  }
 };

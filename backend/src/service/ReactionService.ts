@@ -12,7 +12,7 @@ const { BAD_REQUEST, OK } = StatusCodes;
 export async function addReaction(req: Request, res: Response) {
   try {
     const { threadId, userHasWorkspaceId, emoji } = req.body;
-
+    console.log('threadid', threadId);
     const thread = await getCustomRepository(ThreadRepository).findOne({
       where: [{ id: threadId }],
     });
@@ -21,7 +21,7 @@ export async function addReaction(req: Request, res: Response) {
     });
 
     if (!thread) {
-      throw new Error(`channel ${threadId} does not exist`);
+      throw new Error(`thread ${threadId} does not exist`);
     }
     if (!userHasWorkspace) {
       throw new Error(`userHasWorkspace ${userHasWorkspaceId} does not exist`);
@@ -37,6 +37,7 @@ export async function addReaction(req: Request, res: Response) {
     await getCustomRepository(ReactionRepository).save(reaction);
     return res.status(OK).json({ reaction });
   } catch (e) {
+    console.log(e);
     return res.status(BAD_REQUEST).json(e);
   }
 }

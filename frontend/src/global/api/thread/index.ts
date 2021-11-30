@@ -1,16 +1,19 @@
 import { Dispatch, SetStateAction } from 'react';
 import axios from 'axios';
+import { Socket } from 'socket.io-client';
+import API from '@global/api';
 
 export const updateMessage = async (
   threadId: string,
   channelId: string,
   message: string,
-  socket,
+  socket: Socket,
   setUpdateState: Dispatch<SetStateAction<boolean>>,
-): Promise<any> => {
-  const res = await axios.put(`/api/threads/${threadId}`, {
+): Promise<void> => {
+  const res = await axios.put(`${API.put.thread}/${threadId}`, {
     message,
   });
+
   if (res.status === 200) {
     setUpdateState(false);
     socket.emit('threads', channelId, threadId);
@@ -20,9 +23,10 @@ export const updateMessage = async (
 export const deleteMessage = async (
   threadId: string,
   channelId: string,
-  socket,
-): Promise<any> => {
-  const res = await axios.delete(`/api/threads/${threadId}`);
+  socket: Socket,
+): Promise<void> => {
+  const res = await axios.delete(`${API.delete.thread}${threadId}`);
+
   if (res.status === 200) {
     socket.emit('threads', channelId, threadId);
   }
@@ -32,10 +36,10 @@ export const postMessage = async (
   userHasWorkspaceId: string,
   channelId: string,
   message: string,
-  socket,
+  socket: Socket,
   setMessageClear: Dispatch<SetStateAction<boolean>>,
-): Promise<any> => {
-  const res = await axios.post('/api/threads', {
+): Promise<void> => {
+  const res = await axios.post(API.post.thread, {
     userHasWorkspaceId,
     message,
     channelId,
@@ -50,14 +54,14 @@ export const postMessageAndFiles = async (
   userHasWorkspaceId: string,
   channelId: string,
   message: string,
-  socket,
+  socket: Socket,
   setMessageClear: Dispatch<SetStateAction<boolean>>,
   setMessage,
   selectedFile: any,
   setSelectedFile,
   setSelectedFileUrl,
   setShouldScrollDown,
-): Promise<any> => {
+): Promise<void> => {
   if (message === '<p><br/></p>' && selectedFile.length === 0) return;
   const config = {
     headers: { 'content-type': 'multipart/form-data' },
