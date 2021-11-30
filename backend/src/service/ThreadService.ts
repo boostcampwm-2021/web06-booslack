@@ -149,8 +149,8 @@ export async function updateThreadAndFiles(req: Request, res: Response) {
       const fileId: number = file?.id;
       const fileById: any = await getRepository(File).findOneOrFail(fileId);
       fileById.threadId = Number(id) ?? fileById.threadId;
-      const thread = await getRepository(File).save(fileById);
-      if (!thread) throw new Error('no thread data in body');
+      const FileById = await getRepository(File).save(fileById);
+      if (!FileById) throw new Error('no File data in body');
     });
 
     const threadById = await getRepository(Thread).findOneOrFail(id);

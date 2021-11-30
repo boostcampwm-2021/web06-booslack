@@ -28,7 +28,7 @@ class File {
   @ManyToOne(() => Thread, (thread) => thread.files, { onUpdate: 'CASCADE' })
   thread!: Thread;
 
-  @ManyToOne(() => Reply, (reply) => reply.files)
+  @ManyToOne(() => Reply, (reply) => reply.files, { onUpdate: 'CASCADE' })
   reply!: Reply;
 }
 
