@@ -92,7 +92,7 @@ export function uploadFiles(req: Request, res: Response) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const Files: Array<File> = req.files;
-    const fileList: Array<number> = [];
+    const fileList: Array<File> = [];
     // eslint-disable-next-line array-callback-return
     Files.map(async (element: File) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -104,7 +104,7 @@ export function uploadFiles(req: Request, res: Response) {
         extension: fieldname,
       };
       const file = await getCustomRepository(FileRepository).save(fileByUpload);
-      fileList.push(file.id);
+      fileList.push(file);
       if (Files.length === fileList.length) {
         res.status(202).json({ files: fileList });
       }

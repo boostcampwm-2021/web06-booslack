@@ -1,5 +1,6 @@
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import styled from 'styled-components';
+import ImageButton from '@atoms/ImageButton';
 
 interface Props {
   updateState?: boolean;
@@ -12,6 +13,13 @@ export const Container = styled.div<Props>`
   :hover {
     background: ${(props) => !props.updateState && '#f8f8f8'};
   }
+`;
+
+export const ThreadImageButton = styled(ImageButton)`
+  border: 1px solid #868686;
+  border-radius: 3px;
+  width: 40px;
+  height: 40px;
 `;
 
 export const MessageKit = styled.div`

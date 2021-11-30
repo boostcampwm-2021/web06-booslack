@@ -45,6 +45,7 @@ export async function getPartialThreadsByChannelId(req: Request, res: Response) 
       .leftJoinAndSelect('thread.userHasWorkspace', 'userHasWorkspace')
       .leftJoinAndSelect('thread.replys', 'reply')
       .leftJoinAndSelect('thread.reactions', 'reaction')
+      .leftJoinAndSelect('thread.files', 'file')
       .where('thread.channelId = :id AND thread.id < :cursor', { id: channelId, cursor })
       .orderBy('thread.id', 'DESC')
       .limit(20)
@@ -76,12 +77,13 @@ export async function getThread(req: Request, res: Response) {
 export async function updateThread(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    const { message } = req.body;
+    const { files, message } = req.body;
 
     if (Object.keys(req.body).length === 0) throw new Error('no thread data in body');
 
     const threadById = await getRepository(Thread).findOneOrFail(id);
     threadById.message = message || threadById.message;
+    threadById.files = files || threadById.files;
     const thread = await getRepository(Thread).save(threadById);
 
     return res.status(OK).json({ thread });
