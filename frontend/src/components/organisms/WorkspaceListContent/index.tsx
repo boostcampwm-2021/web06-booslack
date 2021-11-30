@@ -67,6 +67,7 @@ const WorkSpaceListContent = (): JSX.Element => {
     hasNextPage,
     isFetchingNextPage,
   } = useInfinityScroll('workspacelists', getWorkspaceLists);
+
   return (
     <Container>
       <StyledHeader title={NameLabel} content={<></>} rightButton={<></>} />

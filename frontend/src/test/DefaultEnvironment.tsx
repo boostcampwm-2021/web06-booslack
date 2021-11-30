@@ -22,6 +22,7 @@ const DefaultEnvironment = ({
 
     return <ThemeProvider theme={currentTheme}>{context}</ThemeProvider>;
   };
+  queryClient.clear();
 
   const Component = (
     <QueryClientProvider client={queryClient}>

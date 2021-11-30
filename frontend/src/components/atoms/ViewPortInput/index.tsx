@@ -4,8 +4,6 @@ import Container, { Form } from './styles';
 
 interface Props {
   inputName?: string;
-  width?: number;
-  height?: number;
   onSubmit?: React.FormEventHandler;
   onChange?: React.FormEventHandler;
   placeholder: string;
@@ -16,8 +14,6 @@ interface Props {
 
 const ViewportInput = ({
   inputName,
-  width,
-  height,
   onSubmit,
   onChange,
   type,
@@ -31,8 +27,6 @@ const ViewportInput = ({
         // @ts-ignore
         ref={customRef}
         name={inputName}
-        width={width}
-        height={height}
         placeholder={placeholder}
         type={type}
         onChange={onChange}
@@ -46,8 +40,6 @@ ViewportInput.defaultProps = {
   inputName: '',
   onSubmit: () => {},
   onChange: () => {},
-  width: undefined,
-  height: undefined,
   type: 'text',
   customRef: undefined,
   className: '',

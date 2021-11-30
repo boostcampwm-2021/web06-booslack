@@ -1,10 +1,13 @@
 import styled from 'styled-components';
 import ViewportInput from '@atoms/ViewPortInput';
+import { BrowserChannelListSize } from '@enum/index';
 
 interface Props {
   width?: number;
   height?: number;
 }
+
+const { height: ListHeight } = BrowserChannelListSize;
 
 export const Container = styled.div<Props>`
   display: flex;
@@ -12,15 +15,12 @@ export const Container = styled.div<Props>`
     if (width) return `${width}vw`;
     return '100%';
   }};
-  height: ${({ height }) => {
-    if (height) return `${height}vh`;
-    return 'inherit';
-  }};
 `;
 
 export const StyledViewportInput = styled(ViewportInput)`
   display: flex;
   width: 100%;
+  height: ${ListHeight}vh;
   background-color: rgba(var(--sk_primary_background, 255, 255, 255), 1);
   --saf-0: rgba(var(--sk_primary_foreground, 29, 28, 29), 0.3);
   border: 1px solid var(--saf-0);

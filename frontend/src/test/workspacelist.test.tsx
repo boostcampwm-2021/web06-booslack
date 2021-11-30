@@ -17,11 +17,12 @@ ReactDOM.createPortal = (node) => node;
 
 afterEach(() => {
   jest.clearAllMocks();
+  cleanup();
+  jest.resetModules();
 });
-afterEach(cleanup);
 
 describe('workspacelist page render test', () => {
-  it('workspacelist page list', async () => {
+  it('list basic', async () => {
     const testindexCount = Math.ceil(Math.random() * 9);
     const workspaces = new Array(testindexCount)
       .fill(null)
@@ -38,6 +39,7 @@ describe('workspacelist page render test', () => {
           url: '',
         },
         workspaces,
+        nextCursor: 10,
       },
     });
 
