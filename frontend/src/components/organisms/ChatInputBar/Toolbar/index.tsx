@@ -39,6 +39,7 @@ interface Props {
   setSelectedFileUrl: Dispatch<SetStateAction<[]>>;
   onSendClick;
   handleFileUpload;
+  isReply?: boolean;
 }
 
 const Toolbar = ({
@@ -51,6 +52,7 @@ const Toolbar = ({
   setSelectedFileUrl,
   onSendClick,
   handleFileUpload,
+  isReply,
 }: Props): JSX.Element => {
   const { channelId }: { channelId: string } = useParams();
   const user = useRecoilValue(userState);
@@ -95,12 +97,12 @@ const Toolbar = ({
           icon={BsEmojiSmile}
           className="active"
         />
-        <FileLabel htmlFor="choosefile">
+        <FileLabel htmlFor={isReply ? 'chooseFileReply' : 'chooseFile'}>
           <MdAttachFile />
         </FileLabel>
         <FileInput
           type="file"
-          id="choosefile"
+          id={isReply ? 'chooseFileReply' : 'chooseFile'}
           multiple="multiple"
           accept={'image/*'}
           onChange={handleFileUpload}
@@ -127,6 +129,10 @@ const Toolbar = ({
       </ToolbarSuffix>
     </Container>
   );
+};
+
+Toolbar.defaultProps = {
+  isReply: false,
 };
 
 export default Toolbar;

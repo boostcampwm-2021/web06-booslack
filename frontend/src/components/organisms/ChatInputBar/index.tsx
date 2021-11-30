@@ -15,9 +15,10 @@ import {
 
 interface Props {
   onSendClick;
+  isReply?: boolean;
 }
 
-const ChatInputBar = ({ onSendClick }: Props): JSX.Element => {
+const ChatInputBar = ({ onSendClick, isReply }: Props): JSX.Element => {
   const [message, setMessage] = useState('');
   const [focused, setFocused] = useState(false);
   const [messageClear, setMessageClear] = useState(false);
@@ -85,12 +86,17 @@ const ChatInputBar = ({ onSendClick }: Props): JSX.Element => {
           setSelectedFile={setSelectedFile}
           setSelectedFileUrl={setSelectedFileUrl}
           onSendClick={onSendClick}
-          handleFileUpload={handleFileUpload}
+          handleFileUpload={(e) => handleFileUpload(e)}
+          isReply={isReply}
         />
       </DragAndDropContainer>
       <NotificationBar />
     </Container>
   );
+};
+
+ChatInputBar.defaultProps = {
+  isReply: false,
 };
 
 export default ChatInputBar;

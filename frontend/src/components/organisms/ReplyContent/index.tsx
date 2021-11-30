@@ -84,7 +84,7 @@ const ReplyContent = ({ thread, threadId }: Props): JSX.Element => {
           <StyledThreadContent thread={thread} isReply />
         )}
         {!isReplyLoding && !isReplyError && (
-          <StyledThreadContent thread={thread} isReply />
+          <StyledThreadContent thread={data} isReply />
         )}
         {!isReplyListLoading && (
           <RowDiv>
@@ -93,7 +93,7 @@ const ReplyContent = ({ thread, threadId }: Props): JSX.Element => {
           </RowDiv>
         )}
         <ReplyList />
-        <ChatInputBar onSendClick={onSendClick} />
+        <ChatInputBar onSendClick={onSendClick} isReply />
         <MarginDiv />
       </Container>
     </>
