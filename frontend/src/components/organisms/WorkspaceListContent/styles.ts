@@ -32,7 +32,7 @@ export const StyledHelloMessage = styled.div`
 `;
 
 export const HelloLabel = styled(Label)`
-  font-size: calc(2rem + (12 * (100vw - 400px) / 624));
+  font-size: calc(1.8rem + (12 * (100vw - 400px) / 624));
   font-weight: 900;
   line-height: 1.25;
   letter-spacing: 0.9px;
@@ -119,8 +119,9 @@ export const LoadingSpinner = styled(BeatLoader)`
 `;
 
 export const StyledImageBox = styled(ImageBox)`
-  width: 100px;
-  height: 100px;
+  width: 62px;
+  height: 62px;
+  margin-right: 10px;
   background-color: transparent;
 `;
 

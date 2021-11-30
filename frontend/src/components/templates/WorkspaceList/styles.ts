@@ -2,16 +2,19 @@ import styled from 'styled-components';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import Label from '@atoms/Label';
 import BrowseChannelHeader from '@molecules/BrowseChannelHeader';
-import { RoundScrollBar } from '@global/mixin';
+import { ThemeButton, RoundScrollBar } from '@global/mixin';
 import { defaultTheme } from '@global/theme';
 import { theme } from 'styled-tools';
-import ImageBox from '@atoms/ImageBox';
 
 export const StyledLabeledButton = styled(LabeledDefaultButton)`
   border: 1 solid fff;
-  color: ${theme('titleText', defaultTheme.titleText)};
-  background-color: transparent;
+  ${ThemeButton};
 
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  text-decoration: none;
   font-size: 1.8rem;
   &:hover {
     text-decoration: underline;
