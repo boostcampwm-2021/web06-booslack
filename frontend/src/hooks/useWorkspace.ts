@@ -11,8 +11,6 @@ export const useWorkspaceQuery = (workspaceId: string) => {
     },
     {
       enabled: !!workspaceId,
-      staleTime: Infinity,
-      cacheTime: Infinity,
     },
   );
 };
