@@ -16,6 +16,7 @@ import {
   inputHandle,
   makeEmoji,
   makeMention,
+  keyPressHandle,
 } from '@global/util/inputEventHandlers';
 import { Container, MessageInputArea } from './styles';
 
@@ -91,17 +92,11 @@ const WysiwygEditor = ({
         tabIndex={0}
         aria-multiline="true"
         aria-autocomplete="list"
-        onKeyDown={(e) =>
-          keydownHandle(
+        onKeyPress={(e) =>
+          keyPressHandle(
             e,
-            input,
-            setInput,
-            value,
-            setValue,
             isEmojiOpen,
-            setIsEmojiOpen,
             isMentionOpen,
-            setIsMentionOpen,
             onSendClick,
             sendable,
             user,
@@ -115,19 +110,9 @@ const WysiwygEditor = ({
             setShouldScrollDown,
           )
         }
+        onKeyDown={(e) => keydownHandle(e)}
         onInput={(e) =>
-          inputHandle(
-            e,
-            input,
-            setInput,
-            value,
-            setValue,
-            isEmojiOpen,
-            setIsEmojiOpen,
-            isMentionOpen,
-            setIsMentionOpen,
-            setMessage,
-          )
+          inputHandle(e, setInput, setIsEmojiOpen, setIsMentionOpen, setMessage)
         }
         suppressContentEditableWarning="true"
         onFocus={handleOnfocus}
