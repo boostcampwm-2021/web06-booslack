@@ -7,12 +7,35 @@ import SelectWorkspace from '@molecules/SelectWorkspace';
 import BrowseChannelHeader from '@molecules/BrowseChannelHeader';
 import { defaultTheme } from '@global/theme';
 import { flexAlignCenter, hoverChangeColor } from '@global/mixin';
+import ImageBox from '@atoms/ImageBox';
 
 export const StyledHeader = styled(BrowseChannelHeader)`
-  min-width: 300px;
+  min-width: 290px;
+  width: 100%;
+  padding: 0;
 
   background-color: ${theme('smallHeaderColor', defaultTheme.smallHeaderColor)};
-  z-index: 3;
+  border-top-left-radius: 9px;
+  border-top-right-radius: 9px;
+  z-index: -3;
+`;
+
+export const StyledHelloMessage = styled.div`
+  margin-top: 23vh;
+  margin-bottom: 5vh;
+
+  width: 55vw;
+  min-width: 300px;
+  color: ${theme('titleText', defaultTheme.titleText)};
+  background-color: transparent;
+  text-aligns: center;
+`;
+
+export const HelloLabel = styled(Label)`
+  font-size: calc(2rem + (12 * (100vw - 400px) / 624));
+  font-weight: 900;
+  line-height: 1.25;
+  letter-spacing: 0.9px;
 `;
 
 export const Container = styled.main`
@@ -20,13 +43,20 @@ export const Container = styled.main`
   width: 55vw;
   min-width: 300px;
   background-color: #fff;
-  margin-top: 30vh;
+
+  border: 2px solid transparent;
   border-radius: 9px;
   position: relative;
 
   overflow-y: visible;
 
   margin-bottom: 30vh;
+
+  &::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
 export const WorkspaceListContainer = styled.div`
@@ -86,6 +116,12 @@ export const SpinnerContainer = styled.div`
 
 export const LoadingSpinner = styled(BeatLoader)`
   background-color: ${theme('backgroundColor', defaultTheme.backgroundColor)};
+`;
+
+export const StyledImageBox = styled(ImageBox)`
+  width: 100px;
+  height: 100px;
+  background-color: transparent;
 `;
 
 export default Container;

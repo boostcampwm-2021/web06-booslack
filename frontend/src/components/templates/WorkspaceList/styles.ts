@@ -5,12 +5,14 @@ import BrowseChannelHeader from '@molecules/BrowseChannelHeader';
 import { RoundScrollBar } from '@global/mixin';
 import { defaultTheme } from '@global/theme';
 import { theme } from 'styled-tools';
+import ImageBox from '@atoms/ImageBox';
 
 export const StyledLabeledButton = styled(LabeledDefaultButton)`
   border: 1 solid fff;
   color: ${theme('titleText', defaultTheme.titleText)};
   background-color: transparent;
 
+  font-size: 1.8rem;
   &:hover {
     text-decoration: underline;
   }
@@ -27,7 +29,7 @@ export const StyledHeader = styled(BrowseChannelHeader)`
 `;
 
 export const StyledLabel = styled(Label)`
-  font-size: 42px;
+  font-size: 3rem;
   font-weight: bold;
 `;
 
@@ -37,6 +39,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
   ${RoundScrollBar}
   overflow-y: scroll;
   overflow-x: hidden;

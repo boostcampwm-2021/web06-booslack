@@ -1,8 +1,5 @@
 import React from 'react';
 import { useHistory } from 'react-router-dom';
-import { useSetRecoilState } from 'recoil';
-import themeState from '@state/theme';
-import { Itheme, yellowTheme } from '@global/theme';
 import { logout } from '@global/util/auth';
 import {
   StyledLabel,
@@ -17,7 +14,6 @@ interface Props {
 
 const WorkspaceListTemplate = ({ children }: Props): JSX.Element => {
   const history = useHistory();
-  const setTheme = useSetRecoilState<Itheme>(themeState);
 
   const Title: JSX.Element = <StyledLabel text="booslack" />;
 
@@ -32,11 +28,6 @@ const WorkspaceListTemplate = ({ children }: Props): JSX.Element => {
         onClick={() => history.push('/setupteam')}
       />
       <StyledLabeledButton text="로그아웃" onClick={logout} />
-      <StyledLabeledButton text="환경설정" />
-      <StyledLabeledButton
-        text="색깔변경"
-        onClick={() => setTheme(yellowTheme)}
-      />
     </div>
   );
 
