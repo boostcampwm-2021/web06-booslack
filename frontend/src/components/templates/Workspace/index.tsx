@@ -9,7 +9,6 @@ import WorkspaceSidebar from '@organisms/WorkspaceSidebar';
 import CreateChannelModal from '@organisms/CreateChannelModal';
 import ChannelInfoModal from '@organisms/ChannelInfoModal';
 import ChannelDescriptionModal from '@organisms/ChannelDescriptionModal';
-import SidebarChannelInfoModal from '@organisms/SidebarChannelInfoModal';
 import ChannelTopicModal from '@organisms/ChannelTopicModal';
 import ReplyBar from '@organisms/ReplyBar';
 import PreferenceModal from '@organisms/PreferenceModal';
@@ -21,7 +20,6 @@ import {
   channelInfoModalState,
   channelTopicModalState,
   preferenceModalState,
-  sidebarChannelInfoModalState,
   userProfileModalState,
 } from '@state/modal';
 import { replyToggleState } from '@state/workspace';
@@ -39,7 +37,6 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
   const channelInfoModal = useRecoilValue(channelInfoModalState);
   const channelDescriptionModal = useRecoilValue(channelDescriptionModalState);
   const channelTopicModal = useRecoilValue(channelTopicModalState);
-  const sidebarChannelModal = useRecoilValue(sidebarChannelInfoModalState);
   const preferenceModal = useRecoilValue(preferenceModalState);
   const userProfileModal = useRecoilValue(userProfileModalState);
 
@@ -98,7 +95,6 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
       </Suspense>
       {channelCreateModal && <CreateChannelModal />}
       {channelInfoModal && <ChannelInfoModal />}
-      {sidebarChannelModal && <SidebarChannelInfoModal />}
       {channelDescriptionModal && <ChannelDescriptionModal />}
       {channelTopicModal && <ChannelTopicModal />}
       {preferenceModal && <PreferenceModal />}

@@ -6,17 +6,15 @@ interface Props {
   onClick: () => void;
   label: string;
   isPrivate: boolean;
-  onContextMenu: (e) => void;
 }
 
 const SidebarChannelElement = ({
   onClick,
   label,
   isPrivate,
-  onContextMenu,
 }: Props): JSX.Element => {
   return (
-    <Container onClick={onClick} onContextMenu={onContextMenu}>
+    <Container onClick={onClick}>
       <StyledLabel>
         <Label text={isPrivate ? '🔒' : '#'} />
       </StyledLabel>
