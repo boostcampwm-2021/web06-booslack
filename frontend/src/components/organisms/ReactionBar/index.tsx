@@ -32,7 +32,7 @@ const checkUserReacted = (reaction, user) => {
 const handleEmojiClick = (isReply, reaction, user, channelId, replyToggle) => {
   const reacted = checkUserReacted(reaction, user);
   if (reacted) {
-    if (isReply) {
+    if (reacted.replyId) {
       deleteReplyReaction(
         reacted.id,
         channelId,
@@ -79,7 +79,7 @@ const onEmojiSet = (isReply, user, replyId, threadId, channelId) => {
         user.userHasWorkspaceId,
         channelId,
         emoji,
-        threadId,
+        replyId,
         user.socket,
       );
     }

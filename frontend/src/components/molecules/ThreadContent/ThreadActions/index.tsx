@@ -35,7 +35,7 @@ interface Props {
 
 const onEmojiSet = (isReply, user, replyId, threadId, channelId) => {
   return (emoji) => {
-    if (isReply) {
+    if (isReply && replyId !== threadId) {
       postReplyReaction(
         user.userHasWorkspaceId,
         channelId,
@@ -49,7 +49,7 @@ const onEmojiSet = (isReply, user, replyId, threadId, channelId) => {
         user.userHasWorkspaceId,
         channelId,
         emoji,
-        threadId,
+        replyId,
         user.socket,
       );
     }
