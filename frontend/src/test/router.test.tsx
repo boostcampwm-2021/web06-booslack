@@ -24,7 +24,7 @@ afterEach(() => {
 afterEach(cleanup);
 
 describe('public router test', () => {
-  it('router test for public test /', () => {
+  it('for public test /', () => {
     const history = createMemoryHistory();
     history.push('/login');
 
@@ -40,7 +40,7 @@ describe('public router test', () => {
     expect(getByText(/booslack/i)).toBeInTheDocument();
   });
 
-  it('router test for notfound page', () => {
+  it('for notfound page', () => {
     const history = createMemoryHistory();
     history.push('/whereami?');
     const { getByText } = render(
