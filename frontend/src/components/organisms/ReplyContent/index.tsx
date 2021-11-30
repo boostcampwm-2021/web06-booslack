@@ -84,7 +84,7 @@ const ReplyContent = ({ thread, threadId }: Props): JSX.Element => {
           <StyledThreadContent thread={thread} isReply />
         )}
         {!isReplyLoding && !isReplyError && (
-          <StyledThreadContent thread={data} isReply />
+          <StyledThreadContent thread={thread} isReply />
         )}
         {!isReplyListLoading && (
           <RowDiv>

@@ -14,7 +14,7 @@ export async function getAllReplys(req: Request, res: Response) {
     const { threadId } = req.query;
 
     const replys = await getCustomRepository(ReplyRepository).find({
-      relations: ['userHasWorkspace', 'reactions'],
+      relations: ['userHasWorkspace', 'reactions', 'files'],
       where: [{ threadId }],
     });
     return res.status(OK).json({ replys });
@@ -40,12 +40,13 @@ export async function getReply(req: Request, res: Response) {
 export async function updateReply(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    const { message } = req.body;
+    const { message, files } = req.body;
 
     if (Object.keys(req.body).length === 0) throw new Error('no reply data in body');
 
     const replyById = await getCustomRepository(ReplyRepository).findOneOrFail(id);
     replyById.message = message || replyById.message;
+    replyById.files = files || replyById.files;
     const reply = await getCustomRepository(ReplyRepository).save(replyById);
 
     return res.status(OK).json({ reply });

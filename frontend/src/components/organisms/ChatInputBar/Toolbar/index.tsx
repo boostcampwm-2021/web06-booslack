@@ -2,7 +2,6 @@ import React, { Dispatch, SetStateAction } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import userState from '@state/user';
-import { postMessageAndFiles } from '@global/api/thread';
 import {
   BsTypeBold,
   BsTypeItalic,
@@ -20,6 +19,7 @@ import {
 } from 'react-icons/md';
 import { BiCodeBlock } from 'react-icons/bi';
 import { VscMention } from 'react-icons/vsc';
+import { shouldScrollDownState } from '@state/thread';
 import {
   Container,
   ToolbarMiddle,
@@ -28,7 +28,6 @@ import {
   FileInput,
   FileLabel,
 } from './styles';
-import { shouldScrollDownState } from '@state/thread';
 
 interface Props {
   message: string;
@@ -39,6 +38,7 @@ interface Props {
   setSelectedFile: Dispatch<SetStateAction<[]>>;
   setSelectedFileUrl: Dispatch<SetStateAction<[]>>;
   onSendClick;
+  handleFileUpload;
 }
 
 const Toolbar = ({
@@ -50,6 +50,7 @@ const Toolbar = ({
   setSelectedFile,
   setSelectedFileUrl,
   onSendClick,
+  handleFileUpload,
 }: Props): JSX.Element => {
   const { channelId }: { channelId: string } = useParams();
   const user = useRecoilValue(userState);
@@ -102,6 +103,7 @@ const Toolbar = ({
           id="choosefile"
           multiple="multiple"
           accept={'image/*'}
+          onChange={handleFileUpload}
         />
         <ToolBarIconButton
           onClick={() =>

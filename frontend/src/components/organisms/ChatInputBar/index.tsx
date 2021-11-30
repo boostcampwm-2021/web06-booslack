@@ -85,6 +85,7 @@ const ChatInputBar = ({ onSendClick }: Props): JSX.Element => {
           setSelectedFile={setSelectedFile}
           setSelectedFileUrl={setSelectedFileUrl}
           onSendClick={onSendClick}
+          handleFileUpload={handleFileUpload}
         />
       </DragAndDropContainer>
       <NotificationBar />

@@ -98,11 +98,16 @@ export const postReplyAndFiles = async (
     .post(fileUrl, formDatas, config)
     // eslint-disable-next-line @typescript-eslint/no-shadow
     .then((response) => {
-      const fileList: Array<number> = response.data.files;
+      const fileList: Array<File> = response.data.files;
+      const fileIdList: Array<number> = [];
+      fileList.map((element) => {
+        fileIdList.push(element?.id || element?.fileId);
+      });
       // eslint-disable-next-line array-callback-return
       fileList.map(async (fileId) => {
         await axios.put(`/api/files/${fileId}`, { replyId });
       });
+      axios.put(`/api/replys/${replyId}`, { files: fileList });
     })
     .catch((err) => {
       throw new Error('No files Error');
