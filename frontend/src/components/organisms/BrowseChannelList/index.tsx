@@ -50,7 +50,6 @@ const BrowseChannelList = (): JSX.Element => {
   const { page, setPage, isLoading, data, error } = usePagination(
     [sortOption, dbLikedOption, ...checkedItems],
     getWorkspaceLists,
-    { staleTime: 'Infinity' },
   );
 
   const channelCount = data?.count ?? 0;
