@@ -19,7 +19,7 @@ export const useChannelListQuery = (userId: string, workspaceId: string) => {
 
 export const useChannelQuery = (id: string) => {
   return useQuery(['channel', id], async () => {
-    const res = await axios.get(`${API.get.channel.all}/${id}`);
+    const res = await axios.get(`${API.get.channel.base}/${id}`);
     return res.data.channel;
   });
 };
@@ -28,7 +28,7 @@ export const useChannelQuery = (id: string) => {
 export const useChannelsQuery = (workspaceId: string) => {
   return useQuery(['channels', 'all', workspaceId], async () => {
     const res = await axios.get(
-      `${API.get.channel.all}/all?workspaceId=${workspaceId}`,
+      `${API.get.channel.base}/all?workspaceId=${workspaceId}`,
     );
     return res.data.channels;
   });

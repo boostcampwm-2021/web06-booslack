@@ -5,3 +5,14 @@ import API from '@global/api';
 export const deleteUserFromWorkspace = async (workspaceId: number | string) => {
   return axios.delete(`${API.delete.userHasWorkspace.id}/${workspaceId}`);
 };
+
+export const getUserHasWorkspace = async (
+  userId: string,
+  workspaceId: string,
+) => {
+  const res = await axios.get(
+    `${API.get.userHasWorkspaces}?userId=${userId}&workspaceId=${workspaceId}`,
+  );
+
+  return res.data.userHasWorkspace;
+};

@@ -33,7 +33,7 @@ const BrowseChannelList = (): JSX.Element => {
   const { workspaceId }: { workspaceId: string } = useParams();
 
   async function getWorkspaceLists(page: number) {
-    const res = await axios.get(API.get.channel.all, {
+    const res = await axios.get(API.get.channel.base, {
       params: {
         offsetStart: page,
         sortOption,

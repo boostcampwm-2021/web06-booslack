@@ -1,7 +1,6 @@
 import React, { ReactNode, Suspense, useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useParams } from 'react-router-dom';
-import axios from 'axios';
 import { useQueryClient } from 'react-query';
 import { io } from 'socket.io-client';
 import WorkspaceHeader from '@organisms/WorkspaceHeader';
@@ -26,6 +25,7 @@ import { replyToggleState } from '@state/workspace';
 import userState from '@state/user';
 import { useWorkspaceQuery } from '@hook/useWorkspace';
 import defaultProfile from '@global/image/default_account.png';
+import { getUserHasWorkspace } from '@global/api/workspace';
 import { RowDiv } from './styles';
 
 interface Props {
@@ -42,8 +42,7 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
 
   const { isOpened } = useRecoilValue(replyToggleState);
 
-  const { workspaceId, channelId }: { workspaceId: string; channelId: string } =
-    useParams();
+  const { workspaceId }: { workspaceId: string } = useParams();
   const [user, setUser] = useRecoilState(userState);
   const [fileUrl, setFileUrl] = useState(defaultProfile);
   useWorkspaceQuery(workspaceId);
@@ -51,11 +50,12 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
   const queryClient = useQueryClient();
 
   useEffect(() => {
-    const getUserHasWorkspace = async (socket) => {
-      const res = await axios.get(
-        `/api/userHasWorkspaces?userId=${user.id}&workspaceId=${workspaceId}`,
+    const getUserHasWorkspaceStatus = async (socket) => {
+      const userHasWorkspace = await getUserHasWorkspace(
+        String(user.id),
+        workspaceId,
       );
-      const { id, nickname, description, theme } = res.data.userHasWorkspace;
+      const { id, nickname, description, theme } = userHasWorkspace;
 
       const file = await axios.get(`/api/files/userhasworkspace/${id}`);
 
@@ -74,7 +74,7 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
     };
 
     const socket = io(`/workspace:${workspaceId}`);
-    getUserHasWorkspace(socket);
+    getUserHasWorkspaceStatus(socket);
 
     return () => {
       socket.close();

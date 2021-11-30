@@ -3,7 +3,6 @@ import { RecoilRoot, useRecoilState } from 'recoil';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-import axios from 'axios';
 import Workspace from '@pages/Workspace';
 import BrowseChannel from '@pages/BrowseChannel';
 import Signup from '@pages/Signup';
@@ -23,6 +22,7 @@ import Login from '@pages/Login';
 import userState from '@state/user';
 import PrivateRoute from '@routes/PrivateRoute';
 import PublicRoute from '@routes/PublicRoute';
+import { getUserInfo } from '@global/api/login';
 import GlobalStyle from './global/globalstyle';
 
 const queryClient = new QueryClient();
@@ -34,8 +34,8 @@ const ThemeContainer = (): JSX.Element => {
 
   useEffect(() => {
     const getLoginStatus = async () => {
-      const res = await axios.get('/api/login/info');
-      setUserState(res.data);
+      const userInfo = await getUserInfo();
+      setUserState(userInfo);
       setIsLoading(false);
     };
     getLoginStatus();

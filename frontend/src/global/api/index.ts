@@ -11,7 +11,7 @@ const REPLY = 'replys';
 const API = {
   get: {
     channel: {
-      all: `${PREFIX}/${CHANNEL}`,
+      base: `${PREFIX}/${CHANNEL}`,
       userChannels: `${PREFIX}/${CHANNEL}/channelsThatUserIn`,
     },
     workspace: {
@@ -24,6 +24,7 @@ const API = {
     },
     threads: `${PREFIX}/${THREADS}`,
     userHasWorkspaces: `${PREFIX}/${USERHASWORKSPACE}`,
+    login: `${PREFIX}/login/info`,
   },
 
   post: {
