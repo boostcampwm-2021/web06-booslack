@@ -7,7 +7,10 @@ export const channelCreateModalState = atom({
 
 export const channelInfoModalState = atom({
   key: 'channelInfo',
-  default: false,
+  default: {
+    isOpen: false,
+    isAboutTab: true,
+  },
 });
 
 export const channelDescriptionModalState = atom({
