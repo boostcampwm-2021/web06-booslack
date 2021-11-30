@@ -85,7 +85,9 @@ const WysiwygEditor = ({
   };
 
   const sendable =
-    (message !== '<p><br></p>' && message.trim().length > 8) ||
+    (message !== undefined &&
+      message !== '<p><br></p>' &&
+      message.trim().length > 8) ||
     selectedFile?.length > 0;
 
   return (
