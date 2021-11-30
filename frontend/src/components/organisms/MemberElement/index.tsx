@@ -34,14 +34,15 @@ const MemberElement = ({ userHasWorkspace, selected }: Props): JSX.Element => {
     <BackgroundContainer>
       <Container
         selected={selected}
-        onClick={(e) =>
+        onClick={(e) => {
+          if (!userHasWorkspace) return;
           setIsUserProfileModalOpen({
             isOpen: true,
             userHasWorkspace,
             x: e.clientX,
             y: e.clientY,
-          })
-        }
+          });
+        }}
       >
         <StyledImageBox image={fileUrl} />
         <StyledLabel text={userHasWorkspace.nickname} />
