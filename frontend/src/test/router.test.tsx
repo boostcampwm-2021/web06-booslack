@@ -1,20 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import { Route, Router, Switch } from 'react-router-dom';
 import '@testing-library/jest-dom/';
 import 'jest-styled-components';
-import axios from 'axios';
-import PublicRoute from '@routes/PublicRoute';
-import DefaultEnvironment from './DefaultEnvironment';
-import userState from '@state/user';
-import App from '../App';
-import { Route, Router, Switch } from 'react-router';
+import { cleanup, render, screen } from '@testing-library/react';
+
+import WorkspaceList from '@pages/WorkspaceList';
 import Login from '@pages/Login';
 import { createMemoryHistory } from 'history';
-import Signup from '@pages/Signup';
-
-jest.mock('axios');
-const mockedAxios = axios as jest.Mocked<typeof axios>;
+import NotFound from '@pages/NotFound';
+import userState from '@state/user';
+import PrivateRoute from '@routes/PrivateRoute';
+import PublicRoute from '@routes/PublicRoute';
+import DefaultEnvironment from './DefaultEnvironment';
 
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -25,12 +23,8 @@ afterEach(() => {
 });
 afterEach(cleanup);
 
-describe('router test />', () => {
-  it('router test for /', () => {
-    //const initializeState = ({ set }) => {
-    //  set(userState, { account: 'loda', id: 1, theme: 1 });
-    //};
-
+describe('public router test', () => {
+  it('router test for public test /', () => {
     const history = createMemoryHistory();
     history.push('/login');
 
@@ -39,7 +33,6 @@ describe('router test />', () => {
         <Router history={history}>
           <Switch>
             <PublicRoute component={Login} path="/login" />
-            <PublicRoute component={Signup} path="/signup" />
           </Switch>
         </Router>
       </DefaultEnvironment>,
@@ -47,38 +40,81 @@ describe('router test />', () => {
     expect(getByText(/booslack/i)).toBeInTheDocument();
   });
 
-  it('router test for /signup', () => {
+  it('router test for notfound page', () => {
     const history = createMemoryHistory();
-    history.push('/signup');
-
+    history.push('/whereami?');
     const { getByText } = render(
       <DefaultEnvironment initializeState={null}>
         <Router history={history}>
           <Switch>
             <PublicRoute component={Login} path="/login" />
-            <PublicRoute component={Signup} path="/signup" />
+            <Route component={NotFound} path="*" />
           </Switch>
         </Router>
       </DefaultEnvironment>,
     );
-    expect(getByText(/booslack/i)).toBeInTheDocument();
+    expect(getByText('404')).toBeInTheDocument();
   });
 
-  /*
-  it('router test for /app', () => {
+  it('should not enter public if you sign in', async () => {
+    const initializeState = ({ set }) => {
+      set(userState, { account: 'loda', id: 1, theme: 1 });
+    };
+
     const history = createMemoryHistory();
-    history.push('/signup');
+    history.push('/login');
+
+    const { getByText } = render(
+      <DefaultEnvironment initializeState={initializeState}>
+        <Router history={history}>
+          <Switch>
+            <PublicRoute component={Login} path="/login" />
+            <Route component={NotFound} path="*" />
+          </Switch>
+        </Router>
+      </DefaultEnvironment>,
+    );
+
+    expect(getByText('404')).toBeInTheDocument();
+  });
+});
+
+describe('private router test', () => {
+  it('should not enter private if you do not sign in', async () => {
+    const history = createMemoryHistory();
+    history.push('/workspacelist');
 
     const { getByText } = render(
       <DefaultEnvironment initializeState={null}>
         <Router history={history}>
           <Switch>
-            <App />
+            <PrivateRoute component={WorkspaceList} path="/workspacelist" />
+            <Route component={NotFound} path="*" />
           </Switch>
         </Router>
       </DefaultEnvironment>,
     );
-    expect(getByText(/booslack/i)).toBeInTheDocument();
+
+    expect(getByText('404')).toBeInTheDocument();
   });
-  */
+
+  it('should enter private if you sign in', async () => {
+    const history = createMemoryHistory();
+    const initializeState = ({ set }) => {
+      set(userState, { account: 'loda', id: 1, theme: 1 });
+    };
+    history.push('/workspacelist');
+
+    render(
+      <DefaultEnvironment initializeState={initializeState}>
+        <Router history={history}>
+          <Switch>
+            <PrivateRoute component={WorkspaceList} path="/workspacelist" />
+          </Switch>
+        </Router>
+      </DefaultEnvironment>,
+    );
+
+    expect(screen.getByText(/loda/i)).toBeInTheDocument();
+  });
 });
