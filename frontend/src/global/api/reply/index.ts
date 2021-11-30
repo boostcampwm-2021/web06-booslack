@@ -26,7 +26,7 @@ export const deleteReply = async (
   threadId: string,
   channelId: string,
   socket: Socket,
-): Promise<any> => {
+): Promise<void> => {
   const res = await axios.delete(`${API.delete.reply}/${replyId}`);
 
   if (res.status === 200) {
@@ -41,7 +41,7 @@ export const postReply = async (
   message: string,
   socket: Socket,
   setMessageClear: Dispatch<SetStateAction<boolean>>,
-): Promise<any> => {
+): Promise<void> => {
   const res = await axios.post(API.post.reply, {
     userHasWorkspaceId,
     message,
@@ -66,7 +66,7 @@ export const postReplyAndFiles = async (
   setSelectedFile,
   setSelectedFileUrl,
   setShouldScrollDown,
-): Promise<any> => {
+): Promise<void> => {
   if (message === '<p><br/></p>' && selectedFile.length === 0) return;
   const config = {
     headers: { 'content-type': 'multipart/form-data' },
