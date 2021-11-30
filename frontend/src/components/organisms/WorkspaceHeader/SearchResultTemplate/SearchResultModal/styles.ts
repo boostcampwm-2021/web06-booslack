@@ -1,7 +1,7 @@
 import styled from 'styled-components';
-import NoOverlayModal from '@molecules/NoOverlayModal';
 import IconButton from '@atoms/IconButton';
 import LabeledButton from '@atoms/LabeledButton';
+import NoOverlayModal from '@molecules/NoOverlayModal';
 
 export const StyledSearchModal = styled(NoOverlayModal)`
   width: 45vw;

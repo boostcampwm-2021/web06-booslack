@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import { theme } from 'styled-tools';
-import { defaultTheme } from '@global/theme';
-import { scrollIfHover } from '@global/mixin';
+import { defaultTheme } from '@global/style/theme';
+import { scrollIfHover } from '@global/style/mixin';
 
 export const Container = styled.div`
   width: 18vw;

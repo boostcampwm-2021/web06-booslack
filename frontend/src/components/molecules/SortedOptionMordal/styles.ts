@@ -1,7 +1,7 @@
 import { RefObject } from 'react';
 import Popup from '@atoms/Popup';
 import { ButtonSize } from '@enum/index';
-import { flexAlignCenter } from '@global/mixin';
+import { flexAlignCenter } from '@global/style/mixin';
 import styled from 'styled-components';
 
 const { height: ButtonHeight } = ButtonSize;

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useResetRecoilState } from 'recoil';
-import WorkspaceListTemplate from '@templates/WorkspaceList';
 import WorkSpaceListContent from '@organisms/WorkspaceListContent';
+import WorkspaceListTemplate from '@templates/WorkspaceList';
 import { replyToggleState } from '@state/workspace';
 import { Container } from './styles';
 

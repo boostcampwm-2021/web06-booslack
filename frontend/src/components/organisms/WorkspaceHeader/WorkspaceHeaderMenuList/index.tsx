@@ -1,7 +1,6 @@
 import React from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { useHistory, useParams } from 'react-router-dom';
-
 import DivLists from '@atoms/DivLists';
 import ImageButton from '@atoms/ImageButton';
 import Label from '@atoms/Label';

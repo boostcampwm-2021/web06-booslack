@@ -5,9 +5,9 @@ import Label from '@atoms/Label';
 import LabeledButton from '@atoms/LabeledButton';
 import SelectWorkspace from '@molecules/SelectWorkspace';
 import BrowseChannelHeader from '@molecules/BrowseChannelHeader';
-import { defaultTheme } from '@global/theme';
-import { flexAlignCenter, hoverChangeColor } from '@global/mixin';
 import ImageBox from '@atoms/ImageBox';
+import { defaultTheme } from '@global/style/theme';
+import { flexAlignCenter, hoverChangeColor } from '@global/style/mixin';
 
 export const StyledHeader = styled(BrowseChannelHeader)`
   min-width: 290px;

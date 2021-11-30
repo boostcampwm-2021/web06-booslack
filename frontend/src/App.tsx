@@ -15,7 +15,7 @@ import NotLogout from '@pages/NotLogout';
 import GetError from '@pages/GetError';
 import Loading from '@pages/Loading';
 import themeState from '@state/theme';
-import { getThemeByIndex, Itheme } from '@global/theme';
+import { getThemeByIndex, Itheme } from '@global/style/theme';
 import InvitedCode from '@pages/InvitedCode';
 import GeneratedCode from '@pages/GeneratedCode';
 import Login from '@pages/Login';
@@ -23,7 +23,7 @@ import userState from '@state/user';
 import PrivateRoute from '@routes/PrivateRoute';
 import PublicRoute from '@routes/PublicRoute';
 import { getUserInfo } from '@global/api/login';
-import GlobalStyle from './global/globalstyle';
+import GlobalStyle from '@global/style';
 
 const queryClient = new QueryClient();
 

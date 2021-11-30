@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import ImageBox from '@atoms/ImageBox';
 import Label from '@atoms/Label';
-import { bouncing, flexAlignCenter } from '@global/mixin';
+import { bouncing, flexAlignCenter } from '@global/style/mixin';
 
 export const Container = styled.div`
   font-family: Arial, sans-serif;

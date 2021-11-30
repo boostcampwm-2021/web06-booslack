@@ -3,10 +3,9 @@ import { useSetRecoilState } from 'recoil';
 import { useHistory } from 'react-router-dom';
 import { useDropzone } from 'react-dropzone';
 import axios from 'axios';
-
 import CodeModal from '@molecules/CodeModal';
-import CodeTemplate from '@templates/Code';
 import SubmitCodeForm from '@organisms/SubmitCodeForm';
+import CodeTemplate from '@templates/Code';
 import { checkInputValues } from '@global/util';
 import API from '@global/api';
 import { codeModalState } from '@state/modal';

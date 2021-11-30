@@ -1,7 +1,6 @@
 import React from 'react';
 import { useResetRecoilState } from 'recoil';
 import { useParams, useHistory } from 'react-router-dom';
-
 import { useWorkspaceQuery } from '@hook/useWorkspace';
 import { preferenceModalState } from '@state/modal';
 import { deleteUserFromWorkspace } from '@global/api/workspace';

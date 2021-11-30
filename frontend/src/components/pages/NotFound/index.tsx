@@ -1,6 +1,6 @@
 import React from 'react';
-import Label from '@atoms/Label';
 import { useHistory } from 'react-router-dom';
+import Label from '@atoms/Label';
 import { Container, StyledLabel, StyledButton } from './style';
 
 const NotFound = (): JSX.Element => {

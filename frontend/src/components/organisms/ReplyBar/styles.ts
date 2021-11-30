@@ -1,8 +1,7 @@
+import styled from 'styled-components';
 import Label from '@atoms/Label';
 import ImageButton from '@atoms/ImageButton';
-
 import BrowseChannelHeader from '@molecules/BrowseChannelHeader';
-import styled from 'styled-components';
 
 const Container = styled.div<{ widthVW: number; isOpened: boolean }>`
   display: ${({ isOpened }) => (isOpened ? 'flex' : 'none')};

@@ -1,9 +1,9 @@
 /* eslint-disable no-tabs */
 import styled from 'styled-components';
+import { DotLoader } from 'react-spinners';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import Label from '@atoms/Label';
-import { bouncing, flexAlignCenter } from '@global/mixin';
-import { DotLoader } from 'react-spinners';
+import { bouncing, flexAlignCenter } from '@global/style/mixin';
 
 export const Container = styled.div`
   font-family: Arial, sans-serif;

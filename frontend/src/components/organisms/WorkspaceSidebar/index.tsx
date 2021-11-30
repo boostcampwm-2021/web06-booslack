@@ -1,13 +1,13 @@
 import React, { useContext } from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import { NavLink, useParams } from 'react-router-dom';
+import { ThemeContext } from 'styled-components';
 import SidebarDivision from '@molecules/SidebarDivision';
 import SidebarChannelElement from '@molecules/SidebarChannelElement';
 import SidebarAddElement from '@molecules/SidebarAddElement';
 import { channelCreateModalState } from '@state/modal';
 import userState from '@state/user';
 import { useChannelListQuery } from '@hook/useChannels';
-import { ThemeContext } from 'styled-components';
 import { Container, MarginDiv } from './style';
 
 const WorkspaceSidebar = (): JSX.Element => {

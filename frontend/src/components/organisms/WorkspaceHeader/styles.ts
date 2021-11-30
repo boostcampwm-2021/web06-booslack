@@ -1,9 +1,9 @@
 import styled from 'styled-components';
 import { theme } from 'styled-tools';
 import NoOverlayModal from '@molecules/NoOverlayModal';
-import { defaultTheme } from '@global/theme';
 import ImageButton from '@atoms/ImageButton';
 import IconButton from '@atoms/IconButton';
+import { defaultTheme } from '@global/style/theme';
 
 export const Container = styled.div`
   display: flex;

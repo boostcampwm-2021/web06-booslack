@@ -1,6 +1,6 @@
 import { css } from 'styled-components';
 import { theme } from 'styled-tools';
-import { defaultTheme } from '@global/theme';
+import { defaultTheme } from '@global/style/theme';
 
 // eslint-disable-next-line import/prefer-default-export
 export const RoundScrollBar = css`

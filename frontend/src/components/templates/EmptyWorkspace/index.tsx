@@ -1,7 +1,6 @@
 import React from 'react';
 import WorkspaceHeaderContainer from '@organisms/WorkspaceHeader/styles';
 import WorkspaceSidebarContainer from '@organisms/WorkspaceSidebar/style';
-
 import { RowDiv } from './styles';
 
 interface Props {

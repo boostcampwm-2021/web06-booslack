@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { scrollIfHover } from '@global/mixin';
+import { scrollIfHover } from '@global/style/mixin';
 import BrowseChannelHeader from '@molecules/BrowseChannelHeader';
 
 interface Props {

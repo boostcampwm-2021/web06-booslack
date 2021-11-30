@@ -1,5 +1,4 @@
 import React from 'react';
-
 import WorkspaceContent from '@organisms/WorkspaceContent';
 import WorkspaceTemplate from '@templates/Workspace';
 

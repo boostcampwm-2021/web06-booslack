@@ -1,6 +1,6 @@
+import styled from 'styled-components';
 import IconButton from '@atoms/IconButton';
 import LabeledButton from '@atoms/LabeledButton';
-import styled from 'styled-components';
 
 export const Container = styled.div`
   margin-bottom: 4px;

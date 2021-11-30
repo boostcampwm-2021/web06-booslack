@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Label from '@atoms/Label';
 import ThreadContent from '@molecules/ThreadContent';
-import { RoundScrollBar } from '@global/mixin';
+import { RoundScrollBar } from '@global/style/mixin';
 
 interface Props {
   width?: string;

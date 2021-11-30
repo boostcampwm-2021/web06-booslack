@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import { theme } from 'styled-tools';
-import { defaultTheme } from '@global/theme';
+import { defaultTheme } from '@global/style/theme';
 
 interface Props {
   width: number;

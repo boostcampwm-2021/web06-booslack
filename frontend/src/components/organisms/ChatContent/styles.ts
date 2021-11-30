@@ -1,5 +1,5 @@
-import { scrollIfHover } from '@global/mixin';
 import styled from 'styled-components';
+import { scrollIfHover } from '@global/style/mixin';
 
 interface Props {
   width?: string;
