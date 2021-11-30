@@ -54,10 +54,24 @@ const WysiwygEditor = ({
   const user = useRecoilValue(userState);
   const setShouldScrollDown = useSetRecoilState(shouldScrollDownState);
 
+  const editor = useRef();
+  useEffect(() => {
+    if (editor.current && messageClear) {
+      editor.current.innerHTML = '<p><br></p>';
+      setMessageClear(false);
+      setMessage('');
+    }
+  }, [messageClear]);
+
   useEffect(() => {
     if (!value) return;
-    if (isEmojiOpen) makeEmoji(value);
-    else if (isMentionOpen) makeMention(value);
+    if (isEmojiOpen) {
+      makeEmoji(value);
+      setMessage(editor.current.innerHTML);
+    } else if (isMentionOpen) {
+      makeMention(value);
+      setMessage(editor.current.innerHTML);
+    }
     setInput('');
     setValue(undefined);
   }, [value]);
@@ -69,15 +83,6 @@ const WysiwygEditor = ({
   const handleOnBlur = () => {
     setFocused(false);
   };
-
-  const editor = useRef();
-  useEffect(() => {
-    if (editor.current && messageClear) {
-      editor.current.innerHTML = '<p><br></p>';
-      setMessageClear(false);
-      setMessage('');
-    }
-  }, [messageClear]);
 
   const sendable =
     (message !== '<p><br></p>' && message.trim().length > 8) ||
