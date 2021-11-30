@@ -5,27 +5,27 @@ import Reply from './Reply';
 @Entity()
 class File {
   @PrimaryGeneratedColumn()
-  id!: number
+  id!: number;
 
   @Column()
-  name!: string
+  name!: string;
 
   @Column({ nullable: true })
-  url!: string
+  url!: string;
 
   @Column()
-  extension!: string
+  extension!: string;
 
   @Column({ nullable: true })
-  threadId!: number
+  threadId!: number;
 
   @Column({ nullable: true })
-  replyId!: number
+  replyId!: number;
 
   @CreateDateColumn({ type: 'timestamp' })
-  createdAt!: Date
+  createdAt!: Date;
 
-  @ManyToOne(() => Thread, (thread) => thread.files)
+  @ManyToOne(() => Thread, (thread) => thread.files, { onUpdate: 'CASCADE' })
   thread!: Thread;
 
   @ManyToOne(() => Reply, (reply) => reply.files)

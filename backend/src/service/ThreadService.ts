@@ -4,6 +4,7 @@ import { getCustomRepository, getRepository } from 'typeorm';
 import ThreadRepository from '../repository/ThreadRepository';
 import ChannelRepository from '../repository/ChannelRepository';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
+import File from '../model/File';
 import Thread from '../model/Thread';
 import Reaction from '../model/Reaction';
 import FileRepository from '../repository/FileRepository';
@@ -132,6 +133,31 @@ export async function deleteThread(req: Request, res: Response) {
     await getRepository(Reaction).delete({ threadId: Number(thread.id) });
     await getCustomRepository(ThreadRepository).remove(thread);
     return res.status(OK).end();
+  } catch (e) {
+    return res.status(BAD_REQUEST).json(e);
+  }
+}
+
+export async function updateThreadAndFiles(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const { files } = req.body;
+    const fileList: Array<any> = files;
+
+    if (Object.keys(req.body).length === 0) throw new Error('no thread data in body');
+    fileList.map(async (file: any) => {
+      const fileId: number = file?.id;
+      const fileById: any = await getRepository(File).findOneOrFail(fileId);
+      fileById.threadId = Number(id) ?? fileById.threadId;
+      const thread = await getRepository(File).save(fileById);
+      if (!thread) throw new Error('no thread data in body');
+    });
+
+    const threadById = await getRepository(Thread).findOneOrFail(id);
+    threadById.files = fileList || threadById.files;
+    const thread = await getRepository(Thread).save(threadById);
+
+    return res.status(OK).json({ thread });
   } catch (e) {
     return res.status(BAD_REQUEST).json(e);
   }

@@ -81,7 +81,7 @@ export async function uploadFile(req: Request, res: Response) {
       extension: req.file?.fieldname,
     };
     const fileBySave = await getCustomRepository(FileRepository).save(fileByUpload);
-    res.status(202).json({ files: [fileBySave.id] });
+    res.status(202).json({ files: [fileBySave] });
   } catch (e) {
     res.status(BAD_REQUEST).json(e);
   }
