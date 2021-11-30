@@ -8,7 +8,6 @@ export const StyledPopup = styled(NoOverlayModal)`
   line-height: 1rem;
 
   width: 300px;
-  width: 361px;
   border-radius: 6px;
   background: rgba(var(--sk_primary_background, 255, 255, 255), 1);
 `;
