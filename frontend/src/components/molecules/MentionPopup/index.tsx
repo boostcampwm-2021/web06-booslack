@@ -1,4 +1,4 @@
-import React, { Dispatch, useEffect } from 'react';
+import React, { Dispatch, RefObject, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useUserListWithChannelInfoQuery } from '@hook/useUsers';
 import MentionPopupTemplate from './MentionPopupTemplate';
@@ -10,6 +10,9 @@ interface Props {
   value: any;
   setValue: Dispatch<any>;
   close: () => void;
+  customRef: RefObject<HTMLElement>;
+  xWidth: number;
+  yHeight: number;
 }
 
 const MentionPopup = ({
@@ -18,6 +21,9 @@ const MentionPopup = ({
   value,
   setValue,
   close,
+  customRef,
+  xWidth,
+  yHeight,
 }: Props): JSX.Element => {
   const { workspaceId, channelId }: { workspaceId: string; channelId: string } =
     useParams();
@@ -37,7 +43,13 @@ const MentionPopup = ({
   if (isError) return <div>Error</div>;
 
   return (
-    <StyledPopup isOpen={isOpen} onClose={close}>
+    <StyledPopup
+      xWidth={xWidth}
+      yHeight={yHeight - 300}
+      customRef={customRef}
+      isOpened={isOpen}
+      onClose={close}
+    >
       <MentionPopupTemplate
         matches={data.filter((datum) => datum.nickname.includes(input))}
         setValue={setValue}

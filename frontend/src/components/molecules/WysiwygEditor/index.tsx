@@ -150,6 +150,9 @@ const WysiwygEditor = ({
           value={value}
           setValue={setValue}
           close={() => setIsMentionOpen(false)}
+          customRef={editor}
+          xWidth={editorWidth}
+          yHeight={editorHeight}
         />
       )}
     </Container>

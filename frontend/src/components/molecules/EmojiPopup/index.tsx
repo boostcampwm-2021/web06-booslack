@@ -1,4 +1,4 @@
-import React, { Dispatch, RefObject, useEffect, useRef } from 'react';
+import React, { Dispatch, RefObject, useEffect } from 'react';
 import * as unicodeEmoji from 'unicode-emoji';
 import EmojiPopupTemplate from './EmojiPopupTemplate';
 import { StyledPopup } from './styles';
