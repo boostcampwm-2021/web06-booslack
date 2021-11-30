@@ -1,5 +1,6 @@
-import axios from 'axios';
 import { useQuery } from 'react-query';
+import axios from 'axios';
+import API from '@global/api';
 
 export const useUserListWithChannelInfoQuery = (
   workspaceId: string,
@@ -7,7 +8,7 @@ export const useUserListWithChannelInfoQuery = (
 ) => {
   return useQuery(['users', channelId], async () => {
     const res = await axios.get(
-      `/api/users/workspaces?workspaceId=${workspaceId}&channelId=${channelId}`,
+      `${API.get.users.workspaces}?workspaceId=${workspaceId}&channelId=${channelId}`,
     );
     return res.data.users;
   });
@@ -16,7 +17,7 @@ export const useUserListWithChannelInfoQuery = (
 export const useUsersQuery = (workspaceId: string) => {
   return useQuery(['users', 'all', workspaceId], async () => {
     const res = await axios.get(
-      `/api/userHasWorkspaces/all?workspaceId=${workspaceId}`,
+      `${API.get.userHasWorkspaces}/all?workspaceId=${workspaceId}`,
     );
     return res.data.userHasWorkspaces;
   });

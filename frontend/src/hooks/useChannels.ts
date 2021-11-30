@@ -1,12 +1,13 @@
-import axios from 'axios';
 import { useQuery } from 'react-query';
+import axios from 'axios';
+import API from '@global/api';
 
 export const useChannelListQuery = (userId: string, workspaceId: string) => {
   return useQuery(
     ['channels', workspaceId, userId],
     async () => {
       const res = await axios.get(
-        `/api/channels/channelsThatUserIn?userId=${userId}&workspaceId=${workspaceId}`,
+        `${API.get.channel.userChannels}?userId=${userId}&workspaceId=${workspaceId}`,
       );
       return res.data.channels;
     },
@@ -18,7 +19,7 @@ export const useChannelListQuery = (userId: string, workspaceId: string) => {
 
 export const useChannelQuery = (id: string) => {
   return useQuery(['channel', id], async () => {
-    const res = await axios.get(`/api/channels/${id}`);
+    const res = await axios.get(`${API.get.channel.all}/${id}`);
     return res.data.channel;
   });
 };
@@ -26,7 +27,9 @@ export const useChannelQuery = (id: string) => {
 // literally all channels workspace
 export const useChannelsQuery = (workspaceId: string) => {
   return useQuery(['channels', 'all', workspaceId], async () => {
-    const res = await axios.get(`/api/channels/all?workspaceId=${workspaceId}`);
+    const res = await axios.get(
+      `${API.get.channel.all}/all?workspaceId=${workspaceId}`,
+    );
     return res.data.channels;
   });
 };

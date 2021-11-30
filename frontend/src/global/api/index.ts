@@ -11,12 +11,19 @@ const REPLY = 'replys';
 const API = {
   get: {
     channel: {
-      all: `${PREFIX}/${CHANNEL}/`,
+      all: `${PREFIX}/${CHANNEL}`,
+      userChannels: `${PREFIX}/${CHANNEL}/channelsThatUserIn`,
     },
     workspace: {
+      base: `${PREFIX}/${WORKSPACE}`,
       user: `${PREFIX}/${WORKSPACE}/user`,
       getCode: `${PREFIX}/${WORKSPACE}/code`,
     },
+    users: {
+      workspaces: `${PREFIX}/${USER}/workspaces`,
+    },
+    threads: `${PREFIX}/${THREADS}`,
+    userHasWorkspaces: `${PREFIX}/${USERHASWORKSPACE}`,
   },
 
   post: {
