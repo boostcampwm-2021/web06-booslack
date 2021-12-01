@@ -1,6 +1,6 @@
 import Label from '@atoms/Label';
 import styled from 'styled-components';
-import { RoundScrollBar } from '@global/mixin';
+import { RoundScrollBar } from '@global/style/mixin';
 import { ifProp } from 'styled-tools';
 
 export const Container = styled.div`

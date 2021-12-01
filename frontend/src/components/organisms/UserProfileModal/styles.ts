@@ -1,8 +1,8 @@
+import styled from 'styled-components';
 import ImageBox from '@atoms/ImageBox';
 import Label from '@atoms/Label';
 import LabeledButton from '@atoms/LabeledButton';
 import Popup from '@atoms/Popup';
-import styled from 'styled-components';
 
 interface Props {
   x?: number;

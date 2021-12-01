@@ -1,7 +1,9 @@
 import React, { useRef, useState } from 'react';
+import { useRecoilState } from 'recoil';
 import { useParams } from 'react-router-dom';
 import useInputs from '@hook/useInputs';
 import useRefLocate from '@hook/useRefLocate';
+import { searchModalState } from '@state/modal';
 import { useWorkspaceQuery } from '@hook/useWorkspace';
 import { BsSearch } from 'react-icons/bs';
 import defaultProfile from '@global/image/default_account.png';
@@ -20,7 +22,7 @@ const WorkspaceHeader = (fileUrl: JSON): JSX.Element => {
   const SearchModalRef = useRef(null);
   const [modalState, setModalState] = useState(false);
 
-  const [searchModal, setSearchModal] = useState(false);
+  const [searchModal, setSearchModal] = useRecoilState(searchModalState);
   const [{ input }, onChange, clear] = useInputs({ input: '' });
 
   const [xWidth, yHeight] = useRefLocate(ButtonRef, 50);

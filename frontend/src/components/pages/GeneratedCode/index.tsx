@@ -1,7 +1,7 @@
 import React from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
-import SubmitCodeForm from '@organisms/SubmitCodeForm';
 import CodeModal from '@molecules/CodeModal';
+import SubmitCodeForm from '@organisms/SubmitCodeForm';
 import CodeTemplate from '@templates/Code';
 import { Container } from './style';
 

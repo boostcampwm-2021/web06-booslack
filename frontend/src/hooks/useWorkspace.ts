@@ -1,17 +1,18 @@
-import axios from 'axios';
 import { useQuery } from 'react-query';
+import axios from 'axios';
+import API from '@global/api';
+import { hourlyExpirationOption } from '@global/options';
 
 export const useWorkspaceQuery = (workspaceId: string) => {
   return useQuery(
     ['workspace', workspaceId],
     async () => {
-      const res = await axios.get(`/api/workspaces/${workspaceId}`);
+      const res = await axios.get(`${API.get.workspace.base}/${workspaceId}`);
       return res.data.workspace;
     },
     {
+      ...hourlyExpirationOption,
       enabled: !!workspaceId,
-      staleTime: Infinity,
-      cacheTime: Infinity,
     },
   );
 };

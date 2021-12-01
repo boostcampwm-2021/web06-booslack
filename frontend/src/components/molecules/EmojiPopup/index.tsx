@@ -1,4 +1,4 @@
-import React, { Dispatch, useEffect } from 'react';
+import React, { Dispatch, RefObject, useEffect } from 'react';
 import * as unicodeEmoji from 'unicode-emoji';
 import EmojiPopupTemplate from './EmojiPopupTemplate';
 import { StyledPopup } from './styles';
@@ -9,6 +9,9 @@ interface Props {
   value: any;
   setValue: Dispatch<any>;
   close: () => void;
+  customRef: RefObject<HTMLElement>;
+  xWidth: number;
+  yHeight: number;
 }
 
 const emojis = unicodeEmoji.getEmojis();
@@ -19,6 +22,9 @@ const EmojiPopup = ({
   value,
   setValue,
   close,
+  customRef,
+  xWidth,
+  yHeight,
 }: Props): JSX.Element => {
   useEffect(() => {
     if (value) {
@@ -27,7 +33,13 @@ const EmojiPopup = ({
   }, [value]);
 
   return (
-    <StyledPopup isOpen={isOpen} onClose={close}>
+    <StyledPopup
+      xWidth={xWidth}
+      yHeight={yHeight - 300}
+      customRef={customRef}
+      isOpened={isOpen}
+      onClose={close}
+    >
       <EmojiPopupTemplate
         matches={emojis.filter((emoji) => emoji.description.includes(input))}
         setValue={setValue}

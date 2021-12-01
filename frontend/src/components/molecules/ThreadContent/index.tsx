@@ -118,6 +118,7 @@ const ThreadContent = ({
         <MessageKitLeft>
           <ThreadImageButton
             onClick={(e) => {
+              if (!userHasWorkspace) return;
               setIsUserProfileModalOpen({
                 isOpen: true,
                 userHasWorkspace,

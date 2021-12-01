@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { theme } from 'styled-tools';
 import Label from '@atoms/Label';
-import { flexAlignCenter } from '@global/mixin';
-import { defaultTheme } from '@global/theme';
+import { flexAlignCenter } from '@global/style/mixin';
+import { defaultTheme } from '@global/style/theme';
 
 export const AlignCenterDiv = styled.div`
   width: 100%;

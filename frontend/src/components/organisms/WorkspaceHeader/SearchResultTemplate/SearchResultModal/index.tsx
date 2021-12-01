@@ -7,6 +7,7 @@ import { useChannelsQuery } from '@hook/useChannels';
 import { useUsersQuery } from '@hook/useUsers';
 import { useWorkspaceQuery } from '@hook/useWorkspace';
 import { userProfileModalState } from '@state/modal';
+import { shouldScrollDownState } from '@state/thread';
 import SearchResultTemplate from '..';
 import {
   StyledSearchModal,
@@ -29,6 +30,7 @@ const SearchModal = ({
   const history = useHistory();
   const ref = useRef(null);
   const setIsUserProfileModalOpen = useSetRecoilState(userProfileModalState);
+  const setShouldScrollDownState = useSetRecoilState(shouldScrollDownState);
 
   const { workspaceId }: { workspaceId: string } = useParams();
 
@@ -75,6 +77,7 @@ const SearchModal = ({
         y: null,
       });
     } else {
+      setShouldScrollDownState(true);
       history.push(`/client/${e.workspaceId}/${e.id}`);
     }
     clear();

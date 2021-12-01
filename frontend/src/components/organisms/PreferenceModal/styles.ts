@@ -4,7 +4,7 @@ import Modal from '@atoms/Modal';
 import DivLists from '@atoms/DivLists';
 import ImageBox from '@atoms/ImageBox';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
-import { bouncing, flexAlignCenter, ThemeButton } from '@global/mixin';
+import { bouncing, flexAlignCenter, ThemeButton } from '@global/style/mixin';
 
 export const Container = styled.div`
   display: flex;

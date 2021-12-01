@@ -10,6 +10,7 @@ import { useRecoilValue, useSetRecoilState } from 'recoil';
 import EmojiPopup from '@molecules/EmojiPopup';
 import MentionPopup from '@molecules/MentionPopup';
 import { shouldScrollDownState } from '@state/thread';
+import useRefLocate from '@hook/useRefLocate';
 import userState from '@state/user';
 import {
   keydownHandle,
@@ -50,11 +51,13 @@ const WysiwygEditor = ({
   const [input, setInput] = useState('');
   const [value, setValue] = useState(undefined);
 
+  const editor = useRef();
+  const [editorWidth, editorHeight] = useRefLocate(editor, 50);
+
   const { channelId }: { channelId: string } = useParams();
   const user = useRecoilValue(userState);
   const setShouldScrollDown = useSetRecoilState(shouldScrollDownState);
 
-  const editor = useRef();
   useEffect(() => {
     if (editor.current && messageClear) {
       editor.current.innerHTML = '<p><br></p>';
@@ -134,6 +137,9 @@ const WysiwygEditor = ({
           value={value}
           setValue={setValue}
           close={() => setIsEmojiOpen(false)}
+          customRef={editor}
+          xWidth={editorWidth}
+          yHeight={editorHeight}
         />
       )}
       {isMentionOpen && (
@@ -143,6 +149,9 @@ const WysiwygEditor = ({
           value={value}
           setValue={setValue}
           close={() => setIsMentionOpen(false)}
+          customRef={editor}
+          xWidth={editorWidth}
+          yHeight={editorHeight}
         />
       )}
     </Container>

@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 import { theme } from 'styled-tools';
 import { PacmanLoader } from 'react-spinners';
-import { flexAlignCenter } from '@global/mixin';
-import { defaultTheme } from '@global/theme';
+import { flexAlignCenter } from '@global/style/mixin';
+import { defaultTheme } from '@global/style/theme';
 
 const Container = styled.div`
   width: inherit;

@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import React, { ChangeEvent, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useRecoilState, useSetRecoilState } from 'recoil';
 import axios from 'axios';
@@ -10,7 +10,7 @@ import violetImage from '@global/image/violet.png';
 import yellowImage from '@global/image/yellow.png';
 import mintImage from '@global/image/mintChoco.png';
 import blueImage from '@global/image/blue.png';
-import { getIndexByTheme } from '@global/theme';
+import { getIndexByTheme } from '@global/style/theme';
 import { preferenceModalState } from '@state/modal';
 import { StyledBigImageBox, AlignCenterDiv } from './styles';
 import { StyledLabel, RowSpaceAroundDiv, StyledButton } from '../styles';

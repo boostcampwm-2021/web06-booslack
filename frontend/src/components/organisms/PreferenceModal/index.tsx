@@ -3,8 +3,8 @@ import { useRecoilState } from 'recoil';
 import { preferenceModalState } from '@state/modal';
 import PreferenceMenuContent from './PreferenceMenuContent';
 import AboutUs from './AboutUs/AboutUs';
-import ThemeSelect from './ThemeSelect/ThemeSelect';
-import WorkspaceOut from './WorkspaceOut/WorkspaceOut';
+import ThemeSelect from './ThemeSelect';
+import WorkspaceOut from './WorkspaceOut';
 import {
   Container,
   StyledTitleLabel,

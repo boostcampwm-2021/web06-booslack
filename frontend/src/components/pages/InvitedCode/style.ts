@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import Label from '@atoms/Label';
-import { bouncing } from '@global/mixin';
+import { bouncing } from '@global/style/mixin';
 
 export const Container = styled.div`
   display: flex;

@@ -52,7 +52,7 @@ const ChannelAbout = (): JSX.Element => {
           onClick={async () => {
             try {
               await leaveChannel(channelId, workspaceId, user.socket);
-              setIsOpen(false);
+              setIsOpen((prevState) => ({ ...prevState, isOpen: false }));
             } catch (error) {
               history.push('error');
             }

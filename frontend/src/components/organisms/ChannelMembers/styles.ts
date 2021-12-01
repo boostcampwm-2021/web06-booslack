@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { RoundScrollBar } from '@global/mixin';
+import { RoundScrollBar } from '@global/style/mixin';
 import { BsSearch } from 'react-icons/bs';
 
 export const Container = styled.div`

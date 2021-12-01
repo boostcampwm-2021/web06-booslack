@@ -3,7 +3,6 @@ import { RecoilRoot, useRecoilState } from 'recoil';
 import { QueryClient, QueryClientProvider } from 'react-query';
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
 import { ThemeProvider } from 'styled-components';
-import axios from 'axios';
 import Workspace from '@pages/Workspace';
 import BrowseChannel from '@pages/BrowseChannel';
 import Signup from '@pages/Signup';
@@ -16,14 +15,15 @@ import NotLogout from '@pages/NotLogout';
 import GetError from '@pages/GetError';
 import Loading from '@pages/Loading';
 import themeState from '@state/theme';
-import { getThemeByIndex, Itheme } from '@global/theme';
+import { getThemeByIndex, Itheme } from '@global/style/theme';
 import InvitedCode from '@pages/InvitedCode';
 import GeneratedCode from '@pages/GeneratedCode';
 import Login from '@pages/Login';
 import userState from '@state/user';
 import PrivateRoute from '@routes/PrivateRoute';
 import PublicRoute from '@routes/PublicRoute';
-import GlobalStyle from './global/globalstyle';
+import { getUserInfo } from '@global/api/login';
+import GlobalStyle from '@global/style';
 
 const queryClient = new QueryClient();
 
@@ -34,8 +34,8 @@ const ThemeContainer = (): JSX.Element => {
 
   useEffect(() => {
     const getLoginStatus = async () => {
-      const res = await axios.get('/api/login/info');
-      setUserState(res.data);
+      const userInfo = await getUserInfo();
+      setUserState(userInfo);
       setIsLoading(false);
     };
     getLoginStatus();

@@ -1,5 +1,5 @@
-import DivLists from '@atoms/DivLists';
 import styled from 'styled-components';
+import DivLists from '@atoms/DivLists';
 
 const Container = styled.div`
   display: flex;

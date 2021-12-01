@@ -1,6 +1,6 @@
-import { defaultTheme } from '@global/theme';
 import styled from 'styled-components';
 import { theme } from 'styled-tools';
+import { defaultTheme } from '@global/style/theme';
 
 export const Container = styled.div`
   height: 100vh;

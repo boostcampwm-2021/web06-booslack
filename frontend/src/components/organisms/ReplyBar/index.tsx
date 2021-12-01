@@ -3,12 +3,9 @@
 /* eslint-disable react/jsx-wrap-multilines */
 import React, { useMemo } from 'react';
 import { useRecoilValue, useRecoilState } from 'recoil';
-import { useParams } from 'react-router-dom';
-
 import Label from '@atoms/Label';
 import ReplyContent from '@organisms/ReplyContent';
 import { replyToggleState, replyWorkspaceState } from '@state/workspace';
-import { useChannelQuery } from '@hook/useChannels';
 import { CHANNELTYPE } from '@enum/index';
 import xMarkImage from '@global/image/xMark.svg';
 import Container, {
@@ -50,7 +47,7 @@ const ReplyBar = (): JSX.Element => {
   const SIZEVW = useRecoilValue(replyWorkspaceState);
   const [{ isOpened, thread, channelName }, setReplyToggle] =
     useRecoilState(replyToggleState);
-  
+
   const { id: threadId } = thread;
 
   return (

@@ -1,5 +1,5 @@
 import styled from 'styled-components';
-import { hoverChangeColor } from '@global/mixin';
+import { hoverChangeColor } from '@global/style/mixin';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import Label from '@atoms/Label';
 

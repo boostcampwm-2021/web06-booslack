@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { useRecoilState } from 'recoil';
 import { useParams } from 'react-router-dom';
 import ChannelAbout from '@organisms/ChannelAbout';
@@ -16,8 +16,9 @@ import {
 const ChannelInfoModal = (): JSX.Element => {
   const { channelId }: { channelId: string } = useParams();
 
-  const [isOpen, setIsOpen] = useRecoilState(channelInfoModalState);
-  const [isAboutTab, setIsAboutTab] = useState(false);
+  const [{ isOpen, isAboutTab }, setIsOpen] = useRecoilState(
+    channelInfoModalState,
+  );
 
   const { isLoading, isError, data } = useChannelQuery(channelId);
 
@@ -25,19 +26,28 @@ const ChannelInfoModal = (): JSX.Element => {
   if (isError) return <div>Error</div>;
 
   return (
-    <StyledModal isOpen={isOpen} onClose={() => setIsOpen(false)}>
+    <StyledModal
+      isOpen={isOpen}
+      onClose={() =>
+        setIsOpen((prevState) => ({ ...prevState, isOpen: false }))
+      }
+    >
       <Container>
         <StyledLabel text={`${data.private ? '🔒' : '#'} ${data.name}`} />
         <TabContainer>
           <Tab
             highlight={isAboutTab}
-            onClick={() => setIsAboutTab(true)}
+            onClick={() =>
+              setIsOpen((prevState) => ({ ...prevState, isAboutTab: true }))
+            }
             text="About"
           />
           <Tab
             highlight={!isAboutTab}
-            onClick={() => setIsAboutTab(false)}
-            text="Members n"
+            onClick={() =>
+              setIsOpen((prevState) => ({ ...prevState, isAboutTab: false }))
+            }
+            text="Members"
           />
         </TabContainer>
         {isAboutTab ? <ChannelAbout /> : <ChannelMembers />}

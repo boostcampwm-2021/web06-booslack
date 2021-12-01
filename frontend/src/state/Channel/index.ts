@@ -22,13 +22,3 @@ export const browseCursorValue = selector<number>({
   key: 'browseCursorValue',
   get: ({ get }) => (get(browseCursor) - 1) * pageLimitCount,
 });
-
-export const channelListFromServerState = selectorFamily({
-  key: 'channelListFromServer',
-  get: (data) => async () => {
-    const response = await axios.get(
-      `/api/channels/channelsThatUserIn?userId=${data.userId}&workspaceId=${data.workspaceId}`,
-    );
-    return response.data;
-  },
-});

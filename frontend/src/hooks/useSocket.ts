@@ -24,6 +24,10 @@ export const initializeSocket = (socket: Socket, queryClient: QueryClient) => {
       queryClient.invalidateQueries(['channels', _workspaceId], {
         refetchActive: true,
       });
+
+      queryClient.invalidateQueries(['channels', 'all', _workspaceId], {
+        refetchActive: true,
+      });
     });
 
     socket.on('channel', (_channelId) => {

@@ -1,6 +1,6 @@
-import Label from '@atoms/Label';
 import styled from 'styled-components';
 import { ifProp } from 'styled-tools';
+import Label from '@atoms/Label';
 
 export const BackgroundContainer = styled.div`
   &: hover {

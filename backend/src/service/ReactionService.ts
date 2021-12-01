@@ -21,7 +21,7 @@ export async function addReaction(req: Request, res: Response) {
     });
 
     if (!thread) {
-      throw new Error(`channel ${threadId} does not exist`);
+      throw new Error(`thread ${threadId} does not exist`);
     }
     if (!userHasWorkspace) {
       throw new Error(`userHasWorkspace ${userHasWorkspaceId} does not exist`);
@@ -84,7 +84,6 @@ export async function deleteReplyReaction(req: Request, res: Response) {
 
     return res.status(OK).end();
   } catch (e) {
-    console.log(e);
     return res.status(BAD_REQUEST).json(e);
   }
 }

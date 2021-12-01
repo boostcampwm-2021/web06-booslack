@@ -1,6 +1,6 @@
-import { flexAlignCenter } from '@global/mixin';
 import styled from 'styled-components';
 import ImageBox from '@atoms/ImageBox';
+import { flexAlignCenter } from '@global/style/mixin';
 
 export const StyledBigImageBox = styled(ImageBox)`
   width: inherit;

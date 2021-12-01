@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Label from '@atoms/Label';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
-import { ThemeButton } from '@global/mixin';
+import { ThemeButton } from '@global/style/mixin';
 
 const Container = styled.div`
   width: 80vw;
