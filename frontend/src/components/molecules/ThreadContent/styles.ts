@@ -52,7 +52,7 @@ export const MessageSender = styled.span`
   color: #1d1c1d;
 `;
 
-export const MessageTimestamp = styled.a`
+export const MessageTimestamp = styled.span`
   color: #616061;
   font-size: 12px;
   text-decoration: none;

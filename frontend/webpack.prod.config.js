@@ -8,8 +8,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const { ProgressPlugin } = webpack;
 
 module.exports = {
-  mode: 'development',
-  devtool: 'inline-source-map',
+  mode: 'production',
   entry: {
     main: './src/index.tsx',
   },
@@ -51,25 +50,7 @@ module.exports = {
 
   optimization: {
     minimize: true,
-    splitChunks: {
-      chunks: 'all',
-      maxInitialRequests: Infinity,
-      minSize: 0,
-      cacheGroups: {
-        vendor: {
-          test: /[\\/]node_modules[\\/]/,
-          name(module) {
-            // get the name. E.g. node_modules/packageName/not/this/part.js
-            // or node_modules/packageName
-            const packageName = module.context.match(
-              /[\\/]node_modules[\\/](.*?)([\\/]|$)/,
-            )[1];
-            // npm package names are URL-safe, but some servers don't like @ symbols
-            return `npm.${packageName.replace('@', '')}`;
-          },
-        },
-      },
-    },
+
     minimizer: [new TerserPlugin()],
   },
   module: {
