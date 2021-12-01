@@ -74,7 +74,7 @@ const ThreadContent = ({
       {reactionList?.length > 0 && (
         <ReactionBar isReply={isReply} reactionList={reactionList} />
       )}
-      {replyList?.length > 0 && (
+      {!isReply && replyList?.length > 0 && (
         <ReplyButton
           onClick={() => replyToggle({ isOpened: true, thread, channelName })}
           text={`${replyList?.length}개의 댓글`}

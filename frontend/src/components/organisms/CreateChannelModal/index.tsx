@@ -37,16 +37,13 @@ const CreateChannelModal = (): JSX.Element => {
 
   const createChannelAndClose = async () => {
     if (!name) return;
-    const data = await createChannel(
+    const { channel } = await createChannel(
       name,
       isPrivate,
       description,
       workspaceId,
       user.socket,
     );
-
-    console.log(data, data.channel);
-    const { channel } = data;
 
     joinChannel(user.id, channel.id, workspaceId, user.socket);
     clear();
