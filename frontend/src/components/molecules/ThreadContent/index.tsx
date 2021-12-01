@@ -98,7 +98,11 @@ const ThreadContent = ({
     const res = await axios.get(
       `/api/files/userhasworkspace/${userHasWorkspaceId}`,
     );
-    if (res?.data.files.url && res?.data.files.url !== fileUrl) {
+    if (
+      res?.data.files &&
+      res?.data.files.url &&
+      res?.data.files.url !== fileUrl
+    ) {
       setFileUrl(res?.data.files.url);
     }
   }, []);

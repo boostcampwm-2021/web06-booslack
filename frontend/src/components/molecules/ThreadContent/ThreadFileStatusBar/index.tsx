@@ -1,5 +1,8 @@
 import React from 'react';
-import { ThreadFileStatusBarLayout } from './styles';
+import {
+  ThreadFileStatusBarLayout,
+  ThreadFileStatusBarContainer,
+} from './styles';
 import ThreadFileStatusElement from '../ThreadFileStatusElement';
 
 interface Props {
@@ -10,9 +13,11 @@ const ThreadFileStatusBar = ({ files }: Props): JSX.Element => {
   return (
     <>
       <ThreadFileStatusBarLayout>
-        {files.map((file) => (
-          <ThreadFileStatusElement file={file} />
-        ))}
+        <ThreadFileStatusBarContainer>
+          {files.map((file, index) => (
+            <ThreadFileStatusElement file={file} key={index} />
+          ))}
+        </ThreadFileStatusBarContainer>
       </ThreadFileStatusBarLayout>
     </>
   );

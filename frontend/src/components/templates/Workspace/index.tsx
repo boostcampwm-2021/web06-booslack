@@ -62,7 +62,9 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
 
       const file = await axios.get(`/api/files/userhasworkspace/${id}`);
 
-      if (file?.data.files) setFileUrl(file?.data.files.url);
+      if (res?.data.files && file?.data.files.url) {
+        setFileUrl(file?.data.files.url);
+      }
 
       setUser((prevState) => ({
         ...prevState,

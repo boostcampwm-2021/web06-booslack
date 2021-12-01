@@ -41,6 +41,7 @@ export const MessageKitLeft = styled.div`
 export const MessageKitRight = styled.div`
   flex: 1 1 0;
   min-width: 0;
+  height: 100%;
   padding: 8px;
   padding-left: 16px;
   margin: -12px -8px -16px -16px;

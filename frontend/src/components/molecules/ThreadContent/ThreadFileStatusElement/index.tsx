@@ -1,20 +1,25 @@
 import React from 'react';
-import { MdTextSnippet } from 'react-icons/md';
-import { ThreadFileStatusElementImage } from './styles';
+import {
+  ThreadFileStatusElementImage,
+  ThreadMdTextSnippet,
+  ThreadFileStatusLayOut,
+} from './styles';
 
 interface Props {
   file: File;
 }
 
 const ThreadFileStatusElement = ({ file }: Props): JSX.Element => {
-  const fileUrl = file?.url || MdTextSnippet;
+  const fileUrl = file?.url;
   return (
     <>
-      {file?.url ? (
-        <ThreadFileStatusElementImage image={fileUrl} />
-      ) : (
-        <MdTextSnippet width={35} height={35} />
-      )}
+      <ThreadFileStatusLayOut>
+        {fileUrl ? (
+          <ThreadFileStatusElementImage image={fileUrl} />
+        ) : (
+          <ThreadMdTextSnippet />
+        )}
+      </ThreadFileStatusLayOut>
     </>
   );
 };
