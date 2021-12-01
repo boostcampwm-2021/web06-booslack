@@ -68,7 +68,7 @@ const ReplyContent = ({ messageObject }: Props): JSX.Element => {
   const ReplyList = () => {
     if (!isReplyListLoading) {
       return replyMessages?.map((reply: Message) => (
-        <MessageContent key={reply.id} messageObject={reply} />
+        <MessageContent key={reply.id} messageObject={reply} isInReplySide />
       ));
     }
 

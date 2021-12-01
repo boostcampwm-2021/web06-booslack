@@ -5,10 +5,9 @@ import EmojiModal from '@organisms/EmojiModal';
 import useRefLocate from '@hook/useRefLocate';
 import userState from '@state/user';
 import { replyToggleState } from '@state/workspace';
-import { Message } from '@global/type';
-import { onEmojiSet } from '@global/util/reaction';
-import { checkIsInReplySide } from '@global/util/reply';
 import { removeMessage } from '@global/util/message';
+import { onEmojiSet } from '@global/util/reaction';
+import { Message } from '@global/type';
 import { BsEmojiSmile, BsBookmark } from 'react-icons/bs';
 import { BiMessageRoundedDetail, BiDotsVerticalRounded } from 'react-icons/bi';
 import { RiShareForwardLine } from 'react-icons/ri';
@@ -28,12 +27,14 @@ interface Props {
   messageObject: Message;
   channelName: string[];
   setUpdateState: (arg: boolean) => void;
+  isInReplySide: boolean;
 }
 
 const MessageActions = ({
   messageObject,
   channelName,
   setUpdateState,
+  isInReplySide,
 }: Props): JSX.Element => {
   const dotsVerticalButtonRef = useRef(null);
   const emojiButtonRef = useRef(null);
@@ -50,8 +51,6 @@ const MessageActions = ({
   const [replyToggle, setReplyToggle] = useRecoilState(replyToggleState);
 
   const [isEmojiOpen, setIsEmojiOpen] = useState(false);
-
-  const isInReplySide = checkIsInReplySide(messageObject, replyToggle);
 
   const myMessageActionMenus = (
     <MenuItems>

@@ -144,6 +144,7 @@ const MessageContent = ({
           messageObject={messageObject}
           channelName={channelName}
           setUpdateState={setUpdateState}
+          isInReplySide={isInReplySide}
         />
       )}
     </Container>
