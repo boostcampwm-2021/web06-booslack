@@ -2,7 +2,6 @@ import React, { ReactNode, Suspense, useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useParams } from 'react-router-dom';
 import { useQueryClient } from 'react-query';
-import axios from 'axios';
 import { io } from 'socket.io-client';
 import WorkspaceHeader from '@organisms/WorkspaceHeader';
 import WorkspaceSidebar from '@organisms/WorkspaceSidebar';
@@ -45,7 +44,7 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
 
   const { workspaceId }: { workspaceId: string } = useParams();
   const [user, setUser] = useRecoilState(userState);
-  const [fileUrl, setFileUrl] = useState(defaultProfile);
+  const [fileUrl, setFileUrl] = useState<any>(defaultProfile);
   useWorkspaceQuery(workspaceId);
 
   const queryClient = useQueryClient();
@@ -56,13 +55,9 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
         String(user.id),
         workspaceId,
       );
-      const { id, nickname, description, theme } = userHasWorkspace;
+      const { id, nickname, description, theme, url } = userHasWorkspace[0];
 
-      const file = await axios.get(`/api/files/userhasworkspace/${id}`);
-
-      if (file?.data.files && file?.data.files.url) {
-        setFileUrl(file?.data.files.url);
-      }
+      if (url) setFileUrl(url);
 
       setUser((prevState) => ({
         ...prevState,

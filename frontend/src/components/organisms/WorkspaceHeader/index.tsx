@@ -17,7 +17,7 @@ import {
   StyledDiv,
 } from './styles';
 
-const WorkspaceHeader = (fileUrl: JSON): JSX.Element => {
+const WorkspaceHeader = (fileUrl: string): JSX.Element => {
   const ButtonRef = useRef(null);
   const SearchModalRef = useRef(null);
   const [modalState, setModalState] = useState(false);

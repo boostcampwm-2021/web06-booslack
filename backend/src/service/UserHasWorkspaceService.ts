@@ -25,9 +25,9 @@ export async function getUserHasWorkspace(req: Request, res: Response) {
   try {
     const { userId, workspaceId } = req.query;
 
-    const userHasWorkspace = await getCustomRepository(UserHasWorkspaceRepository).findOne({
-      where: [{ userId, workspaceId }],
-    });
+    const userHasWorkspace = await getCustomRepository(
+      UserHasWorkspaceRepository,
+    ).findUserHasWorkspaceThatFilesIn(String(userId), String(workspaceId));
 
     if (!userHasWorkspace) {
       throw new Error(
