@@ -3,7 +3,6 @@ import { Request, Response } from 'express';
 import { getCustomRepository } from 'typeorm';
 import axios from 'axios';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
-import FileRepository from '../repository/FileRepository';
 
 const { BAD_REQUEST, OK } = StatusCodes;
 
@@ -29,14 +28,7 @@ export async function getUserHasWorkspace(req: Request, res: Response) {
     const userHasWorkspace = await getCustomRepository(UserHasWorkspaceRepository).findOne({
       where: [{ userId, workspaceId }],
     });
-    const fileId = userHasWorkspace?.fileId;
-    if (fileId === null || fileId === 1 || fileId === undefined) {
-      return res.status(OK).json({ userHasWorkspace });
-    }
-    const files = await getCustomRepository(FileRepository).findOne(userHasWorkspace?.fileId);
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    userHasWorkspace?.fileUrl = files?.url;
+
     if (!userHasWorkspace) {
       throw new Error(
         // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
