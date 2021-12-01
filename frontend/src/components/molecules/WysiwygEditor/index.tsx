@@ -58,7 +58,6 @@ const WysiwygEditor = ({
   const user = useRecoilValue(userState);
   const setShouldScrollDown = useSetRecoilState(shouldScrollDownState);
 
-  const editor = useRef();
   useEffect(() => {
     if (editor.current && messageClear) {
       editor.current.innerHTML = '<p><br></p>';

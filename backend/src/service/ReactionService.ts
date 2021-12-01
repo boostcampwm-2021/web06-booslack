@@ -12,7 +12,7 @@ const { BAD_REQUEST, OK } = StatusCodes;
 export async function addReaction(req: Request, res: Response) {
   try {
     const { threadId, userHasWorkspaceId, emoji } = req.body;
-    console.log('threadid', threadId);
+
     const thread = await getCustomRepository(ThreadRepository).findOne({
       where: [{ id: threadId }],
     });
@@ -37,7 +37,6 @@ export async function addReaction(req: Request, res: Response) {
     await getCustomRepository(ReactionRepository).save(reaction);
     return res.status(OK).json({ reaction });
   } catch (e) {
-    console.log(e);
     return res.status(BAD_REQUEST).json(e);
   }
 }
@@ -85,7 +84,6 @@ export async function deleteReplyReaction(req: Request, res: Response) {
 
     return res.status(OK).end();
   } catch (e) {
-    console.log(e);
     return res.status(BAD_REQUEST).json(e);
   }
 }
