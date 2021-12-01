@@ -2,15 +2,20 @@ import styled from 'styled-components';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import Label from '@atoms/Label';
 import BrowseChannelHeader from '@molecules/BrowseChannelHeader';
-import { RoundScrollBar } from '@global/mixin';
+import { ThemeButton, RoundScrollBar } from '@global/mixin';
 import { defaultTheme } from '@global/theme';
 import { theme } from 'styled-tools';
 
 export const StyledLabeledButton = styled(LabeledDefaultButton)`
   border: 1 solid fff;
-  color: ${theme('titleText', defaultTheme.titleText)};
-  background-color: transparent;
+  ${ThemeButton};
 
+  font-weight: 400;
+  line-height: 1.3;
+  letter-spacing: normal;
+  text-transform: uppercase;
+  text-decoration: none;
+  font-size: 1.8rem;
   &:hover {
     text-decoration: underline;
   }
@@ -27,7 +32,7 @@ export const StyledHeader = styled(BrowseChannelHeader)`
 `;
 
 export const StyledLabel = styled(Label)`
-  font-size: 42px;
+  font-size: 3rem;
   font-weight: bold;
 `;
 
@@ -37,6 +42,7 @@ export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+
   ${RoundScrollBar}
   overflow-y: scroll;
   overflow-x: hidden;

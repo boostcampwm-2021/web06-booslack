@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 import Label from '@atoms/Label';
 import ThreadContent from '@molecules/ThreadContent';
-import { scrollIfHover } from '@global/mixin';
+import { RoundScrollBar } from '@global/mixin';
 
 interface Props {
   width?: string;
@@ -12,7 +12,7 @@ export const Container = styled.div<Props>`
   height: inherit;
   min-height: 40vh;
   width: ${(props) => props.width ?? 'inherit'};
-  ${scrollIfHover}
+  ${RoundScrollBar}
 `;
 export const AbsoluteLabel = styled(Label)`
   position: absolute;

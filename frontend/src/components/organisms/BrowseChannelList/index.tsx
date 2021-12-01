@@ -20,11 +20,10 @@ import {
   ScrollBox,
   ChannelListBackground,
   MarginBottomDiv,
+  MarginBetweenMenuDiv,
   CenterAlignedDiv,
   StyledBrowseChannelHeader,
 } from './styles';
-
-const { height: ListHeight } = BrowserChannelListSize;
 
 const BrowseChannelList = (): JSX.Element => {
   const sortOption = useRecoilValue<SortOption>(browseChannelSortOption);
@@ -51,7 +50,6 @@ const BrowseChannelList = (): JSX.Element => {
   const { page, setPage, isLoading, data, error } = usePagination(
     [sortOption, dbLikedOption, ...checkedItems],
     getWorkspaceLists,
-    { staleTime: 'Infinity' },
   );
 
   const channelCount = data?.count ?? 0;
@@ -94,12 +92,8 @@ const BrowseChannelList = (): JSX.Element => {
 
   return (
     <Container>
-      <SearchBar
-        height={ListHeight}
-        onSubmit={SubmitInput}
-        placeholder="검색어를 입력하세요."
-      />
-      <MarginBottomDiv />
+      <SearchBar onSubmit={SubmitInput} placeholder="검색어를 입력하세요." />
+      <MarginBetweenMenuDiv />
       <CenterAlignedDiv>
         <StyledBrowseChannelHeader title={Title} rightButton={RightButton} />
       </CenterAlignedDiv>
@@ -113,7 +107,7 @@ const BrowseChannelList = (): JSX.Element => {
             cursor={page}
             setCursor={setPage}
           />
-          <MarginBottomDiv margin={30} />
+          <MarginBottomDiv />
         </ScrollBox>
       </ChannelListBackground>
     </Container>

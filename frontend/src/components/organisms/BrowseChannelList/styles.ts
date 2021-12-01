@@ -23,8 +23,12 @@ export const ScrollBox = styled.div<Props>`
   }};
 `;
 
-export const MarginBottomDiv = styled.div<{ margin?: number }>`
-  margin-bottom: ${({ margin }) => margin || 2}vh;
+export const MarginBottomDiv = styled.div`
+  margin-bottom: 30vh;
+`;
+
+export const MarginBetweenMenuDiv = styled.div`
+  margin-bottom: 2vh;
 `;
 
 export const CenterAlignedDiv = styled.div`

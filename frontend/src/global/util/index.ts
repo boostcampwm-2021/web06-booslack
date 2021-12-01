@@ -63,8 +63,19 @@ export const checkInputValues = (inputTag: HTMLInputElement): string => {
   return inputTag.value.toUpperCase() as string;
 };
 
-export const copyText = (text: string): void => {
-  navigator.clipboard.writeText(text);
+export const copyText = (text: string): Promise<void> => {
+  const textArea = document.createElement('textarea');
+  textArea.value = text;
+  textArea.style.position = 'fixed';
+  textArea.style.left = '-999999px';
+  textArea.style.top = '-999999px';
+  document.body.appendChild(textArea);
+  textArea.focus();
+  textArea.select();
+  return new Promise<void>((res, rej) => {
+    document.execCommand('copy') ? res() : rej();
+    textArea.remove();
+  });
 };
 
 export const getCode = async (
