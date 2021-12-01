@@ -41,7 +41,7 @@ const ChatInputBar = ({ onSendClick, isReply }: Props): JSX.Element => {
     (acceptedFiles) => {
       UploadTargetFiles(acceptedFiles);
     },
-    [selectedFile],
+    [selectedFile, selectedFileUrl],
   );
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   return (

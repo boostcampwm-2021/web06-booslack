@@ -22,4 +22,7 @@ export const FileStatusElementButton = styled.div`
 
 export const FileStatusElementContainer = styled.div`
   padding-right: 8px;
+  width: 50px;
+  height: 50px;
+  margin-right: 10px;
 `;

@@ -37,6 +37,7 @@ export const WysiwygColumn = styled.div`
   flex-direction: row;
   justify-content: start;
   align-items: center;
+  width: 100%;
 `;
 
 export const WysiwygContainer = styled.div`
