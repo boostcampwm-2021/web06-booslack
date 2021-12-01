@@ -86,14 +86,12 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
 
   return (
     <>
-      <Suspense fallback={<p>Loading...</p>}>
-        <WorkspaceHeader fileUrl={fileUrl} />
-        <RowDiv>
-          <WorkspaceSidebar />
-          {children}
-          {isOpened && <ReplyBar />}
-        </RowDiv>
-      </Suspense>
+      <WorkspaceHeader fileUrl={fileUrl} />
+      <RowDiv>
+        <WorkspaceSidebar />
+        {children}
+        {isOpened && <ReplyBar />}
+      </RowDiv>
       {channelCreateModal && <CreateChannelModal />}
       {channelInfoModal.isOpen && <ChannelInfoModal />}
       {channelDescriptionModal && <ChannelDescriptionModal />}

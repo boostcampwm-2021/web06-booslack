@@ -1,9 +1,8 @@
 /* eslint-disable react/no-unused-prop-types */
-import React, { Suspense } from 'react';
+import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { useHistory } from 'react-router-dom';
 import axios from 'axios';
-import { SmallSpinner } from '@atoms/Spinner';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import AsyncBranch from '@molecules/AsyncBranch';
 import API from '@global/api';
@@ -29,6 +28,7 @@ import {
 
 const WorkSpaceLists = (workspaces: Workspace[]) => {
   const history = useHistory();
+
   return workspaces.map(
     ({ id, name, count, fileId }: Workspace & { count: number }) => {
       return (
@@ -61,20 +61,11 @@ async function getWorkspaceLists({ pageParam = 0 }) {
 }
 
 const WorkspaceList = () => {
-  const {
-    isLoading,
-    data,
-    error,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
-  } = useInfinityScroll('workspacelists', getWorkspaceLists);
+  const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =
+    useInfinityScroll('workspacelists', getWorkspaceLists);
 
   return (
     <>
-      {/* <AsyncBranch data={data} loading={isLoading} error={error}>
-        {WorkSpaceLists(queryFlatMap<Workspace>(data, 'workspaces'))}
-      </AsyncBranch> */}
       {WorkSpaceLists(queryFlatMap<Workspace>(data, 'workspaces'))}
       {isFetchingNextPage && (
         <SpinnerContainer>
@@ -104,9 +95,9 @@ const WorkSpaceListContent = (): JSX.Element => {
       <Container>
         <StyledHeader title={NameLabel} content={<></>} rightButton={<></>} />
         <WorkspaceListContainer>
-          <Suspense fallback={<SmallSpinner />}>
+          <AsyncBranch size={25}>
             <WorkspaceList />
-          </Suspense>
+          </AsyncBranch>
         </WorkspaceListContainer>
       </Container>
     </>

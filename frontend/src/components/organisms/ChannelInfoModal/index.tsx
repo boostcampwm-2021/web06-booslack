@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRecoilState } from 'recoil';
 import { useParams } from 'react-router-dom';
+import AsyncBranch from '@molecules/AsyncBranch';
 import ChannelAbout from '@organisms/ChannelAbout';
 import ChannelMembers from '@organisms/ChannelMembers';
 import { useChannelQuery } from '@hook/useChannels';
@@ -50,7 +51,9 @@ const ChannelInfoModal = (): JSX.Element => {
             text="Members"
           />
         </TabContainer>
-        {isAboutTab ? <ChannelAbout /> : <ChannelMembers />}
+        <AsyncBranch size={50}>
+          {isAboutTab ? <ChannelAbout /> : <ChannelMembers />}
+        </AsyncBranch>
       </Container>
     </StyledModal>
   );

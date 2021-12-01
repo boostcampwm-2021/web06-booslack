@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-
 import Label from '@atoms/Label';
 import AsyncBranch from '@molecules/AsyncBranch';
 import ChannelList from '@molecules/ChannelList';
 import SearchBar from '@molecules/SearchBar';
 import SelectbrowseChannelPage from '@molecules/SelectbrowseChannelPage';
 import BrowseMordalContainer from '@organisms/BrowseMordalContainer';
-import { BrowserChannelListSize, CHANNELTYPE } from '@enum/index';
+import { CHANNELTYPE } from '@enum/index';
 import usePagination from '@hook/usePagination';
 import API from '@global/api';
 import { SortOption } from '@global/type';
@@ -47,7 +46,7 @@ const BrowseChannelList = (): JSX.Element => {
     return res.data;
   }
 
-  const { page, setPage, isLoading, data, error } = usePagination(
+  const { page, setPage, data } = usePagination(
     [sortOption, dbLikedOption, ...checkedItems],
     getWorkspaceLists,
   );
@@ -99,9 +98,9 @@ const BrowseChannelList = (): JSX.Element => {
       </CenterAlignedDiv>
       <ChannelListBackground>
         <ScrollBox>
-          <AsyncBranch data={data} loading={isLoading} error={error}>
-            <GetListByGET />
-          </AsyncBranch>
+          {/* <AsyncBranch size={50}> */}
+          <GetListByGET />
+          {/* </AsyncBranch> */}
           <SelectbrowseChannelPage
             dataCount={channelCount}
             cursor={page}

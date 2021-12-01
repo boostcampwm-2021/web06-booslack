@@ -1,6 +1,7 @@
 export const socketOption = {
   staleTime: Infinity,
   refetchOnWindowFocus: false,
+  suspense: true,
 };
 
 export const hourlyExpirationOption = {
