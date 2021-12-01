@@ -5,7 +5,7 @@ import ImageButton from '@atoms/ImageButton';
 import IconButton from '@atoms/IconButton';
 import { defaultTheme } from '@global/style/theme';
 
-export const Container = styled.div`
+export const Container = styled.header`
   display: flex;
   width: 100vw;
   height: 45px;
