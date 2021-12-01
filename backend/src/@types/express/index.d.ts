@@ -19,9 +19,10 @@ declare module 'express' {
       time: Date;
       code: string;
       theme: string;
-      fileId: string;
+      fileId: number;
       topic: string;
       emoji: string;
+      files: any;
 
       userId: string;
       channelId: string;

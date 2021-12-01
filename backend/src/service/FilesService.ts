@@ -38,7 +38,7 @@ export async function updateOneFile(req: Request, res: Response) {
     fileById.url = url || fileById.url;
     fileById.extension = extension || fileById.extension;
     fileById.threadId = Number(threadId) || fileById.threadId;
-    fileById.replyId = replyId || fileById.replyId;
+    fileById.replyId = Number(replyId) || fileById.replyId;
     const files = await getCustomRepository(FileRepository).save(fileById);
     return res.status(OK).json({ files });
   } catch (e) {
