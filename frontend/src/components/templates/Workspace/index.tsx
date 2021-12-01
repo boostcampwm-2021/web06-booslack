@@ -2,6 +2,7 @@ import React, { ReactNode, Suspense, useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useParams } from 'react-router-dom';
 import { useQueryClient } from 'react-query';
+import axios from 'axios';
 import { io } from 'socket.io-client';
 import WorkspaceHeader from '@organisms/WorkspaceHeader';
 import WorkspaceSidebar from '@organisms/WorkspaceSidebar';
@@ -94,7 +95,7 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
         </RowDiv>
       </Suspense>
       {channelCreateModal && <CreateChannelModal />}
-      {channelInfoModal && <ChannelInfoModal />}
+      {channelInfoModal.isOpen && <ChannelInfoModal />}
       {channelDescriptionModal && <ChannelDescriptionModal />}
       {channelTopicModal && <ChannelTopicModal />}
       {preferenceModal && <PreferenceModal />}

@@ -3,7 +3,7 @@ import { theme } from 'styled-tools';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import Label from '@atoms/Label';
 import BrowseChannelHeader from '@molecules/BrowseChannelHeader';
-import { RoundScrollBar } from '@global/style/mixin';
+import { RoundScrollBar, ThemeButton } from '@global/style/mixin';
 import { defaultTheme } from '@global/style/theme';
 
 export const StyledLabeledButton = styled(LabeledDefaultButton)`

@@ -41,7 +41,9 @@ class Reply {
   @ManyToOne(() => Thread, (thread) => thread.replys, { onDelete: 'CASCADE' })
   thread!: Thread;
 
-  @ManyToOne(() => UserHasWorkspace, (userHasWorkspace) => userHasWorkspace.replys)
+  @ManyToOne(() => UserHasWorkspace, (userHasWorkspace) => userHasWorkspace.replys, {
+    onDelete: 'SET NULL',
+  })
   userHasWorkspace!: UserHasWorkspace;
 }
 
