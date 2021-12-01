@@ -51,7 +51,7 @@ export const blackAndWhiteTheme: Itheme = {
   bigHeaderColor: '#000000',
   smallHeaderColor: '#1A1D21',
   titleText: '#fff',
-  smallText: '#f8f8f8',
+  smallText: '#a3a3a3',
   searchBar: '#3B3B3B',
   focusedMenu: '#1164A3',
   workspaceListTitle: '#fff',

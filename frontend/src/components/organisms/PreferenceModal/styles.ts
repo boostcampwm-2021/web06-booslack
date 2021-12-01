@@ -87,7 +87,7 @@ export const MiddleDiv = styled.div`
 `;
 
 export const StyledModal = styled(Modal)`
-  width: 50vw;
+  width: 45vw;
   min-width: 580px;
   height: 40vh;
   min-height: 480px;
