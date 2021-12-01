@@ -28,7 +28,7 @@ import {
 } from './styles';
 
 interface Props {
-  threadId: string;
+  messageId: number;
   message: string;
   focused: boolean;
   setUpdateState: Dispatch<SetStateAction<boolean>>;
@@ -36,7 +36,7 @@ interface Props {
 }
 
 const Toolbar = ({
-  threadId,
+  messageId,
   message,
   focused,
   setUpdateState,
@@ -50,15 +50,21 @@ const Toolbar = ({
   const updateRequest = () => {
     if (isReply) {
       updateReply(
-        threadId,
-        toggleState?.thread.id,
-        channelId,
+        messageId,
+        toggleState?.message.id,
+        Number(channelId),
         message,
         user.socket,
         setUpdateState,
       );
     } else {
-      updateMessage(threadId, channelId, message, user.socket, setUpdateState);
+      updateMessage(
+        messageId,
+        Number(channelId),
+        message,
+        user.socket,
+        setUpdateState,
+      );
     }
   };
 

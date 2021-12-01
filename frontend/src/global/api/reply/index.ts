@@ -4,9 +4,9 @@ import { Socket } from 'socket.io-client';
 import API from '@global/api';
 
 export const updateReply = async (
-  replyId: string,
-  threadId: string,
-  channelId: string,
+  replyId: number,
+  threadId: number,
+  channelId: number,
   message: string,
   socket: Socket,
   setUpdateState: Dispatch<SetStateAction<boolean>>,
@@ -35,9 +35,9 @@ export const deleteReply = async (
 };
 
 export const postReply = async (
-  userHasWorkspaceId: string,
-  threadId: string,
-  channelId: string,
+  userHasWorkspaceId: number,
+  threadId: number,
+  channelId: number,
   message: string,
   socket: Socket,
   setMessageClear: Dispatch<SetStateAction<boolean>>,
@@ -55,9 +55,9 @@ export const postReply = async (
 };
 
 export const postReplyAndFiles = async (
-  userHasWorkspaceId: string,
-  threadId: string,
-  channelId: string,
+  userHasWorkspaceId: number,
+  threadId: number,
+  channelId: number,
   message: string,
   socket: Socket,
   setMessageClear: Dispatch<SetStateAction<boolean>>,

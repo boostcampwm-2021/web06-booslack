@@ -1,4 +1,4 @@
-import { IThread } from '@global/type';
+import { Message } from '@global/type';
 import { atom, selector } from 'recoil';
 
 const PAGEVW = 100;
@@ -13,7 +13,7 @@ export const sizestate = atom<number>({
 
 export interface IreplyToggle {
   isOpened: boolean;
-  thread: undefined | IThread;
+  message: undefined | Message;
   channelName: undefined | string[];
 }
 
@@ -21,7 +21,7 @@ export const replyToggleState = atom<IreplyToggle>({
   key: 'replyToggleState',
   default: {
     isOpened: false,
-    thread: undefined,
+    message: undefined,
     channelName: undefined,
   },
 });

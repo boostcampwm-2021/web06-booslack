@@ -44,10 +44,31 @@ export interface IThread {
   userHasWorkspace: { nickname: string };
   message: string;
   createdAt: string;
-  id: string;
-  userHasWorkspaceId: string;
+  id: number;
+  userHasWorkspaceId: number;
   replys: unknown[];
   reactions: unknown[];
   files: unknown[];
   threadId?: number;
+}
+
+export interface Message {
+  userHasWorkspace: { nickname: string };
+  message: string;
+  createdAt: string;
+  id: number;
+  userHasWorkspaceId: number;
+  replys?: Message[];
+  reactions: Reaction[];
+  files: File[];
+  threadId?: number;
+}
+
+export interface Reaction {
+  createdAt: string;
+  emoji: string;
+  id: number;
+  replyId: number;
+  threadId: number;
+  userHasWorkspaceId: number;
 }

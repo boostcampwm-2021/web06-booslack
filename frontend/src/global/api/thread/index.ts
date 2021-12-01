@@ -4,8 +4,8 @@ import { Socket } from 'socket.io-client';
 import API from '@global/api';
 
 export const updateMessage = async (
-  threadId: string,
-  channelId: string,
+  threadId: number,
+  channelId: number,
   message: string,
   socket: Socket,
   setUpdateState: Dispatch<SetStateAction<boolean>>,
@@ -33,8 +33,8 @@ export const deleteMessage = async (
 };
 
 export const postMessage = async (
-  userHasWorkspaceId: string,
-  channelId: string,
+  userHasWorkspaceId: number,
+  channelId: number,
   message: string,
   socket: Socket,
   setMessageClear: Dispatch<SetStateAction<boolean>>,
@@ -51,8 +51,8 @@ export const postMessage = async (
 };
 
 export const postMessageAndFiles = async (
-  userHasWorkspaceId: string,
-  channelId: string,
+  userHasWorkspaceId: number,
+  channelId: number,
   message: string,
   socket: Socket,
   setMessageClear: Dispatch<SetStateAction<boolean>>,

@@ -1,8 +1,8 @@
 import React, { useEffect, useRef } from 'react';
 import { useParams } from 'react-router-dom';
-import ThreadContent from '@molecules/ThreadContent';
+import MessageContent from '@molecules/MessageContent';
 import { usePartialThreadListQuery } from '@hook/useThreads';
-import { IThread } from '@global/type';
+import { Message } from '@global/type';
 import { useRecoilState } from 'recoil';
 import { shouldScrollDownState } from '@state/thread';
 import { Container } from './styles';
@@ -28,7 +28,7 @@ const ChatContent = ({ inputBar, channelName }: Props): JSX.Element => {
     isError,
     fetchPreviousPage,
     hasPreviousPage,
-    data: threads,
+    data: messages,
   } = usePartialThreadListQuery(channelId);
 
   useEffect(() => {
@@ -37,7 +37,7 @@ const ChatContent = ({ inputBar, channelName }: Props): JSX.Element => {
       setShouldScrollDown(false);
     }
 
-    if (!threads || !hasPreviousPage) return undefined;
+    if (!messages || !hasPreviousPage) return undefined;
     const observer = new IntersectionObserver((entries) =>
       entries.forEach((entry) => {
         if (entry.isIntersecting && hasPreviousPage) {
@@ -52,7 +52,7 @@ const ChatContent = ({ inputBar, channelName }: Props): JSX.Element => {
       observer.disconnect();
       previousRef.current?.scrollIntoView({ block: 'nearest' });
     };
-  }, [threads, hasPreviousPage]);
+  }, [messages, hasPreviousPage]);
 
   useEffect(() => {
     if (isLoading) return;
@@ -65,10 +65,10 @@ const ChatContent = ({ inputBar, channelName }: Props): JSX.Element => {
   return (
     <>
       <Container ref={currentRef}>
-        {threads.pages.flat().map((thread: IThread) => (
-          <ThreadContent
-            key={thread.id}
-            thread={thread}
+        {messages.pages.flat().map((message: Message) => (
+          <MessageContent
+            key={message.id}
+            messageObject={message}
             channelName={channelName}
           />
         ))}
