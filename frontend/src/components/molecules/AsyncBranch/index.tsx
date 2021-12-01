@@ -1,36 +1,24 @@
-import React, { useContext } from 'react';
+import React, { Suspense, useContext } from 'react';
 import { ThemeContext } from 'styled-components';
-import { InfiniteData } from 'react-query';
-import Container, { LoadingSpinner, MarginDiv } from './styles';
+import ErrorBoundary from '@atoms/ErrorBoundary';
+import { ErrorSpinner, Spinner } from '@atoms/Spinner';
 
 interface Props {
-  data: unknown[] | InfiniteData<unknown>;
-  loading: boolean;
-  error: Error | unknown;
+  size: number;
   children: JSX.Element | JSX.Element[];
 }
 
-const AsyncBranch = ({
-  loading,
-  error,
-  data,
-  children,
-}: Props): JSX.Element => {
+const AsyncBranch = ({ size, children }: Props): JSX.Element => {
   const themeContext = useContext(ThemeContext);
-  const color = themeContext.backgroundColor;
+  const color = themeContext.bigHeaderColor;
 
-  if (loading) return <div>로딩중..</div>;
-  if (error) {
-    return (
-      <Container>
-        에러가 발생했습니다.
-        <MarginDiv />
-        <LoadingSpinner color={color} />
-      </Container>
-    );
-  }
-  if (!data) return <></>;
-  return <>{children}</>;
+  return (
+    <ErrorBoundary fallback={<ErrorSpinner size={size} color={color} />}>
+      <Suspense fallback={<Spinner size={size} color={color} />}>
+        {children}
+      </Suspense>
+    </ErrorBoundary>
+  );
 };
 
 AsyncBranch.defaultProps = {};

@@ -1,6 +1,10 @@
 import React from 'react';
 
-class ErrorBoundary extends React.Component {
+interface Props {
+  fallback: JSX.Element;
+}
+
+class ErrorBoundary extends React.Component<Props> {
   constructor(props) {
     super(props);
     this.state = { hasError: false };
