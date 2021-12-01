@@ -31,4 +31,5 @@ export const Tab = styled(LabeledButton)<Props>`
 
 export const StyledModal = styled(Modal)`
   max-width: 580px;
+  min-height: 550px;
 `;
