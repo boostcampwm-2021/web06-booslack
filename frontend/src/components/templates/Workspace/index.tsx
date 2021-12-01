@@ -1,4 +1,4 @@
-import React, { ReactNode, Suspense, useEffect } from 'react';
+import React, { ReactNode, Suspense, useEffect, useState } from 'react';
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
@@ -27,6 +27,7 @@ import {
 import { replyToggleState } from '@state/workspace';
 import userState from '@state/user';
 import { useWorkspaceQuery } from '@hook/useWorkspace';
+import defaultProfile from '@global/image/default_account.png';
 import { RowDiv } from './styles';
 
 interface Props {
@@ -47,6 +48,7 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
   const { workspaceId, channelId }: { workspaceId: string; channelId: string } =
     useParams();
   const [user, setUser] = useRecoilState(userState);
+  const [fileUrl, setFileUrl] = useState(defaultProfile);
   useWorkspaceQuery(workspaceId);
 
   const queryClient = useQueryClient();
@@ -57,6 +59,12 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
         `/api/userHasWorkspaces?userId=${user.id}&workspaceId=${workspaceId}`,
       );
       const { id, nickname, description, theme } = res.data.userHasWorkspace;
+
+      const file = await axios.get(`/api/files/userhasworkspace/${id}`);
+
+      if (file?.data.files && file?.data.files.url) {
+        setFileUrl(file?.data.files.url);
+      }
 
       setUser((prevState) => ({
         ...prevState,
@@ -81,7 +89,7 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
   return (
     <>
       <Suspense fallback={<p>Loading...</p>}>
-        <WorkspaceHeader />
+        <WorkspaceHeader fileUrl={fileUrl} />
         <RowDiv>
           <WorkspaceSidebar />
           {children}

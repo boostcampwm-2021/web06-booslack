@@ -1,7 +1,8 @@
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
-import { getCustomRepository } from 'typeorm';
+import { getCustomRepository, getRepository } from 'typeorm';
 import ReplyRepository from '../repository/ReplyRepository';
+import File from '../model/File';
 import Reply from '../model/Reply';
 import FileRepository from '../repository/FileRepository';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
@@ -14,7 +15,7 @@ export async function getAllReplys(req: Request, res: Response) {
     const { threadId } = req.query;
 
     const replys = await getCustomRepository(ReplyRepository).find({
-      relations: ['userHasWorkspace', 'reactions'],
+      relations: ['userHasWorkspace', 'reactions', 'files'],
       where: [{ threadId }],
     });
     return res.status(OK).json({ replys });
@@ -40,12 +41,13 @@ export async function getReply(req: Request, res: Response) {
 export async function updateReply(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    const { message } = req.body;
+    const { message, files } = req.body;
 
     if (Object.keys(req.body).length === 0) throw new Error('no reply data in body');
 
     const replyById = await getCustomRepository(ReplyRepository).findOneOrFail(id);
     replyById.message = message || replyById.message;
+    replyById.files = files || replyById.files;
     const reply = await getCustomRepository(ReplyRepository).save(replyById);
 
     return res.status(OK).json({ reply });
@@ -115,6 +117,31 @@ export async function getPartialReplysByThreadId(req: Request, res: Response) {
 
     const replys = replysDesc.reverse();
     return res.status(OK).json({ replys });
+  } catch (e) {
+    return res.status(BAD_REQUEST).json(e);
+  }
+}
+
+export async function updateReplyAndFiles(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const { files } = req.body;
+    const fileList: Array<any> = files;
+
+    if (Object.keys(req.body).length === 0) throw new Error('no reply data in body');
+    fileList.map(async (file: any) => {
+      const fileId: number = file?.id;
+      const fileById: any = await getRepository(File).findOneOrFail(fileId);
+      fileById.replyId = Number(id) ?? fileById.replyId;
+      const FileById = await getRepository(File).save(fileById);
+      if (!FileById) throw new Error('no File data in body');
+    });
+
+    const replyById = await getCustomRepository(ReplyRepository).findOneOrFail(id);
+    replyById.files = files || replyById.files;
+    const reply = await getCustomRepository(ReplyRepository).save(replyById);
+
+    return res.status(OK).json({ reply });
   } catch (e) {
     return res.status(BAD_REQUEST).json(e);
   }

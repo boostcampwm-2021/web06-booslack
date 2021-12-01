@@ -48,5 +48,6 @@ export interface IThread {
   userHasWorkspaceId: string;
   replys: unknown[];
   reactions: unknown[];
+  files: unknown[];
   threadId?: number;
 }

@@ -31,10 +31,19 @@ const SelectWorkspace = ({
     firstLabelContent?.length > 13
       ? `${firstLabelContent.substr(0, 13)}...`
       : firstLabelContent;
-  const { data, loading, error } = useAsync({}, `/api/files/${fileId}`);
+  const { data, loading, error } =
+    fileId === 1 || fileId === null ? {} : useAsync({}, `/api/files/${fileId}`);
   const isNotImageUrl = () => {
     // eslint-disable-next-line max-len
-    return loading || error || fileId === 1 || fileId === null || data === {} || data === null || !data.files.url;
+    return (
+      loading ||
+      error ||
+      fileId === 1 ||
+      fileId === null ||
+      data === {} ||
+      data === null ||
+      !data.files.url
+    );
   };
   return (
     <Container className={className}>

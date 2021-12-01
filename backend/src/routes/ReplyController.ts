@@ -6,11 +6,14 @@ import {
   updateReply,
   deleteReply,
   getPartialReplysByThreadId,
+  updateReplyAndFiles,
 } from '../service/ReplyService';
 
 const replyRouter = Router();
 
 replyRouter.get('/partial', getPartialReplysByThreadId);
+
+replyRouter.put('/files/:id', updateReplyAndFiles);
 
 replyRouter.get('/', getAllReplys);
 replyRouter.get('/:id', getReply);

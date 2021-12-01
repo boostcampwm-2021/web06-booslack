@@ -8,7 +8,7 @@ import IconButton from '@atoms/IconButton';
 export const Container = styled.div`
   display: flex;
   width: 100vw;
-  height: 38px;
+  height: 45px;
   padding: 1vh 20px 1vh 20px;
 
   background-color: ${theme('bigHeaderColor', defaultTheme.bigHeaderColor)};
@@ -49,6 +49,7 @@ export const StyledNoOverlayModal = styled(NoOverlayModal)`
 export const StyledImageButton = styled(ImageButton)`
   position: absolute;
   right: 12px;
+  border-radius: 5px;
 `;
 
 export const StyledIconButton = styled(IconButton)`

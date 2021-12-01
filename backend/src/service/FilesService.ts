@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import { DeepPartial, getCustomRepository } from 'typeorm';
 import FileRepository from '../repository/FileRepository';
 import File from '../model/File';
+import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
 
 const { BAD_REQUEST, OK } = StatusCodes;
 
@@ -80,7 +81,7 @@ export async function uploadFile(req: Request, res: Response) {
       extension: req.file?.fieldname,
     };
     const fileBySave = await getCustomRepository(FileRepository).save(fileByUpload);
-    res.status(202).json({ files: [fileBySave.id] });
+    res.status(202).json({ files: [fileBySave] });
   } catch (e) {
     res.status(BAD_REQUEST).json(e);
   }
@@ -91,7 +92,7 @@ export function uploadFiles(req: Request, res: Response) {
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     const Files: Array<File> = req.files;
-    const fileList: Array<number> = [];
+    const fileList: Array<File> = [];
     // eslint-disable-next-line array-callback-return
     Files.map(async (element: File) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
@@ -103,12 +104,27 @@ export function uploadFiles(req: Request, res: Response) {
         extension: fieldname,
       };
       const file = await getCustomRepository(FileRepository).save(fileByUpload);
-      fileList.push(file.id);
+      fileList.push(file);
       if (Files.length === fileList.length) {
         res.status(202).json({ files: fileList });
       }
     });
   } catch (e) {
     res.status(BAD_REQUEST).json(e);
+  }
+}
+
+export async function getOneFileByUserHasWorkspaceId(req: Request, res: Response) {
+  const { id } = req.params;
+  try {
+    const userHasWorkspace = await getCustomRepository(UserHasWorkspaceRepository).findOne(id);
+    const fileId = userHasWorkspace?.fileId;
+    if (fileId === null || fileId === 1 || fileId === undefined) {
+      return res.status(OK).json({ message: 'default' });
+    }
+    const files = await getCustomRepository(FileRepository).findOne(userHasWorkspace?.fileId);
+    return res.status(OK).json({ files });
+  } catch (e) {
+    return res.status(BAD_REQUEST).json(e);
   }
 }

@@ -65,8 +65,8 @@ const SetupTeamQuestions = (): JSX.Element => {
     const formData = new FormData();
     formData.append('file', file[0]);
     const response = await axios.post('/api/files/upload', formData, config);
-    const fileList: Array<number> = response.data.files;
-    setFileId(fileList[0]);
+    const fileList: Array<File> = response.data.files;
+    setFileId(fileList[0]?.id);
   };
 
   const OnClickImage = async () => {

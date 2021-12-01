@@ -1,10 +1,10 @@
-import React, { useMemo, useRef, useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import useInputs from '@hook/useInputs';
 import useRefLocate from '@hook/useRefLocate';
-import defaultProfile from '@global/image/default_account.png';
 import { useWorkspaceQuery } from '@hook/useWorkspace';
 import { BsSearch } from 'react-icons/bs';
+import defaultProfile from '@global/image/default_account.png';
 import WorkspaceHeaderMenuList from './WorkspaceHeaderMenuList';
 import SearchModal from './SearchResultTemplate/SearchResultModal';
 import {
@@ -15,7 +15,7 @@ import {
   StyledDiv,
 } from './styles';
 
-const WorkspaceHeader = (): JSX.Element => {
+const WorkspaceHeader = (fileUrl: JSON): JSX.Element => {
   const ButtonRef = useRef(null);
   const SearchModalRef = useRef(null);
   const [modalState, setModalState] = useState(false);
@@ -30,20 +30,8 @@ const WorkspaceHeader = (): JSX.Element => {
 
   const workspaceQuery = useWorkspaceQuery(workspaceId);
 
-  const Profile = () => {
-    return useMemo(
-      () => (
-        <StyledImageButton
-          customRef={ButtonRef}
-          width={38}
-          height={38}
-          image={defaultProfile}
-          onClick={() => setModalState(true)}
-        />
-      ),
-      [],
-    );
-  };
+  // eslint-disable-next-line react/destructuring-assignment
+  const imageUrl = fileUrl?.fileUrl ?? defaultProfile;
 
   return (
     <Container>
@@ -66,7 +54,13 @@ const WorkspaceHeader = (): JSX.Element => {
           customRef={SearchModalRef}
         />
       )}
-      <Profile />
+      <StyledImageButton
+        customRef={ButtonRef}
+        width={38}
+        height={38}
+        image={imageUrl}
+        onClick={() => setModalState(true)}
+      />
       <StyledNoOverlayModal
         xWidth={xWidth - 160}
         yHeight={yHeight + 50}

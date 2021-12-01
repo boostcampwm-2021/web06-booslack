@@ -1,4 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
+import { Dispatch, SetStateAction } from 'react';
 import axios from 'axios';
 
 export const updateReply = async (
@@ -64,47 +64,57 @@ export const postReplyAndFiles = async (
   setShouldScrollDown,
 ): Promise<any> => {
   if (message === '<p><br/></p>' && selectedFile.length === 0) return;
-  const res = await axios.post('/api/replys', {
-    userHasWorkspaceId,
-    message,
-    threadId,
-  });
-  if (res.status === 200) {
-    setMessageClear(true);
-    socket.emit('threads', channelId, threadId);
-    if (res.data.reply.userHasWorkspaceId === userHasWorkspaceId) {
-      setShouldScrollDown(true);
-    }
-  }
-
-  const replyId: number = res.data.reply.id || null;
-  let fileUrl = '/api/files/upload';
-  const formDatas = new FormData();
-  const selectedFileLength = selectedFile.length;
-
-  if (selectedFileLength > 1) fileUrl = '/api/files/uploads';
-  if (selectedFileLength === 0) return;
-  // eslint-disable-next-line array-callback-return
-  selectedFile.map((fileElement) => {
-    formDatas.append('file', fileElement);
-  });
-  setSelectedFile([]);
-  setSelectedFileUrl([]);
-
   const config = {
     headers: { 'content-type': 'multipart/form-data' },
   };
-  axios
-    .post(fileUrl, formDatas, config)
-    // eslint-disable-next-line @typescript-eslint/no-shadow
-    .then((response) => {
-      const fileList: Array<number> = response.data.files;
-      // eslint-disable-next-line array-callback-return
-      fileList.map(async (fileId) => {
-        await axios.put(`/api/files/${fileId}`, { replyId });
-      });
-    })
-    .catch((err) => {
-      throw new Error('No files Error');
+  try {
+    const res = await axios.post('/api/replys', {
+      userHasWorkspaceId,
+      message,
+      threadId,
     });
+
+    const replyId: number = res.data.reply.id || null;
+    const selectedFileLength = selectedFile.length;
+
+    if (selectedFileLength === 0 && res.status === 200) {
+      setMessageClear(true);
+      socket.emit('threads', channelId, threadId);
+      if (res.data.reply.userHasWorkspaceId === userHasWorkspaceId) {
+        setShouldScrollDown(true);
+      }
+      return;
+    }
+
+    let fileUrl = '/api/files/upload';
+    const formDatas = new FormData();
+    if (selectedFileLength > 1) fileUrl = '/api/files/uploads';
+
+    // eslint-disable-next-line array-callback-return
+    selectedFile.map((fileElement) => {
+      formDatas.append('file', fileElement);
+    });
+    setSelectedFile([]);
+    setSelectedFileUrl([]);
+
+    const responseFiles = await axios.post(fileUrl, formDatas, config);
+    const fileList: Array<File> = await responseFiles.data.files;
+    const fileIdList: Array<number> = [];
+    // eslint-disable-next-line array-callback-return
+    fileList.map((element) => {
+      fileIdList.push(element?.id || element?.fileId);
+    });
+    const response = await axios.put(`/api/replys/files/${replyId}`, {
+      files: fileList,
+    });
+    if (response.status === 200) {
+      setMessageClear(true);
+      socket.emit('threads', channelId, threadId);
+      if (res.data.reply.userHasWorkspaceId === userHasWorkspaceId) {
+        setShouldScrollDown(true);
+      }
+    }
+  } catch (e) {
+    setMessageClear(true);
+  }
 };

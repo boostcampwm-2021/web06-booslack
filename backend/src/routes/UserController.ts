@@ -3,6 +3,7 @@ import {
   getAllUsers,
   getOneUser,
   addOneUser,
+  findOneUser,
   updateOneUser,
   deleteOneUser,
   addUserToWorkspace,
@@ -16,6 +17,7 @@ userRouter.post('/userToWorkspace', addUserToWorkspace);
 userRouter.get('/workspaces', getAllUsersWithChannelInfo);
 
 userRouter.get('/', getAllUsers);
+userRouter.get('/find', findOneUser);
 userRouter.get('/:id', getOneUser);
 userRouter.post('/', addOneUser);
 userRouter.put('/:id', updateOneUser);

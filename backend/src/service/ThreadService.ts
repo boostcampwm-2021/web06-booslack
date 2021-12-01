@@ -4,6 +4,7 @@ import { getCustomRepository, getRepository } from 'typeorm';
 import ThreadRepository from '../repository/ThreadRepository';
 import ChannelRepository from '../repository/ChannelRepository';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
+import File from '../model/File';
 import Thread from '../model/Thread';
 import Reaction from '../model/Reaction';
 import FileRepository from '../repository/FileRepository';
@@ -45,6 +46,7 @@ export async function getPartialThreadsByChannelId(req: Request, res: Response) 
       .leftJoinAndSelect('thread.userHasWorkspace', 'userHasWorkspace')
       .leftJoinAndSelect('thread.replys', 'reply')
       .leftJoinAndSelect('thread.reactions', 'reaction')
+      .leftJoinAndSelect('thread.files', 'file')
       .where('thread.channelId = :id AND thread.id < :cursor', { id: channelId, cursor })
       .orderBy('thread.id', 'DESC')
       .limit(20)
@@ -63,7 +65,7 @@ export async function getThread(req: Request, res: Response) {
 
     // 보안이슈
     const thread = await getRepository(Thread).findOne({
-      relations: ['userHasWorkspace', 'replys', 'reactions'],
+      relations: ['userHasWorkspace', 'replys', 'reactions', 'files'],
       where: [{ id }],
     });
 
@@ -76,12 +78,13 @@ export async function getThread(req: Request, res: Response) {
 export async function updateThread(req: Request, res: Response) {
   try {
     const { id } = req.params;
-    const { message } = req.body;
+    const { files, message } = req.body;
 
     if (Object.keys(req.body).length === 0) throw new Error('no thread data in body');
 
     const threadById = await getRepository(Thread).findOneOrFail(id);
     threadById.message = message || threadById.message;
+    threadById.files = files || threadById.files;
     const thread = await getRepository(Thread).save(threadById);
 
     return res.status(OK).json({ thread });
@@ -130,6 +133,31 @@ export async function deleteThread(req: Request, res: Response) {
     await getRepository(Reaction).delete({ threadId: Number(thread.id) });
     await getCustomRepository(ThreadRepository).remove(thread);
     return res.status(OK).end();
+  } catch (e) {
+    return res.status(BAD_REQUEST).json(e);
+  }
+}
+
+export async function updateThreadAndFiles(req: Request, res: Response) {
+  try {
+    const { id } = req.params;
+    const { files } = req.body;
+    const fileList: Array<any> = files;
+
+    if (Object.keys(req.body).length === 0) throw new Error('no thread data in body');
+    fileList.map(async (file: any) => {
+      const fileId: number = file?.id;
+      const fileById: any = await getRepository(File).findOneOrFail(fileId);
+      fileById.threadId = Number(id) ?? fileById.threadId;
+      const FileById = await getRepository(File).save(fileById);
+      if (!FileById) throw new Error('no File data in body');
+    });
+
+    const threadById = await getRepository(Thread).findOneOrFail(id);
+    threadById.files = fileList || threadById.files;
+    const thread = await getRepository(Thread).save(threadById);
+
+    return res.status(OK).json({ thread });
   } catch (e) {
     return res.status(BAD_REQUEST).json(e);
   }

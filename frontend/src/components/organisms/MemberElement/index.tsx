@@ -1,8 +1,15 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { UserHasWorkspace } from '@global/type';
 import { userProfileModalState } from '@state/modal';
-import { BackgroundContainer, Container, StyledLabel } from './styles';
+import defaultProfile from '@global/image/default_account.png';
+import axios from 'axios';
+import {
+  BackgroundContainer,
+  Container,
+  StyledImageBox,
+  StyledLabel,
+} from './styles';
 
 interface Props {
   userHasWorkspace: UserHasWorkspace;
@@ -11,6 +18,17 @@ interface Props {
 
 const MemberElement = ({ userHasWorkspace, selected }: Props): JSX.Element => {
   const setIsUserProfileModalOpen = useSetRecoilState(userProfileModalState);
+  const [fileUrl, setFileUrl] = useState(defaultProfile);
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  useEffect(async () => {
+    const file = await axios.get(
+      `/api/files/userhasworkspace/${userHasWorkspace.id}`,
+    );
+    if (file?.data.files && file?.data.files.url) {
+      setFileUrl(file?.data.files.url);
+    }
+  }, []);
 
   return (
     <BackgroundContainer>
@@ -25,7 +43,7 @@ const MemberElement = ({ userHasWorkspace, selected }: Props): JSX.Element => {
           })
         }
       >
-        <StyledLabel text={`file ${userHasWorkspace.fileId}`} />
+        <StyledImageBox image={fileUrl} />
         <StyledLabel text={userHasWorkspace.nickname} />
         {userHasWorkspace.description && (
           <StyledLabel text={userHasWorkspace.description} />

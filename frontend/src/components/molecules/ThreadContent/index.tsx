@@ -1,13 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSetRecoilState } from 'recoil';
-import ImageButton from '@atoms/ImageButton';
 import { replyToggleState } from '@state/workspace';
 import ChatInputBarForUpdate from '@organisms/ChatInputBarForUpdate';
 import ReactionBar from '@organisms/ReactionBar';
 import { userProfileModalState } from '@state/modal';
 import defaultPerson from '@global/image/default_account.png';
 import { IThread } from '@global/type';
+import axios from 'axios';
+import { transfromDate } from '@global/util/transfromDate';
 import ThreadActions from './ThreadActions';
+import ThreadFileStatusBar from './ThreadFileStatusBar';
 import {
   Container,
   MessageKit,
@@ -17,6 +19,7 @@ import {
   MessageTimestamp,
   MessageText,
   ReplyButton,
+  ThreadImageButton,
 } from './styles';
 
 interface Props {
@@ -40,6 +43,7 @@ const ThreadContent = ({
     userHasWorkspaceId,
     replys: replyList,
     reactions: reactionList,
+    files,
   } = thread;
 
   const nickname = userHasWorkspace?.nickname || '탈퇴한 유저';
@@ -47,6 +51,7 @@ const ThreadContent = ({
   const setIsUserProfileModalOpen = useSetRecoilState(userProfileModalState);
   const [updateState, setUpdateState] = useState(false);
   const [hoverState, setHoverState] = useState(false);
+  const [fileUrl, setFileUrl] = useState(defaultPerson);
   const replyToggle = useSetRecoilState(replyToggleState);
   const handleHoverIn = () => {
     if (!updateState) {
@@ -63,7 +68,7 @@ const ThreadContent = ({
     <>
       <MessageSender>{nickname}</MessageSender>
       &nbsp; &nbsp;
-      <MessageTimestamp>{createdTime}</MessageTimestamp>
+      <MessageTimestamp>{transfromDate(createdTime)}</MessageTimestamp>
       <br />
       <MessageText dangerouslySetInnerHTML={{ __html: message }} />
       {reactionList?.length > 0 && (
@@ -75,6 +80,7 @@ const ThreadContent = ({
           text={`${replyList?.length}개의 댓글`}
         />
       )}
+      {files?.length > 0 ? <ThreadFileStatusBar files={files} /> : <></>}
     </>
   );
 
@@ -86,6 +92,20 @@ const ThreadContent = ({
       isReply={isReply}
     />
   );
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  useEffect(async () => {
+    const res = await axios.get(
+      `/api/files/userhasworkspace/${userHasWorkspaceId}`,
+    );
+    if (
+      res?.data.files &&
+      res?.data.files.url &&
+      res?.data.files.url !== fileUrl
+    ) {
+      setFileUrl(res?.data.files.url);
+    }
+  }, []);
 
   return (
     <Container
@@ -96,7 +116,7 @@ const ThreadContent = ({
     >
       <MessageKit className={updateState && 'updating'}>
         <MessageKitLeft>
-          <ImageButton
+          <ThreadImageButton
             onClick={(e) => {
               setIsUserProfileModalOpen({
                 isOpen: true,
@@ -105,9 +125,7 @@ const ThreadContent = ({
                 y: e.clientY,
               });
             }}
-            height={36}
-            width={36}
-            image={defaultPerson}
+            image={fileUrl}
           />
         </MessageKitLeft>
         <MessageKitRight>
