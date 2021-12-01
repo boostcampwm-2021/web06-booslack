@@ -79,8 +79,6 @@ const ReactionBar = ({ isReply, reactions }: Props): JSX.Element => {
   const currentThreadId =
     currentReplyId === null ? reactions[0].threadId : replyToggle?.message?.id;
 
-  console.log(currentThreadId + ' : ' + currentReplyId);
-
   const emojiButtonRef = useRef(null);
   const [emojiXWidth, emojiYHeight] = useRefLocate(emojiButtonRef, 50);
   const [isEmojiOpen, setIsEmojiOpen] = useState(false);
