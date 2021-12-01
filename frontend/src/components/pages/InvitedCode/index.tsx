@@ -56,7 +56,7 @@ const InvitedCode = (): JSX.Element => {
     formData.append('file', acceptedFile[0]);
     setFilename(acceptedFile[0].name);
     const response = await axios.post('/api/files/upload', formData, config);
-    setFileId(response.data.files[0]);
+    setFileId(response.data.files[0].id);
   }, []);
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
 
