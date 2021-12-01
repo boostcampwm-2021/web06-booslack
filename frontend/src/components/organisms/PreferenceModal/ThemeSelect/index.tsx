@@ -15,7 +15,7 @@ import { preferenceModalState } from '@state/modal';
 import { StyledBigImageBox, AlignCenterDiv } from './styles';
 import { StyledLabel, RowSpaceAroundDiv, StyledButton } from '../styles';
 
-const textList = ['', 'violet', 'flower', 'mintChoco', 'royalBlue'];
+const textList = ['', 'violet', 'flower', 'blackAndWhite', 'royalBlue'];
 const imageList = ['', violetImage, yellowImage, mintImage, blueImage];
 
 const ShowExampleImageBox = ({
@@ -71,7 +71,7 @@ const ThemeSelect = (): JSX.Element => {
         />
         <RadioButton
           isChecked={currentTheme}
-          name="mintChoco"
+          name="blackAndWhite"
           value={3}
           onChange={ChangeThemeValue}
         />
