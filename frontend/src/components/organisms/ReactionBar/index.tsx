@@ -74,9 +74,12 @@ const handleEmojiClick = (
 const ReactionBar = ({ isReply, reactions }: Props): JSX.Element => {
   const user = useRecoilValue(userState);
   const { channelId }: { channelId: string } = useParams();
-  const currentThreadId = reactions[0].threadId;
-  const currentReplyId = reactions[0].replyId;
   const replyToggle = useRecoilValue(replyToggleState);
+  const currentReplyId = reactions[0].replyId;
+  const currentThreadId =
+    currentReplyId === null ? reactions[0].threadId : replyToggle?.message?.id;
+
+  console.log(currentThreadId + ' : ' + currentReplyId);
 
   const emojiButtonRef = useRef(null);
   const [emojiXWidth, emojiYHeight] = useRefLocate(emojiButtonRef, 50);
