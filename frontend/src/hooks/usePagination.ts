@@ -35,6 +35,10 @@ const usePagination = (
     socket.on('channels', () => {
       queryClient.invalidateQueries(queryKey, { refetchActive: true });
     });
+
+    socket.on('channel', () => {
+      queryClient.invalidateQueries(queryKey, { refetchActive: true });
+    });
   }, [user, queryClient, page]);
 
   const { isLoading, data, error, isFetching, isPreviousData } = useQuery(

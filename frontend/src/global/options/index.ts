@@ -5,6 +5,7 @@ export const socketOption = {
 };
 
 export const hourlyExpirationOption = {
-  staleTime: 1000 * 60 * 60,
+  staleTime: 1000,
+  refetchOnWindowFocus: false,
   cacheTime: 1000 * 60 * 60,
 };

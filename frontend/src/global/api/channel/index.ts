@@ -34,7 +34,7 @@ export const leaveChannel = async (
   }
 };
 
-export const createChanel = async (
+export const createChannel = async (
   name: string,
   isPrivate: boolean,
   description: string,
@@ -48,8 +48,9 @@ export const createChanel = async (
     workspaceId,
   });
 
-  if (res.status === 200) {
+  if (res.status === 201) {
     socket.emit('channels', workspaceId);
+    return res.data;
   }
 };
 
