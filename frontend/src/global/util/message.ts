@@ -9,7 +9,7 @@ export const removeMessage = (
   messageObject: Message,
   replyToggle: IreplyToggle,
   setReplyToggle: SetterOrUpdater<IreplyToggle>,
-  channelId: number,
+  channelId: string,
   socket: Socket,
 ): void => {
   // 메시지 오브젝트가 스레드 아이디가 없으면 쓰레드라는 것임

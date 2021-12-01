@@ -3,9 +3,9 @@ import { Socket } from 'socket.io-client';
 import API from '@global/api';
 
 export const deleteReaction = async (
-  reactionId: number,
-  channelId: number,
-  threadId: number,
+  reactionId: string,
+  channelId: string,
+  threadId: string,
   socket: Socket,
 ): Promise<void> => {
   const res = await axios.delete(
@@ -18,10 +18,10 @@ export const deleteReaction = async (
 };
 
 export const postReaction = async (
-  userHasWorkspaceId: number,
-  channelId: number,
+  userHasWorkspaceId: string,
+  channelId: string,
   emoji: string,
-  threadId: number,
+  threadId: string,
   socket: Socket,
 ): Promise<void> => {
   const res = await axios.post(API.post.reaction.postOne, {
@@ -36,10 +36,10 @@ export const postReaction = async (
 };
 
 export const deleteReplyReaction = async (
-  reactionId: number,
-  channelId: number,
-  threadId: number,
-  replyId: number,
+  reactionId: string,
+  channelId: string,
+  threadId: string,
+  replyId: string,
   socket: Socket,
 ): Promise<void> => {
   const res = await axios.delete(API.delete.reaction.reply, {
@@ -55,11 +55,11 @@ export const deleteReplyReaction = async (
 };
 
 export const postReplyReaction = async (
-  userHasWorkspaceId: number,
-  channelId: number,
+  userHasWorkspaceId: string,
+  channelId: string,
   emoji: string,
-  replyId: number,
-  threadId: number,
+  replyId: string,
+  threadId: string,
   socket: Socket,
 ): Promise<void> => {
   const res = await axios.post(API.post.reaction.postOne, {

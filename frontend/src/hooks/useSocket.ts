@@ -7,8 +7,6 @@ export const initializeSocket = (socket: Socket, queryClient: QueryClient) => {
     if (!socket) return;
 
     socket.on('threads', (_channelId, _threadId) => {
-      console.log(_channelId + ' : ' + _threadId);
-
       queryClient.invalidateQueries(['threads', _channelId], {
         refetchActive: true,
       });

@@ -4,25 +4,25 @@ export type ChannelType = '0' | '1';
 export type UserType = 'local' | 'github';
 
 export interface Workspace {
-  id: number;
+  id: string;
   profile?: string;
   name: string;
   fileId: number | null;
 }
 
 export interface Channel {
-  id: number;
+  id: string;
   name: string;
   private: ChannelType;
   description?: string;
   topic?: string;
   workspace: Workspace;
-  workspaceId: number;
+  workspaceId: string;
   createdAt: string;
 }
 
 export interface User {
-  id: number;
+  id: string;
   nickname: string;
   email: string;
   type: UserType;
@@ -30,12 +30,12 @@ export interface User {
 }
 
 export interface UserHasWorkspace {
-  id: number;
+  id: string;
   nickname: string;
   description: string;
   theme: number;
-  userId: number;
-  workspaceId: number;
+  userId: string;
+  workspaceId: string;
   fileId?: number;
   createdAt: string;
 }
@@ -44,31 +44,31 @@ export interface IThread {
   userHasWorkspace: { nickname: string };
   message: string;
   createdAt: string;
-  id: number;
-  userHasWorkspaceId: number;
+  id: string;
+  userHasWorkspaceId: string;
   replys: unknown[];
   reactions: unknown[];
   files: unknown[];
-  threadId?: number;
+  threadId?: string;
 }
 
 export interface Message {
   userHasWorkspace: { nickname: string };
   message: string;
   createdAt: string;
-  id: number;
-  userHasWorkspaceId: number;
+  id: string;
+  userHasWorkspaceId: string;
   replys?: Message[];
   reactions: Reaction[];
   files: File[];
-  threadId?: number;
+  threadId?: string;
 }
 
 export interface Reaction {
   createdAt: string;
   emoji: string;
-  id: number;
-  replyId: number;
-  threadId: number;
-  userHasWorkspaceId: number;
+  id: string;
+  replyId: string;
+  threadId: string;
+  userHasWorkspaceId: string;
 }

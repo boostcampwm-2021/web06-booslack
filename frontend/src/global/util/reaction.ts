@@ -3,9 +3,9 @@ import { IUserState } from '@state/user';
 
 export const onEmojiSet = (
   user: IUserState,
-  messageId: number,
-  parentThreadId: undefined | number,
-  channelId: number,
+  messageId: string,
+  parentThreadId: undefined | string,
+  channelId: string,
 ) => {
   return (emoji: string): void => {
     if (parentThreadId !== undefined) {

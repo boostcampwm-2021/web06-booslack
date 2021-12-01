@@ -9,13 +9,13 @@ export interface IUserState {
   createdAt: Date;
   description: string;
   email: string;
-  id: number;
+  id: string;
   local: ZeroOrOne;
   nickname: string;
   password: string;
   socket: Socket;
   theme: Itheme;
-  userHasWorkspaceId: number;
+  userHasWorkspaceId: string;
 }
 
 const userState = atom<IUserState | undefined>({

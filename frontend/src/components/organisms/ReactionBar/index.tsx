@@ -43,23 +43,18 @@ const handleEmojiClick = (
     if (isReply) {
       deleteReplyReaction(
         reacted.id,
-        Number(channelId),
+        channelId,
         replyToggle?.message.id,
         reacted.replyId,
         user.socket,
       );
     } else {
-      deleteReaction(
-        reacted.id,
-        Number(channelId),
-        reacted.threadId,
-        user.socket,
-      );
+      deleteReaction(reacted.id, channelId, reacted.threadId, user.socket);
     }
   } else if (isReply) {
     postReplyReaction(
       user.userHasWorkspaceId,
-      Number(channelId),
+      channelId,
       reactionMap.emoji,
       reactionMap.list[0].replyId,
       reactionMap.list[0].threadId,
@@ -68,7 +63,7 @@ const handleEmojiClick = (
   } else {
     postReaction(
       user.userHasWorkspaceId,
-      Number(channelId),
+      channelId,
       reactionMap.emoji,
       reactionMap.list[0].threadId,
       user.socket,
@@ -129,8 +124,8 @@ const ReactionBar = ({ isReply, reactions }: Props): JSX.Element => {
         onEmojiSet={onEmojiSet(
           user,
           isReply ? currentReplyId : currentThreadId,
-          replyToggle.message?.id,
-          Number(channelId),
+          isReply ? currentThreadId : undefined,
+          channelId,
         )}
       />
     </Container>

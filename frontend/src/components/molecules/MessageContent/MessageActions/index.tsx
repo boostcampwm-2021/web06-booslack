@@ -99,7 +99,7 @@ const MessageActions = ({
               messageObject,
               replyToggle,
               setReplyToggle,
-              Number(channelId),
+              channelId,
               user.socket,
             )
           }
@@ -193,7 +193,7 @@ const MessageActions = ({
           user,
           messageObject.id,
           messageObject.threadId,
-          Number(channelId),
+          channelId,
         )}
       />
     </Container>

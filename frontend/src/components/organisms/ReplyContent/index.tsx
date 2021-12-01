@@ -23,13 +23,13 @@ const ReplyContent = ({ messageObject }: Props): JSX.Element => {
     isLoading: isReplyLoding,
     isError: isReplyError,
     data,
-  } = useThreadQuery(String(messageObject.id));
+  } = useThreadQuery(messageObject.id);
 
   const {
     isLoading: isReplyListLoading,
     isError: isReplyListError,
     data: replyMessages,
-  } = useReplyListQuery(String(messageObject.id));
+  } = useReplyListQuery(messageObject.id);
 
   if (isReplyError || isReplyListError) return <div>error</div>;
 
@@ -49,7 +49,7 @@ const ReplyContent = ({ messageObject }: Props): JSX.Element => {
     if (sendable) {
       await postReplyAndFiles(
         userHasWorkspaceId,
-        messageObject.threadId,
+        messageObject.id,
         channelId,
         message,
         socket,
