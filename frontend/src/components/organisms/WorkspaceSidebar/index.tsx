@@ -4,10 +4,7 @@ import { NavLink, useParams } from 'react-router-dom';
 import SidebarDivision from '@molecules/SidebarDivision';
 import SidebarChannelElement from '@molecules/SidebarChannelElement';
 import SidebarAddElement from '@molecules/SidebarAddElement';
-import {
-  channelCreateModalState,
-  sidebarChannelInfoModalState,
-} from '@state/modal';
+import { channelCreateModalState } from '@state/modal';
 import userState from '@state/user';
 import { useChannelListQuery } from '@hook/useChannels';
 import { ThemeContext } from 'styled-components';
@@ -21,9 +18,6 @@ const WorkspaceSidebar = (): JSX.Element => {
 
   const setIsChannelCreateModalOpen = useSetRecoilState(
     channelCreateModalState,
-  );
-  const setIsSidebarChannelInfoModalOpen = useSetRecoilState(
-    sidebarChannelInfoModalState,
   );
 
   const { isLoading, isError, data } = useChannelListQuery(
@@ -49,9 +43,6 @@ const WorkspaceSidebar = (): JSX.Element => {
           label="Channel browser"
           isPrivate={false}
           onClick={() => {}}
-          onContextMenu={(e) => {
-            e.preventDefault();
-          }}
         />
       </NavLink>
 
@@ -67,13 +58,6 @@ const WorkspaceSidebar = (): JSX.Element => {
               label={channel.name}
               isPrivate={channel.private === 1}
               onClick={() => {}}
-              onContextMenu={(e) => {
-                e.preventDefault();
-                setIsSidebarChannelInfoModalOpen({
-                  status: true,
-                  channelId: channel.id,
-                });
-              }}
             />
           </NavLink>
         );

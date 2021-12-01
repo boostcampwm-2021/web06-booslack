@@ -16,6 +16,7 @@ import {
   inputHandle,
   makeEmoji,
   makeMention,
+  keyPressHandle,
 } from '@global/util/inputEventHandlers';
 import { Container, MessageInputArea } from './styles';
 
@@ -53,10 +54,24 @@ const WysiwygEditor = ({
   const user = useRecoilValue(userState);
   const setShouldScrollDown = useSetRecoilState(shouldScrollDownState);
 
+  const editor = useRef();
+  useEffect(() => {
+    if (editor.current && messageClear) {
+      editor.current.innerHTML = '<p><br></p>';
+      setMessageClear(false);
+      setMessage('');
+    }
+  }, [messageClear]);
+
   useEffect(() => {
     if (!value) return;
-    if (isEmojiOpen) makeEmoji(value);
-    else if (isMentionOpen) makeMention(value);
+    if (isEmojiOpen) {
+      makeEmoji(value);
+      setMessage(editor.current.innerHTML);
+    } else if (isMentionOpen) {
+      makeMention(value);
+      setMessage(editor.current.innerHTML);
+    }
     setInput('');
     setValue(undefined);
   }, [value]);
@@ -69,17 +84,10 @@ const WysiwygEditor = ({
     setFocused(false);
   };
 
-  const editor = useRef();
-  useEffect(() => {
-    if (editor.current && messageClear) {
-      editor.current.innerHTML = '<p><br></p>';
-      setMessageClear(false);
-      setMessage('');
-    }
-  }, [messageClear]);
-
   const sendable =
-    (message !== '<p><br></p>' && message.trim().length > 8) ||
+    (message !== undefined &&
+      message !== '<p><br></p>' &&
+      message.trim().length > 8) ||
     selectedFile?.length > 0;
 
   return (
@@ -91,17 +99,11 @@ const WysiwygEditor = ({
         tabIndex={0}
         aria-multiline="true"
         aria-autocomplete="list"
-        onKeyDown={(e) =>
-          keydownHandle(
+        onKeyPress={(e) =>
+          keyPressHandle(
             e,
-            input,
-            setInput,
-            value,
-            setValue,
             isEmojiOpen,
-            setIsEmojiOpen,
             isMentionOpen,
-            setIsMentionOpen,
             onSendClick,
             sendable,
             user,
@@ -115,19 +117,9 @@ const WysiwygEditor = ({
             setShouldScrollDown,
           )
         }
+        onKeyDown={(e) => keydownHandle(e)}
         onInput={(e) =>
-          inputHandle(
-            e,
-            input,
-            setInput,
-            value,
-            setValue,
-            isEmojiOpen,
-            setIsEmojiOpen,
-            isMentionOpen,
-            setIsMentionOpen,
-            setMessage,
-          )
+          inputHandle(e, setInput, setIsEmojiOpen, setIsMentionOpen, setMessage)
         }
         suppressContentEditableWarning="true"
         onFocus={handleOnfocus}

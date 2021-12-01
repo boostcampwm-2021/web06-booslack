@@ -289,13 +289,8 @@ const checkMentionListOpenPossible = (setIsOpen, setInput) => {
 
 export const inputHandle = (
   e,
-  input,
   setInput,
-  value,
-  setValue,
-  isEmojiOpen,
   setIsEmojiOpen,
-  isMentionOpen,
   setIsMentionOpen,
   setMessage,
 ): void => {
@@ -336,10 +331,7 @@ export const inputHandle = (
       fontState = false;
     }
 
-    if (
-      selection.focusNode.attributes &&
-      selection.focusNode.attributes[0].nodeValue === 'input-bar'
-    ) {
+    if (selection.focusNode.id === 'input-bar') {
       const childParagraph = document.createElement('p');
       childParagraph.innerHTML = '<br>';
       selection.focusNode.appendChild(childParagraph);
@@ -361,16 +353,77 @@ export const inputHandle = (
   setMessage(e.target.innerHTML);
 };
 
-export const keydownHandle = (
+export const keydownHandle = (e): void => {
+  const selection = document.getSelection();
+
+  if (e.code === 'Space') {
+    createList(selection, e);
+  }
+
+  if (e.code === 'Backspace') {
+    const currentNode = selection.focusNode;
+
+    if (
+      (currentNode.parentNode.nodeName === 'B' ||
+        currentNode.parentNode.nodeName === 'EM' ||
+        currentNode.parentNode.nodeName === 'S' ||
+        currentNode.parentNode.nodeName === 'CODE') &&
+      currentNode.nodeValue.length === 1
+    ) {
+      currentNode.parentNode.parentNode.insertBefore(
+        document.createTextNode(' '),
+        currentNode.parentNode,
+      );
+      fontState = true;
+    }
+
+    if (
+      (<Element>currentNode).innerHTML === '<br>' &&
+      currentNode.nodeName === 'P' &&
+      currentNode.parentElement.firstElementChild === currentNode
+    ) {
+      e.preventDefault();
+    }
+
+    if (
+      (<Element>currentNode).innerHTML === '<br>' &&
+      currentNode.nodeName === 'P' &&
+      currentNode.previousSibling != null &&
+      currentNode.nextSibling != null &&
+      currentNode.previousSibling.nodeName === currentNode.nextSibling.nodeName
+    ) {
+      mergeList(selection);
+      e.preventDefault();
+    } else if (
+      (<Element>currentNode).innerHTML === '<br>' &&
+      currentNode.nodeName === 'LI'
+    ) {
+      splitList(selection);
+      e.preventDefault();
+    } else if (
+      (<Element>currentNode).innerHTML === '<br>' &&
+      currentNode.nodeName === 'BLOCKQUOTE'
+    ) {
+      deleteBlockquote(selection);
+      e.preventDefault();
+    }
+  }
+
+  if (e.code === 'Backquote') {
+    const currentNode = selection.focusNode;
+    if (
+      currentNode.nodeName === '#text' &&
+      currentNode.nodeValue.endsWith('``')
+    ) {
+      createAndDeleteCodeBlock(selection, e);
+    }
+  }
+};
+
+export const keyPressHandle = (
   e,
-  input,
-  setInput,
-  value,
-  setValue,
   isEmojiOpen,
-  setIsEmojiOpen,
   isMentionOpen,
-  setIsMentionOpen,
   onSendClick,
   sendable,
   user,
@@ -458,69 +511,6 @@ export const keydownHandle = (
       );
     }
     e.preventDefault();
-  }
-
-  if (e.code === 'Space') {
-    createList(selection, e);
-  }
-
-  if (e.code === 'Backspace') {
-    const currentNode = selection.focusNode;
-
-    if (
-      (currentNode.parentNode.nodeName === 'B' ||
-        currentNode.parentNode.nodeName === 'EM' ||
-        currentNode.parentNode.nodeName === 'S' ||
-        currentNode.parentNode.nodeName === 'CODE') &&
-      currentNode.nodeValue.length === 1
-    ) {
-      currentNode.parentNode.parentNode.insertBefore(
-        document.createTextNode(' '),
-        currentNode.parentNode,
-      );
-      fontState = true;
-    }
-
-    if (
-      (<Element>currentNode).innerHTML === '<br>' &&
-      currentNode.nodeName === 'P' &&
-      currentNode.parentElement.firstElementChild === currentNode
-    ) {
-      e.preventDefault();
-    }
-
-    if (
-      (<Element>currentNode).innerHTML === '<br>' &&
-      currentNode.nodeName === 'P' &&
-      currentNode.previousSibling != null &&
-      currentNode.nextSibling != null &&
-      currentNode.previousSibling.nodeName === currentNode.nextSibling.nodeName
-    ) {
-      mergeList(selection);
-      e.preventDefault();
-    } else if (
-      (<Element>currentNode).innerHTML === '<br>' &&
-      currentNode.nodeName === 'LI'
-    ) {
-      splitList(selection);
-      e.preventDefault();
-    } else if (
-      (<Element>currentNode).innerHTML === '<br>' &&
-      currentNode.nodeName === 'BLOCKQUOTE'
-    ) {
-      deleteBlockquote(selection);
-      e.preventDefault();
-    }
-  }
-
-  if (e.code === 'Backquote') {
-    const currentNode = selection.focusNode;
-    if (
-      currentNode.nodeName === '#text' &&
-      currentNode.nodeValue.endsWith('``')
-    ) {
-      createAndDeleteCodeBlock(selection, e);
-    }
   }
 };
 
