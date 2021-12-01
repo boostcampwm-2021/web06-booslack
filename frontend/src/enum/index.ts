@@ -4,7 +4,6 @@ export const StatusCodes = {
   BADREQUEST: 400,
   CONFLICT: 409,
 };
-export const WORKSPACELISTSTALETIME = 100000;
 
 export enum ChatInputSize {
   width = 78,

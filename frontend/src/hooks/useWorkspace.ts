@@ -1,6 +1,7 @@
 import { useQuery } from 'react-query';
 import axios from 'axios';
 import API from '@global/api';
+import { hourlyExpirationOption } from '@global/options';
 
 export const useWorkspaceQuery = (workspaceId: string) => {
   return useQuery(
@@ -10,6 +11,7 @@ export const useWorkspaceQuery = (workspaceId: string) => {
       return res.data.workspace;
     },
     {
+      ...hourlyExpirationOption,
       enabled: !!workspaceId,
     },
   );

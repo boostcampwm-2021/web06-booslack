@@ -1,7 +1,7 @@
 import axios from 'axios';
 import { useQuery } from 'react-query';
 import { PREFIX } from '@global/api';
-export const CACHETIME = 10000;
+import { hourlyExpirationOption } from '@global/options';
 
 export const useAbstractQuery = (
   name: string,
@@ -17,10 +17,7 @@ export const useAbstractQuery = (
       return res?.data[name];
     },
     {
-      keepPreviousData: true,
-      cacheTime: CACHETIME,
-      staleTime: CACHETIME,
-      refetchOnWindowFocus: false,
+      ...hourlyExpirationOption,
       ...option,
     },
   );
@@ -44,10 +41,7 @@ export const useAbstractQueryList = (
       return res?.data[name];
     },
     {
-      keepPreviousData: true,
-      cacheTime: CACHETIME,
-      staleTime: CACHETIME,
-      refetchOnWindowFocus: false,
+      ...hourlyExpirationOption,
       ...option,
     },
   );

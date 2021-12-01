@@ -2,7 +2,7 @@ import { AxiosResponse } from 'axios';
 import { SetStateAction, Dispatch, useEffect, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useQuery, useQueryClient } from 'react-query';
-import { WORKSPACELISTSTALETIME } from '@enum/index';
+import { hourlyExpirationOption } from '@global/options';
 import userState from '@state/user';
 
 interface IusePagenation {
@@ -41,9 +41,7 @@ const usePagination = (
     queryKey,
     () => axiosFunction(page),
     {
-      keepPreviousData: false,
-      refetchOnWindowFocus: false,
-      staleTime: WORKSPACELISTSTALETIME,
+      ...hourlyExpirationOption,
       ...option,
     },
   );
