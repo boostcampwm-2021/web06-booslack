@@ -4,13 +4,15 @@ const dotenv = require('dotenv');
 const webpack = require('webpack');
 const TsconfigPathsPlugin = require('tsconfig-paths-webpack-plugin');
 const tsConfigPath = path.resolve(__dirname, './tsconfig.json');
-
+const TerserPlugin = require('terser-webpack-plugin');
 const { ProgressPlugin } = webpack;
 
 module.exports = {
-  entry: './src/index.tsx',
-  mode: 'development',
+  mode: 'production',
   devtool: 'inline-source-map',
+  entry: {
+    main: './src/index.tsx',
+  },
 
   devServer: {
     host: '0.0.0.0',
@@ -33,10 +35,36 @@ module.exports = {
     open: true,
     historyApiFallback: true,
   },
+
   output: {
     path: path.join(__dirname, 'dist'),
     clean: true,
     publicPath: '/',
+    filename: '[name].[chunkhash].js',
+  },
+
+  optimization: {
+    minimize: true,
+    splitChunks: {
+      chunks: 'all',
+      maxInitialRequests: Infinity,
+      minSize: 0,
+      cacheGroups: {
+        vendor: {
+          test: /[\\/]node_modules[\\/]/,
+          name(module) {
+            // get the name. E.g. node_modules/packageName/not/this/part.js
+            // or node_modules/packageName
+            const packageName = module.context.match(
+              /[\\/]node_modules[\\/](.*?)([\\/]|$)/,
+            )[1];
+            // npm package names are URL-safe, but some servers don't like @ symbols
+            return `npm.${packageName.replace('@', '')}`;
+          },
+        },
+      },
+    },
+    minimizer: [new TerserPlugin()],
   },
   module: {
     rules: [
