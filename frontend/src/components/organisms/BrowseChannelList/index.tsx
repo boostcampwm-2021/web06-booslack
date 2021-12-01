@@ -45,8 +45,8 @@ const BrowseChannelList = (): JSX.Element => {
     return res.data;
   }
 
-  const { page, setPage, data } = usePagination(
-    [sortOption, dbLikedOption, ...checkedItems],
+  const { page, setPage, isLoading, data, error } = usePagination(
+    [workspaceId, sortOption, dbLikedOption, ...checkedItems],
     getWorkspaceLists,
   );
 

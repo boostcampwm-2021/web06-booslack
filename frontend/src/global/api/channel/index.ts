@@ -48,7 +48,7 @@ export const createChannel = async (
     workspaceId,
   });
 
-  if (res.status === 201) {
+  if (res.status === 200) {
     socket.emit('channels', workspaceId);
     return res.data;
   }

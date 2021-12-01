@@ -7,7 +7,7 @@ import paramMissingError from '../shared/constants';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
 import WorkspaceRepository from '../repository/WorkspaceRepository';
 
-const { BAD_REQUEST, CREATED, OK } = StatusCodes;
+const { BAD_REQUEST, OK } = StatusCodes;
 
 // literally all channels workspace
 export async function getChannels(req: Request, res: Response) {
@@ -96,7 +96,7 @@ export async function addOneChannel(req: Request, res: Response) {
     // @ts-ignore
     const newChannel = await ChannelRepo.save(ChannelRepo.create(channel));
 
-    return res.status(CREATED).json({ channel: newChannel });
+    return res.status(OK).json({ channel: newChannel });
   } catch (e) {
     return res.status(BAD_REQUEST).json(e);
   }
