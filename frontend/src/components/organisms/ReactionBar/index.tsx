@@ -55,17 +55,17 @@ const handleEmojiClick = (
     postReplyReaction(
       user.userHasWorkspaceId,
       channelId,
-      reactionMap.emoji,
-      reactionMap.list[0].replyId,
-      reactionMap.list[0].threadId,
+      String(reactionMap.emoji),
+      String(reactionMap.list[0].replyId),
+      replyToggle?.message.id,
       user.socket,
     );
   } else {
     postReaction(
       user.userHasWorkspaceId,
       channelId,
-      reactionMap.emoji,
-      reactionMap.list[0].threadId,
+      String(reactionMap.emoji),
+      String(reactionMap.list[0].threadId),
       user.socket,
     );
   }
