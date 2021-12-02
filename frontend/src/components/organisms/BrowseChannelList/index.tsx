@@ -3,7 +3,6 @@ import { useRecoilValue } from 'recoil';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import Label from '@atoms/Label';
-import AsyncBranch from '@molecules/AsyncBranch';
 import ChannelList from '@molecules/ChannelList';
 import SearchBar from '@molecules/SearchBar';
 import SelectbrowseChannelPage from '@molecules/SelectbrowseChannelPage';
@@ -98,9 +97,7 @@ const BrowseChannelList = (): JSX.Element => {
       </CenterAlignedDiv>
       <ChannelListBackground>
         <ScrollBox>
-          {/* <AsyncBranch size={50}> */}
           <GetListByGET />
-          {/* </AsyncBranch> */}
           <SelectbrowseChannelPage
             dataCount={channelCount}
             cursor={page}
