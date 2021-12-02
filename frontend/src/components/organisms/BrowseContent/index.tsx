@@ -15,7 +15,7 @@ const BrowseContent = (): JSX.Element => {
   const setIsOpen = useSetRecoilState(channelCreateModalState);
   const WIDTHSIZE = useRecoilValue(mainWorkspaceSizeState);
 
-  const Title: JSX.Element = <Label text="채널 브라우저" />; // to-do React.memo
+  const Title: JSX.Element = <Label text="채널 브라우저" />;
   const RightButton = (
     <StyledLabeledButton
       onClick={() => {
@@ -32,9 +32,7 @@ const BrowseContent = (): JSX.Element => {
         content={null}
         rightButton={RightButton}
       />
-      <AsyncBranch size={100}>
-        <BrowseChannelList />
-      </AsyncBranch>
+      <BrowseChannelList />
     </Container>
   );
 };

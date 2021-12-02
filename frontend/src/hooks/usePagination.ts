@@ -47,7 +47,7 @@ const usePagination = (
     {
       ...hourlyExpirationOption,
       ...option,
-      suspense: true,
+      // suspense: true,
     },
   );
 

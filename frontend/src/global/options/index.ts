@@ -8,6 +8,6 @@ export const socketOption = {
 };
 
 export const hourlyExpirationOption = {
-  staleTime: SECOND * HOUR,
+  staleTime: SECOND * 10,
   cacheTime: SECOND * HOUR,
 };
