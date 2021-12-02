@@ -34,6 +34,9 @@ export const useUsersQuery = (_workspaceId: string) => {
       );
       return res.data.userHasWorkspaces;
     },
-    hourlyExpirationOption,
+    {
+      ...hourlyExpirationOption,
+      suspense: true,
+    },
   );
 };
