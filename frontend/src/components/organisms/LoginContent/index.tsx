@@ -4,14 +4,16 @@ import useInputs from '@hook/useInputs';
 import { useRecoilState } from 'recoil';
 import { LoginModalState } from '@state/modal';
 import CreateLoginModal from '@organisms/CreateLoginModal';
-import { checkUser } from '@global/util/auth';
+import { checkUserLogin } from '@global/util/auth';
+import { getUserInfo } from '@global/api/login';
+import userState from '@state/user';
 import {
   LoginInput,
   EmailLabeledButton,
   GitLabeledButton,
   LabelColumn,
-  LoginForm,
   RouterLabeledButton,
+  LoginContainer,
 } from './style';
 
 const initialData = {
@@ -28,53 +30,51 @@ const contextList: string[] = [
 
 const LoginContent = (): JSX.Element => {
   const [context, setContext] = useState<string | null>(null);
-  const [ableToLogin, setAbleToLogin] = useState<boolean>(false);
-  const [loginButtonContext, setLoginButtonContext] = useState<string>('LOG IN');
   const [LoginModal] = useRecoilState(LoginModalState);
+  const [user, setUserState] = useRecoilState(userState);
   const [{ username, password }, onChange] = useInputs(initialData);
-  const [isLoginModalOpen, setIsLoginModalOpen] = useRecoilState(LoginModalState);
-  const BACKEND_URL = `${process.env.REACT_APP_BACKEND_URL}/api/login/login`;
+  const [isLoginModalOpen, setIsLoginModalOpen] =
+    useRecoilState(LoginModalState);
   const onValidate = async (event) => {
-    if (username.length === 0 || password.length === 0) {
-      setContext(username.length !== 0 ? contextList[1] : contextList[0]);
-      setIsLoginModalOpen(true);
-      event.preventDefault();
-      return;
-    }
-    const data = await checkUser(username, password);
-    if (data.message === 'error') {
-      setContext(contextList[2]);
-      setIsLoginModalOpen(true);
-      setAbleToLogin(false);
-      setLoginButtonContext('LOG IN');
-    } else {
-      setAbleToLogin(true);
-      setLoginButtonContext('Welcome! 보안을 위해 한번 더 클릭!!!');
+    try {
+      if (username.length === 0 || password.length === 0) {
+        setContext(username.length !== 0 ? contextList[1] : contextList[0]);
+        setIsLoginModalOpen(true);
+        event.preventDefault();
+        return;
+      }
+      const data = await checkUserLogin(username, password);
+      if (data.message === 'is not login') {
+        setContext(contextList[2]);
+        setIsLoginModalOpen(true);
+      } else if (data.message === 'is login') {
+        const getLoginStatus = async () => {
+          const userInfo = await getUserInfo();
+          setUserState(userInfo);
+        };
+        await getLoginStatus();
+        await window.location.replace(
+          `${window.location.origin}/workspacelist`,
+        );
+      }
+    } catch (e) {
+      throw new Error('validate fail');
     }
   };
-  const checkIsUser = async (event) => {
-    if (!ableToLogin) event.preventDefault();
-  };
-  const checkIsLogin = () => {
-    if (ableToLogin) {
-      setIsLoginModalOpen(false);
+  const handleGithubClick = async () => {
+    try {
+      const GITHUB_CLIENT_ID: string = process.env.REACT_APP_GITHUB_CLIENT_ID;
+      await window.location.replace(
+        `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}`,
+      );
+    } catch (e) {
+      throw new Error('validate fail');
     }
-  };
-  const handleGithubClick = async (e) => {
-    const GITHUB_CLIENT_ID: string = process.env.REACT_APP_GITHUB_CLIENT_ID;
-    await window.location.replace(
-      `https://github.com/login/oauth/authorize?client_id=${GITHUB_CLIENT_ID}`,
-    );
   };
   return (
     <>
       <GitLabeledButton text="Github으로 로그인" onClick={handleGithubClick} />
-      <LoginForm
-        method="POST"
-        action={BACKEND_URL}
-        onSubmit={checkIsUser}
-        onChange={checkIsLogin}
-      >
+      <LoginContainer>
         <LoginInput
           placeholder="example or example@email.com"
           name="username"
@@ -89,12 +89,8 @@ const LoginContent = (): JSX.Element => {
           value={password}
           onChange={onChange}
         />
-        <EmailLabeledButton
-          text={loginButtonContext}
-          type="submit"
-          onClick={onValidate}
-        />
-      </LoginForm>
+        <EmailLabeledButton text="LOG IN" type="submit" onClick={onValidate} />
+      </LoginContainer>
       <LabelColumn>
         <Link to="/signup">
           <RouterLabeledButton text="회원 가입" type="button" />

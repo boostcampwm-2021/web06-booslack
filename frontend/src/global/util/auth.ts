@@ -31,4 +31,23 @@ export const checkUser = async (
   }
 };
 
+export const checkUserLogin = async (
+  username: string,
+  password: string,
+): Promise<void> => {
+  try {
+    const response = await axios({
+      method: 'POST',
+      url: '/api/login/login',
+      data: {
+        username,
+        password,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    throw new Error('check user error');
+  }
+};
+
 export default logout;

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { replyToggleState } from '@state/workspace';
 import ChatInputBarForUpdate from '@organisms/ChatInputBarForUpdate';
@@ -6,7 +6,6 @@ import ReactionBar from '@organisms/ReactionBar';
 import { userProfileModalState } from '@state/modal';
 import defaultPerson from '@global/image/default_account.png';
 import { Message } from '@global/type';
-import axios from 'axios';
 import { transfromDate } from '@global/util/transfromDate';
 import MessageActions from './MessageActions';
 import MessageFileStatusBar from './MessageFileStatusBar';
@@ -51,7 +50,6 @@ const MessageContent = ({
   const setIsUserProfileModalOpen = useSetRecoilState(userProfileModalState);
   const [updateState, setUpdateState] = useState(false);
   const [hoverState, setHoverState] = useState(false);
-  const [fileUrl, setFileUrl] = useState(defaultPerson);
   const handleHoverIn = () => {
     if (!updateState) {
       setHoverState(true);
@@ -99,20 +97,6 @@ const MessageContent = ({
       isReply={isReply}
     />
   );
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  useEffect(async () => {
-    const res = await axios.get(
-      `/api/files/userhasworkspace/${userHasWorkspaceId}`,
-    );
-    if (
-      res?.data.files &&
-      res?.data.files.url &&
-      res?.data.files.url !== fileUrl
-    ) {
-      setFileUrl(res?.data.files.url);
-    }
-  }, []);
 
   return (
     <Container
@@ -133,7 +117,11 @@ const MessageContent = ({
                 y: e.clientY,
               });
             }}
-            image={fileUrl}
+            image={
+              userHasWorkspace && userHasWorkspace?.fileUrl
+                ? userHasWorkspace?.fileUrl
+                : defaultPerson
+            }
           />
         </MessageKitLeft>
         <MessageKitRight>

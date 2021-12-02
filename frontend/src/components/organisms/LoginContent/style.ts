@@ -17,7 +17,7 @@ export const LabelColumn = styled.div`
   width: 500px;
 `;
 
-export const LoginForm = styled.form`
+export const LoginContainer = styled.div`
   display: flex;
   justify-content: space-between;
   flex-direction: column;

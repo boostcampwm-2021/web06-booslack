@@ -1,7 +1,7 @@
 import React from 'react';
-import Label from '@atoms/Label';
 import LoginContent from '@organisms/LoginContent';
-import { Container, Layout, LabelContainer } from './style';
+import titleBooslack from '@global/image/title_booslack.png';
+import { Container, Layout, LabelContainer, StyledImageBox } from './style';
 
 const Login = (): JSX.Element => {
   if (window.sessionStorage) window.sessionStorage.clear();
@@ -9,7 +9,7 @@ const Login = (): JSX.Element => {
     <Layout>
       <Container>
         <LabelContainer>
-          <Label text="booslack" width={240} height={20} />
+          <StyledImageBox image={titleBooslack} />
         </LabelContainer>
         <LoginContent />
       </Container>

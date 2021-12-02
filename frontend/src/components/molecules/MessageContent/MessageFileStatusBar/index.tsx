@@ -3,7 +3,7 @@ import {
   ThreadFileStatusBarLayout,
   ThreadFileStatusBarContainer,
 } from './styles';
-import ThreadFileStatusElement from '../MessageFileStatusElement';
+import MessageFileStatusElement from '../MessageFileStatusElement';
 
 interface Props {
   files: File[];
@@ -15,7 +15,7 @@ const MessageFileStatusBar = ({ files }: Props): JSX.Element => {
       <ThreadFileStatusBarLayout>
         <ThreadFileStatusBarContainer>
           {files.map((file, index) => (
-            <ThreadFileStatusElement file={file} key={index} />
+            <MessageFileStatusElement file={file} key={index} />
           ))}
         </ThreadFileStatusBarContainer>
       </ThreadFileStatusBarLayout>

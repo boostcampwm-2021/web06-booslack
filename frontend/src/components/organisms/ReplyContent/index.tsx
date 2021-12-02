@@ -91,7 +91,7 @@ const ReplyContent = ({ messageObject }: Props): JSX.Element => {
           </RowDiv>
         )}
         <ReplyList />
-        <ChatInputBar onSendClick={onSendClick} />
+        <ChatInputBar onSendClick={onSendClick} isReply={true} />
         <MarginDiv />
       </Container>
     </>

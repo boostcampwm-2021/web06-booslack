@@ -10,7 +10,7 @@ import { checkInputValues } from '@global/util';
 import API from '@global/api';
 import { codeModalState } from '@state/modal';
 import { STATUSCODES } from '@enum/index';
-import { Container, Dropzone, FileNameContainer } from './style';
+import { Container, Dropzone, FileNameContainer, StyleImageBox } from './style';
 
 const InvitedCode = (): JSX.Element => {
   const history = useHistory();
