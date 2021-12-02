@@ -47,7 +47,7 @@ export const yellowTheme: Itheme = {
 
 export const blackAndWhiteTheme: Itheme = {
   index: setIndex(),
-  backgroundColor: '#0B0A0B',
+  backgroundColor: '#1A1D21',
   bigHeaderColor: '#000000',
   smallHeaderColor: '#1A1D21',
   titleText: '#fff',
