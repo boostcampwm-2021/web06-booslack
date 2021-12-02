@@ -6,11 +6,13 @@ import { socketOption } from '@global/options';
 
 const MAX_THREADS = 1000000000;
 
-export const useThreadQuery = (threadId: string) => {
+export const useThreadQuery = (_threadId: string) => {
+  const threadId = String(_threadId);
   return useAbstractQuery('thread', threadId);
 };
 
-export const usePartialThreadListQuery = (channelId: string) => {
+export const usePartialThreadListQuery = (_channelId: string) => {
+  const channelId = String(_channelId);
   return useInfiniteQuery(
     ['threads', channelId],
     async ({ pageParam = MAX_THREADS }) => {

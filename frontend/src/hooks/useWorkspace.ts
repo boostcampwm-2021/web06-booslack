@@ -3,7 +3,8 @@ import axios from 'axios';
 import API from '@global/api';
 import { hourlyExpirationOption } from '@global/options';
 
-export const useWorkspaceQuery = (workspaceId: string) => {
+export const useWorkspaceQuery = (_workspaceId: string) => {
+  const workspaceId = String(_workspaceId);
   return useQuery(
     ['workspace', workspaceId],
     async () => {
