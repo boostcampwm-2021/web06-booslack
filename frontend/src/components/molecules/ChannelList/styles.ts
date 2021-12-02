@@ -43,8 +43,9 @@ export const SpaceBetweenDiv = styled.div<Props>`
 
 export const MarginedDiv = styled.div`
   display: flex;
-  min-width: 15vw;
-  justify-content: space-evenly;
+  min-width: 8vw;
+  justify-content: right;
+  align-items: center;
   & > button {
     margin-right: 1vw;
   }
@@ -60,8 +61,10 @@ export const StyledJoinedNoticeLabel = styled(Label)`
 
 export const StyledButton = styled(LabeledDefaultButton)<{
   backgroundColor?: string;
+  isJoin?: boolean;
 }>`
-  width: 90px;
+  height: 36px;
+  min-width: 80px;
   border-radius: 4px;
   align-items: center;
   position: relative;
@@ -80,4 +83,13 @@ export const StyledButton = styled(LabeledDefaultButton)<{
   border: 1px solid rgba(var(--sk_primary_foreground, 29, 28, 29), 0.3);
   background-clip: padding-box;
   font-weight: 700;
+  font-size: 15px;
+
+  &:hover {
+    background: ${({ isJoin }) => {
+      return isJoin
+        ? '#148567; color : #fff'
+        : 'rgba(var(--sk_foreground_min_solid, 248, 248, 248), 1)';
+    }};
+  }
 `;

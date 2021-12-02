@@ -13,6 +13,8 @@ export const Container = styled.div<Props>`
   min-height: 40vh;
   width: ${(props) => props.width ?? 'inherit'};
   ${RoundScrollBar}
+  overflow-y: scroll;
+  overflow-x: hidden;
 `;
 export const AbsoluteLabel = styled(Label)`
   position: absolute;

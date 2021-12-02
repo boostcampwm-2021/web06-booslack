@@ -78,15 +78,16 @@ const ChannelList = ({
       <MarginedDiv>
         {isHover && isJoined && (
           <>
-            <StyledButton onClick={navigateToChannel} text="view" />
+            <StyledButton onClick={navigateToChannel} text="보기" />
             <StyledButton
               onClick={(e: React.MouseEvent<HTMLButtonElement>) => {
                 e.stopPropagation();
                 joinChannel(user.id, channelId, workspaceId, user.socket);
               }}
               backgroundColor="green"
-              text="join"
+              text="참여"
               data-action="join"
+              isJoin
             />
           </>
         )}
