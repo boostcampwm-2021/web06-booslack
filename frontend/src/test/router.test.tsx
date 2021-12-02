@@ -37,7 +37,7 @@ describe('public router test', () => {
         </Router>
       </DefaultEnvironment>,
     );
-    expect(getByText(/booslack/i)).toBeInTheDocument();
+    expect(getByText(/회원 가입/i)).toBeInTheDocument();
   });
 
   it('for notfound page', () => {

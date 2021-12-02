@@ -31,7 +31,7 @@ describe('page rendering test', () => {
         <Login />
       </DefaultEnvironment>,
     );
-    const header = getByText('booslack');
+    const header = getByText(/회원 가입/i);
     expect(header).toBeInTheDocument();
   });
 
