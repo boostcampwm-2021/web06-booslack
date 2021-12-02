@@ -4,9 +4,10 @@ import { MdTextSnippet, MdInsertDriveFile } from 'react-icons/md';
 
 export const MessageFileStatusLayOut = styled.div`
   position: relative;
-  max-width: calc(100% - 5px);
+  max-width: 300px;
+  max-height: 300px;
   width: 100%;
-  height: auto;
+  height: 100%;
   border: 1px solid #989898;
   border-radius: 5px;
   margin-right: 10px;
