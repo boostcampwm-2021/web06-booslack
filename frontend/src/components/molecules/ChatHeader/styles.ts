@@ -19,6 +19,7 @@ export const Container = styled.div`
 `;
 
 export const StyledLabeledButton = styled(LabeledButton)`
+  font-size: 18px;
   font-weight: bold;
   &: hover {
     cursor: pointer;
