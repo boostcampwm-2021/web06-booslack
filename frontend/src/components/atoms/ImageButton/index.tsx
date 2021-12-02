@@ -3,7 +3,7 @@ import { SetterOrUpdater } from 'recoil';
 import Container from './styles';
 
 interface Props {
-  onClick: () => void | SetterOrUpdater<boolean>;
+  onClick: (e: React.MouseEvent<HTMLElement>) => void | SetterOrUpdater<any>;
   width?: number;
   height?: number;
   image: string;

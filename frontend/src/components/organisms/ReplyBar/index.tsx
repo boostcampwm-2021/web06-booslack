@@ -45,10 +45,8 @@ const ReplyHeader = ({ channelName, onClickX }: HeaderProps): JSX.Element => {
 
 const ReplyBar = (): JSX.Element => {
   const SIZEVW = useRecoilValue(replyWorkspaceState);
-  const [{ isOpened, thread, channelName }, setReplyToggle] =
+  const [{ isOpened, message, channelName }, setReplyToggle] =
     useRecoilState(replyToggleState);
-
-  const { id: threadId } = thread;
 
   return (
     <Container widthVW={SIZEVW} isOpened={isOpened}>
@@ -57,12 +55,12 @@ const ReplyBar = (): JSX.Element => {
         onClickX={() =>
           setReplyToggle({
             isOpened: false,
-            thread: undefined,
+            message: undefined,
             channelName: undefined,
           })
         }
       />
-      <ReplyContent thread={thread} threadId={threadId} />
+      <ReplyContent messageObject={message} />
     </Container>
   );
 };

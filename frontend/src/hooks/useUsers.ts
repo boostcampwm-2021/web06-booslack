@@ -4,9 +4,11 @@ import API from '@global/api';
 import { hourlyExpirationOption } from '@global/options';
 
 export const useUserListWithChannelInfoQuery = (
-  workspaceId: string,
-  channelId: string,
+  _workspaceId: string,
+  _channelId: string,
 ) => {
+  const workspaceId = String(_workspaceId);
+  const channelId = String(_channelId);
   return useQuery(
     ['users', channelId],
     async () => {
@@ -22,7 +24,8 @@ export const useUserListWithChannelInfoQuery = (
   );
 };
 
-export const useUsersQuery = (workspaceId: string) => {
+export const useUsersQuery = (_workspaceId: string) => {
+  const workspaceId = String(_workspaceId);
   return useQuery(
     ['users', 'all', workspaceId],
     async () => {

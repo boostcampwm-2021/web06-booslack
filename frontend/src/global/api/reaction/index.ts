@@ -62,7 +62,7 @@ export const postReplyReaction = async (
   threadId: string,
   socket: Socket,
 ): Promise<void> => {
-  const res = await axios.post(API.post.reaction.postOne, {
+  const res = await axios.post(API.post.reaction.reply, {
     userHasWorkspaceId,
     emoji,
     replyId,

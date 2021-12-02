@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import Label from '@atoms/Label';
-import ThreadContent from '@molecules/ThreadContent';
+import MessageContent from '@molecules/MessageContent';
 import { RoundScrollBar } from '@global/style/mixin';
 
 interface Props {
@@ -33,7 +33,7 @@ export const RowDiv = styled.div`
   margin: 2px 0 25px 0;
 `;
 
-export const StyledThreadContent = styled(ThreadContent)`
+export const StyledMessageContent = styled(MessageContent)`
   margin-top: 25px;
 `;
 

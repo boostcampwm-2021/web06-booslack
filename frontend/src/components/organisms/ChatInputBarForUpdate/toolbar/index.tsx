@@ -1,10 +1,4 @@
-import React, { Dispatch, SetStateAction } from 'react';
-import { useRecoilValue } from 'recoil';
-import { useParams } from 'react-router-dom';
-import userState from '@state/user';
-import { replyToggleState } from '@state/workspace';
-import { updateMessage } from '@global/api/thread';
-import { updateReply } from '@global/api/reply';
+import React from 'react';
 import {
   BsTypeBold,
   BsTypeItalic,
@@ -28,39 +22,13 @@ import {
 } from './styles';
 
 interface Props {
-  threadId: string;
   message: string;
   focused: boolean;
-  setUpdateState: Dispatch<SetStateAction<boolean>>;
-  isReply: boolean;
+  onSendClick;
 }
 
-const Toolbar = ({
-  threadId,
-  message,
-  focused,
-  setUpdateState,
-  isReply,
-}: Props): JSX.Element => {
-  const { channelId }: { channelId: string } = useParams();
-  const toggleState = useRecoilValue(replyToggleState);
-  const user = useRecoilValue(userState);
+const Toolbar = ({ message, focused, onSendClick }: Props): JSX.Element => {
   const sendable = message !== '<p><br></p>' && message.length > 8;
-
-  const updateRequest = () => {
-    if (isReply) {
-      updateReply(
-        threadId,
-        toggleState?.thread.id,
-        channelId,
-        message,
-        user.socket,
-        setUpdateState,
-      );
-    } else {
-      updateMessage(threadId, channelId, message, user.socket, setUpdateState);
-    }
-  };
 
   return (
     <Container>
@@ -79,7 +47,7 @@ const Toolbar = ({
       <ToolbarSuffix>
         <ToolBarIconButton onClick={() => {}} icon={BsEmojiSmile} />
         <ToolBarIconButton
-          onClick={updateRequest}
+          onClick={onSendClick}
           icon={MdSend}
           className={sendable ? 'sendButtonActive' : 'sendButtonDisable'}
           disabled={!sendable}

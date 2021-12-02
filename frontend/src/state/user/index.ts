@@ -4,21 +4,21 @@ import { Itheme } from '@global/theme';
 
 type ZeroOrOne = 1 | 2;
 
-interface Props {
+export interface IUserState {
   account: string;
   createdAt: Date;
   description: string;
   email: string;
-  id: number;
+  id: string;
   local: ZeroOrOne;
   nickname: string;
   password: string;
   socket: Socket;
   theme: Itheme;
-  userHasWorkspaceId: number;
+  userHasWorkspaceId: string;
 }
 
-const userState = atom<Props | undefined>({
+const userState = atom<IUserState | undefined>({
   key: 'userState',
   default: undefined,
   dangerouslyAllowMutability: true,

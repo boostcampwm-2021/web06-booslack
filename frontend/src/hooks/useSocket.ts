@@ -6,32 +6,36 @@ export const initializeSocket = (socket: Socket, queryClient: QueryClient) => {
   useEffect(() => {
     if (!socket) return;
 
-    socket.on('threads', (_channelId, _threadId) => {
-      queryClient.invalidateQueries(['threads', _channelId], {
+    socket.on('threads', (_channelId: string, _threadId: string) => {
+      const channelId = String(_channelId);
+      const threadId = String(_threadId);
+      queryClient.invalidateQueries(['threads', channelId], {
         refetchActive: true,
       });
 
-      queryClient.invalidateQueries(['thread', _threadId], {
+      queryClient.invalidateQueries(['thread', threadId], {
         refetchActive: true,
       });
 
-      queryClient.invalidateQueries(['replys', _threadId], {
+      queryClient.invalidateQueries(['replys', threadId], {
         refetchActive: true,
       });
     });
 
     socket.on('channels', (_workspaceId) => {
-      queryClient.invalidateQueries(['channels', _workspaceId], {
+      const workspaceId = String(_workspaceId);
+      queryClient.invalidateQueries(['channels', workspaceId], {
         refetchActive: true,
       });
 
-      queryClient.invalidateQueries(['channels', 'all', _workspaceId], {
+      queryClient.invalidateQueries(['channels', 'all', workspaceId], {
         refetchActive: true,
       });
     });
 
     socket.on('channel', (_channelId) => {
-      queryClient.invalidateQueries(['channel', _channelId], {
+      const channelId = String(_channelId);
+      queryClient.invalidateQueries(['channel', channelId], {
         refetchActive: true,
       });
     });

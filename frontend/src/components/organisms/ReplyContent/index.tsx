@@ -1,13 +1,12 @@
 import React from 'react';
-import ThreadContent from '@molecules/ThreadContent';
+import MessageContent from '@molecules/MessageContent';
 import ChatInputBar from '@organisms/ChatInputBar';
 import { useThreadQuery } from '@hook/useThreads';
 import { postReplyAndFiles } from '@global/api/reply';
-import { IThread } from '@global/type';
+import { Message } from '@global/type';
 import { useReplyListQuery } from '@hook/useReplys';
-
 import {
-  StyledThreadContent,
+  StyledMessageContent,
   Container,
   RowDiv,
   AbsoluteLabel,
@@ -16,22 +15,21 @@ import {
 } from './styles';
 
 interface Props {
-  thread: IThread;
-  threadId: string | number;
+  messageObject: Message;
 }
 
-const ReplyContent = ({ thread, threadId }: Props): JSX.Element => {
+const ReplyContent = ({ messageObject }: Props): JSX.Element => {
   const {
     isLoading: isReplyLoding,
     isError: isReplyError,
     data,
-  } = useThreadQuery(threadId as string);
+  } = useThreadQuery(messageObject.id);
 
   const {
     isLoading: isReplyListLoading,
     isError: isReplyListError,
-    data: replyThreads,
-  } = useReplyListQuery(threadId as string);
+    data: replyMessages,
+  } = useReplyListQuery(messageObject.id);
 
   if (isReplyError || isReplyListError) return <div>error</div>;
 
@@ -51,7 +49,7 @@ const ReplyContent = ({ thread, threadId }: Props): JSX.Element => {
     if (sendable) {
       await postReplyAndFiles(
         userHasWorkspaceId,
-        threadId,
+        messageObject.id,
         channelId,
         message,
         socket,
@@ -69,8 +67,8 @@ const ReplyContent = ({ thread, threadId }: Props): JSX.Element => {
 
   const ReplyList = () => {
     if (!isReplyListLoading) {
-      return replyThreads?.map((reply: IThread) => (
-        <ThreadContent key={`thread${reply.id}`} thread={reply} isReply />
+      return replyMessages?.map((reply: Message) => (
+        <MessageContent key={reply.id} messageObject={reply} isInReplySide />
       ));
     }
 
@@ -81,19 +79,19 @@ const ReplyContent = ({ thread, threadId }: Props): JSX.Element => {
     <>
       <Container>
         {isReplyLoding && !isReplyError && (
-          <StyledThreadContent thread={thread} isReply />
+          <StyledMessageContent messageObject={messageObject} isInReplySide />
         )}
         {!isReplyLoding && !isReplyError && (
-          <StyledThreadContent thread={data} isReply />
+          <StyledMessageContent messageObject={data} isInReplySide />
         )}
         {!isReplyListLoading && (
           <RowDiv>
-            <AbsoluteLabel text={`${replyThreads?.length ?? 0}개의 답글`} />
+            <AbsoluteLabel text={`${replyMessages?.length ?? 0}개의 답글`} />
             <GreyLine />
           </RowDiv>
         )}
         <ReplyList />
-        <ChatInputBar onSendClick={onSendClick} isReply />
+        <ChatInputBar onSendClick={onSendClick} />
         <MarginDiv />
       </Container>
     </>
