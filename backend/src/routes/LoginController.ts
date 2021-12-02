@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/ban-ts-comment */
 import { Router } from 'express';
+import { StatusCodes } from 'http-status-codes';
 import passport from 'passport';
 import { getCustomRepository } from 'typeorm';
 import { LOCALTYPE_LOCAL } from '../enum';
@@ -7,6 +8,8 @@ import UserRepository from '../repository/UserRepository';
 
 const frontUrl = process.env.GITHUB_FRONTEND_URL || 'http://localhost:3001';
 const loginRouter = Router();
+
+const { OK } = StatusCodes;
 
 loginRouter.get('/', (req, res) => {
   res.header({ 'Access-Control-Allow-Origin': '*' });
@@ -105,21 +108,17 @@ loginRouter.post('/changepassword', async (req, res) => {
   }
 });
 
-loginRouter.post(
-  '/login',
-  passport.authenticate('local', {
-    successRedirect: '/api/login/success',
-    failureRedirect: '/api/login/failure',
-    failureFlash: true,
-  }),
-);
-
-loginRouter.get('/success', (req, res) => {
-  res.json({ message: 'is login' });
-});
-
-loginRouter.get('/failure', (req, res) => {
-  res.json({ message: 'is not login' });
+loginRouter.post('/login', (req, res, next) => {
+  passport.authenticate('local', (err, user, info) => {
+    if (err) return next(err);
+    if (!user) {
+      return res.status(OK).json(false);
+    }
+    req.logIn(user, (err) => {
+      if (err) return next(err);
+      return res.status(OK).json(user ? user[0] : user);
+    });
+  })(req, res, next);
 });
 
 export default loginRouter;

@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import useInputs from '@hook/useInputs';
-import { useRecoilState } from 'recoil';
+import { useRecoilState, useSetRecoilState } from 'recoil';
 import { LoginModalState } from '@state/modal';
 import CreateLoginModal from '@organisms/CreateLoginModal';
 import { checkUserLogin } from '@global/util/auth';
-import { getUserInfo } from '@global/api/login';
 import userState from '@state/user';
 import {
   LoginInput,
@@ -31,10 +30,11 @@ const contextList: string[] = [
 const LoginContent = (): JSX.Element => {
   const [context, setContext] = useState<string | null>(null);
   const [LoginModal] = useRecoilState(LoginModalState);
-  const [user, setUserState] = useRecoilState(userState);
+  const setUserState = useSetRecoilState(userState);
+  const setIsLoginModalOpen = useSetRecoilState(LoginModalState);
   const [{ username, password }, onChange] = useInputs(initialData);
-  const [isLoginModalOpen, setIsLoginModalOpen] =
-    useRecoilState(LoginModalState);
+
+  const history = useHistory();
   const onValidate = async (event) => {
     try {
       if (username.length === 0 || password.length === 0) {
@@ -43,19 +43,14 @@ const LoginContent = (): JSX.Element => {
         event.preventDefault();
         return;
       }
-      const data = await checkUserLogin(username, password);
-      if (data.message === 'is not login') {
+      const res = await checkUserLogin(username, password);
+
+      if (!res) {
         setContext(contextList[2]);
         setIsLoginModalOpen(true);
-      } else if (data.message === 'is login') {
-        const getLoginStatus = async () => {
-          const userInfo = await getUserInfo();
-          setUserState(userInfo);
-        };
-        await getLoginStatus();
-        await window.location.replace(
-          `${window.location.origin}/workspacelist`,
-        );
+      } else {
+        setUserState(res);
+        history.push('/workspacelist');
       }
     } catch (e) {
       throw new Error('validate fail');
