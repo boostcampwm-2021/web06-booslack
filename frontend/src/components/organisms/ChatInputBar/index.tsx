@@ -35,7 +35,6 @@ const ChatInputBar = ({ onSendClick, isReply }: Props): JSX.Element => {
       afterUploadListUrl.push(url);
     }
     setSelectedFileUrl(afterUploadListUrl);
-    console.log(selectedFile, selectedFileUrl, isReply);
   }
   const handleFileUpload = (event) => {
     event.stopPropagation();

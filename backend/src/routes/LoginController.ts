@@ -42,7 +42,7 @@ loginRouter.get('/logout', (req, res) => {
   try {
     req.logout();
     res.clearCookie('connect.sid', { path: '/', domain: 'localhost' });
-    req.session.destroy((err) => {
+    req.session.destroy(() => {
       res.json({ url: `${frontUrl}/login` });
     });
   } catch (e) {
@@ -53,7 +53,7 @@ loginRouter.get('/logout', (req, res) => {
 function verifyInform(username: string, password: string, password2: any) {
   if (username.length > 20 || password.length > 20) return false;
   if (username.length === 0 || password.length === 0 || password2.length === 0) return false;
-  return (password === password2);
+  return password === password2;
 }
 
 function makeNickName(username: string) {
@@ -108,10 +108,18 @@ loginRouter.post('/changepassword', async (req, res) => {
 loginRouter.post(
   '/login',
   passport.authenticate('local', {
-    successRedirect: `${frontUrl}/workspacelist`,
-    failureRedirect: `${frontUrl}/login`,
+    successRedirect: '/api/login/success',
+    failureRedirect: '/api/login/failure',
     failureFlash: true,
   }),
 );
+
+loginRouter.get('/success', (req, res) => {
+  res.json({ message: 'is login' });
+});
+
+loginRouter.get('/failure', (req, res) => {
+  res.json({ message: 'is not login' });
+});
 
 export default loginRouter;
