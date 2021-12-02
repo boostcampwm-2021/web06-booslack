@@ -93,6 +93,10 @@ const WysiwygEditor = ({
       message.trim().length > 8) ||
     selectedFile?.length > 0;
 
+  useEffect(() => {
+    editor.current.focus();
+  }, []);
+
   return (
     <Container>
       <MessageInputArea
