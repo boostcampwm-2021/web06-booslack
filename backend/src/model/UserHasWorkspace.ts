@@ -35,6 +35,9 @@ class UserHasWorkspace {
   @Column({ nullable: true })
   fileId!: number;
 
+  @Column({ nullable: true })
+  fileUrl!: string;
+
   @CreateDateColumn({ type: 'timestamp' })
   createdAt!: Date;
 
