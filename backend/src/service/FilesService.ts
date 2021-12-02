@@ -97,12 +97,13 @@ export function uploadFiles(req: Request, res: Response) {
     Files.map(async (element: File) => {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
-      const { originalname, location, fieldname } = element;
+      const { originalname, location, contentType } = element;
       const fileByUpload: DeepPartial<File> = {
         name: originalname,
         url: location,
-        extension: fieldname,
+        extension: contentType,
       };
+
       const file = await getCustomRepository(FileRepository).save(fileByUpload);
       fileList.push(file);
       if (Files.length === fileList.length) {

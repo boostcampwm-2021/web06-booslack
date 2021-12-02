@@ -3,6 +3,7 @@ import styled from 'styled-components';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import Label from '@atoms/Label';
 import { bouncing } from '@global/style/mixin';
+import ImageBox from '@atoms/ImageBox';
 
 export const Container = styled.div`
   display: flex;
@@ -42,12 +43,19 @@ export const Dropzone = styled.div`
 
 export const FileNameContainer = styled.div`
   margin-top: 20px;
-  width: 400px;
-  height: 80px;
+  width: 100%;
+  height: 100px;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   align-items: center;
   font-weight: 500;
   font-size: 20px;
+`;
+
+export const StyleImageBox = styled(ImageBox)`
+  box-sizing: content-box;
+  width: 95%;
+  height: 95%;
+  object-fit: contain;
 `;

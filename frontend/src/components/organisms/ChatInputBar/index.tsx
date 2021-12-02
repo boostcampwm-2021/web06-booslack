@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import WysiwygEditor from '@molecules/WysiwygEditor';
 import { useDropzone } from 'react-dropzone';
 import { FiDownload } from 'react-icons/fi';
+import { MAX_FILE_SIZE } from '@global/util/file';
 import Toolbar from './Toolbar';
 import FileStatusBar from './FileStatusBar';
 import {
@@ -27,6 +28,8 @@ const ChatInputBar = ({ onSendClick, isReply }: Props): JSX.Element => {
   function UploadTargetFiles(uploadList) {
     const afterUploadListUrl = [...selectedFileUrl];
     for (let i = 0; i < uploadList.length; i += 1) {
+      // eslint-disable-next-line no-continue
+      if (uploadList[i].size > MAX_FILE_SIZE) continue;
       selectedFile.push(uploadList[i]);
       const url = URL.createObjectURL(uploadList[i]);
       afterUploadListUrl.push(url);
@@ -41,7 +44,7 @@ const ChatInputBar = ({ onSendClick, isReply }: Props): JSX.Element => {
     (acceptedFiles) => {
       UploadTargetFiles(acceptedFiles);
     },
-    [selectedFile],
+    [selectedFile, selectedFileUrl],
   );
   const { getRootProps, getInputProps, isDragActive } = useDropzone({ onDrop });
   return (

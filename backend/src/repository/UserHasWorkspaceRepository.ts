@@ -30,4 +30,14 @@ export default class UserHasWorkspaceRepository extends Repository<UserHasWorksp
 
     return workspaces;
   }
+
+  findUserHasWorkspaceThatFilesIn(userId: string, workspaceId: string) {
+    return this.query(`
+      select * from booslack.user_has_workspace
+      left join booslack.file
+      on booslack.user_has_workspace.fileId = booslack.file.id 
+      where booslack.user_has_workspace.userId = ${userId} and
+          booslack.user_has_workspace.workspaceId = ${workspaceId}
+    `);
+  }
 }

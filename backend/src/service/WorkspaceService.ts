@@ -7,6 +7,7 @@ import WorkspaceRepository from '../repository/WorkspaceRepository';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
 import generateUniqSerial from '../shared/simpleuuid';
 import Workspace from '../model/Workspace';
+import FileRepository from '../repository/FileRepository';
 
 const { CONFLICT, BAD_REQUEST, CREATED, OK } = StatusCodes;
 
@@ -98,7 +99,15 @@ export async function addUserToWorkspace(req: Request, res: Response) {
 
     if (isExist) return res.status(CONFLICT).end();
 
-    const userHasWorkSpace = { nickname, userId, workspaceId: WorkspaceByCode.id, fileId };
+    const file = await getCustomRepository(FileRepository).findOne({ where: [{ id: fileId }] });
+
+    const userHasWorkSpace = {
+      nickname,
+      userId,
+      workspaceId: WorkspaceByCode.id,
+      fileId,
+      fileUrl: file?.url,
+    };
 
     await getCustomRepository(UserHasWorkspaceRepository).save(userHasWorkSpace);
     return res.status(CREATED).end();
@@ -142,7 +151,16 @@ export async function addOneWorkspace(req: Request, res: Response) {
 
     const { id: workspaceId } = await getCustomRepository(WorkspaceRepository).save(workspace);
 
-    const userHasWorkSpace = { nickname, userId, workspaceId, description, fileId };
+    const file = await getCustomRepository(FileRepository).findOne({ where: [{ id: fileId }] });
+
+    const userHasWorkSpace = {
+      nickname,
+      userId,
+      workspaceId,
+      description,
+      fileId,
+      fileUrl: file?.url,
+    };
 
     // @ts-ignore
     await getCustomRepository(UserHasWorkspaceRepository).save(userHasWorkSpace);
