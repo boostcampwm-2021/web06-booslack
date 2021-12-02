@@ -73,7 +73,7 @@ const WorkspaceContent = (): JSX.Element => {
 
   return (
     <Container WIDTHVW={WIDTHSIZE}>
-      <AsyncBranch size={25}>
+      <AsyncBranch size={0}>
         <ChatHeader />
       </AsyncBranch>
       <AsyncBranch size={100}>
