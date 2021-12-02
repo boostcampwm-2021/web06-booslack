@@ -5,7 +5,7 @@ import { useQuery, useQueryClient } from 'react-query';
 import { hourlyExpirationOption } from '@global/options';
 import userState from '@state/user';
 
-interface IusePagenation {
+interface IusePagination {
   page: number;
   setPage: Dispatch<SetStateAction<number>>;
   isLoading: boolean;
@@ -20,7 +20,7 @@ const usePagination = (
   key: (number | string | boolean)[],
   axiosFunction: <T, D>(page: number) => Promise<AxiosResponse<T, D>>,
   option = null,
-): IusePagenation => {
+): IusePagination => {
   const queryClient = useQueryClient();
   const user = useRecoilValue(userState);
   const [page, setPage] = useState<number>(0);
@@ -47,7 +47,6 @@ const usePagination = (
     {
       ...hourlyExpirationOption,
       ...option,
-      // suspense: true,
     },
   );
 
