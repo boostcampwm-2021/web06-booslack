@@ -1,4 +1,5 @@
 import styled from 'styled-components';
+import ImageBox from '@atoms/ImageBox';
 
 export const Layout = styled.div`
   height: 100vh;
@@ -35,3 +36,5 @@ export const LabelColumn = styled.div`
   align-items: center;
   width: 500px;
 `;
+
+export const StyledImageBox = styled(ImageBox)``;

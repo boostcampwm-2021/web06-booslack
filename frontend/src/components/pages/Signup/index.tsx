@@ -1,6 +1,7 @@
 import React from 'react';
-import Label from '@atoms/Label';
 import SignupContent from '@organisms/SignupContent';
+import titleBooslack from '@global/image/title_booslack.png';
+import { StyledImageBox } from '@pages/Login/style';
 import { Container, Layout, LabelContainer } from './style';
 
 const Signup = (): JSX.Element => {
@@ -9,7 +10,7 @@ const Signup = (): JSX.Element => {
     <Layout>
       <Container>
         <LabelContainer>
-          <Label text="booslack" width={240} height={20} />
+          <StyledImageBox image={titleBooslack} />
         </LabelContainer>
         <SignupContent />
       </Container>

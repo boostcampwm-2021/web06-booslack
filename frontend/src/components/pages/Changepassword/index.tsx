@@ -1,6 +1,7 @@
 import React from 'react';
-import Label from '@atoms/Label';
 import ChangePasswordContent from '@organisms/ChangePasswordContent';
+import titleBooslack from '@global/image/title_booslack.png';
+import { StyledImageBox } from '@pages/Login/style';
 import { Container, Layout, LabelContainer } from './style';
 
 const Changepassword = (): JSX.Element => {
@@ -9,7 +10,7 @@ const Changepassword = (): JSX.Element => {
     <Layout>
       <Container>
         <LabelContainer>
-          <Label text="booslack" width={240} height={20} />
+          <StyledImageBox image={titleBooslack} />
         </LabelContainer>
         <ChangePasswordContent />
       </Container>
