@@ -55,9 +55,11 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
         String(user.id),
         workspaceId,
       );
-      const { id, nickname, description, theme, url } = userHasWorkspace[0];
 
-      if (url) setFileUrl(url);
+      // eslint-disable-next-line @typescript-eslint/no-shadow
+      const { id, nickname, description, theme, fileUrl } = userHasWorkspace;
+
+      if (fileUrl) setFileUrl(fileUrl);
 
       setUser((prevState) => ({
         ...prevState,
