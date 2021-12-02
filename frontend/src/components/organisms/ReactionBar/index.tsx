@@ -55,8 +55,8 @@ const handleEmojiClick = (
     postReplyReaction(
       user.userHasWorkspaceId,
       channelId,
-      String(reactionMap.emoji),
-      String(reactionMap.list[0].replyId),
+      reactionMap.emoji,
+      reactionMap.list[0].replyId,
       replyToggle?.message.id,
       user.socket,
     );
@@ -64,8 +64,8 @@ const handleEmojiClick = (
     postReaction(
       user.userHasWorkspaceId,
       channelId,
-      String(reactionMap.emoji),
-      String(reactionMap.list[0].threadId),
+      reactionMap.emoji,
+      reactionMap.list[0].threadId,
       user.socket,
     );
   }
