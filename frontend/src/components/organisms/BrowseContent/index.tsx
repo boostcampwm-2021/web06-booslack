@@ -1,7 +1,7 @@
 import React from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Label from '@atoms/Label';
-
+import AsyncBranch from '@molecules/AsyncBranch';
 import BrowseChannelList from '@organisms/BrowseChannelList';
 import { channelCreateModalState } from '@state/modal';
 import { mainWorkspaceSizeState } from '@state/workspace';
@@ -32,7 +32,9 @@ const BrowseContent = (): JSX.Element => {
         content={null}
         rightButton={RightButton}
       />
-      <BrowseChannelList />
+      <AsyncBranch size={100}>
+        <BrowseChannelList />
+      </AsyncBranch>
     </Container>
   );
 };

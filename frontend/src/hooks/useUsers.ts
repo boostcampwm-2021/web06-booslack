@@ -15,7 +15,10 @@ export const useUserListWithChannelInfoQuery = (
       );
       return res.data.users;
     },
-    hourlyExpirationOption,
+    {
+      ...hourlyExpirationOption,
+      suspense: true,
+    },
   );
 };
 

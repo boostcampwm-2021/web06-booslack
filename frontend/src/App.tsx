@@ -48,7 +48,7 @@ const ThemeContainer = (): JSX.Element => {
   }, [user]);
 
   return isLoading ? (
-    <div>loading</div>
+    <Loading />
   ) : (
     <ThemeProvider theme={currentTheme}>
       <GlobalStyle />

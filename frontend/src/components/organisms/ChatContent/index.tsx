@@ -54,13 +54,11 @@ const ChatContent = ({ inputBar, channelName }: Props): JSX.Element => {
     };
   }, [threads, hasPreviousPage]);
 
+  // TODO: fix
   useEffect(() => {
     if (isLoading) return;
     bottomRef.current?.scrollIntoView({ block: 'end' });
   }, [isLoading]);
-
-  if (isLoading) return <div>Loading</div>;
-  if (isError) return <div>Error</div>;
 
   return (
     <>

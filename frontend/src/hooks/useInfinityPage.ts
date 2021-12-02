@@ -13,6 +13,7 @@ const useInfinityScroll = <T>(
   return useInfiniteQuery(`infinity${key}`, axiosFunction, {
     getNextPageParam: (lastPage, pages) => lastPage.nextCursor,
     getPreviousPageParam: (firstPage, pages) => firstPage.prevCursor,
+    suspense: true,
   });
 };
 

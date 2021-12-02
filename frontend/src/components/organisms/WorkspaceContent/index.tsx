@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { useParams } from 'react-router-dom';
+import AsyncBranch from '@molecules/AsyncBranch';
 import ChatHeader from '@molecules/ChatHeader';
 import ChatInputBar from '@organisms/ChatInputBar';
 import ChatContent from '@organisms/ChatContent';
@@ -42,19 +43,14 @@ const onSendClick = async (
   }
 };
 
-const WorkspaceContent = (): JSX.Element => {
+const Content = () => {
   const user = useRecoilValue(userState);
-  const WIDTHSIZE = useRecoilValue(mainWorkspaceSizeState);
   const { workspaceId, channelId }: { workspaceId: string; channelId: string } =
     useParams();
 
-  const channelListQuery = useChannelListQuery(user.id, workspaceId);
+  // TODO: remove toString
+  const channelListQuery = useChannelListQuery(user.id.toString(), workspaceId);
   const channelQuery = useChannelQuery(channelId);
-
-  if (channelListQuery.isLoading || channelQuery.isLoading) {
-    return <div>Loading</div>;
-  }
-  if (channelListQuery.isError || channelQuery.isError) return <div>Error</div>;
 
   const isUserInCurrentChannel = channelListQuery.data.find(
     (channel) => String(channel.id) === channelId,
@@ -69,11 +65,20 @@ const WorkspaceContent = (): JSX.Element => {
   const { name: nameOfChannel, private: isPrivate } = channelQuery.data;
 
   const channelName = [isPrivate, nameOfChannel];
+  return <ChatContent inputBar={InputBar} channelName={channelName} />;
+};
+
+const WorkspaceContent = (): JSX.Element => {
+  const WIDTHSIZE = useRecoilValue(mainWorkspaceSizeState);
 
   return (
     <Container WIDTHVW={WIDTHSIZE}>
-      <ChatHeader />
-      <ChatContent inputBar={InputBar} channelName={channelName} />
+      <AsyncBranch size={0}>
+        <ChatHeader />
+      </AsyncBranch>
+      <AsyncBranch size={100}>
+        <Content />
+      </AsyncBranch>
     </Container>
   );
 };

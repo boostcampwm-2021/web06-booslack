@@ -24,14 +24,11 @@ const ChannelMembers = (): JSX.Element => {
     workspaceId,
     channelId,
   );
-
+  // TODO: fix
   useEffect(() => {
     if (isLoading) return;
     ref.current.focus();
   }, [isLoading]);
-
-  if (isLoading) return <div>Loading</div>;
-  if (isError) return <div>Error</div>;
 
   const setValue = (e) => {
     setIsUserProfileModalOpen({
