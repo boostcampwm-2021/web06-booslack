@@ -84,6 +84,5 @@ const SortedOptionMordal = ({
     </Container>
   );
 };
-// 한 옵션 미구현
 
 export default SortedOptionMordal;
