@@ -1,10 +1,11 @@
 import IconButton from '@atoms/IconButton';
 import Label from '@atoms/Label';
-import React from 'react';
+import React, { useContext } from 'react';
 import { Container, StyledLabel, StyledIconButton } from './styles';
 import { MdAdd } from 'react-icons/md';
 import { useRecoilState } from 'recoil';
 import { channelCreateModalState } from '@state/modal';
+import { ThemeContext } from 'styled-components';
 
 type SidebarDivisionTypes = 'Starred' | 'Channels' | 'Direct Messages';
 
@@ -21,14 +22,20 @@ const SidebarDivision = ({
 }: Props): JSX.Element => {
   const [isOpen, setIsOpen] = useRecoilState(channelCreateModalState);
 
+  const themeContext = useContext(ThemeContext);
+  const { smallText } = themeContext;
+
   return (
     <Container>
-      <Label text=">" />
-      <StyledLabel>
+      <StyledLabel color={smallText}>
         <Label text={label} />
       </StyledLabel>
       <StyledIconButton>
-        <IconButton icon={MdAdd} onClick={() => setIsOpen(true)} />
+        <IconButton
+          icon={MdAdd}
+          onClick={() => setIsOpen(true)}
+          color={smallText}
+        />
       </StyledIconButton>
     </Container>
   );
