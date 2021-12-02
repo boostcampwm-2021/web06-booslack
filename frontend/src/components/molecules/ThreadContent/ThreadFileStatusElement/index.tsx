@@ -5,6 +5,7 @@ import {
   ThreadFileStatusLayOut,
   DownloadContainer,
   DownloadCover,
+  StyleMdInsertDriveFile,
 } from './styles';
 
 interface Props {
@@ -12,7 +13,13 @@ interface Props {
 }
 
 const ThreadFileStatusElement = ({ file }: Props): JSX.Element => {
-  const fileUrl = file?.url;
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  const { url, extension } = file;
+  const fileUrl = url;
+  const index = extension.indexOf('/');
+  const fileExtension =
+    index === -1 ? extension : extension.substring(0, index);
   const [isHover, setIsHover] = useState(false);
   return (
     <>
@@ -25,7 +32,11 @@ const ThreadFileStatusElement = ({ file }: Props): JSX.Element => {
             onMouseOver={() => setIsHover(true)}
             onMouseOut={() => setIsHover(false)}
           >
-            <ThreadFileStatusElementImage image={fileUrl} />
+            {fileExtension === 'file' || fileExtension === 'image' ? (
+              <ThreadFileStatusElementImage image={fileUrl} />
+            ) : (
+              <StyleMdInsertDriveFile />
+            )}
           </DownloadContainer>
         ) : (
           <ThreadMdTextSnippet />

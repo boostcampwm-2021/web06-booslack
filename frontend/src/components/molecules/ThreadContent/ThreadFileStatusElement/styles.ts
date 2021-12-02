@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 import ImageBox from '@atoms/ImageBox';
-import { MdTextSnippet } from 'react-icons/md';
+import { MdTextSnippet, MdInsertDriveFile } from 'react-icons/md';
 
 export const ThreadFileStatusLayOut = styled.div`
   position: relative;
@@ -45,4 +45,12 @@ export const DownloadCover = styled.div`
   color: blueviolet;
   box-sizing: content-box;
   z-index: -5;
+`;
+
+export const StyleMdInsertDriveFile = styled(MdInsertDriveFile)`
+  width: 100%;
+  height: 100%;
+  border-radius: 5px;
+  color: black;
+  opacity: 0.9;
 `;
