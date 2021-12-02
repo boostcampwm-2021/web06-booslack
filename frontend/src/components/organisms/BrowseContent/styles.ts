@@ -21,6 +21,8 @@ export const StyledLabeledButton = styled(LabeledButton)`
   border: 1px solid var(--saf-0);
   background-clip: padding-box;
   font-weight: 700;
+  font-size: 13px;
+  padding: 6px 12px;
 
   &:hover {
     background-color: #f8f8f8;

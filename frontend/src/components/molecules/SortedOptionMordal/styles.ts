@@ -16,7 +16,7 @@ const Container = styled(Popup)<Props>`
   position: absolute;
 
   ${({ x, y }) => {
-    return `top : ${ButtonHeight + y + 10}px; left: ${x - 61}px;`;
+    return `top : ${ButtonHeight + y + 36}px; left: ${x - 61}px;`;
   }}
   background-color: white;
   width: 200px;

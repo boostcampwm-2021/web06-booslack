@@ -1,9 +1,15 @@
 import React, { Dispatch, SetStateAction, useRef, useState } from 'react';
-import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
+import { MdFilterList } from 'react-icons/md';
+import { BiSort } from 'react-icons/bi';
 import SortedOptionMordal from '@molecules/SortedOptionMordal';
 import { browseChannelSortOption } from '@state/Channel';
 
-import Container from './styles';
+import {
+  Container,
+  StyledLabeledDefaultButton,
+  StyledButtonContainer,
+  StyledIconButton,
+} from './styles';
 
 interface Props {
   setPage: Dispatch<SetStateAction<number>>;
@@ -24,19 +30,25 @@ const BrowseMordalContainer = ({ setPage }: Props): JSX.Element => {
         usingAtom={browseChannelSortOption}
         customRef={locationRef}
       />
-      <LabeledDefaultButton
-        customRef={locationRef}
+
+      <StyledButtonContainer
         onClick={() => {
           setSortedModal(!isOpenedSortedModal);
         }}
-        text="정렬"
-      />
-      <LabeledDefaultButton
+        ref={locationRef}
+      >
+        <StyledIconButton icon={BiSort} onClick={() => {}} />
+        <StyledLabeledDefaultButton text="정렬" />
+      </StyledButtonContainer>
+
+      <StyledButtonContainer
         onClick={() => {
           setSortedModal(!isOpenedSortedModal);
         }}
-        text="@ 필터"
-      />
+      >
+        <StyledIconButton icon={MdFilterList} onClick={() => {}} />
+        <StyledLabeledDefaultButton text="필터" />
+      </StyledButtonContainer>
     </Container>
   );
 };

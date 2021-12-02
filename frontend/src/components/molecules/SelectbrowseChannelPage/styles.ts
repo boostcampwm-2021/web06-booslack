@@ -14,7 +14,7 @@ const Container = styled.div`
 export const StyledButton = styled.button<{ isCursor?: boolean }>`
   background: transparent;
   border: 0;
-
+  font-size: 20px;
   margin: 0 1vw 0 1vw;
   width: 30px;
   height: 30px;
