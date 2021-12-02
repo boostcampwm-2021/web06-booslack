@@ -53,7 +53,7 @@ export interface IThread {
 }
 
 export interface Message {
-  userHasWorkspace: { nickname: string };
+  userHasWorkspace: { nickname: string; fileUrl: string };
   message: string;
   createdAt: string;
   id: string;
