@@ -25,7 +25,7 @@ export const deleteMessage = async (
   channelId: string,
   socket: Socket,
 ): Promise<void> => {
-  const res = await axios.delete(`${API.delete.thread}${threadId}`);
+  const res = await axios.delete(`${API.delete.thread}/${threadId}`);
 
   if (res.status === 200) {
     socket.emit('threads', channelId, threadId);
