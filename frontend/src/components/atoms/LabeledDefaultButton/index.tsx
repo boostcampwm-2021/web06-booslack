@@ -1,6 +1,6 @@
 import React, { RefObject } from 'react';
 import LabeledButton from '@atoms/LabeledButton';
-import { ButtonSize } from '@enum/index';
+import { BUTTON_SIZE } from '@enum/index';
 
 interface Props<T> {
   onClick?: (e) => void;
@@ -19,7 +19,7 @@ const {
   height: ButtonHeight,
   color: ButtonColor,
   backgroundColor: ButtonBackground,
-} = ButtonSize;
+} = BUTTON_SIZE;
 
 const LabeledDefaultButton = ({
   onClick,

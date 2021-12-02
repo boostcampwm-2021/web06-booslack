@@ -1,23 +1,19 @@
-export const pageLimitCount = 10;
+/* eslint-disable @typescript-eslint/naming-convention */
+export const PAGE_LIMIT_COUNT = 10;
 
-export const StatusCodes = {
+export const STATUSCODES = {
   BADREQUEST: 400,
   CONFLICT: 409,
 };
 
-export enum ChatInputSize {
-  width = 78,
-  height = 10,
-}
-
-export enum ButtonSize {
+export enum BUTTON_SIZE {
   width = 81.92,
   height = 30,
   color = 'black',
   backgroundColor = 'white',
 }
 
-export enum BrowserChannelListSize {
+export enum BROWSER_CHANNEL_LIST_SIZE {
   width = 75,
   height = 5,
 }

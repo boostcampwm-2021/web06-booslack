@@ -125,6 +125,7 @@ const MessageContent = ({
         <MessageKitLeft>
           <MessageImageButton
             onClick={(e) => {
+              if (!userHasWorkspace) return;
               setIsUserProfileModalOpen({
                 isOpen: true,
                 userHasWorkspace,

@@ -1,7 +1,7 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response } from 'express';
 import { getCustomRepository } from 'typeorm';
-import { pageLimitCount } from '@enum';
+import { PAGE_LIMIT_COUNT } from '@enum';
 import ChannelRepository, { SortOption } from '../repository/ChannelRepository';
 import paramMissingError from '../shared/constants';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
@@ -54,7 +54,7 @@ export async function getAllChannels(req: Request, res: Response) {
     );
 
     const count = channels ? channels[0]?.full_count : 0;
-    const hasMore = count > (parseInt(offsetStart as string, 10) + 1) * pageLimitCount;
+    const hasMore = count > (parseInt(offsetStart as string, 10) + 1) * PAGE_LIMIT_COUNT;
 
     return res.status(OK).json({ count, channels, hasMore });
   } catch (error) {

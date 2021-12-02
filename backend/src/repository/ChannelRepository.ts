@@ -1,6 +1,6 @@
 /* eslint-disable arrow-body-style */
 import { EntityRepository, Repository } from 'typeorm';
-import { pageLimitCount } from '@enum';
+import { PAGE_LIMIT_COUNT } from '@enum';
 import Channel from '../model/Channel';
 
 export type SortOption = 'alpha' | 'rAlpha';
@@ -16,7 +16,7 @@ export default class ChannelRepository extends Repository<Channel> {
     showPrivate: boolean,
     showPublic: boolean,
     showMine: boolean,
-    LIMIT: number = pageLimitCount,
+    LIMIT: number = PAGE_LIMIT_COUNT,
   ) {
     if (!showPrivate && !showPublic) return null;
 
@@ -70,7 +70,7 @@ export default class ChannelRepository extends Repository<Channel> {
       GROUP BY tmp.name, tmp.id, tmp.description, tmp.private
       ORDER BY name ${sortOption === 'rAlpha' ? 'DESC' : ''}
       LIMIT ${LIMIT}
-      OFFSET ${OFFSET * pageLimitCount};
+      OFFSET ${OFFSET * PAGE_LIMIT_COUNT};
     `);
 
     return rawQuery;

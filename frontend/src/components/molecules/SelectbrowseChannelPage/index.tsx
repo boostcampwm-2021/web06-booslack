@@ -1,5 +1,5 @@
 import React from 'react';
-import { pageLimitCount } from '@enum/index';
+import { PAGE_LIMIT_COUNT } from '@enum/index';
 import Container, { StyledButton } from './styles';
 
 interface Props {
@@ -20,12 +20,12 @@ const createSpan = (
 
   // eslint-disable-next-line operator-linebreak
   const leftSide =
-    cursorValue - pageNumber * pageLimitCount > 0 ? cursor - pageNumber : 0;
+    cursorValue - pageNumber * PAGE_LIMIT_COUNT > 0 ? cursor - pageNumber : 0;
 
   for (
-    let i = leftSide * pageLimitCount, index = leftSide, count = 0;
+    let i = leftSide * PAGE_LIMIT_COUNT, index = leftSide, count = 0;
     i < dataCount && count < 10;
-    i += pageLimitCount, index += 1, count += 1
+    i += PAGE_LIMIT_COUNT, index += 1, count += 1
   ) {
     divContainer.push(index);
   }
@@ -49,15 +49,17 @@ const SelectbrowseChannelPage = ({
   cursor,
   setCursor,
 }: Props): JSX.Element => {
-  const cursorValue = 1 + (cursor - 1) * pageLimitCount;
+  const cursorValue = 1 + (cursor - 1) * PAGE_LIMIT_COUNT;
   const SpanContainer = createSpan(cursor, cursorValue, dataCount, setCursor);
 
   const moveLeft = (): number => {
-    return cursorValue - 10 * pageLimitCount > 0 ? cursor - pageNumber * 2 : 0;
+    return cursorValue - 10 * PAGE_LIMIT_COUNT > 0
+      ? cursor - pageNumber * 2
+      : 0;
   };
 
   const moveRight = (): number => {
-    return cursorValue + 10 * pageLimitCount < dataCount
+    return cursorValue + 10 * PAGE_LIMIT_COUNT < dataCount
       ? cursor + pageNumber * 2 - 1
       : cursor;
   };

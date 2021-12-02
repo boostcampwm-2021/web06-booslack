@@ -1,4 +1,4 @@
-import { pageLimitCount } from '@enum/index';
+import { PAGE_LIMIT_COUNT } from '@enum/index';
 import { SortOption } from '@global/type';
 import { atom, selector, selectorFamily } from 'recoil';
 import axios from 'axios';
@@ -20,5 +20,5 @@ export const browseCursor = atom<number>({
 
 export const browseCursorValue = selector<number>({
   key: 'browseCursorValue',
-  get: ({ get }) => (get(browseCursor) - 1) * pageLimitCount,
+  get: ({ get }) => (get(browseCursor) - 1) * PAGE_LIMIT_COUNT,
 });
