@@ -1,3 +1,6 @@
+const SECOND = 1000;
+const HOUR = 60 * 60;
+
 export const socketOption = {
   staleTime: Infinity,
   refetchOnWindowFocus: false,
@@ -5,6 +8,6 @@ export const socketOption = {
 };
 
 export const hourlyExpirationOption = {
-  staleTime: 1000 * 60 * 60,
-  cacheTime: 1000 * 60 * 60,
+  staleTime: SECOND * 10,
+  cacheTime: SECOND * HOUR,
 };

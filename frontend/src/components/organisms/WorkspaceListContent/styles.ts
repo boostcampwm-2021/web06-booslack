@@ -89,6 +89,7 @@ export const StyledDiv = styled.div`
 `;
 
 export const StyledLabel = styled(Label)`
+  color: ${theme('workspaceListTitle', defaultTheme.workspaceListTitle)};
   min-width: 500px;
 `;
 

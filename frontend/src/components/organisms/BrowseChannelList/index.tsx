@@ -1,18 +1,21 @@
-import React, { useState } from 'react';
+import React, { useContext, useState } from 'react';
 import { useRecoilValue } from 'recoil';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import { ErrorSpinner, Spinner } from '@atoms/Spinner';
 import Label from '@atoms/Label';
 import ChannelList from '@molecules/ChannelList';
 import SearchBar from '@molecules/SearchBar';
+import AsyncBranch from '@molecules/AsyncBranch';
 import SelectbrowseChannelPage from '@molecules/SelectbrowseChannelPage';
 import BrowseMordalContainer from '@organisms/BrowseMordalContainer';
 import { CHANNELTYPE } from '@enum/index';
 import usePagination from '@hook/usePagination';
 import API from '@global/api';
-import { SortOption } from '@global/type';
+import { Channel, SortOption } from '@global/type';
 import { browseChannelSortOption } from '@state/Channel';
 import { SortedOptionMordalState } from '@state/modal';
+import { ThemeContext } from 'styled-components';
 import {
   Container,
   ScrollBox,
@@ -22,6 +25,44 @@ import {
   CenterAlignedDiv,
   StyledBrowseChannelHeader,
 } from './styles';
+
+const LOADINGSIZE = 50;
+
+interface IChannelList {
+  isLoading: boolean;
+  error: unknown;
+  data: { channels: null | Channel[] };
+}
+
+const GetListByGET = ({
+  isLoading,
+  data,
+  error,
+}: IChannelList): JSX.Element => {
+  const themeContext = useContext(ThemeContext);
+  const color = themeContext.bigHeaderColor;
+
+  if (isLoading) return <Spinner size={LOADINGSIZE} color={color} />;
+  if (error) return <ErrorSpinner size={LOADINGSIZE} color={color} />;
+  if (!data) return <></>;
+
+  const { channels } = data;
+  return (
+    <AsyncBranch size={LOADINGSIZE}>
+      {channels?.map(({ id, name, private: isPrivate, description }) => {
+        return (
+          <ChannelList
+            channelId={id}
+            channelType={`${CHANNELTYPE[isPrivate]}`}
+            firstLabelContent={` ${name}`}
+            secondLabelContent={description}
+            key={`BrowseChannelList${id}`}
+          />
+        );
+      })}
+    </AsyncBranch>
+  );
+};
 
 const BrowseChannelList = (): JSX.Element => {
   const sortOption = useRecoilValue<SortOption>(browseChannelSortOption);
@@ -45,8 +86,8 @@ const BrowseChannelList = (): JSX.Element => {
     return res.data;
   }
 
-  const { page, setPage, data } = usePagination(
-    [sortOption, dbLikedOption, ...checkedItems],
+  const { page, setPage, isLoading, data, error } = usePagination(
+    [workspaceId, sortOption, dbLikedOption, ...checkedItems],
     getWorkspaceLists,
   );
 
@@ -59,27 +100,6 @@ const BrowseChannelList = (): JSX.Element => {
     const { value } = target.firstChild as HTMLInputElement;
     setPage(0);
     setLikedOption(value);
-  };
-
-  const GetListByGET = (): JSX.Element => {
-    if (!data?.channels) return <></>;
-
-    const { channels } = data;
-    return (
-      <>
-        {channels.map(({ id, name, private: isPrivate, description }) => {
-          return (
-            <ChannelList
-              channelId={id}
-              channelType={`${CHANNELTYPE[isPrivate]}`}
-              firstLabelContent={`${id} ${name}`}
-              secondLabelContent={description}
-              key={`BrowseChannelList${id}`}
-            />
-          );
-        })}
-      </>
-    );
   };
 
   const Title: JSX.Element = (
@@ -97,7 +117,7 @@ const BrowseChannelList = (): JSX.Element => {
       </CenterAlignedDiv>
       <ChannelListBackground>
         <ScrollBox>
-          <GetListByGET />
+          <GetListByGET isLoading={isLoading} data={data} error={error} />
           <SelectbrowseChannelPage
             dataCount={channelCount}
             cursor={page}

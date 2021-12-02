@@ -65,7 +65,7 @@ export async function getThread(req: Request, res: Response) {
 
     // 보안이슈
     const thread = await getRepository(Thread).findOne({
-      relations: ['userHasWorkspace', 'replys', 'reactions', 'files'],
+      relations: ['userHasWorkspace', 'reactions', 'files'],
       where: [{ id }],
     });
 

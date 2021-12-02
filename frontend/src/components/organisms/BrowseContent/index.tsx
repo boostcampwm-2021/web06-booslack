@@ -1,7 +1,6 @@
 import React from 'react';
 import { useRecoilValue, useSetRecoilState } from 'recoil';
 import Label from '@atoms/Label';
-import AsyncBranch from '@molecules/AsyncBranch';
 import BrowseChannelList from '@organisms/BrowseChannelList';
 import { channelCreateModalState } from '@state/modal';
 import { mainWorkspaceSizeState } from '@state/workspace';
@@ -15,7 +14,7 @@ const BrowseContent = (): JSX.Element => {
   const setIsOpen = useSetRecoilState(channelCreateModalState);
   const WIDTHSIZE = useRecoilValue(mainWorkspaceSizeState);
 
-  const Title: JSX.Element = <Label text="채널 브라우저" />; // to-do React.memo
+  const Title: JSX.Element = <Label text="채널 브라우저" />;
   const RightButton = (
     <StyledLabeledButton
       onClick={() => {
@@ -32,9 +31,7 @@ const BrowseContent = (): JSX.Element => {
         content={null}
         rightButton={RightButton}
       />
-      <AsyncBranch size={100}>
-        <BrowseChannelList />
-      </AsyncBranch>
+      <BrowseChannelList />
     </Container>
   );
 };

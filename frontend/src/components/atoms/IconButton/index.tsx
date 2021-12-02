@@ -10,6 +10,7 @@ interface Props<T> {
   fontSize?: number;
   width?: number;
   height?: number;
+  color?: string;
 }
 
 const IconButton = ({
@@ -20,6 +21,7 @@ const IconButton = ({
   fontSize,
   width,
   height,
+  color,
   children,
 }: Props<typeof className>): JSX.Element => {
   const Icon = icon;
@@ -31,7 +33,7 @@ const IconButton = ({
       width={width}
       height={height}
     >
-      <Icon size={fontSize} />
+      <Icon size={fontSize} color={color} />
       {children}
     </Container>
   );

@@ -1,6 +1,6 @@
 import { EntityRepository, Repository } from 'typeorm';
 import { RowDataPacket } from 'mysql2';
-import { workspaceListPageLimitCount } from '@enum';
+import { WORKSPACELIST_PAGE_LIMIT_COUNT } from '@enum';
 import UserHasWorkspace from '../model/UserHasWorkspace';
 
 // eslint-disable-next-line @typescript-eslint/no-unsafe-argument
@@ -18,10 +18,14 @@ export default class UserHasWorkspaceRepository extends Repository<UserHasWorksp
       .addSelect('user.workspaceId', 'id')
       .addSelect('workspace.fileId', 'fileId')
       // eslint-disable-next-line max-len
-      .leftJoinAndSelect(`( ${subquery.getQuery()} )`, 'jointable', 'user.workspaceId = jointable.id')
+      .leftJoinAndSelect(
+        `( ${subquery.getQuery()} )`,
+        'jointable',
+        'user.workspaceId = jointable.id',
+      )
       .where('user.userId = :userId', { userId })
       .offset(page)
-      .limit(workspaceListPageLimitCount)
+      .limit(WORKSPACELIST_PAGE_LIMIT_COUNT)
       .getRawMany();
 
     return workspaces;

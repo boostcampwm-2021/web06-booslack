@@ -4,7 +4,8 @@
   "main": "index.js",
   "scripts": {
     "build": "webpack",
-    "start": "webpack serve",
+    "start:dev": "webpack serve",
+    "start": "webpack serve --config webpack.prod.config.js",
     "lint-watch": "eslint . --ext .ts",
     "lint": "eslint --fix --ext .ts .",
     "test": "jest --watch "
@@ -64,6 +65,7 @@
     "jest-styled-components": "^7.0.5",
     "jest-transform-stub": "^2.0.0",
     "prettier": "^2.4.1",
+    "terser-webpack-plugin": "^5.2.5",
     "ts-jest": "^27.0.7",
     "tsconfig-paths-jest": "^0.0.1",
     "tsconfig-paths-webpack-plugin": "^3.5.1",

@@ -81,16 +81,6 @@ const SortedOptionMordal = ({
         />
         public 채널 표시
       </StyledDiv>
-
-      <StyledDiv>
-        <Input
-          type="checkbox"
-          value="2"
-          checked={checkedItems[2]}
-          onChange={(e) => toggle(e)}
-        />
-        참여한 채널 표시
-      </StyledDiv>
     </Container>
   );
 };

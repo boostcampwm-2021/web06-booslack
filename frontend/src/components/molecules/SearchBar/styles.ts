@@ -1,13 +1,13 @@
 import styled from 'styled-components';
 import ViewportInput from '@atoms/ViewPortInput';
-import { BrowserChannelListSize } from '@enum/index';
+import { BROWSER_CHANNEL_LIST_SIZE } from '@enum/index';
 
 interface Props {
   width?: number;
   height?: number;
 }
 
-const { height: ListHeight } = BrowserChannelListSize;
+const { height: ListHeight } = BROWSER_CHANNEL_LIST_SIZE;
 
 export const Container = styled.div<Props>`
   display: flex;

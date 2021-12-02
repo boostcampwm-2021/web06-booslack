@@ -8,15 +8,15 @@ import userState from '@state/user';
 import API from '@global/api';
 import violetImage from '@global/image/violet.png';
 import yellowImage from '@global/image/yellow.png';
-import mintImage from '@global/image/mintChoco.png';
+import blackImage from '@global/image/black.png';
 import blueImage from '@global/image/blue.png';
 import { getIndexByTheme } from '@global/style/theme';
 import { preferenceModalState } from '@state/modal';
 import { StyledBigImageBox, AlignCenterDiv } from './styles';
 import { StyledLabel, RowSpaceAroundDiv, StyledButton } from '../styles';
 
-const textList = ['', 'violet', 'flower', 'mintChoco', 'royalBlue'];
-const imageList = ['', violetImage, yellowImage, mintImage, blueImage];
+const textList = ['', 'violet', 'flower', 'black', 'royalBlue'];
+const imageList = ['', violetImage, yellowImage, blackImage, blueImage];
 
 const ShowExampleImageBox = ({
   image,
@@ -71,7 +71,7 @@ const ThemeSelect = (): JSX.Element => {
         />
         <RadioButton
           isChecked={currentTheme}
-          name="mintChoco"
+          name="black"
           value={3}
           onChange={ChangeThemeValue}
         />

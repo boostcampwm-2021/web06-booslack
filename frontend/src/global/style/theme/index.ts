@@ -7,6 +7,7 @@ export interface Itheme {
   smallText: string;
   searchBar: string;
   focusedMenu: string;
+  workspaceListTitle: string;
 }
 
 function setIndexClosure() {
@@ -29,6 +30,7 @@ export const defaultTheme: Itheme = {
   smallText: '#BDABBC',
   searchBar: '#644565',
   focusedMenu: '#1164A3',
+  workspaceListTitle: '#000',
 };
 
 export const yellowTheme: Itheme = {
@@ -40,17 +42,19 @@ export const yellowTheme: Itheme = {
   smallText: '#935D51',
   searchBar: '#A3810F',
   focusedMenu: '#FFEB84',
+  workspaceListTitle: '#000',
 };
 
-export const mintChocoTheme: Itheme = {
+export const blackAndWhiteTheme: Itheme = {
   index: setIndex(),
-  backgroundColor: '#534538',
-  bigHeaderColor: '#42362B',
-  smallHeaderColor: '#D99E10',
+  backgroundColor: '#1A1D21',
+  bigHeaderColor: '#000000',
+  smallHeaderColor: '#1A1D21',
   titleText: '#fff',
-  smallText: '#8e7f70',
-  searchBar: '#6E655C',
-  focusedMenu: '#5CB09D',
+  smallText: '#a3a3a3',
+  searchBar: '#3B3B3B',
+  focusedMenu: '#1164A3',
+  workspaceListTitle: '#fff',
 };
 
 export const royalBlueTheme: Itheme = {
@@ -62,13 +66,26 @@ export const royalBlueTheme: Itheme = {
   smallText: '#F8F8FA',
   searchBar: '#3B4F83',
   focusedMenu: '#001A5E',
+  workspaceListTitle: '#000',
+};
+
+export const mintChocoTheme: Itheme = {
+  index: setIndex(),
+  backgroundColor: '#534538',
+  bigHeaderColor: '#42362B',
+  smallHeaderColor: '#D99E10',
+  titleText: '#fff',
+  smallText: '#8e7f70',
+  searchBar: '#6E655C',
+  focusedMenu: '#5CB09D',
+  workspaceListTitle: '#000',
 };
 
 export const THEME = {
   defaultTheme,
   yellowTheme,
   royalBlueTheme,
-  mintChocoTheme,
+  blackAndWhiteTheme,
 };
 
 export const getThemeByIndex = (index: number): Itheme => {
@@ -78,7 +95,7 @@ export const getThemeByIndex = (index: number): Itheme => {
     case 2:
       return yellowTheme;
     case 3:
-      return mintChocoTheme;
+      return blackAndWhiteTheme;
     case 4:
       return royalBlueTheme;
     default:
@@ -89,7 +106,7 @@ export const getThemeByIndex = (index: number): Itheme => {
 export const getIndexByTheme = (theme: Itheme): number => {
   if (defaultTheme.index === theme?.index) return 1;
   if (yellowTheme.index === theme?.index) return 2;
-  if (mintChocoTheme.index === theme?.index) return 3;
+  if (blackAndWhiteTheme.index === theme?.index) return 3;
   if (royalBlueTheme.index === theme?.index) return 4;
   return 1;
 };

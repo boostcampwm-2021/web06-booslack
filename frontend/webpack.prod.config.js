@@ -8,8 +8,7 @@ const TerserPlugin = require('terser-webpack-plugin');
 const { ProgressPlugin } = webpack;
 
 module.exports = {
-  mode: 'development',
-  devtool: 'inline-source-map',
+  mode: 'production',
   entry: {
     main: './src/index.tsx',
   },
@@ -36,6 +35,12 @@ module.exports = {
     historyApiFallback: true,
   },
 
+  performance: {
+    hints: false,
+    maxEntrypointSize: 1512000,
+    maxAssetSize: 1512000,
+  },
+
   output: {
     path: path.join(__dirname, 'dist'),
     clean: true,
@@ -43,6 +48,10 @@ module.exports = {
     filename: '[name].[chunkhash].js',
   },
 
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin()],
+  },
   module: {
     rules: [
       {

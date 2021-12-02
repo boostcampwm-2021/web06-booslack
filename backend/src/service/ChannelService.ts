@@ -1,13 +1,13 @@
 import StatusCodes from 'http-status-codes';
 import { Request, Response } from 'express';
 import { getCustomRepository } from 'typeorm';
-import { pageLimitCount } from '@enum';
+import { PAGE_LIMIT_COUNT } from '@enum';
 import ChannelRepository, { SortOption } from '../repository/ChannelRepository';
 import paramMissingError from '../shared/constants';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
 import WorkspaceRepository from '../repository/WorkspaceRepository';
 
-const { BAD_REQUEST, CREATED, OK } = StatusCodes;
+const { BAD_REQUEST, OK } = StatusCodes;
 
 // literally all channels workspace
 export async function getChannels(req: Request, res: Response) {
@@ -54,7 +54,7 @@ export async function getAllChannels(req: Request, res: Response) {
     );
 
     const count = channels ? channels[0]?.full_count : 0;
-    const hasMore = count > (parseInt(offsetStart as string, 10) + 1) * pageLimitCount;
+    const hasMore = count > (parseInt(offsetStart as string, 10) + 1) * PAGE_LIMIT_COUNT;
 
     return res.status(OK).json({ count, channels, hasMore });
   } catch (error) {
@@ -96,7 +96,7 @@ export async function addOneChannel(req: Request, res: Response) {
     // @ts-ignore
     const newChannel = await ChannelRepo.save(ChannelRepo.create(channel));
 
-    return res.status(CREATED).json({ channel: newChannel });
+    return res.status(OK).json({ channel: newChannel });
   } catch (e) {
     return res.status(BAD_REQUEST).json(e);
   }

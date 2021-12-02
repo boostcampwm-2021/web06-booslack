@@ -6,7 +6,7 @@ import LabeledButton from '@atoms/LabeledButton';
 import useInputs from '@hook/useInputs';
 import { channelCreateModalState } from '@state/modal';
 import userState from '@state/user';
-import { createChanel, joinChannel } from '@global/api/channel';
+import { createChannel, joinChannel } from '@global/api/channel';
 import {
   Container,
   ContentContainer,
@@ -37,13 +37,14 @@ const CreateChannelModal = (): JSX.Element => {
 
   const createChannelAndClose = async () => {
     if (!name) return;
-    const { channel } = await createChanel(
+    const { channel } = await createChannel(
       name,
       isPrivate,
       description,
       workspaceId,
       user.socket,
     );
+
     joinChannel(user.id, channel.id, workspaceId, user.socket);
     clear();
     setIsOpen(false);

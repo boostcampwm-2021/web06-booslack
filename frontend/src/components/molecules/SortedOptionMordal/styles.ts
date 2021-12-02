@@ -1,10 +1,10 @@
 import { RefObject } from 'react';
 import Popup from '@atoms/Popup';
-import { ButtonSize } from '@enum/index';
+import { BUTTON_SIZE } from '@enum/index';
 import { flexAlignCenter } from '@global/style/mixin';
 import styled from 'styled-components';
 
-const { height: ButtonHeight } = ButtonSize;
+const { height: ButtonHeight } = BUTTON_SIZE;
 
 interface Props {
   x: undefined | number;
@@ -20,7 +20,7 @@ const Container = styled(Popup)<Props>`
   }}
   background-color: white;
   width: 200px;
-  height: 160px;
+  height: 130px;
 
   --saf-0: rgba(var(--sk_foreground_low, 29, 28, 29), 0.13);
   box-shadow: 0 0 0 1px var(--saf-0), 0 4px 12px 0 rgba(0, 0, 0, 0.12);

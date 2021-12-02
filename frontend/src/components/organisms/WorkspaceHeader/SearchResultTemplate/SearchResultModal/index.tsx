@@ -1,8 +1,9 @@
-import React, { useEffect, useRef } from 'react';
+import React, { RefObject, useEffect, useRef } from 'react';
 import { useSetRecoilState } from 'recoil';
 import { useParams, useHistory } from 'react-router-dom';
 import { BsSearch } from 'react-icons/bs';
 import { MdClose } from 'react-icons/md';
+import AsyncBranch from '@molecules/AsyncBranch';
 import { useChannelsQuery } from '@hook/useChannels';
 import { useUsersQuery } from '@hook/useUsers';
 import { useWorkspaceQuery } from '@hook/useWorkspace';
@@ -17,55 +18,22 @@ import {
   StyledLabeledButton,
 } from './styles';
 
-const SearchModal = ({
-  xWidth,
-  yHeight,
-  isOpened,
+const Content = ({
   input,
-  onChange,
-  close,
   clear,
-  customRef,
+  close,
+}: {
+  input: string;
+  clear: () => void;
+  close: () => void;
 }) => {
+  const { workspaceId }: { workspaceId: string } = useParams();
   const history = useHistory();
-  const ref = useRef(null);
   const setIsUserProfileModalOpen = useSetRecoilState(userProfileModalState);
   const setShouldScrollDownState = useSetRecoilState(shouldScrollDownState);
 
-  const { workspaceId }: { workspaceId: string } = useParams();
-
-  const workspaceQuery = useWorkspaceQuery(workspaceId);
   const channelListQuery = useChannelsQuery(workspaceId);
   const userListQuery = useUsersQuery(workspaceId);
-
-  useEffect(() => {
-    if (
-      channelListQuery.isLoading ||
-      userListQuery.isLoading ||
-      workspaceQuery.isLoading
-    )
-      return;
-    ref.current.focus();
-  }, [
-    channelListQuery.isLoading,
-    userListQuery.isLoading,
-    workspaceQuery.isLoading,
-  ]);
-
-  if (
-    channelListQuery.isLoading ||
-    userListQuery.isLoading ||
-    workspaceQuery.isLoading
-  ) {
-    return <div>Loading</div>;
-  }
-  if (
-    channelListQuery.isError ||
-    userListQuery.isError ||
-    workspaceQuery.isError
-  ) {
-    return <div>Error</div>;
-  }
 
   const setValue = (e) => {
     // if user
@@ -83,6 +51,49 @@ const SearchModal = ({
     clear();
     close();
   };
+
+  return (
+    <SearchResultTemplate
+      matches={[...channelListQuery.data, ...userListQuery.data].filter(
+        (datum) =>
+          datum.name?.includes(input) || datum.nickname?.includes(input),
+      )}
+      setValue={setValue}
+    />
+  );
+};
+
+const SearchModal = ({
+  xWidth,
+  yHeight,
+  isOpened,
+  input,
+  onChange,
+  close,
+  clear,
+  customRef,
+}: {
+  xWidth: number;
+  yHeight: number;
+  isOpened: boolean;
+  input: string;
+  onChange: () => void;
+  close: () => void;
+  clear: () => void;
+  customRef: RefObject<HTMLElement>;
+}): JSX.Element => {
+  const ref = useRef(null);
+
+  const { workspaceId }: { workspaceId: string } = useParams();
+
+  const workspaceQuery = useWorkspaceQuery(workspaceId);
+
+  useEffect(() => {
+    ref?.current.focus();
+  }, [workspaceQuery.isLoading]);
+
+  if (workspaceQuery.isLoading) return <div>Loading</div>;
+  if (workspaceQuery.isError) return <div>Error</div>;
 
   return (
     <StyledSearchModal
@@ -104,13 +115,9 @@ const SearchModal = ({
         {input !== '' && <StyledLabeledButton text="Clear" onClick={clear} />}
         <StyledIconButton icon={MdClose} onClick={close} />
       </Container>
-      <SearchResultTemplate
-        matches={[...channelListQuery.data, ...userListQuery.data].filter(
-          (datum) =>
-            datum.name?.includes(input) || datum.nickname?.includes(input),
-        )}
-        setValue={setValue}
-      />
+      <AsyncBranch size={50}>
+        <Content input={input} clear={clear} close={close} />
+      </AsyncBranch>
     </StyledSearchModal>
   );
 };

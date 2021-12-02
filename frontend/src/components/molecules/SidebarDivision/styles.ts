@@ -3,6 +3,7 @@ import styled from 'styled-components';
 interface Props {
   width: number;
   height: number;
+  color?: string;
 }
 
 export const Container = styled.div<Props>`
@@ -17,16 +18,14 @@ export const Container = styled.div<Props>`
 `;
 
 export const StyledLabel = styled.span<Props>`
-  color: orange;
   flex-grow: 1;
   padding: 1rem;
+  text-decoration: none;
+  color: ${({ color }) => color};
 `;
 
 export const StyledIconButton = styled.div<Props>`
   border-radius: 1rem;
   right: 1rem;
-  &: hover {
-    background-color: grey;
-    opacity: 70%;
-  }
+  color: ${({ color }) => color};
 `;

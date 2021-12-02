@@ -9,7 +9,7 @@ import CodeTemplate from '@templates/Code';
 import { checkInputValues } from '@global/util';
 import API from '@global/api';
 import { codeModalState } from '@state/modal';
-import { StatusCodes } from '@enum/index';
+import { STATUSCODES } from '@enum/index';
 import { Container, Dropzone, FileNameContainer } from './style';
 
 const InvitedCode = (): JSX.Element => {
@@ -30,8 +30,9 @@ const InvitedCode = (): JSX.Element => {
         pathname: '/workspacelist',
         state: { data },
       });
+      
     } catch (error) {
-      if (error.response.status === StatusCodes.CONFLICT) {
+      if (error.response.status === STATUSCODES.CONFLICT) {
         setModalState({
           status: true,
           text: '이미 들어간 워크스페이스는 참여 불가능합니다.',
