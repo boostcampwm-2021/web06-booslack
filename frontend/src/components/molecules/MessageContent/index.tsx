@@ -34,16 +34,8 @@ const MessageContent = ({
   className,
   isInReplySide,
 }: Props): JSX.Element => {
-  const {
-    userHasWorkspace,
-    message,
-    createdAt,
-    id,
-    userHasWorkspaceId,
-    replys,
-    reactions,
-    files,
-  } = messageObject;
+  const { userHasWorkspace, message, createdAt, id, replys, reactions, files } =
+    messageObject;
 
   const nickname = userHasWorkspace?.nickname || '탈퇴한 유저';
 
@@ -70,6 +62,7 @@ const MessageContent = ({
       <MessageTimestamp>{transfromDate(createdAt)}</MessageTimestamp>
       <br />
       <MessageText dangerouslySetInnerHTML={{ __html: message }} />
+      {files?.length > 0 ? <MessageFileStatusBar files={files} /> : <></>}
       {reactions?.length > 0 && (
         <ReactionBar isReply={isReply} reactions={reactions} />
       )}
@@ -85,7 +78,6 @@ const MessageContent = ({
           text={`${replys?.length}개의 댓글`}
         />
       )}
-      {files?.length > 0 ? <MessageFileStatusBar files={files} /> : <></>}
     </>
   );
 

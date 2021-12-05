@@ -1,6 +1,6 @@
-import Label from '@atoms/Label';
 import styled from 'styled-components';
 import { ifProp } from 'styled-tools';
+import ImageBox from '@atoms/ImageBox';
 
 export const Container = styled.div`
   width: 100%;
@@ -22,10 +22,19 @@ export const UserElement = styled.div`
   align-items: center;
 `;
 
-export const PrimaryContent = styled.div``;
+export const PrimaryContent = styled.div`
+  padding: 3px;
+  display: flex;
+  justify-content: start;
+  flex-direction: row;
+  align-items: center;
+`;
 
 export const SecondaryContent = styled.div``;
 
-export const StyledBoldLabel = styled(Label)`
-  font-weight: bold;
+export const StyledImageBox = styled(ImageBox)`
+  width: 30px;
+  height: 30px;
+  margin-right: 5px;
+  border-radius: 5px;
 `;

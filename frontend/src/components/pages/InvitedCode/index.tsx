@@ -92,7 +92,7 @@ const InvitedCode = (): JSX.Element => {
           <Dropzone {...getRootProps()}>
             <input
               {...getInputProps()}
-              accept="image/gif, image/jpeg, image/png, image/jpg"
+              accept=".gif, .jpeg, .png, .jpg"
               multiple={false}
             />
             {isDragActive ? (

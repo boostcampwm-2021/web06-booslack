@@ -2,7 +2,7 @@
 import styled from 'styled-components';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import Label from '@atoms/Label';
-import { ThemeButton, bouncing } from '@global/style/mixin';
+import { ThemeButton, bouncing, RoundScrollBar } from '@global/style/mixin';
 
 export const Container = styled.div`
   display: flex;
@@ -18,6 +18,10 @@ export const Container = styled.div`
   & > * {
     margin-bottom: 5vh;
   }
+
+  overflow-x: hidden;
+  overflow-y: scroll;
+  ${RoundScrollBar}
 `;
 
 export const StyledLabel = styled(Label)`

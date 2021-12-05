@@ -30,7 +30,7 @@ const SetupTeamQuestions = (): JSX.Element => {
   const InputProps = {
     ...getInputProps(),
     multiple: false,
-    accept: 'image/gif, image/jpg, image/jpeg, image.png',
+    accept: '.gif, .jpeg, .png, .jpg',
   };
 
   const askName = (
