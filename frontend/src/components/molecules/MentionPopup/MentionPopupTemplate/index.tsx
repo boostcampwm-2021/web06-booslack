@@ -1,11 +1,12 @@
 import React from 'react';
 import Label from '@atoms/Label';
 import useKeyboardNavigator from '@hook/useKeyboardNavigator';
+import defaultImage from '@global/image/default_account.png';
 import {
   Container,
   PrimaryContent,
   SecondaryContent,
-  StyledBoldLabel,
+  StyledImageBox,
   UserContainer,
   UserElement,
 } from './styles';
@@ -17,15 +18,19 @@ interface Props {
 
 const MentionPopupTemplate = ({ matches, setValue }: Props): JSX.Element => {
   const index = useKeyboardNavigator(matches, setValue);
-
   return (
     <Container>
       {matches.map((user, idx) => (
         <UserContainer key={user.id} selected={idx === index}>
           <UserElement>
             <PrimaryContent>
-              {/* TODO: load file */}
-              {/* <StyledBoldLabel text={`file ${user.fileId} `} /> */}
+              <StyledImageBox
+                image={
+                  user.fileUrl === null || user.fileUrl === 1
+                    ? defaultImage
+                    : user.fileUrl
+                }
+              />
               <Label text={user.nickname} />
             </PrimaryContent>
             <SecondaryContent>
