@@ -24,7 +24,8 @@ const MentionPopupTemplate = ({ matches, setValue }: Props): JSX.Element => {
         <UserContainer key={user.id} selected={idx === index}>
           <UserElement>
             <PrimaryContent>
-              <StyledBoldLabel text={`file ${user.fileId} `} />
+              {/* TODO: load file */}
+              {/* <StyledBoldLabel text={`file ${user.fileId} `} /> */}
               <Label text={user.nickname} />
             </PrimaryContent>
             <SecondaryContent>

@@ -1,5 +1,6 @@
 import React, { Dispatch, RefObject, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
+import AsyncBranch from '@molecules/AsyncBranch';
 import { useUserListWithChannelInfoQuery } from '@hook/useUsers';
 import MentionPopupTemplate from './MentionPopupTemplate';
 import { StyledPopup } from './styles';
@@ -15,6 +16,25 @@ interface Props {
   yHeight: number;
 }
 
+const Content = ({
+  input,
+  setValue,
+}: {
+  input: string;
+  setValue: Dispatch<any>;
+}) => {
+  const { workspaceId, channelId }: { workspaceId: string; channelId: string } =
+    useParams();
+  const { data } = useUserListWithChannelInfoQuery(workspaceId, channelId);
+
+  return (
+    <MentionPopupTemplate
+      matches={data.filter((datum) => datum.nickname.includes(input))}
+      setValue={setValue}
+    />
+  );
+};
+
 const MentionPopup = ({
   input,
   isOpen,
@@ -25,22 +45,11 @@ const MentionPopup = ({
   xWidth,
   yHeight,
 }: Props): JSX.Element => {
-  const { workspaceId, channelId }: { workspaceId: string; channelId: string } =
-    useParams();
-
   useEffect(() => {
     if (value) {
       close();
     }
   }, [value]);
-
-  const { isLoading, isError, data } = useUserListWithChannelInfoQuery(
-    workspaceId,
-    channelId,
-  );
-
-  if (isLoading) return <div>Loading</div>;
-  if (isError) return <div>Error</div>;
 
   return (
     <StyledPopup
@@ -50,10 +59,9 @@ const MentionPopup = ({
       isOpened={isOpen}
       onClose={close}
     >
-      <MentionPopupTemplate
-        matches={data.filter((datum) => datum.nickname.includes(input))}
-        setValue={setValue}
-      />
+      <AsyncBranch size={25}>
+        <Content input={input} setValue={setValue} />
+      </AsyncBranch>
     </StyledPopup>
   );
 };
