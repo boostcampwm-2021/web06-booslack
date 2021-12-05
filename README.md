@@ -13,7 +13,7 @@ booslack은 팀원들과 원활한 소통을 할 수 있게 채팅 및 화상회
 | <img width="150" alt="스크린샷_2021-11-29_오후_9 36 46" src="https://avatars.githubusercontent.com/u/42922298?v=4"> | <img width="150" alt="스크린샷_2021-11-29_오후_9 36 46" src="https://avatars.githubusercontent.com/u/40421183?v=4"> | <img width="150" alt="스크린샷_2021-11-29_오후_9 36 46" src="https://avatars.githubusercontent.com/u/75822859?v=4"> | <img width="150" alt="스크린샷_2021-11-29_오후_9 36 46" src="https://avatars.githubusercontent.com/u/55660267?v=4"> |
 |------|------|------|------|
 | 🥐 설민욱 | 🍛이충헌 | 🍣박주원 | 🍜조진성 |
-| [@blogSoul](https://github.com/blogSoul) <br/> 백엔드 및 문서 작성 담당 | [@lodado](https://github.com/lodado) <br/> 프론트엔드 담당 | [@laz](https://github.com/laz) <br/> 프론트엔드 담당 | [@loin3](https://github.com/loin3) <br/> 백엔드 담당 |
+| [@blogSoul](https://github.com/blogSoul) <br/> 백엔드 담당 | [@lodado](https://github.com/lodado) <br/> 프론트엔드 담당 | [@laz](https://github.com/laz) <br/> 프론트엔드 담당 | [@loin3](https://github.com/loin3) <br/> 백엔드 담당 |
 
 ## ⚙ 기술 스택
 
