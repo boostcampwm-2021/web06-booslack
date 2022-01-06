@@ -2,7 +2,7 @@
 
 > 🔗 배포 링크 : http://118.67.128.103:3001/
 
-(2022-01-07 기준으로 배포 서버 변경했습니다) 
+샘플 아이디 : ycpycpycp | 비밀번호 : Ycpycp123!
 
 > ✨ 데모 링크 : https://youtu.be/DyyKPh8H8-U
 
@@ -26,3 +26,5 @@ booslack은 팀원들과 원활한 소통을 할 수 있게 채팅 및 화상회
 # 📕 Detail
 
 ### `booslack` 프로젝트를 더 보고 싶다면 [아래 링크](https://github.com/boostcampwm-2021/web06-booslack/wiki)를 클릭해주세요!
+
+(2022-01-07 기준으로 배포 서버 변경했습니다) 
