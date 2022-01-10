@@ -1,8 +1,8 @@
 import { StatusCodes } from 'http-status-codes';
 import { Request, Response } from 'express';
 import { getCustomRepository } from 'typeorm';
-import axios from 'axios';
 import UserHasWorkspaceRepository from '../repository/UserHasWorkspaceRepository';
+import UserRepository from '../repository/UserRepository';
 import FileRepository from '../repository/FileRepository';
 
 const { BAD_REQUEST, OK } = StatusCodes;
@@ -81,10 +81,9 @@ export async function updateUserHasWorkspace(req: Request, res: Response) {
       userHasWorkspaceById,
     );
 
-    // eslint-disable-next-line @typescript-eslint/restrict-template-expressions
-    axios.put(`http://${process.env.HOST}:${process.env.PORT}/api/users/${userId}`, {
-      theme: userHasWorkspaceById.theme,
-    });
+    const userById = await getCustomRepository(UserRepository).findOneOrFail(Number(userId));
+    userById.theme = userHasWorkspaceById.theme ?? userById.theme;
+    await getCustomRepository(UserRepository).save(userById);
 
     return res.status(OK).json({ userHasWorkspace });
   } catch (e) {
