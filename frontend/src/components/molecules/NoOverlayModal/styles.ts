@@ -2,6 +2,8 @@ import Popup from '@atoms/Popup';
 import { RefObject } from 'react';
 import styled from 'styled-components';
 
+// `top : ${y}px; left: ${x}px;`
+
 interface Props {
   x: undefined | number;
   y: undefined | number;
@@ -12,7 +14,11 @@ const Container = styled(Popup)<Props>`
   position: absolute;
 
   ${({ x, y }) => {
-    return `top : ${y}px; left: ${x}px;`;
+    if (x && y) {
+      return `translate3d(${x}, ${y}, 0);`;
+    }
+
+    return '';
   }}
   background-color: #F8F8F8;
 
