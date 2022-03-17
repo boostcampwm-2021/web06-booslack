@@ -2,15 +2,14 @@
 import React from 'react';
 import { useRecoilValue } from 'recoil';
 import { useHistory } from 'react-router-dom';
-import axios from 'axios';
 import LabeledDefaultButton from '@atoms/LabeledDefaultButton';
 import AsyncBranch from '@molecules/AsyncBranch';
-import API from '@global/api';
 import useInfinityScroll from '@hook/useInfinityPage';
 import wavingHandImage from '@global/image/wavingHandFromSlack.gif';
 import userState from '@state/user';
 import { Workspace } from '@global/type';
 import { queryFlatMap } from '@global/util/reactQueryUtil';
+import { getWorkspaceLists } from '@global/api/workspace';
 import {
   HelloLabel,
   StyledLabel,
@@ -32,7 +31,7 @@ const WorkSpaceLists = (workspaces: Workspace[]) => {
   return workspaces.map(
     ({ id, name, count, fileId }: Workspace & { count: number }) => {
       return (
-        <StyledDiv key={`workspacelist${id}`}>
+        <StyledDiv key={`${id}`}>
           <StyledSelectWorkspace
             firstLabelContent={name}
             content={count}
@@ -49,16 +48,6 @@ const WorkSpaceLists = (workspaces: Workspace[]) => {
     },
   );
 };
-
-async function getWorkspaceLists({ pageParam = 0 }) {
-  const { data } = await axios.get(API.get.workspace.user, {
-    params: {
-      page: pageParam,
-    },
-  });
-
-  return data;
-}
 
 const WorkspaceList = () => {
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage } =

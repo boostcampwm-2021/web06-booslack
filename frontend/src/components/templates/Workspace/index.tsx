@@ -1,8 +1,9 @@
-import React, { ReactNode, Suspense, useEffect, useState } from 'react';
-import { useRecoilState, useRecoilValue } from 'recoil';
+import React, { ReactNode, useEffect, useState } from 'react';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useParams } from 'react-router-dom';
 import { useQueryClient } from 'react-query';
 import { io } from 'socket.io-client';
+import DraggableDiv from '@atoms/DraggableDiv';
 import WorkspaceHeader from '@organisms/WorkspaceHeader';
 import WorkspaceSidebar from '@organisms/WorkspaceSidebar';
 import CreateChannelModal from '@organisms/CreateChannelModal';
@@ -39,7 +40,6 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
   const channelTopicModal = useRecoilValue(channelTopicModalState);
   const preferenceModal = useRecoilValue(preferenceModalState);
   const userProfileModal = useRecoilValue(userProfileModalState);
-
   const { isOpened } = useRecoilValue(replyToggleState);
 
   const { workspaceId }: { workspaceId: string } = useParams();
@@ -87,6 +87,7 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
       <RowDiv>
         <WorkspaceSidebar />
         {children}
+        {isOpened && <DraggableDiv />}
         {isOpened && <ReplyBar />}
       </RowDiv>
       {channelCreateModal && <CreateChannelModal />}

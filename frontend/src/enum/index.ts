@@ -21,3 +21,5 @@ export const CHANNELTYPE = {
   1: '🔒',
   0: '#',
 } as const;
+
+export const PREFERENCE_MODAL_STATUS = { ABOUT: 1, THEME: 2, OUT: 3 };
