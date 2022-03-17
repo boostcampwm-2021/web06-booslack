@@ -2,12 +2,12 @@ import { Message } from '@global/type';
 import { atom, selector } from 'recoil';
 
 const PAGEVW = 100;
-const OPENSIZE = 82;
+export const OPENSIZE = 82;
 const SIDEBARSIZE = 18;
-const CLOSEDSIZE = 61;
+const CLOSEDSIZE = 21;
 
-export const sizestate = atom<number>({
-  key: 'sizeState',
+export const widthSizeState = atom<number>({
+  key: 'widthSizeState',
   default: OPENSIZE,
 });
 
@@ -30,10 +30,9 @@ export const mainWorkspaceSizeState = selector<number>({
   key: 'mainWorkspaceSizeState',
   get: ({ get }) => {
     const { isOpened } = get(replyToggleState);
-    const OPENEDSIZE = get(sizestate);
-
-    if (isOpened) return CLOSEDSIZE;
-    return OPENEDSIZE;
+    const OPENEDSIZE = get(widthSizeState);
+    if (isOpened) return OPENEDSIZE - CLOSEDSIZE;
+    return OPENSIZE;
   },
 });
 
