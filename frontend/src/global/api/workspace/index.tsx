@@ -16,3 +16,13 @@ export const getUserHasWorkspace = async (
 
   return res.data.userHasWorkspace;
 };
+
+export const getWorkspaceLists = async ({ pageParam = 0 }) => {
+  const { data } = await axios.get(API.get.workspace.user, {
+    params: {
+      page: pageParam,
+    },
+  });
+
+  return data;
+};
