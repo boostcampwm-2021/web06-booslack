@@ -3,6 +3,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from 'recoil';
 import { useParams } from 'react-router-dom';
 import { useQueryClient } from 'react-query';
 import { io } from 'socket.io-client';
+import DraggableDiv from '@atoms/DraggableDiv';
 import WorkspaceHeader from '@organisms/WorkspaceHeader';
 import WorkspaceSidebar from '@organisms/WorkspaceSidebar';
 import CreateChannelModal from '@organisms/CreateChannelModal';
@@ -21,12 +22,12 @@ import {
   preferenceModalState,
   userProfileModalState,
 } from '@state/modal';
-import { widthSizeState, replyToggleState } from '@state/workspace';
+import { replyToggleState } from '@state/workspace';
 import userState from '@state/user';
 import { useWorkspaceQuery } from '@hook/useWorkspace';
 import defaultProfile from '@global/image/default_account.png';
 import { getUserHasWorkspace } from '@global/api/workspace';
-import { RowDiv, DraggableDiv } from './styles';
+import { RowDiv } from './styles';
 
 interface Props {
   children: ReactNode;
@@ -40,8 +41,6 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
   const preferenceModal = useRecoilValue(preferenceModalState);
   const userProfileModal = useRecoilValue(userProfileModalState);
   const { isOpened } = useRecoilValue(replyToggleState);
-
-  const setWidthSize = useSetRecoilState(widthSizeState);
 
   const { workspaceId }: { workspaceId: string } = useParams();
   const [user, setUser] = useRecoilState(userState);
@@ -82,21 +81,13 @@ const WorkspaceTemplate = ({ children }: Props): JSX.Element => {
 
   initializeSocket(user.socket, queryClient);
 
-  const dragEventHandler = (e) => {
-    const { target } = e;
-    const { parentNode } = target;
-
-    const parentBox = parentNode.getBoundingClientRect();
-    setWidthSize((e.clientX / parentBox.width) * 100 + 1);
-  };
-
   return (
     <>
       <WorkspaceHeader fileUrl={fileUrl} />
       <RowDiv>
         <WorkspaceSidebar />
         {children}
-        <DraggableDiv draggable="true" onDragEnd={dragEventHandler} />
+        {isOpened && <DraggableDiv />}
         {isOpened && <ReplyBar />}
       </RowDiv>
       {channelCreateModal && <CreateChannelModal />}

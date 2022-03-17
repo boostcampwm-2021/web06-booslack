@@ -2,13 +2,13 @@ import { Message } from '@global/type';
 import { atom, selector } from 'recoil';
 
 const PAGEVW = 100;
-export const OPENSIZE = 82;
+const WORKSPACE_SIZE = 82;
 const SIDEBARSIZE = 18;
 const CLOSEDSIZE = 21;
 
 export const widthSizeState = atom<number>({
   key: 'widthSizeState',
-  default: OPENSIZE,
+  default: WORKSPACE_SIZE,
 });
 
 export interface IreplyToggle {
@@ -32,7 +32,7 @@ export const mainWorkspaceSizeState = selector<number>({
     const { isOpened } = get(replyToggleState);
     const OPENEDSIZE = get(widthSizeState);
     if (isOpened) return OPENEDSIZE - CLOSEDSIZE;
-    return OPENSIZE;
+    return WORKSPACE_SIZE;
   },
 });
 

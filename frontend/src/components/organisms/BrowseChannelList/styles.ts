@@ -13,6 +13,8 @@ export const Container = styled.div<Props>`
     if (width) return `${width}vw`;
     return '95%';
   }};
+  min-width: 10vw;
+
   flex-direction: column;
 `;
 

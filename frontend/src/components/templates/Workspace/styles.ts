@@ -7,10 +7,4 @@ export const RowDiv = styled.div`
   height: 100%;
 `;
 
-export const DraggableDiv = styled.div`
-  height: 100vh;
-  width: 50px;
-  border: 2px solid red;
-`;
-
 export default RowDiv;
